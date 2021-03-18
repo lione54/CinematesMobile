@@ -27,7 +27,7 @@ public class MovieListHomeAdapter extends RecyclerView.Adapter<SearchViewHolder>
 
     @NonNull
     @Override public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.layout_ricerca, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.layout_list_movie_home, viewGroup, false);
         return new SearchViewHolder(view);
     }
 

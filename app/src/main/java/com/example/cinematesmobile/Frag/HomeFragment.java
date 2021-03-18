@@ -17,13 +17,12 @@ import android.widget.Toast;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Search.Adapters.MovieListHomeAdapter;
-import com.example.cinematesmobile.Search.Adapters.MovieListPrefAdapter;
-import com.example.cinematesmobile.Search.Adapters.MovieSearchAdapter;
 import com.example.cinematesmobile.Search.Adapters.UpcomingSearchAdapter;
 import com.example.cinematesmobile.Search.Client.RetrofitClient;
 import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
 import com.example.cinematesmobile.Search.Model.MovieResponseResults;
 import com.example.cinematesmobile.Search.Model.PopularResponse;
+import com.example.cinematesmobile.Search.Model.TopRatedResponse;
 import com.example.cinematesmobile.Search.Model.UpcomingResponse;
 
 import java.util.List;
@@ -44,10 +43,10 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private RecyclerView recyclerViewPopular;
-    private RecyclerView recyclerViewUpcoming, recyclerViewUpcoming2;
+    private RecyclerView recyclerViewUpcoming, recyclerTopRated;
     private RetrofitService retrofitService;
-    private MovieListHomeAdapter popularSearchAdapter;
-    private UpcomingSearchAdapter upcomingSearchAdapter, upcomingSearchAdapter2;
+    private MovieListHomeAdapter popularSearchAdapter, topRatedcomingSearchAdapter;
+    private UpcomingSearchAdapter upcomingSearchAdapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -87,7 +86,7 @@ public class HomeFragment extends Fragment {
         String lingua = "it-IT";
         recyclerViewPopular = v.findViewById(R.id.recyclerView);
         recyclerViewUpcoming = v.findViewById(R.id.upcoming_recycleView);
-        recyclerViewUpcoming2 = v.findViewById(R.id.recyclerView2);
+        recyclerTopRated = v.findViewById(R.id.recyclerView2);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
@@ -124,19 +123,19 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Call<UpcomingResponse> upcomingResponseCall2 = retrofitService.getUpcomingByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
-        upcomingResponseCall2.enqueue(new Callback<UpcomingResponse>() {
-            @Override public void onResponse(@NonNull Call<UpcomingResponse> call,@NonNull Response<UpcomingResponse> response) {
-                UpcomingResponse upcomingResponse2 = response.body();
-                List<MovieResponseResults> upcomingResponseResults = upcomingResponse2.getResults();
-                recyclerViewUpcoming2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                upcomingSearchAdapter2 = new UpcomingSearchAdapter(getActivity(), upcomingResponseResults);
-                recyclerViewUpcoming2.setAdapter(upcomingSearchAdapter2);
+        Call<TopRatedResponse> topRatedResponseCall = retrofitService.getTopRatedByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+        topRatedResponseCall.enqueue(new Callback<TopRatedResponse>() {
+            @Override public void onResponse(@NonNull Call<TopRatedResponse> call,@NonNull Response<TopRatedResponse> response) {
+                TopRatedResponse topRatedResponse = response.body();
+                List<MovieResponseResults> topRatedResponseResults = topRatedResponse.getResults();
+                recyclerTopRated.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                topRatedcomingSearchAdapter = new MovieListHomeAdapter(getActivity(), topRatedResponseResults);
+                recyclerTopRated.setAdapter(topRatedcomingSearchAdapter);
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
-                recyclerViewUpcoming2.setLayoutAnimation(controller);
-                recyclerViewUpcoming2.scheduleLayoutAnimation();
+                recyclerTopRated.setLayoutAnimation(controller);
+                recyclerTopRated.scheduleLayoutAnimation();
             }
-            @Override public void onFailure(@NonNull Call<UpcomingResponse> call, @NonNull Throwable t) {
+            @Override public void onFailure(@NonNull Call<TopRatedResponse> call, @NonNull Throwable t) {
                 Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
             }
         });

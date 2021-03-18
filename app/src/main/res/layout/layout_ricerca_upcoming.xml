@@ -8,6 +8,7 @@
     app:cardCornerRadius="0dp"
     app:cardElevation="10dp"
     android:backgroundTint="#0e1111"
+    android:forceDarkAllowed="false"
     android:background="@drawable/gradient">
 
     <androidx.appcompat.widget.LinearLayoutCompat

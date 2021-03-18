@@ -7,6 +7,7 @@
     android:layout_margin="5dp"
     app:cardCornerRadius="1dp"
     app:cardElevation="10dp"
+    android:forceDarkAllowed="false"
     android:orientation="horizontal"
     android:background="#0e1111">
 

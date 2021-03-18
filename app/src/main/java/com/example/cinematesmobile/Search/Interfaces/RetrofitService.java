@@ -8,6 +8,7 @@ import com.example.cinematesmobile.Search.Model.MovieDetail;
 import com.example.cinematesmobile.Search.Model.MovieImage;
 import com.example.cinematesmobile.Search.Model.MovieResponse;
 import com.example.cinematesmobile.Search.Model.PopularResponse;
+import com.example.cinematesmobile.Search.Model.TopRatedResponse;
 import com.example.cinematesmobile.Search.Model.UpcomingResponse;
 
 import retrofit2.Call;
@@ -27,6 +28,9 @@ public interface RetrofitService {
 
     @GET("movie/upcoming")
     Call<UpcomingResponse> getUpcomingByQuery(@Query("api_key") String api_key, @Query("language") String lingua);
+
+    @GET("movie/top_rated")
+    Call<TopRatedResponse> getTopRatedByQuery(@Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("person/{person_id}")
     Call<AttoriDetails> getAttoriDetails(@Path("person_id") int person_id, @Query("api_key") String api_key, @Query("language") String lingua);

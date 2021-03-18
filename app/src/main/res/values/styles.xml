@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">#FF8C00</item>
         <!-- colore linee sotto alle aree di testo -->
         <item name="colorAccent">#fff</item>
-
+        <item name= "android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <!-- Impostazioni del Date Picker -->
@@ -39,5 +39,17 @@
         <item name="colorControlActivated">#FF8C00</item>
 
     </style>
+
+    <!-- Sezione Cerca -->
+    <style name="RadioButtonStyleSearch" parent="Theme.AppCompat.Light">
+        <item name="android:textColorHint">#000</item>
+        <!-- Coloro i radio buttons sul gender -->
+        <item name="android:textColorSecondary">#000</item>
+        <item name="android:textColorTertiary">#000</item>
+        <item name="colorControlActivated">#000</item>
+    </style>
+
+
+
 
 </resources>

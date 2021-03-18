@@ -103,6 +103,12 @@
     <string name="CognomeTest">Rossi</string>
     <string name="TestPassword">*******</string>
     <string name="TestUsername">Artorias</string>
+    <string name="CercaPerCelebrità">Celbrità</string>
+    <string name="Film">Film</string>
+    <string name="Birthday">Data Di Nascita</string>
+    <string name="TestBday">Test</string>
+    <string name="Gender">Sesso (Poco)</string>
+    <string name="TestGender">M</string>
 </resources>
 
 

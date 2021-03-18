@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
     private String attore = "Ricerca Per Attore";
     private RecyclerView recyclerView;
     private RetrofitService retrofitService;
+    private AppCompatImageButton previous;
     private MovieSearchAdapter movieSearchAdapter;
     private AttoriSearchAdapter attoriSearchAdapter;
 
@@ -60,6 +62,7 @@ public class SearchActivity extends AppCompatActivity {
         queryEditText = findViewById(R.id.query_edit_text);
         querySearchButton = findViewById(R.id.query_search_button);
         recyclerView = findViewById(R.id.results_recycle_view);
+        previous = findViewById(R.id.previously);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         Paper.init(this);
         retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
@@ -88,6 +91,13 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        /*AGGIUNTA NUOVA*/
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                onBackPressed();
             }
         });
         /*if (Paper.book().read("cache") != null) {

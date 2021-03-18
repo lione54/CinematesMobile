@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:background="#0e1111"
     android:orientation="vertical"
+    android:forceDarkAllowed="false"
     tools:context=".Log.ui.login.LoginActivity">
 
     <!-- AREA LOGO -->

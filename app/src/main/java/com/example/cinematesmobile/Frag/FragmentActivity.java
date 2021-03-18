@@ -46,7 +46,10 @@ public class FragmentActivity extends AppCompatActivity {
                         setTitle("Ricerca");
                         Intent intent = new Intent(FragmentActivity.this, SearchActivity.class);
                         startActivity(intent);
-
+                    case R.id.notifiche_:
+                        setTitle("Notifiche");
+                        fragment = new Fragment_Notifiche();
+                        loadFragment(fragment);
                 }
                 return false;
             }

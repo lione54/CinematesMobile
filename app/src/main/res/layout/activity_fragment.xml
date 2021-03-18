@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom|center|fill"
     android:orientation="vertical"
+    android:forceDarkAllowed="false"
     tools:context=".Frag.FragmentActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -29,7 +30,8 @@
         app:itemHorizontalTranslationEnabled="true"
         app:itemIconTint="#0E1111"
         app:itemTextColor="#0E1111"
-        app:menu="@menu/menu" />
+        app:menu="@menu/menu"
+        app:labelVisibilityMode="unlabeled"/>
 
 
 </LinearLayout>
