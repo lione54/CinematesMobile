@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0E1111"
+    android:id="@+id/main_welcome_view"
+    tools:context=".Main.WelcomeActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo_cinemates"
+        android:layout_width="410dp"
+        android:layout_height="142dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_cinemates" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

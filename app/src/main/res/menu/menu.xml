@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/home_"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/home"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/toprated_"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="@string/toprater"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/notifiche_"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="@string/notifiche"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/cerca_"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/cerca"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/profilo_"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/profilo"
+        app:showAsAction="withText" />
+</menu>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profilo_utente"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ColorCineBlack"
+    tools:context=".Frag.FragmentActivity">
+
+    <RelativeLayout
+        android:id="@+id/rellay1"
+        android:layout_width="match_parent"
+        android:background="@drawable/ic_launcher_background"
+        android:paddingBottom="20dp"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/immagine_profilo"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:padding="3dp"
+                android:src="@drawable/radius_profile"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/immagine_profilo"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/maven_pro"
+            android:layout_marginTop="15dp"
+            android:text="JOEY"
+            android:textStyle="bold"
+            android:textColor="@color/ColorCineOrange"
+            android:textSize="32sp"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_settings_24"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:scaleType="centerInside"
+            android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linlay1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/rellay1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@color/ColorCineOrange">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="250"
+                        android:textSize="25sp"
+                        android:textColor="@color/ColorCineBlack"
+                        android:fontFamily="@font/maven_pro"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/RecensioniFatte"
+                        android:textAllCaps="true"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/ColorCineBlack"
+                        android:fontFamily="@font/maven_pro"
+                        />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@color/ColorCineOrange">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:textSize="25sp"
+                        android:textColor="@color/ColorCineBlack"
+                        android:fontFamily="@font/maven_pro"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/liste"
+                        android:textAllCaps="true"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/ColorCineBlack"
+                        android:fontFamily="@font/maven_pro"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@color/ColorCineOrange">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1k"
+                        android:textSize="25sp"
+                        android:textColor="@color/ColorCineBlack"
+                        android:fontFamily="@font/maven_pro"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Amici"
+                        android:textAllCaps="true"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/ColorCineBlack"
+                        android:fontFamily="@font/maven_pro"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/linlay1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--INIZIO PRIMO CAMPO AREA PROFILO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical">
+
+            <!-- primo campo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Nome"
+                    android:textSize="13sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/TestNome"
+                    android:fontFamily="@font/maven_pro"
+                    android:textSize="18sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/ColorCineOrange"/>
+
+
+            </LinearLayout>
+            <!-- fine primo campo -->
+
+            <!-- inizio secondo campo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Cognome"
+                    android:textSize="13sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/CognomeTest"
+                    android:fontFamily="@font/maven_pro"
+                    android:textSize="18sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/ColorCineOrange"/>
+
+
+            </LinearLayout>
+            <!-- fine secondo campo -->
+
+            <!-- inizio terzo campo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/IndirizzoEmail"
+                    android:textSize="13sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/TestEmail"
+                    android:fontFamily="@font/maven_pro"
+                    android:textSize="18sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/ColorCineOrange"/>
+
+
+            </LinearLayout>
+            <!-- fine terzo campo -->
+
+            <!-- inizio quarto campo-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Password"
+                    android:textSize="13sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/TestPassword"
+                    android:fontFamily="@font/maven_pro"
+                    android:textSize="18sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/ColorCineOrange"/>
+
+
+            </LinearLayout>
+            <!-- fine quarto campo -->
+
+            <!-- inizio quinto campo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    android:textSize="13sp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/maven_pro"
+                    android:text="@string/TestUsername"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/ColorCineOrange"/>
+
+
+            </LinearLayout>
+            <!-- fine quinto campo -->
+
+
+
+        </LinearLayout>
+        <!--FINE PRIMO CAMPO AREA PROFILO -->
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

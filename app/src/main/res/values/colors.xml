@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_500">#FF8C00</color>
+    <color name="purple_700">#FF8C00</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#FFA500</color>
+    <color name="colorPrimaryDark">#FF8C00</color>
+    <color name="colorAccent">#fff</color>
+    <color name="ColorCineBlack">#0E1111</color>
+    <color name="ColorCineOrange">#FF8C00</color>
+</resources>

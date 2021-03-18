@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ColorCineBlack"
+    android:textColor="@color/ColorCineOrange"
+    tools:context=".Search.AttoriDetailActivity">
+
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:id="@+id/attori_detail_diagonal_view"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:diagonal_angle="0"
+        app:diagonal_position="bottom"
+        app:diagonal_direction="right"
+        android:background="@color/ColorCineOrange">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/attori_detail_profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/dettagli_film"
+            android:background="@drawable/drop_shadow"/>
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <View
+        android:id="@+id/drop_shadow_1"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/attori_detail_diagonal_view"
+        android:background="@drawable/drop_shadow"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/previously"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/ColorCineOrange"
+        android:background="@drawable/ic_baseline_arrow_back_ios_24"
+        android:contentDescription="@string/todo" />
+
+    <!-- AREA TITOLO ATTORE -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/attori_detail_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drop_shadow_1"
+        android:text="@string/nome_attore"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/ColorCineOrange"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:fontFamily="@font/maven_pro"/>
+    <!-- FINE AREA TITOLO ATTORE -->
+    <View
+        android:id="@+id/drop_shadow_2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/attori_detail_name"
+        android:background="@drawable/drop_shadow"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/attori_detail_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/drop_shadow_2"
+        android:layout_marginTop="10dp">
+
+        <!-- INIZIO ATTORE NOTO COME -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_also_know_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/conosciuto_come"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/attori_detail_also_know"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:fontFamily="@font/maven_pro"/>
+            <!-- FINE ATTORE NOTO COME -->
+
+            <!-- INIZIO BDAY ATTORE -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_birthday_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/data_di_nascita"
+                    android:fontFamily="@font/maven_pro"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/attori_detail_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:fontFamily="@font/maven_pro"/>
+            <!--FINE BDAY ATTORE -->
+
+            <!-- INIZIO LUOGO NASCITA ATTORE -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_place_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/luogo_di_nascita"
+                    android:fontFamily="@font/maven_pro"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/attori_detail_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:fontFamily="@font/maven_pro"/>
+            <!-- FINE ATTORE LUOGO NASCITA -->
+
+            <!-- INIZIO ATTORE MORTE -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_death_layout"
+                android:layout_width="match_parent"
+                android:background="@color/ColorCineOrange"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/data_di_morte"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/maven_pro"
+                    android:textStyle="bold"/>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/attori_detail_death"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:fontFamily="@font/maven_pro"/>
+
+            <!-- FINE ATTORE MORTE -->
+
+            <!-- INIZIO ATTORE RUOLO -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_role_layout"
+                android:layout_width="match_parent"
+                android:background="@color/ColorCineOrange"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/ruolo"
+                    android:textSize="20sp"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/maven_pro"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/attori_detail_role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:fontFamily="@font/maven_pro"/>
+
+            <!-- FINE ATTORE RUOLO -->
+
+            <!-- INIZIO ATTORE DETTAGLI -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_hp_layout"
+                android:layout_width="match_parent"
+                android:background="@color/ColorCineOrange"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/homepage"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/maven_pro"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/attori_detail_hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:fontFamily="@font/maven_pro"/>
+
+            <!-- FINE DETTAGLI ATTORE -->
+
+            <!-- INIZIO DETTAGLI BIO ATTORE -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_bio_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/biografia"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/maven_pro"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/attori_detail_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:fontFamily="@font/maven_pro"/>
+
+            <!-- FINE DETTAGLI BIO ATTORE -->
+
+            <!--IMMAGINI VARIE ATTORE -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attori_detail_profile_images_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/profilo"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/maven_pro"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/attori_detail_profilo_image_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/ColorCineOrange"
+                    android:nestedScrollingEnabled="false"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- FINE IMMAGINI VARIE ATTORE -->
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

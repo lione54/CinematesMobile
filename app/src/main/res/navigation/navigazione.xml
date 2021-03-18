@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigazione"
+    app:startDestination="@id/home2">
+
+
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.cinematesmobile.Frag.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home2_to_profilo"
+            app:destination="@id/profilo" />
+        <action
+            android:id="@+id/action_home2_to_fragment_Preferiti"
+            app:destination="@id/fragment_Preferiti" />
+    </fragment>
+    <fragment
+        android:id="@+id/profilo"
+        android:name="com.example.cinematesmobile.Frag.Profilo"
+        android:label="fragment_profilo"
+        tools:layout="@layout/fragment_profilo" >
+        <action
+            android:id="@+id/action_profilo_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_Preferiti"
+        android:name="com.example.cinematesmobile.Frag.Fragment_Preferiti"
+        android:label="fragment__preferiti"
+        tools:layout="@layout/fragment__preferiti" >
+        <action
+            android:id="@+id/action_fragment_Preferiti_to_home2"
+            app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_fragment_Preferiti_to_profilo"
+            app:destination="@id/profilo" />
+    </fragment>
+</navigation>

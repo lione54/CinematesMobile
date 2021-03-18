@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="10dp"
+    android:backgroundTint="#0e1111"
+    android:background="@drawable/gradient">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <com.github.florent37.diagonallayout.DiagonalLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:diagonal_angle="2"
+            app:diagonal_direction="left"
+            android:background="@drawable/gradient"
+            app:diagonal_position="bottom">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/poster_image_view"
+            android:backgroundTint="@color/ColorCineOrange"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:scaleType="center" />
+
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titolo_poster"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/maven_pro"
+            android:gravity="center"
+            android:textColor="@color/ColorCineBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@color/ColorCineOrange"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

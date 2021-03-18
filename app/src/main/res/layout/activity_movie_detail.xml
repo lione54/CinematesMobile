@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ColorCineBlack"
+    tools:context=".Search.MovieDetailActivity">
+
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:id="@+id/dettagli_film"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:diagonal_angle="0"
+        app:diagonal_position="bottom"
+        app:diagonal_direction="right"
+        android:background="@color/ColorCineOrange">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/dettagli_film_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.github.ivbaranov.mfb.MaterialFavoriteButton
+            android:id="@+id/preferiticuore"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="5dp"
+            app:mfb_favorite_image="@drawable/ic_likeactive"
+            app:mfb_not_favorite_image="@drawable/ic_like"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="5dp" />
+
+        <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/dettagli_film"
+        android:background="@drawable/drop_shadow"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/previously"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/ColorCineOrange"
+            android:background="@drawable/ic_baseline_arrow_back_ios_24"
+            android:contentDescription="@string/todo" />
+
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/film_detail_rated_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#0e1111"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/film_detail_rated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:layout_marginTop="80dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingBottom="2dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/ColorCineOrange"
+            android:background="@drawable/radius_ratevote"
+            android:textSize="30sp"
+            android:fontFamily="@font/maven_pro"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/dropshadow_1"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/dettagli_film"
+        android:background="@drawable/drop_shadow"/>
+
+    <ImageView
+        android:id="@+id/film_poster"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:background="#CCCCCC"
+        android:layout_below="@id/dettagli_film_image_view"
+        android:layout_marginTop="90dp"
+        android:layout_marginStart="20dp"
+        tools:ignore="NotSibling"
+        android:contentDescription="@string/todo">
+
+    </ImageView>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/Film_dettagli_nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dropshadow_1"
+        android:layout_marginStart="120dp"
+        android:textColor="@color/ColorCineOrange"
+        android:fontFamily="@font/maven_pro"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/nome_film"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/check_box_aggiungi_a_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/source_spinner_aggiungi_a"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_below="@id/check_box_aggiungi_a_layout"
+            android:background="@color/ColorCineBlack"
+            android:text="@string/preferiti"
+            android:textColor="@color/ColorCineOrange" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_recnsioni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_aggiungi_a_layout"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@android:color/transparent"
+            android:drawableEnd="@drawable/ic_paper_plane"
+            android:text="@string/recensioni"
+            android:textColor="@color/ColorCineOrange" />
+
+        <!-- CHIUDI "BUTTONS AREA" -->
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/dropshadow_2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="14dp"
+        android:layout_below="@id/Film_dettagli_nome"
+        android:background="@drawable/drop_shadow"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/Attore_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/check_box_aggiungi_a_layout"
+        android:layout_marginTop="-1dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/Attori_conosciuti_per_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- APRI "NOTO COME" -->
+
+            <!-- APRI FILM "NOME ORIGINALE" -->
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/film_dettagli_nome_originale_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:text="@string/titolo_originale"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/Film_nome_originale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp" />
+            <!-- CHIUDI "FILM NOME ORIGINALE" -->
+
+            <!-- APRI DATA USCITA -->
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/Film_datauscita_detail_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:text="@string/data_di_uscita"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/film_datauscita"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp" />
+            <!-- CHIUDI DATA USCITA MOVIE -->
+
+
+            <!-- APRI BLOCCO LINGUA ORIGINALE -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/Film_lingua_originale_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:text="@string/lingua_originale"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/Film_linguaoriginale"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <!-- CHIUDI LINGUA ORGINALE -->
+
+            <!-- APRI BLOCCO TRAMA -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/Film_trama_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:text="@string/trama"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/film_trama"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"/>
+
+            <!-- FINE BLOCCO TRAMA -->
+
+
+            <!-- INIZIO BLOCCO STATO -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/film_detail_stato_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:text="@string/stato"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/film_detail_stato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp" />
+            <!-- FINE BLOCCO STATO FILM -->
+
+            <!-- INIZIO BLOCCO GENERE FILM -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/film_detail_genere_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:text="@string/genere"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/film_detail_genere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp" />
+            <!-- FINE BLOCCO GENERE FILM -->
+
+            <!-- INIZIO BLOCCO PRODUZIONE FILM -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/film_detail_produzione_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:text="@string/produzione"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/film_detail_produzione"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp" />
+
+            <!-- FINE BLOCCO PRODUZIONE FILM -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/film_detail_images_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="start"
+                    android:text="@string/immagini_film"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/film_detail__image_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/ColorCineOrange"
+                    android:nestedScrollingEnabled="false" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

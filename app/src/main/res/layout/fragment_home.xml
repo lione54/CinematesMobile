@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ColorCineBlack">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/home_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-1dp">
+
+    <!-- INIZIO AREA LOGO -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/Logo_home"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_cinemates"/>
+        <!-- FINE AREA LOGO -->
+
+
+    <!-- INIZIO AREA UPCOMING FILM TESTO -->
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/upcoming_text"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:drawableRight="@drawable/ic_calendar"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/upcoming_film"
+                android:textColor="#FF8C00"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- FINE AREA UPCOMING FILM TESTO -->
+
+        <!-- SLIDER UPCOMING FILMS -->
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/upcoming_recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="@id/recommendations_text_view" />
+
+
+            <!-- FINE SLIDER UPCOMING FILMS -->
+
+
+        <!-- INIZIO FILM POPULAR TESTO -->
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/recommendations_text_view"
+                android:layout_width="203dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:drawableRight="@drawable/ic_fire_flame"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:text="@string/popular_film"
+                android:textColor="#FF8C00"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- FINE FILM POPULAR TESTO -->
+
+
+        <!-- INIZIO FILM POPULAR SLIDER -->
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!-- FINE FILM POPULAR SLIDER -->
+
+
+    <!-- INIZIO FILM TOP RATED -->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/recommendations_text_view2"
+            android:layout_width="203dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:drawableRight="@drawable/ic_arrows"
+            android:fontFamily="@font/maven_pro"
+            android:gravity="center"
+            android:text="@string/top_rated_film"
+            android:textColor="#FF8C00"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- FINE FILM TOP RATED -->
+
+    <!-- INIZIO FILM TOP RATED -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- FINE FILM TOP RATED -->
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+ </LinearLayout>

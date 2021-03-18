@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#FF8C00</item>
+        <!-- colore linee sotto alle aree di testo -->
+        <item name="colorAccent">#fff</item>
+
+    </style>
+
+    <!-- Impostazioni del Date Picker -->
+    <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Coloro lo sfondo in alto del Date Picker -->
+        <item name="colorAccent">#FF8C00</item>
+        <!-- Coloro lo sfondo sotto del Date Picker -->
+        <item name="android:background">#0e1111</item>
+        <!-- Coloro le aree di testo -->
+        <item name="android:textColorPrimaryInverse">#FF8C00</item>
+        <item name ="android:textColorPrimary">#FF8C00</item>
+        <item name="android:textColorSecondaryInverse">#FF8C00</item>
+        <item name="android:textColorSecondary">#FF8C00</item>
+        <item name="android:textColorTertiary">#FF8C00</item>
+        <item name="colorControlActivated">#000</item>
+    </style>
+
+    <!-- Progress Bar -->
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">#FF8C00</item>
+    </style>
+
+    <!-- Sezione Gender -->
+    <style name="RadioButtonStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textColorHint">#FF8C00</item>
+        <!-- Coloro i radio buttons sul gender -->
+        <item name="android:textColorSecondary">#fff</item>
+        <item name="android:textColorTertiary">#FF8C00</item>
+        <item name="colorControlActivated">#FF8C00</item>
+
+    </style>
+
+</resources>
