@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Cartapopup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ColorCineBlack"
+    tools:context=".Search.CreaListePopUp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/inserisci_nome_lista_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/maven_pro"
+        android:text="@string/inserisci_nome_lista"
+        android:textColor="@color/ColorCineOrange"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/inserisci_nome_lista"
+        android:layout_width="170dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:hint="@string/nome_lista"
+        android:inputType="text"
+        android:textColor="@color/ColorCineOrange"
+        android:textColorHint="@color/ColorCineOrange" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/conferma_button"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:background="@color/ColorCineBlack"
+        android:fontFamily="@font/maven_pro"
+        android:text="@string/conferma"
+        android:textColor="@color/ColorCineOrange"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/annulla_button"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:background="@color/ColorCineBlack"
+        android:text="@string/annulla"
+        android:textColor="@color/ColorCineOrange"
+        android:textStyle="bold"
+        android:fontFamily="@font/maven_pro"/>
+
+</LinearLayout>

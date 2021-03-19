@@ -109,6 +109,10 @@
     <string name="TestBday">Test</string>
     <string name="Gender">Sesso (Poco)</string>
     <string name="TestGender">M</string>
+    <string name="inserisci_nome_lista">Inserisci Nome Lista:</string>
+    <string name="nome_lista">Nome Lista</string>
+    <string name="conferma">Conferma</string>
+    <string name="annulla">Annulla</string>
 </resources>
 
 

@@ -3,26 +3,32 @@
     package="com.example.cinematesmobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@drawable/ic_oscar"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@drawable/ic_oscar"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CinematesMobile">
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-        <activity android:name=".Search.VisualizzaImmaginiActivity"></activity>
-        <activity android:name=".Search.MovieDetailActivity"></activity>
-        <activity android:name=".Search.AttoriDetailActivity"></activity>
-        <activity android:name=".Search.SearchActivity"></activity>
-        <activity android:name=".Frag.FragmentActivity"></activity>
-        <activity android:name=".SignIn.RegisterFieldsActivity"></activity>
-        <activity android:name=".SignIn.ConfirmCodeActivity"></activity>
-        <activity android:name=".SignIn.SignInActivity"></activity>
+        android:theme="@style/Theme.CinematesMobile"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Search.CreaListePopUp"
+            android:theme="@style/AppTheme.CustomTheme"
+            ></activity>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity android:name=".Search.VisualizzaImmaginiActivity" />
+        <activity android:name=".Search.MovieDetailActivity" />
+        <activity android:name=".Search.AttoriDetailActivity" />
+        <activity android:name=".Search.SearchActivity" />
+        <activity android:name=".Frag.FragmentActivity" />
+        <activity android:name=".SignIn.RegisterFieldsActivity" />
+        <activity android:name=".SignIn.ConfirmCodeActivity" />
+        <activity android:name=".SignIn.SignInActivity" />
         <activity
             android:name=".Log.ui.login.LoginActivity"
             android:label="@string/title_activity_login" />

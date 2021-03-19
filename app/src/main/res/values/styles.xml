@@ -10,6 +10,11 @@
         <item name= "android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
+    <style name="AppTheme.CustomTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
     <!-- Impostazioni del Date Picker -->
     <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
         <!-- Coloro lo sfondo in alto del Date Picker -->

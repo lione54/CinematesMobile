@@ -3,17 +3,27 @@ package com.example.cinematesmobile.Search;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,9 +45,9 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.squareup.picasso.Picasso;
 
+import org.angmarch.views.NiceSpinner;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -51,6 +61,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 public class MovieDetailActivity extends AppCompatActivity {
 
+    private PopupWindow CreaLista;
+    private AppCompatButton Conferma,Annulla;
+    private AppCompatEditText InserisciTitolo;
+    private static String Titolo;
+    private LinearLayout CreaListaLayout;
     private KenBurnsView MovieDetailsImageView;
     private LinearLayoutCompat filmnomeoriginalelayout;
     private LinearLayoutCompat filmdatauscitalayout;
@@ -71,11 +86,13 @@ public class MovieDetailActivity extends AppCompatActivity {
     private RecyclerView ImmagineFilmRecycleView;
     private ImmagineProfiloAttoriAdapter immagineProfiloAttoriAdapter;
     private ImageView Locandina;
+    private String tipoLista = null;
     private MaterialFavoriteButton CuorePreferiti;
     private RetrofitService retrofitService;
     private RetrofitService retrofitService2;
-    private AppCompatButton aggiungiA;
-    private String preferiti = "Lista Preferiti";
+    private NiceSpinner aggiungiA;
+    private String preferiti = "Aggiungi A...";
+    private String crealista = "Nuova Lista";
     private AppCompatTextView rates;
     private boolean stato;
     private LinearLayoutCompat rates_layout;
@@ -115,6 +132,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         ImmagineFilmRecycleView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
         final ArrayList<String> listefilm = new ArrayList<>();
         listefilm.add(preferiti);
+        listefilm.add(crealista);
+        aggiungiA.attachDataSource(listefilm);
         String lingua = "it-IT";
         Intent intent = getIntent();
         StringBuilder stringTitolo = new StringBuilder();
@@ -163,11 +182,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Toast.makeText(MovieDetailActivity.this, "Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                    CuorePreferiti.setOnFavoriteChangeListener(new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                CuorePreferiti.setOnFavoriteChangeListener(new MaterialFavoriteButton.OnFavoriteChangeListener() {
                         @Override public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
                             if(stato == false) {
-                                InserisciNeiPreferiti(id, stringPoster.toString(), stringTitolo.toString());
+                                tipoLista = "Preferiti";
+                                InserisciNelleListe(id, stringPoster.toString(), stringTitolo.toString(), tipoLista);
                                 CuorePreferiti.setImageResource(R.drawable.ic_likeactive);
                                 stato = true;
                             }else {
@@ -181,6 +200,49 @@ public class MovieDetailActivity extends AppCompatActivity {
                 previous.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         onBackPressed();
+                    }
+                });
+                Conferma = findViewById(R.id.conferma_button);
+                Annulla = findViewById(R.id.annulla_button);
+                CreaListaLayout = (LinearLayout) findViewById(R.id.Cartapopup);
+                InserisciTitolo = findViewById(R.id.inserisci_nome_lista);
+                aggiungiA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if(position == 1){
+                            LayoutInflater layoutInflater = (LayoutInflater) MovieDetailActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View custom = layoutInflater.inflate(R.layout.crea_liste_pop_up, null);
+                            CreaLista = new PopupWindow(custom, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            CreaLista.showAtLocation(CreaListaLayout, Gravity.CENTER, 0, 0);
+                            CreaLista.setFocusable(true);
+                            CreaLista.update();
+                            CreaLista.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                            InserisciTitolo.getText().toString();
+                            Conferma.setOnClickListener(new View.OnClickListener() {
+                                @Override public void onClick(View v) {
+                                    if(Titolo.length() > 0){
+                                        tipoLista = Titolo;
+                                        CreaLista.dismiss();
+                                    }else{
+                                        Toast.makeText(MovieDetailActivity.this, "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                            Annulla.setOnClickListener(new View.OnClickListener() {
+                                @Override public void onClick(View v) {
+                                    CreaLista.dismiss();
+                                }
+                            });
+
+                            listefilm.add(tipoLista);
+                            aggiungiA.attachDataSource(listefilm);
+                            // InserisciNelleListe((int) id, stringPoster.toString(), stringTitolo.toString(), tipoLista);
+                        }else{
+                            tipoLista = String.valueOf(aggiungiA.getText());
+                            InserisciNelleListe((int) id, stringPoster.toString(), stringTitolo.toString(), tipoLista);
+                        }
+                    }
+                    @Override public void onNothingSelected(AdapterView<?> parent) {
+
                     }
                 });
             }
@@ -246,13 +308,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    protected void InserisciNeiPreferiti(int id, String poster, String titolo) {
+    protected void InserisciNelleListe(int id, String poster, String titolo, String tipoLista) {
         String utente = "mattia.golino@gmail.com";
-        String tipoLista = "Preferiti";
         String titoloMod = titolo.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                    Toast.makeText(MovieDetailActivity.this , "Film Aggiunto Nella Lista Dei Presferiti.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MovieDetailActivity.this , "Film Aggiunto Nella Lista " + tipoLista, Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
@@ -333,10 +394,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                 filmtrama.setText(trama);
                 filmtramalayout.setVisibility(View.VISIBLE);
             }else{
-                filmtramalayout.setVisibility(View.GONE);
+                filmtrama.setText("Trama Non Presente");
             }
         }else{
-            filmtramalayout.setVisibility(View.GONE);
+            filmtrama.setText("Trama Non Presente");
         }
         if(stato != null){
             if(stato.length() > 0){

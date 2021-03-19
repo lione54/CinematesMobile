@@ -94,6 +94,7 @@
             android:gravity="center"
             android:background="#FF8C00"
             android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:drawableTint="@color/ColorCineBlack"
             android:text="@string/btnverifyPIN"
             android:textColor="#000000"
             android:textSize="18sp" />
