@@ -1,29 +1,23 @@
 package com.example.cinematesmobile.Search;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +42,7 @@ import com.squareup.picasso.Picasso;
 import org.angmarch.views.NiceSpinner;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,11 +56,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 public class MovieDetailActivity extends AppCompatActivity {
 
-    private PopupWindow CreaLista;
+    private AlertDialog.Builder dialogBilder;
+    private AlertDialog CreaLista;
     private AppCompatButton Conferma,Annulla;
     private AppCompatEditText InserisciTitolo;
-    private static String Titolo;
-    private LinearLayout CreaListaLayout;
+    private Integer id_film;
     private KenBurnsView MovieDetailsImageView;
     private LinearLayoutCompat filmnomeoriginalelayout;
     private LinearLayoutCompat filmdatauscitalayout;
@@ -95,12 +90,17 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String crealista = "Nuova Lista";
     private AppCompatTextView rates;
     private boolean stato;
+    private String utente = "mattia.golino@gmail.com";
+    private boolean firstuse = true;
     private LinearLayoutCompat rates_layout;
     private AppCompatImageButton previous;
+    final ArrayList<String> listefilm = new ArrayList<>();
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiAPreferiti.php";
+    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiAlDatabase.php";
     private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
+    private static final String PREFURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiPreferiti.php";
     private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviDaiPreferiti.php";
+    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListe.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,10 +130,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         previous = findViewById(R.id.previously);
         CuorePreferiti = findViewById(R.id.preferiticuore);
         ImmagineFilmRecycleView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
-        final ArrayList<String> listefilm = new ArrayList<>();
-        listefilm.add(preferiti);
-        listefilm.add(crealista);
-        aggiungiA.attachDataSource(listefilm);
+        if(firstuse == true) {
+            firstuse = false;
+            listefilm.add(preferiti);
+            listefilm.add(crealista);
+            ListePresenti(utente);
+        }else{
+            ListePresenti(utente);
+        }
         String lingua = "it-IT";
         Intent intent = getIntent();
         StringBuilder stringTitolo = new StringBuilder();
@@ -143,13 +147,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         if ( intent != null && intent.getExtras()!= null ){
             if(intent.getExtras().getString("id")!=null) {
                 int id = Integer.parseInt(intent.getExtras().getString("id"));
-                verificaSePresente(id);
+                verificaSePresenteNeiPreferiti(id, utente);
                 Call<MovieDetail> movieDetailCall = retrofitService2.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
                 movieDetailCall.enqueue(new Callback<MovieDetail>() {
                     @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
                         MovieDetail movieDetailResponse = response.body();
                         if(movieDetailResponse != null){
                             prepareMovieDetails(movieDetailResponse);
+                            id_film = movieDetailResponse.getId();
                             stringPoster.append(movieDetailResponse.getBackdrop_path());
                             stringTitolo.append(movieDetailResponse.getTitle());
                         }else{
@@ -186,11 +191,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                         @Override public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
                             if(stato == false) {
                                 tipoLista = "Preferiti";
-                                InserisciNelleListe(id, stringPoster.toString(), stringTitolo.toString(), tipoLista);
+                                InserisciNelleListe(id, stringPoster.toString(), stringTitolo.toString(), tipoLista, utente);
                                 CuorePreferiti.setImageResource(R.drawable.ic_likeactive);
                                 stato = true;
                             }else {
-                                RimuoviDaiPreferiti(id);
+                                RimuoviDaiPreferiti(id, utente);
                                 CuorePreferiti.setImageResource(R.drawable.ic_like);
                                 recreate();
                             }
@@ -202,25 +207,25 @@ public class MovieDetailActivity extends AppCompatActivity {
                         onBackPressed();
                     }
                 });
-                Conferma = findViewById(R.id.conferma_button);
-                Annulla = findViewById(R.id.annulla_button);
-                CreaListaLayout = (LinearLayout) findViewById(R.id.Cartapopup);
-                InserisciTitolo = findViewById(R.id.inserisci_nome_lista);
                 aggiungiA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(position == 1){
-                            LayoutInflater layoutInflater = (LayoutInflater) MovieDetailActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                            View custom = layoutInflater.inflate(R.layout.crea_liste_pop_up, null);
-                            CreaLista = new PopupWindow(custom, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            CreaLista.showAtLocation(CreaListaLayout, Gravity.CENTER, 0, 0);
-                            CreaLista.setFocusable(true);
-                            CreaLista.update();
-                            CreaLista.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                            InserisciTitolo.getText().toString();
+                    if (position == 0){
+                    }else if(position == 1){
+                            dialogBilder = new AlertDialog.Builder(MovieDetailActivity.this);
+                            final View PopUpView = getLayoutInflater().inflate(R.layout.crea_liste_pop_up, null);
+                            Conferma = (AppCompatButton) PopUpView.findViewById(R.id.conferma_button);
+                            Annulla = (AppCompatButton) PopUpView.findViewById(R.id.annulla_button);
+                            InserisciTitolo = (AppCompatEditText) PopUpView.findViewById(R.id.inserisci_nome_lista);
+                            dialogBilder.setView(PopUpView);
+                            CreaLista = dialogBilder.create();
+                            CreaLista.show();
                             Conferma.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    if(Titolo.length() > 0){
-                                        tipoLista = Titolo;
+                                    if(InserisciTitolo.length() > 0){
+                                        tipoLista = InserisciTitolo.getText().toString();
+                                        listefilm.add(tipoLista);
+                                        aggiungiA.attachDataSource(listefilm);
+                                        verificaNomeLista(id_film, utente, tipoLista, stringPoster.toString(), stringTitolo.toString());
                                         CreaLista.dismiss();
                                     }else{
                                         Toast.makeText(MovieDetailActivity.this, "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
@@ -232,13 +237,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                                     CreaLista.dismiss();
                                 }
                             });
-
-                            listefilm.add(tipoLista);
-                            aggiungiA.attachDataSource(listefilm);
-                            // InserisciNelleListe((int) id, stringPoster.toString(), stringTitolo.toString(), tipoLista);
                         }else{
-                            tipoLista = String.valueOf(aggiungiA.getText());
-                            InserisciNelleListe((int) id, stringPoster.toString(), stringTitolo.toString(), tipoLista);
+                            int numero = aggiungiA.getSelectedIndex();
+                            tipoLista = String.valueOf(listefilm.get(numero));
+                            verificaSePresente(id_film, utente, tipoLista, stringPoster.toString(), stringTitolo.toString());
                         }
                     }
                     @Override public void onNothingSelected(AdapterView<?> parent) {
@@ -249,7 +251,77 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void RimuoviDaiPreferiti(int id) {
+    private void verificaNomeLista(Integer id_film, String utente, String tipoLista, String Poster, String Titolo) {
+        final int[] validiti = new int[1];
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, VERURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
+                    for(int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        String respo = object.getString("id_film_inserito");
+                        validiti[0] = Integer.parseInt(respo);
+                    }
+                    if(validiti[0] == 0) {
+                        verificaSePresente(id_film, Poster, Titolo, tipoLista, utente);
+                    }else{
+                        Toast.makeText(MovieDetailActivity.this , "Lista Già Creata Con Il Nome Di " + tipoLista, Toast.LENGTH_LONG).show();
+                    }
+                }catch (Exception e){
+                    Toast.makeText(MovieDetailActivity.this, "" + e, Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MovieDetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            @NotNull @Override protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Id_Film_Inserito", String.valueOf(id_film));
+                params.put("User_Proprietario", utente);
+                params.put("Tipo_Lista",tipoLista);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void ListePresenti(String utente) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, LISURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response){
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        String respo = object.getString("Tipo_Lista");
+                        listefilm.add(respo);
+                    }
+                    aggiungiA.attachDataSource(listefilm);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MovieDetailActivity.this , error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @NotNull @Override protected Map<String, String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("User_Proprietario", utente);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void RimuoviDaiPreferiti(int id, String utente) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
                 Toast.makeText(MovieDetailActivity.this , "Film Rimosso Dalla Lista Dei Preferiti.", Toast.LENGTH_LONG).show();
@@ -262,6 +334,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             @NotNull @Override protected Map<String, String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("Id_Film_Inserito", String.valueOf(id));
+                params.put("User_Proprietario", utente);
                 return params;
             }
         };
@@ -269,9 +342,48 @@ public class MovieDetailActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void verificaSePresente(int id) {
+    private void verificaSePresente(int id, String utente, String tipoLista, String Poster, String Titolo) {
         final int[] validiti = new int[1];
         StringRequest stringRequest = new StringRequest(Request.Method.POST, VERURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
+                    for(int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        String respo = object.getString("id_film_inserito");
+                        validiti[0] = Integer.parseInt(respo);
+                    }
+                    if(validiti[0] == 0) {
+                        InserisciNelleListe(id, Poster, Titolo, tipoLista, utente);
+                    }else{
+                        Toast.makeText(MovieDetailActivity.this , "Film Già Presente Nella Lista " + tipoLista, Toast.LENGTH_LONG).show();
+                    }
+                }catch (Exception e){
+                    Toast.makeText(MovieDetailActivity.this, "" + e, Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MovieDetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            @NotNull @Override protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Id_Film_Inserito", String.valueOf(id));
+                params.put("User_Proprietario", utente);
+                params.put("Tipo_Lista",tipoLista);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void verificaSePresenteNeiPreferiti(int id, String utente) {
+        final int[] validiti = new int[1];
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, PREFURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response) {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
@@ -301,6 +413,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             @NotNull @Override protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("Id_Film_Inserito", String.valueOf(id));
+                params.put("User_Proprietario", utente);
                 return params;
             }
         };
@@ -308,8 +421,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    protected void InserisciNelleListe(int id, String poster, String titolo, String tipoLista) {
-        String utente = "mattia.golino@gmail.com";
+    protected void InserisciNelleListe(int id, String poster, String titolo, String tipoLista, String utente) {
         String titoloMod = titolo.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){

@@ -138,8 +138,8 @@
             android:layout_height="match_parent"
             android:layout_below="@id/check_box_aggiungi_a_layout"
             android:backgroundTint="@color/ColorCineBlack"
-            android:backgroundTintMode="multiply"
             android:text="@string/aggiungi_a"
+            app:arrowTint="@color/ColorCineOrange"
             app:textTint="@color/ColorCineOrange"
             android:textStyle="bold"
             android:fontFamily="@font/maven_pro"/>
