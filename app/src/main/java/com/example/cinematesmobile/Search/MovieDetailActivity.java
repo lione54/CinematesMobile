@@ -264,7 +264,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         validiti[0] = Integer.parseInt(respo);
                     }
                     if(validiti[0] == 0) {
-                        verificaSePresente(id_film, Poster, Titolo, tipoLista, utente);
+                        verificaSePresente(id_film, utente, tipoLista, Poster, Titolo);
                     }else{
                         Toast.makeText(MovieDetailActivity.this , "Lista Già Creata Con Il Nome Di " + tipoLista, Toast.LENGTH_LONG).show();
                     }
@@ -446,7 +446,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-
     private void prepareMovieDetails(@NotNull MovieDetail movieDetailsResponse) {
         String name = movieDetailsResponse.getTitle();
         String titolooriginale = movieDetailsResponse.getOriginal_title();
@@ -564,11 +563,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 }
-
