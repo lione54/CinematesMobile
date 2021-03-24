@@ -28,6 +28,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logo_cinemates" />
 
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/liste_presenti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/ColorCineBlack"
+            app:textTint="@color/ColorCineOrange"
+            app:arrowTint="@color/ColorCineOrange"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:fontFamily="@font/maven_pro"/>
+
         <!-- TODO: Update blank fragment layout -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -45,7 +57,36 @@
                 android:text="@string/preferiti"
                 android:textColor="#FF8C00"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/davedere_text"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableRight="@drawable/ic_baseline_remove_red_eye_24"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center_vertical"
+                android:text="@string/da_vedere"
+                android:textColor="#FF8C00"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/liste_personalizzate_text"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableRight="@drawable/ic_baseline_local_movies_24"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center_vertical"
+                android:textColor="#FF8C00"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
