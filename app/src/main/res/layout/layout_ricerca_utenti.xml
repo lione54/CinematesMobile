@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="1dp"
+    app:cardElevation="10dp"
+    android:forceDarkAllowed="false"
+    android:orientation="horizontal"
+    android:background="#0e1111">
+
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:diagonal_angle="6"
+        app:diagonal_direction="left"
+        android:background="@color/ColorCineOrange"
+        app:diagonal_position="bottom">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/imagine_profilo_utente"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"/>
+
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/username_utente"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/ColorCineOrange"
+        android:fontFamily="@font/maven_pro"
+        android:gravity="center"
+        android:padding="9dp"
+        android:textColor="@color/ColorCineBlack"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="#0e1111"/>
+
+</androidx.cardview.widget.CardView>

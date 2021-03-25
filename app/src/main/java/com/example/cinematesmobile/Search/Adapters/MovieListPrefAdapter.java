@@ -22,7 +22,6 @@ import java.util.List;
 
 public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdapter.DataViewHolder> {
 
-
     private Context mCtx;
     private List<DBModelDataFilms> dataList;
 

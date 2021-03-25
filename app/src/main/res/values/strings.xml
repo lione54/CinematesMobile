@@ -90,7 +90,7 @@
     <string name="preferiti">Preferiti</string>
     <string name="todo">TODO</string>
     <string name="RecensioniFatte">Recensioni</string>
-    <string name="Amici">Amici</string>
+    <string name="Amici">Utenti</string>
     <string name="NomeUtente">Nome Utente</string>
     <string name="InformazioniTitle">Info Utente</string>
     <string name="InfoUtente">Info Utente</string>
@@ -103,7 +103,7 @@
     <string name="CognomeTest">Rossi</string>
     <string name="TestPassword">*******</string>
     <string name="TestUsername">Artorias</string>
-    <string name="CercaPerCelebrità">Celbrità</string>
+    <string name="CercaPerCelebrità">Celebrità</string>
     <string name="Film">Film</string>
     <string name="Birthday">Data Di Nascita</string>
     <string name="TestBday">Test</string>
@@ -114,6 +114,7 @@
     <string name="conferma">Conferma</string>
     <string name="annulla">Annulla</string>
     <string name="da_vedere">Da Vedere</string>
+    <string name="cosa_vuoi_cercare">Cosa Vuoi Cercare...</string>
 </resources>
 
 

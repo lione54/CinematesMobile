@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.SearchActivity;
 import com.example.cinematesmobile.SignIn.ConfirmCodeActivity;
 import com.example.cinematesmobile.SignIn.SignInActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,12 +43,14 @@ public class FragmentActivity extends AppCompatActivity {
                         break;
                     case R.id.cerca_:
                         setTitle("Ricerca");
-                        Intent intent = new Intent(FragmentActivity.this, SearchActivity.class);
-                        startActivity(intent);
+                        fragment = new SearchFragment();
+                        loadFragment(fragment);
+                        break;
                     case R.id.notifiche_:
                         setTitle("Notifiche");
                         fragment = new Fragment_Notifiche();
                         loadFragment(fragment);
+                        break;
                 }
                 return false;
             }

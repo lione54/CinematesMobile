@@ -39,4 +39,19 @@
             android:id="@+id/action_fragment_Preferiti_to_profilo"
             app:destination="@id/profilo" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.cinematesmobile.Frag.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_fragment_Preferiti"
+            app:destination="@id/fragment_Preferiti" />
+        <action
+            android:id="@+id/action_searchFragment_to_home2"
+            app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_searchFragment_to_profilo"
+            app:destination="@id/profilo" />
+    </fragment>
 </navigation>

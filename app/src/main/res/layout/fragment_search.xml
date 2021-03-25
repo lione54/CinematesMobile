@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0e1111"
+    android:forceDarkAllowed="false">
+
+    <android.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/app_logo"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_oscar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/cinemates_search"
+                android:textAllCaps="true"
+                android:textColor="#FF8C00"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </android.widget.Toolbar>
+
+    <View
+        android:id="@+id/tool_bar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/main_toolbar"
+        android:background="@drawable/tool_bar_shadow" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tool_bar_shadow"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/query_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:hint="@string/cosa_vuoi_cercare"
+            android:backgroundTint="@color/ColorCineOrange"
+            android:fontFamily="@font/maven_pro"
+            android:inputType="text"
+            android:lines="2"
+            android:padding="10dp"
+            android:textColor="@color/ColorCineOrange"
+            android:textColorHint="@color/ColorCineOrange" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/query_search_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_search"
+            android:textAllCaps="false"
+            android:fontFamily="@font/maven_pro"
+            android:textStyle="bold"
+            android:textColorLink="@color/ColorCineBlack" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:id="@+id/AreaCampiRicerca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/search_layout">
+
+        <RadioGroup
+            android:id="@+id/gruppo_ricerca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorCineOrange"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_ricerca_film"
+                android:layout_width="wrap_content"
+                android:theme="@style/RadioButtonStyleSearch"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Film"
+                android:textAllCaps="true"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/ColorCineBlack"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+            <RadioButton
+                android:id="@+id/radio_ricerca_attori"
+                android:theme="@style/RadioButtonStyleSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CercaPerCelebrità"
+                android:textAllCaps="true"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/ColorCineBlack"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+            <RadioButton
+                android:id="@+id/radio_ricerca_amici"
+                android:theme="@style/RadioButtonStyleSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:text="@string/Amici"
+                android:textAllCaps="true"
+                android:textColor="@color/ColorCineBlack"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/results_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/AreaCampiRicerca"
+        android:layout_marginTop="-1dp" />
+</RelativeLayout>
