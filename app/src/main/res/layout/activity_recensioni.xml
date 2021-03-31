@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ColorCineBlack"
+    android:orientation="horizontal"
+    tools:context=".Recensioni.RecensioniActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/Logo_home"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_cinemates" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ColorCineOrange"
+                android:text="@string/recensione_scritte_per"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/maven_pro"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/Titolo_film_per_recensioni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_scrivi_recensione"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorCineBlack"
+            android:text="@string/scrivi_una_recensione"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/ColorCineOrange"
+            android:drawableRight="@drawable/ic_baseline_edit_24" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lista_recensioni"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</LinearLayout>
+

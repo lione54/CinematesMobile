@@ -35,10 +35,12 @@
             android:backgroundTint="@color/ColorCineBlack"
             app:textTint="@color/ColorCineOrange"
             app:arrowTint="@color/ColorCineOrange"
+            android:layout_marginTop="10dp"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:fontFamily="@font/maven_pro"/>
+            android:fontFamily="@font/maven_pro"
+            app:backgroundSelector="@color/ColorCineBlack"/>
 
         <!-- TODO: Update blank fragment layout -->
         <androidx.appcompat.widget.LinearLayoutCompat

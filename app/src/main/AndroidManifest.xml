@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CinematesMobile"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Search.ActivityProfiloUtenteCercato"></activity>
+        <activity android:name=".Recensioni.ScriviRecensioneActivity"></activity>
+        <activity android:name=".Recensioni.RecensioniActivity" />
+        <activity android:name=".Search.ActivityProfiloUtenteCercato" />
 
         <uses-library
             android:name="org.apache.http.legacy"

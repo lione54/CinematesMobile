@@ -11,6 +11,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.Recensioni.RecensioniActivity;
 import com.example.cinematesmobile.Search.Adapters.ImmagineProfiloAttoriAdapter;
 import com.example.cinematesmobile.Search.Client.RetrofitClient;
 import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
@@ -56,6 +58,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 public class MovieDetailActivity extends AppCompatActivity {
 
+    private AppCompatButton Recensioni;
     private AlertDialog.Builder dialogBilder;
     private AlertDialog CreaLista;
     private AppCompatButton Conferma,Annulla;
@@ -105,6 +108,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+        Recensioni = findViewById(R.id.button_recensioni);
         aggiungiA = findViewById(R.id.source_spinner_aggiungi_a);
         MovieDetailsImageView = findViewById(R.id.dettagli_film_image_view);
         filmnomeoriginalelayout = findViewById(R.id.film_dettagli_nome_originale_layout);
@@ -245,6 +249,15 @@ public class MovieDetailActivity extends AppCompatActivity {
                     }
                     @Override public void onNothingSelected(AdapterView<?> parent) {
 
+                    }
+                });
+                Recensioni.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        Intent intent1 = new Intent(MovieDetailActivity.this, RecensioniActivity.class);
+                        intent1.putExtra("Id_Film", id_film);
+                        intent1.putExtra("Titolo_Film", stringTitolo.toString());
+                        intent1.putExtra("Immagine_Poster", stringPoster.toString());
+                        startActivity(intent1);
                     }
                 });
             }

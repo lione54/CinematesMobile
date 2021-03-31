@@ -12,8 +12,7 @@ import com.squareup.picasso.Picasso;
 
 public class VisualizzaImmaginiActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_immagini);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
