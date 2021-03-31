@@ -16,30 +16,32 @@
         android:src="@drawable/logo_cinemates"
         android:layout_marginTop="5dp"
         android:layout_gravity="center"/>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/Inserisci_Nome_Lista"
-            android:layout_width="205dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:fontFamily="@font/maven_pro"
             android:text="@string/inserisci_nome_lista"
             android:textColor="@color/ColorCineOrange"
-            android:textSize="18sp"
-            android:textAlignment="center"
+            android:textSize="14sp"
             android:textStyle="bold">
         </androidx.appcompat.widget.AppCompatTextView>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/inserisci_nome_lista"
-            android:layout_width="205dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="left"
             android:textColor="@color/ColorCineOrange"
             android:hint="@string/nome_lista"
             android:textColorHint="@color/ColorCineOrange"/>
@@ -49,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="right">
 

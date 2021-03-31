@@ -109,14 +109,19 @@
     <string name="TestBday">Test</string>
     <string name="Gender">Sesso (Poco)</string>
     <string name="TestGender">M</string>
-    <string name="inserisci_nome_lista">Inserisci Nome Lista:</string>
-    <string name="nome_lista">Nome Lista</string>
+    <string name="inserisci_nome_lista">Inserisci nome lista</string>
+    <string name="nome_lista">Nome lista</string>
     <string name="conferma">Conferma</string>
     <string name="annulla">Annulla</string>
     <string name="da_vedere">Da Vedere</string>
-    <string name="cosa_vuoi_cercare">Cosa Vuoi Cercare...</string>
+    <string name="cosa_vuoi_cercare">Cosa vuoi cercare...</string>
     <string name="recensione_scritte_per">Recensioni</string>
-    <string name="scrivi_una_recensione">Scrivi Una Recensione</string>
+    <string name="scrivi_una_recensione">Scrivi una recensione</string>
+    <string name="latest_film">Latest Films</string>
+    <string name="nowplayingfilm">Now Playing Films</string>
+    <string name="attori_popular">Popular Celebrity</string>
+    <string name="TestRichiestaDiAmicizia">Carlo ti ha inviato una richiesta di amicizia.</string>
+    <string name="TestReportSegnalazione">La segnalazione [Spoiler es.] è stata accettata, utente bannato dalla piattaforma.</string>
 </resources>
 
 

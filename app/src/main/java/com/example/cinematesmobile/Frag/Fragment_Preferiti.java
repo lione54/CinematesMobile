@@ -57,12 +57,12 @@ public class Fragment_Preferiti extends Fragment {
     final ArrayList<String> listefilmutente = new ArrayList<>();
     private String user = "mattia.golino@gmail.com";
     private MovieListPrefAdapter moviedetailAdapter;
-    private String scelta = "Scelga Quale Lista Vuole Viusalizzare.";
+    private String scelta = "Scelga la lista da visualizzare.";
     private NiceSpinner listePresenti;
     private String ListaSelezionata = null;
-    private static final String URL = "http://192.168.1.9/cinematesdb/PrendiDaLista.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
-    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListeDaVisualizzare.php";
+    private static final String URL = "http://192.168.178.48192.168.1.9/cinematesdb/PrendiDaLista.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
+    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListeDaVisualizzare.php";
     public static final String JSON_ARRAY = "dbdata";
     private ArrayList<Integer> id_preferti = new ArrayList<>();
     private ArrayList<Integer> id_presente = new ArrayList<>();
@@ -200,7 +200,7 @@ public class Fragment_Preferiti extends Fragment {
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                         recyclerViewPreferiti.setLayoutAnimation(controller);
                         recyclerViewPreferiti.scheduleLayoutAnimation();
-                        Toast.makeText(getContext(), "La Sua Lista Al Momento è Vuota.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "La sua lista al momento è vuota.",Toast.LENGTH_SHORT).show();
                     }else {
                         if(TipoLista.equals("Preferiti")){
                             preferitiText.setVisibility(View.VISIBLE);

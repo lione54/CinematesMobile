@@ -99,11 +99,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private AppCompatImageButton previous;
     final ArrayList<String> listefilm = new ArrayList<>();
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiAlDatabase.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
-    private static final String PREFURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiPreferiti.php";
-    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviDaiPreferiti.php";
-    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListe.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiAlDatabase.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
+    private static final String PREFURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiPreferiti.php";
+    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviDaiPreferiti.php";
+    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListe.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
