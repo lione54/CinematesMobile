@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,34 +12,31 @@
     tools:context=".Log.ui.login.LoginActivity">
 
     <!-- AREA LOGO -->
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/logo"
             android:layout_width="341dp"
             android:layout_height="142dp"
-            android:layout_marginStart="35dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="35dp"
-            android:layout_marginRight="35dp"
-            android:layout_marginBottom="38dp"
             android:contentDescription="@string/todo1"
             app:srcCompat="@drawable/logo_cinemates" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <!-- AREA LOGIN -->
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/username"
-            android:layout_width="350dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:autofillHints=""
@@ -52,7 +49,7 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/password"
-            android:layout_width="350dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:autofillHints=""
@@ -66,50 +63,48 @@
             android:textColorHint="#ffffff" />
 
         <!-- FINE AREA LOGIN -->
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <!-- AREA PASSWORD FORGOTTEN -->
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="63dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
-
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="60dp"
+            android:layout_marginRight="10dp"
             android:text="@string/descriptionforgottenpassword"
             android:textColor="#ffffff" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/desclickforgottenpassword"
             android:textColor="#2565AE" />
 
         <!-- END AREA PASSWORD FORGOTTEN -->
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <!-- AREA CONFIRM LOGIN -->
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="131dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login"
-            android:layout_width="332dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:background="@color/ColorCineOrange"
-            android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:drawableEnd="@drawable/ic_right_arrow"
             android:drawableTint="@color/ColorCineBlack"
             android:enabled="false"
             android:text="@string/Accedi"
@@ -118,22 +113,14 @@
             android:textColorLink="#000000"
             android:textSize="18sp"/>
 
-        <!-- END AREA CONFIRM LOGIN -->
-    </LinearLayout>
-
-    <!-- AREA LOGIN GOOGLE & FACEBOOK -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="147dp"
-        android:orientation="vertical">
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/logingoogle"
-            android:layout_width="332dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="#DB4437"
             android:clickable="true"
+            android:layout_marginTop="40dp"
             android:drawableStart="@drawable/ic_googleminimal"
             android:enabled="false"
             android:focusable="true"
@@ -146,7 +133,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginfacebook"
-            android:layout_width="332dp"
+            android:layout_width="300dp"
             android:layout_height="51dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
@@ -161,6 +148,9 @@
             tools:text="Accedi con Facebook" />
 
         <!-- END AREA LOGIN GOOGLE & FACEBOOK -->
-    </LinearLayout>
 
-</LinearLayout>
+        <!-- END AREA CONFIRM LOGIN -->
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

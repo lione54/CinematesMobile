@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,13 +10,13 @@
     tools:context=".SignIn.RegisterFieldsActivity">
 
     <!-- INIZIO HEADER -->
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/createyouraccount"
             android:layout_width="204dp"
             android:layout_height="83dp"
@@ -28,7 +28,7 @@
             android:textSize="32sp"
             android:textStyle="bold"/>
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/sofa"
             android:layout_width="87dp"
             android:layout_height="83dp"
@@ -37,23 +37,23 @@
             android:layout_marginBottom="20dp"
             android:contentDescription="@string/poltrona"
             app:srcCompat="@drawable/ic_poltrona" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
     <!-- FINE HEADER -->
 
     <!-- INIZIO CONTAINER -->
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/Container"
         android:layout_width="match_parent"
-        android:layout_height="511dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/InsertNome"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="56dp"
             android:autofillHints=""
             android:drawableEnd="@drawable/ic_baseline_create_24"
             android:drawablePadding="5dp"
@@ -63,13 +63,11 @@
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/InsertCognome"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="56dp"
             android:autofillHints=""
             android:drawableEnd="@drawable/ic_baseline_create_24"
             android:ems="10"
@@ -78,13 +76,11 @@
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/InsertPassword"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="56dp"
             android:autofillHints=""
             android:drawableEnd="@drawable/ic_baseline_lock_24"
             android:ems="10"
@@ -93,13 +89,11 @@
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/RepeatPassword"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="56dp"
             android:autofillHints=""
             android:drawableEnd="@drawable/ic_baseline_lock_24"
             android:ems="10"
@@ -108,13 +102,11 @@
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/Bday"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="56dp"
             android:autofillHints=""
             android:drawableEnd="@drawable/ic_baseline_cake_24"
             android:ems="10"
@@ -167,13 +159,11 @@
 
         </RadioGroup>
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/InsertUsername"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="55dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="14dp"
             android:autofillHints=""
             android:drawableEnd="@drawable/ic_baseline_person_24"
@@ -188,10 +178,7 @@
             android:id="@+id/Confirmation"
             android:layout_width="300dp"
             android:layout_height="51dp"
-            android:layout_marginStart="52dp"
             android:layout_marginTop="9dp"
-            android:layout_marginEnd="59dp"
-            android:layout_marginBottom="68dp"
             android:background="#FF8C00"
             android:drawableEnd="@drawable/ic_iconfinder_movies_and_entertainment_ticket_cinema_theatre_show_6611353"
             android:text="@string/ciak_azione"
@@ -199,31 +186,15 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
-
-    <!-- INIZIO CONTAINER -->
-    <LinearLayout
-        android:id="@+id/Footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <ProgressBar
             android:id="@+id/progressBarRegister3"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="250dp"
+            android:layout_marginTop="25dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="81dp"
-            android:layout_marginBottom="14dp"
             android:indeterminate="false"
             android:progress="66"
-            android:theme="@style/ProgressBarStyle"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
-    </LinearLayout>
+            android:theme="@style/ProgressBarStyle" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

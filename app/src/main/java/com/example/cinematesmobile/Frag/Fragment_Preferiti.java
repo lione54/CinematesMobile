@@ -60,7 +60,7 @@ public class Fragment_Preferiti extends Fragment {
     private String scelta = "Scelga la lista da visualizzare.";
     private NiceSpinner listePresenti;
     private String ListaSelezionata = null;
-    private static final String URL = "http://192.168.178.48192.168.1.9/cinematesdb/PrendiDaLista.php";
+    private static final String URL = "http://192.168.178.48/cinematesdb/PrendiDaLista.php";
     private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
     private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListeDaVisualizzare.php";
     public static final String JSON_ARRAY = "dbdata";

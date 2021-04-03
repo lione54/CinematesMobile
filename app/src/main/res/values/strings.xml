@@ -40,7 +40,7 @@
     <string name="poltrona">TODO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="notifiche">notifiche</string>
+    <string name="notifiche">Notifiche</string>
     <string name="home">home</string>
     <string name="profilo">Profilo:</string>
     <string name="toprater">TopRater</string>
@@ -122,6 +122,24 @@
     <string name="attori_popular">Popular Celebrity</string>
     <string name="TestRichiestaDiAmicizia">Carlo ti ha inviato una richiesta di amicizia.</string>
     <string name="TestReportSegnalazione">La segnalazione [Spoiler es.] è stata accettata, utente bannato dalla piattaforma.</string>
+
+
+    <string name="ChiSiamo">Chi siamo?</string>
+    <string name="primariga">Cari cinefili,</string>
+    <string name="secondariga">"Siamo una community che, per conto dell'azienda SoftEngUniNA, si è dedicati nella realizzazione di questa piattaforma social che permetta a tutti i cinefili di potersi ritrovare in un luogo comune dove saper consigliare, recensire e interagire con gli utenti". Tale Applicazione è stata sviluppata per conto dei seguenti emittenti : </string>
+    <string name="nomeprof1">Sergio Di Martino</string>
+    <string name="nomeprof2">Luigi Starace</string>
+    <string name="nomeprof3">Francesco(?) Cutugno</string>
+    <string name="daiseguenti">dai seguenti destinatari allo sviluppo del suddetto Applicativo Android:</string>
+    <string name="nomepartecipante1">Mattia Golino (N86001982)</string>
+    <string name="nomepartecipante2">Davide Belardi (N86001864)</string>
+    <string name="nomepartecipante3">Carlo Lupara (NonSoLaMatricola)</string>
+    <string name="moviedb">"L'applicazione è stata resa possibile grazie all'utilizzo delle Api condivise dal seguente sito (The Movie DB) di cui se ne pongono i ringraziamenti"</string>
+    <string name="oppure">- oppure -</string>
+    <string name="creapassword">CREA NUOVA PASSWORD</string>
+    <string name="confermanuovapassword">Conferma nuova password</string>
+
+
 </resources>
 
 
