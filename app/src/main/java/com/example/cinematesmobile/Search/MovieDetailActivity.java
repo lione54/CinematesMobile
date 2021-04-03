@@ -11,7 +11,6 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -93,17 +92,17 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String crealista = "Nuova Lista";
     private AppCompatTextView rates;
     private boolean stato;
-    private String utente = "mattia.golino@gmail.com";
+    private String UserName = "lione54";
     private boolean firstuse = true;
     private LinearLayoutCompat rates_layout;
     private AppCompatImageButton previous;
     final ArrayList<String> listefilm = new ArrayList<>();
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiAlDatabase.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
-    private static final String PREFURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiPreferiti.php";
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviDaiPreferiti.php";
-    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListe.php";
+    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiFilmAlDatabase.php";
+    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
+    private static final String PREFURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiPreferiti.php";
+    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviDaiPreferiti.php";
+    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListe.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,9 +137,9 @@ public class MovieDetailActivity extends AppCompatActivity {
             firstuse = false;
             listefilm.add(preferiti);
             listefilm.add(crealista);
-            ListePresenti(utente);
+            ListePresenti(UserName);
         }else{
-            ListePresenti(utente);
+            ListePresenti(UserName);
         }
         String lingua = "it-IT";
         Intent intent = getIntent();
@@ -151,7 +150,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         if ( intent != null && intent.getExtras()!= null ){
             if(intent.getExtras().getString("id")!=null) {
                 int id = Integer.parseInt(intent.getExtras().getString("id"));
-                verificaSePresenteNeiPreferiti(id, utente);
+                verificaSePresenteNeiPreferiti(id, UserName);
                 Call<MovieDetail> movieDetailCall = retrofitService2.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
                 movieDetailCall.enqueue(new Callback<MovieDetail>() {
                     @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
@@ -159,7 +158,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         if(movieDetailResponse != null){
                             prepareMovieDetails(movieDetailResponse);
                             id_film = movieDetailResponse.getId();
-                            stringPoster.append(movieDetailResponse.getBackdrop_path());
+                            stringPoster.append(movieDetailResponse.getPoster_path());
                             stringTitolo.append(movieDetailResponse.getTitle());
                         }else{
                             Toast.makeText(MovieDetailActivity.this,"Nessun dettaglio trovato",Toast.LENGTH_SHORT).show();
@@ -195,11 +194,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                         @Override public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
                             if(stato == false) {
                                 tipoLista = "Preferiti";
-                                InserisciNelleListe(id, stringPoster.toString(), stringTitolo.toString(), tipoLista, utente);
+                                InserisciNelleListe(id, stringPoster.toString(), stringTitolo.toString(), tipoLista, UserName);
                                 CuorePreferiti.setImageResource(R.drawable.ic_likeactive);
                                 stato = true;
                             }else {
-                                RimuoviDaiPreferiti(id, utente);
+                                RimuoviDaiPreferiti(id, UserName);
                                 CuorePreferiti.setImageResource(R.drawable.ic_like);
                                 recreate();
                             }
@@ -229,7 +228,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                         tipoLista = InserisciTitolo.getText().toString();
                                         listefilm.add(tipoLista);
                                         aggiungiA.attachDataSource(listefilm);
-                                        verificaNomeLista(id_film, utente, tipoLista, stringPoster.toString(), stringTitolo.toString());
+                                        verificaNomeLista(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
                                         CreaLista.dismiss();
                                     }else{
                                         Toast.makeText(MovieDetailActivity.this, "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
@@ -244,7 +243,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }else{
                             int numero = aggiungiA.getSelectedIndex();
                             tipoLista = String.valueOf(listefilm.get(numero));
-                            verificaSePresente(id_film, utente, tipoLista, stringPoster.toString(), stringTitolo.toString());
+                            verificaSePresente(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
                         }
                     }
                     @Override public void onNothingSelected(AdapterView<?> parent) {
@@ -257,6 +256,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         intent1.putExtra("Id_Film", id_film);
                         intent1.putExtra("Titolo_Film", stringTitolo.toString());
                         intent1.putExtra("Immagine_Poster", stringPoster.toString());
+                        intent1.putExtra("Nome_Utente", UserName);
                         startActivity(intent1);
                     }
                 });

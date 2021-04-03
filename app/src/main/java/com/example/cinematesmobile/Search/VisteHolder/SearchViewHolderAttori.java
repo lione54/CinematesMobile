@@ -3,8 +3,10 @@ package com.example.cinematesmobile.Search.VisteHolder;
 import android.content.Context;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,21 +15,19 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.squareup.picasso.Picasso;
 
-public class SearchViewHolder extends RecyclerView.ViewHolder {
+import de.hdodenhof.circleimageview.CircleImageView;
 
-    private KenBurnsView posterImageView;
+public class SearchViewHolderAttori extends RecyclerView.ViewHolder {
+
+    private CircleImageView posterImageView;
     public AppCompatTextView posterTitle;
-    public AppCompatTextView Genere;
-    public AppCompatTextView Voto;
+    public AppCompatTextView ruolo;
 
-    public SearchViewHolder(@NonNull View itemView) {
+    public SearchViewHolderAttori(@NonNull View itemView) {
         super(itemView);
-        posterImageView = itemView.findViewById(R.id.poster_image_view);
-        posterTitle = itemView.findViewById(R.id.titolo_poster);
-        Voto = itemView.findViewById(R.id.film_votazione_generale);
-        Genere = itemView.findViewById(R.id.film_detail_genere);
-        RandomTransitionGenerator generator = new RandomTransitionGenerator(1000, new DecelerateInterpolator());
-        posterImageView.setTransitionGenerator(generator);
+        posterImageView = itemView.findViewById(R.id.image_celebrity);
+        posterTitle = itemView.findViewById(R.id.nome_attore);
+        ruolo = itemView.findViewById(R.id.ruolo_attore);
     }
 
     public void setPosterImageView(Context context, String Posterurl) {

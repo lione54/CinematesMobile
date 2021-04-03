@@ -1,4 +1,4 @@
-package com.example.cinematesmobile.Search.Adapters;
+package com.example.cinematesmobile.Frag.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,8 +25,7 @@ public class MovieListHomeAdapter extends RecyclerView.Adapter<SearchViewHolder>
         this.results = results;
     }
 
-    @NonNull
-    @Override public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    @NonNull @Override public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(R.layout.layout_list_movie_home, viewGroup, false);
         return new SearchViewHolder(view);
     }

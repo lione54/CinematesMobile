@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/profilo"
-        android:name="com.example.cinematesmobile.Frag.Profilo"
+        android:name="com.example.cinematesmobile.Frag.ProfiloFragment"
         android:label="fragment_profilo"
         tools:layout="@layout/fragment_profilo" >
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_Preferiti"
-        android:name="com.example.cinematesmobile.Frag.Fragment_Preferiti"
+        android:name="com.example.cinematesmobile.Frag.FragmentPreferiti"
         android:label="fragment__preferiti"
         tools:layout="@layout/fragment__preferiti" >
         <action

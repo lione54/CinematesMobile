@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.jsibbold:zoomage:1.2.0-SNAPSHOT'
     implementation 'com.android.volley:volley:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
 }
 

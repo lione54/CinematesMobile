@@ -2,11 +2,13 @@ package com.example.cinematesmobile.Search.Interfaces;
 
 import com.example.cinematesmobile.Search.Model.AttoriDetails;
 import com.example.cinematesmobile.Search.Model.AttoriImage;
-import com.example.cinematesmobile.Search.Model.AttoriImmageResult;
+import com.example.cinematesmobile.Search.Model.AttoriPopularResponse;
 import com.example.cinematesmobile.Search.Model.AttoriResponse;
+import com.example.cinematesmobile.Search.Model.GeneriResponse;
 import com.example.cinematesmobile.Search.Model.MovieDetail;
 import com.example.cinematesmobile.Search.Model.MovieImage;
 import com.example.cinematesmobile.Search.Model.MovieResponse;
+import com.example.cinematesmobile.Search.Model.NowPlayngResponse;
 import com.example.cinematesmobile.Search.Model.PopularResponse;
 import com.example.cinematesmobile.Search.Model.TopRatedResponse;
 import com.example.cinematesmobile.Search.Model.UpcomingResponse;
@@ -44,4 +46,12 @@ public interface RetrofitService {
     @GET("movie/{movie_id}/images")
     Call<MovieImage> getMovieImage(@Path("movie_id") int person_id, @Query("api_key") String api_key);
 
+    @GET("person/popular")
+    Call<AttoriPopularResponse> getAttoriPopular(@Query("api_key") String api_key, @Query("language") String lingua);
+
+    @GET("movie/now_playing")
+    Call<NowPlayngResponse> getNowPlayng(@Query("api_key") String api_key, @Query("language") String lingua);
+
+    @GET("genre/movie/list")
+    Call<GeneriResponse> getGeneri(@Query("api_key") String api_key, @Query("language") String lingua);
 }

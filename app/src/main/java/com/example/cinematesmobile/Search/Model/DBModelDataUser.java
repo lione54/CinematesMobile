@@ -1,6 +1,7 @@
 package com.example.cinematesmobile.Search.Model;
 
 public class DBModelDataUser {
+
     private String Username;
     private String immagineProfilo;
     private Integer id_utente;

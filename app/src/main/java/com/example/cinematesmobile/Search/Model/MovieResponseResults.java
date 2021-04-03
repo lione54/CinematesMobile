@@ -6,7 +6,7 @@ import java.util.List;
 public class MovieResponseResults {
     private boolean for_adult;
     private String backdrop_path;
-    private List<Integer> genre_id;
+    private List<Integer> genre_ids;
     private int id;
     private String original_language;
     private String original_title;
@@ -23,7 +23,7 @@ public class MovieResponseResults {
     public MovieResponseResults(boolean for_adult, String backdrop_path, List<Integer> genre_id, int id, String original_language, String original_title, String overview, String poster_path, String release_date, String title, boolean video, float vote_average) {
         this.for_adult = for_adult;
         this.backdrop_path = backdrop_path;
-        this.genre_id = genre_id;
+        this.genre_ids = genre_id;
         this.id = id;
         this.original_language = original_language;
         this.original_title = original_title;
@@ -52,11 +52,11 @@ public class MovieResponseResults {
     }
 
     public List<Integer> getGenre_id() {
-        return genre_id;
+        return genre_ids;
     }
 
     public void setGenre_id(List<Integer> genre_id) {
-        this.genre_id = genre_id;
+        this.genre_ids = genre_id;
     }
 
     public int getId() {

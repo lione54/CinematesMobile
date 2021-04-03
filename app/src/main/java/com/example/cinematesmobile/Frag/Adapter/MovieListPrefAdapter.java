@@ -1,4 +1,4 @@
-package com.example.cinematesmobile.Search.Adapters;
+package com.example.cinematesmobile.Frag.Adapter;
 
 import android.content.Context;
 import android.content.Intent;

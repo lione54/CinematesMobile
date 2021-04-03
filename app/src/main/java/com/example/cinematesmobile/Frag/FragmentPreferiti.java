@@ -22,7 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.Adapters.MovieListPrefAdapter;
+import com.example.cinematesmobile.Frag.Adapter.MovieListPrefAdapter;
 import com.example.cinematesmobile.Search.Model.DBModelDataFilms;
 
 import org.angmarch.views.NiceSpinner;
@@ -38,11 +38,11 @@ import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_Preferiti#newInstance} factory method to
+ * Use the {@link FragmentPreferiti#newInstance} factory method to
  * create an instance of this fragment.
  */
 @SuppressWarnings("ALL")
-public class Fragment_Preferiti extends Fragment {
+public class FragmentPreferiti extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,14 +55,14 @@ public class Fragment_Preferiti extends Fragment {
     private static final String lingua = "it-IT";
     private List<DBModelDataFilms> preferiti;
     final ArrayList<String> listefilmutente = new ArrayList<>();
-    private String user = "mattia.golino@gmail.com";
+    private String UsernameProprietario;
     private MovieListPrefAdapter moviedetailAdapter;
     private String scelta = "Scelga la lista da visualizzare.";
     private NiceSpinner listePresenti;
     private String ListaSelezionata = null;
-    private static final String URL = "http://192.168.178.48/cinematesdb/PrendiDaLista.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
-    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListeDaVisualizzare.php";
+    private static final String URL = "http://192.168.1.9/cinematesdb/PrendiDaLista.php";
+    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
+    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListeDaVisualizzare.php";
     public static final String JSON_ARRAY = "dbdata";
     private ArrayList<Integer> id_preferti = new ArrayList<>();
     private ArrayList<Integer> id_presente = new ArrayList<>();
@@ -73,7 +73,7 @@ public class Fragment_Preferiti extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Fragment_Preferiti() {
+    public FragmentPreferiti() {
         // Required empty public constructor
     }
 
@@ -86,8 +86,8 @@ public class Fragment_Preferiti extends Fragment {
      * @return A new instance of fragment Fragment_Preferiti.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_Preferiti newInstance(String param1, String param2) {
-        Fragment_Preferiti fragment = new Fragment_Preferiti();
+    public static FragmentPreferiti newInstance(String param1, String param2) {
+        FragmentPreferiti fragment = new FragmentPreferiti();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -104,14 +104,15 @@ public class Fragment_Preferiti extends Fragment {
     }
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        UsernameProprietario = this.getArguments().getString("Username");
         View v = inflater.inflate(R.layout.fragment__preferiti, container, false);
         listePresenti = v.findViewById(R.id.liste_presenti);
         if(inizializza == true) {
             inizializza = false;
             listefilmutente.add(scelta);
-            ListePresenti(user);
+            ListePresenti(UsernameProprietario);
         }else{
-            ListePresenti(user);
+            ListePresenti(UsernameProprietario);
         }
         preferitiText = v.findViewById(R.id.preferiti_text);
         davedereText = v.findViewById(R.id.davedere_text);
@@ -124,7 +125,7 @@ public class Fragment_Preferiti extends Fragment {
                     int numero = listePresenti.getSelectedIndex();
                     ListaSelezionata = String.valueOf(listefilmutente.get(numero));
                     preferiti = new ArrayList<>();
-                    PrendiDaListe(user, ListaSelezionata);
+                    PrendiDaListe(UsernameProprietario, ListaSelezionata);
                 }
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {
@@ -136,10 +137,10 @@ public class Fragment_Preferiti extends Fragment {
     @Override public void onResume() {
         super.onResume();
         for (int i = 0; i<id_preferti.size(); i++){
-            verificaSePresente(id_preferti.get(i), user, ListaSelezionata);
+            verificaSePresente(id_preferti.get(i), UsernameProprietario, ListaSelezionata);
         }
         if (id_preferti.size() != id_presente.size() || firstuse == false) {
-            PrendiDaListe(user, ListaSelezionata);
+            PrendiDaListe(UsernameProprietario, ListaSelezionata);
         }
     }
 

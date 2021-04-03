@@ -87,7 +87,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/attori_popular_recycleView"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/recommendations_text_view" />
 
             <!-- FINE SLIDER ATTORI POPULAR FILMS -->
@@ -99,9 +99,9 @@
                 android:layout_width="195dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:drawableRight="@drawable/ic_fire_flame"
                 android:fontFamily="@font/maven_pro"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/popular_film"
                 android:textColor="#FF8C00"
@@ -126,9 +126,9 @@
                 android:layout_width="203dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:drawableRight="@drawable/ic_arrows"
                 android:fontFamily="@font/maven_pro"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/top_rated_film"
                 android:textColor="#FF8C00"
@@ -146,33 +146,6 @@
 
             <!-- FINE FILM TOP RATED -->
 
-            <!-- INIZIO AREA LATEST FILMS TESTO -->
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/latest_film"
-                android:layout_width="172dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:drawableRight="@drawable/ic_calendar"
-                android:fontFamily="@font/maven_pro"
-                android:layout_marginTop="10dp"
-                android:text="@string/latest_film"
-                android:textColor="#FF8C00"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <!-- FINE AREA LATEST FILMS TESTO -->
-
-            <!-- SLIDER LATEST FILMS -->
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/latest_film_recycleView"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:layout_constraintBottom_toBottomOf="@id/recommendations_text_view" />
-
-            <!-- FINE SLIDER LATEST FILMS -->
 
             <!-- INIZIO AREA NOW PLAYING FILMS TESTO -->
 
@@ -182,9 +155,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:drawableRight="@drawable/ic_play"
                 android:fontFamily="@font/maven_pro"
-                android:layout_marginTop="10dp"
                 android:text="@string/nowplayingfilm"
                 android:textColor="#FF8C00"
                 android:textSize="24sp"

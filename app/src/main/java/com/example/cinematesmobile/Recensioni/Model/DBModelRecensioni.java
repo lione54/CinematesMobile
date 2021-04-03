@@ -5,22 +5,22 @@ import java.util.Date;
 public class DBModelRecensioni {
 
     private Integer Id_Recensione;
-    private Integer Id_Film_Recensioni;
-    private Integer Valutazione;
+    private Float Valutazione;
     private String User_Recensore;
-    private Date Data_Pubblicazione;
+    private String Data_Pubblicazione;
     private String Testo_Recensione;
+    private String Foto;
 
     public DBModelRecensioni() {
     }
 
-    public DBModelRecensioni(Integer id_Recensione, Integer id_Film_Recensioni, Integer valutazione, String user_Recensore, Date data_Pubblicazione, String testo_Recensione) {
+    public DBModelRecensioni(Integer id_Recensione, Float valutazione, String user_Recensore, String data_Pubblicazione, String testo_Recensione, String foto) {
         Id_Recensione = id_Recensione;
-        Id_Film_Recensioni = id_Film_Recensioni;
         Valutazione = valutazione;
         User_Recensore = user_Recensore;
         Data_Pubblicazione = data_Pubblicazione;
         Testo_Recensione = testo_Recensione;
+        Foto = foto;
     }
 
     public Integer getId_Recensione() {
@@ -31,19 +31,11 @@ public class DBModelRecensioni {
         Id_Recensione = id_Recensione;
     }
 
-    public Integer getId_Film_Recensioni() {
-        return Id_Film_Recensioni;
-    }
-
-    public void setId_Film_Recensioni(Integer id_Film_Recensioni) {
-        Id_Film_Recensioni = id_Film_Recensioni;
-    }
-
-    public Integer getValutazione() {
+    public Float getValutazione() {
         return Valutazione;
     }
 
-    public void setValutazione(Integer valutazione) {
+    public void setValutazione(Float valutazione) {
         Valutazione = valutazione;
     }
 
@@ -55,11 +47,11 @@ public class DBModelRecensioni {
         User_Recensore = user_Recensore;
     }
 
-    public Date getData_Pubblicazione() {
+    public String getData_Pubblicazione() {
         return Data_Pubblicazione;
     }
 
-    public void setData_Pubblicazione(Date data_Pubblicazione) {
+    public void setData_Pubblicazione(String data_Pubblicazione) {
         Data_Pubblicazione = data_Pubblicazione;
     }
 
@@ -69,5 +61,13 @@ public class DBModelRecensioni {
 
     public void setTesto_Recensione(String testo_Recensione) {
         Testo_Recensione = testo_Recensione;
+    }
+
+    public String getFoto() {
+        return Foto;
+    }
+
+    public void setFoto(String foto) {
+        Foto = foto;
     }
 }

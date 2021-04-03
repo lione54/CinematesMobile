@@ -161,7 +161,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/maven_pro"
                 android:gravity="center"
-                android:text="@string/Amici"
+                android:text="@string/utente"
                 android:textAllCaps="true"
                 android:textColor="@color/ColorCineBlack"
                 android:textSize="13sp"
@@ -173,6 +173,5 @@
         android:id="@+id/results_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/AreaCampiRicerca"
-        android:layout_marginTop="-1dp" />
+        android:layout_below="@+id/AreaCampiRicerca"/>
 </RelativeLayout>

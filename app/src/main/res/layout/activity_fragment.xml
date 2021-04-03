@@ -26,10 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_gravity="bottom"
-        android:background="#FF8C00"
+        android:background="@color/ColorCineOrange"
         app:itemHorizontalTranslationEnabled="true"
-        app:itemIconTint="#0E1111"
-        app:itemTextColor="#0E1111"
+        app:itemIconTint="@color/ColorCineBlack"
         app:menu="@menu/menu"
         app:labelVisibilityMode="unlabeled"/>
 

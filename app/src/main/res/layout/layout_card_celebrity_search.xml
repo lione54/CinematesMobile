@@ -5,46 +5,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:backgroundTint="@color/ColorCineBlack"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:orientation="horizontal"
+        android:background="@color/ColorCineBlack"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_celebrity"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/radius_profile"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="89dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:layout_height="wrap_content">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nome_attore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Actor Name"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
             android:textSize="20sp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/ColorCineOrange"
             android:textStyle="bold"/>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Role: Regist/Actor [es.]"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/ColorCineOrange"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/ColorCineOrange"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ruolo_attore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/ColorCineOrange"/>
+            </LinearLayout>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.cardview.widget.CardView>

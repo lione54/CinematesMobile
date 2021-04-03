@@ -24,8 +24,8 @@
         android:title="@string/cerca"
         app:showAsAction="withText" />
     <item
-        android:id="@+id/profilo_"
+        android:id="@+id/Profilo"
+        android:title="@string/profilo2"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/profilo"
         app:showAsAction="withText" />
 </menu>

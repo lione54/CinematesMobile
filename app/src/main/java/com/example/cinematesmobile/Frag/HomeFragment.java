@@ -17,11 +17,15 @@ import android.widget.Toast;
 
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.Adapters.MovieListHomeAdapter;
+import com.example.cinematesmobile.Frag.Adapter.AttoriPopularAdapter;
+import com.example.cinematesmobile.Frag.Adapter.MovieListHomeAdapter;
 import com.example.cinematesmobile.Search.Adapters.UpcomingSearchAdapter;
 import com.example.cinematesmobile.Search.Client.RetrofitClient;
 import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
+import com.example.cinematesmobile.Search.Model.AttoriPopularResponse;
+import com.example.cinematesmobile.Search.Model.AttoriResponseResults;
 import com.example.cinematesmobile.Search.Model.MovieResponseResults;
+import com.example.cinematesmobile.Search.Model.NowPlayngResponse;
 import com.example.cinematesmobile.Search.Model.PopularResponse;
 import com.example.cinematesmobile.Search.Model.TopRatedResponse;
 import com.example.cinematesmobile.Search.Model.UpcomingResponse;
@@ -44,9 +48,10 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private RecyclerView recyclerViewPopular;
-    private RecyclerView recyclerViewUpcoming, recyclerTopRated;
+    private RecyclerView recyclerViewUpcoming, recyclerTopRated, attoriPopularRecycleView, nowplayingFilmRecycleView;
     private RetrofitService retrofitService;
-    private MovieListHomeAdapter popularSearchAdapter, topRatedcomingSearchAdapter;
+    private AttoriPopularAdapter attoriPopularAdapter;
+    private MovieListHomeAdapter popularSearchAdapter, topRatedcomingSearchAdapter, nowPlayngSerchAdapter;
     private UpcomingSearchAdapter upcomingSearchAdapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -87,6 +92,8 @@ public class HomeFragment extends Fragment {
         String lingua = "it-IT";
         recyclerViewPopular = v.findViewById(R.id.recyclerView);
         recyclerViewUpcoming = v.findViewById(R.id.upcoming_recycleView);
+        attoriPopularRecycleView = v.findViewById(R.id.attori_popular_recycleView);
+        nowplayingFilmRecycleView = v.findViewById(R.id.nowplaying_film_recycleView);
         recyclerTopRated = v.findViewById(R.id.recyclerView2);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -123,7 +130,6 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
             }
         });
-
         Call<TopRatedResponse> topRatedResponseCall = retrofitService.getTopRatedByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
         topRatedResponseCall.enqueue(new Callback<TopRatedResponse>() {
             @Override public void onResponse(@NonNull Call<TopRatedResponse> call,@NonNull Response<TopRatedResponse> response) {
@@ -140,7 +146,41 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
             }
         });
+        Call<AttoriPopularResponse> attoriPopularResponseCall = retrofitService.getAttoriPopular(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        attoriPopularResponseCall.enqueue(new Callback<AttoriPopularResponse>() {
+            @Override public void onResponse(@NonNull Call<AttoriPopularResponse> call,@NonNull Response<AttoriPopularResponse> response) {
+                AttoriPopularResponse attoriPopularResponse = response.body();
+                List<AttoriResponseResults> attoriResponseResultsList = attoriPopularResponse.getResults();
+                attoriPopularRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                attoriPopularAdapter = new AttoriPopularAdapter(getActivity(), attoriResponseResultsList);
+                attoriPopularRecycleView.setAdapter(attoriPopularAdapter);
+                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
+                attoriPopularRecycleView.setLayoutAnimation(controller);
+                attoriPopularRecycleView.scheduleLayoutAnimation();
+            }
 
+            @Override public void onFailure(@NonNull Call<AttoriPopularResponse> call,@NonNull Throwable t) {
+                Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Call<NowPlayngResponse> nowPlayngResponseCall = retrofitService.getNowPlayng(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        nowPlayngResponseCall.enqueue(new Callback<NowPlayngResponse>() {
+            @Override public void onResponse(@NonNull Call<NowPlayngResponse> call,@NonNull Response<NowPlayngResponse> response) {
+                NowPlayngResponse nowPlayngResponse = response.body();
+                List<MovieResponseResults> movieResponseResultsList = nowPlayngResponse.getResults();
+                nowplayingFilmRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                nowPlayngSerchAdapter = new MovieListHomeAdapter(getActivity(), movieResponseResultsList);
+                nowplayingFilmRecycleView.setAdapter(nowPlayngSerchAdapter);
+                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
+                nowplayingFilmRecycleView.setLayoutAnimation(controller);
+                nowplayingFilmRecycleView.scheduleLayoutAnimation();
+
+            }
+
+            @Override public void onFailure(@NonNull Call<NowPlayngResponse> call,@NonNull Throwable t) {
+                Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+            }
+        });
         return v;
     }
 }

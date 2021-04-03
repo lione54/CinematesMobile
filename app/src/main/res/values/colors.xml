@@ -9,4 +9,5 @@
     <color name="colorAccent">#fff</color>
     <color name="ColorCineBlack">#0E1111</color>
     <color name="ColorCineOrange">#FF8C00</color>
+    <color name="ColorCineRed">#F80000</color>
 </resources>
