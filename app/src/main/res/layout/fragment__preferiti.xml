@@ -50,7 +50,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/preferiti_text"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableRight="@drawable/ic_like_list"
@@ -64,7 +64,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/davedere_text"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableRight="@drawable/ic_baseline_remove_red_eye_24"
@@ -78,7 +78,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/liste_personalizzate_text"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableRight="@drawable/ic_baseline_local_movies_24"

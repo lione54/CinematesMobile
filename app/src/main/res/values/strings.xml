@@ -156,6 +156,20 @@
     <string name="voto_tmdb">Voto TMDB:</string>
     <string name="voto_cinemates">Voto Cinemates:</string>
     <string name="carlo_mattia_e_altri_23_amici_consigliano_questo_film">Carlo,Mattia e altri 23 amici consigliano questo film</string>
+    <string name="inserisci_descrizione">Inserisci Descrizione</string>
+    <string name="visibilit">Visibilità:</string>
+    <string name="inserisci_una_descrizione">Inserisci Una Descrizione.</string>
+    <string name="solo_amici">Solo Amici</string>
+    <string name="tutti">Tutti</string>
+    <string name="amici">Amici</string>
+    <string name="amici_in_comune">Amici in Comune</string>
+    <string name="conutenuto_inappropriato">Conutenuto Inappropriato</string>
+    <string name="per_quale_motivo_stai_segnalando_la_recensione_di">Per Quale Motivo Stai Segnalando La Recensione Di</string>
+    <string name="spoiler">Spoiler</string>
+    <string name="razzismo">Razzismo</string>
+    <string name="altro">Altro</string>
+    <string name="inserisci_qui_il_i_motivi_se_non_presenti">Inserisci Qui Il/I Motivi Se Non Presenti.</string>
+    <string name="_5">/5</string>
 
 
 </resources>

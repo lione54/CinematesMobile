@@ -41,10 +41,110 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@color/ColorCineOrange"
             android:layout_gravity="left"
-            android:textColor="@color/ColorCineOrange"
+            android:textColor="@color/ColorCineBlack"
             android:hint="@string/nome_lista"
-            android:textColorHint="@color/ColorCineOrange"/>
+            android:textColorHint="@color/ColorCineBlack"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/Inserisci_Descrizione_Lista"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/maven_pro"
+            android:text="@string/inserisci_descrizione"
+            android:textColor="@color/ColorCineOrange"
+            android:textSize="14sp"
+            android:textStyle="bold">
+        </androidx.appcompat.widget.AppCompatTextView>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/descrizione_lista"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="left"
+            android:background="@color/ColorCineOrange"
+            android:textColor="@color/ColorCineBlack"
+            android:hint="@string/inserisci_una_descrizione"
+            android:textColorHint="@color/ColorCineBlack"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/maven_pro"
+            android:text="@string/visibilit"
+            android:textColor="@color/ColorCineOrange"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+        <RadioGroup
+            android:id="@+id/visibilità_lista"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/solo_amici"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:theme="@style/RadioButtonStyle"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/solo_amici"
+                />
+
+            <RadioButton
+                android:id="@+id/tutti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/RadioButtonStyle"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/tutti"
+                />
+
+        </RadioGroup>
+
     </LinearLayout>
 
     <LinearLayout

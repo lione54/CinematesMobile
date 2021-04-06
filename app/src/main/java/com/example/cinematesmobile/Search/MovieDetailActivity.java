@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -61,7 +63,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBilder;
     private AlertDialog CreaLista;
     private AppCompatButton Conferma,Annulla;
-    private AppCompatEditText InserisciTitolo;
+    private AppCompatEditText InserisciTitolo, InserisciDescrizione;
+    private RadioGroup visibility;
     private Integer id_film;
     private KenBurnsView MovieDetailsImageView;
     private LinearLayoutCompat filmnomeoriginalelayout;
@@ -90,6 +93,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private NiceSpinner aggiungiA;
     private String preferiti = "Aggiungi A...";
     private String crealista = "Nuova Lista";
+    private String Descrizione = "null";
+    private String Visibilità = "null";
     private AppCompatTextView rates;
     private boolean stato;
     private String UserName = "lione54";
@@ -97,12 +102,16 @@ public class MovieDetailActivity extends AppCompatActivity {
     private LinearLayoutCompat rates_layout;
     private AppCompatImageButton previous;
     final ArrayList<String> listefilm = new ArrayList<>();
+    private Integer Numero_Recensioni;
+    private double Valutazione_Media;
     public static final String JSON_ARRAY = "dbdata";
     private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiFilmAlDatabase.php";
     private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
     private static final String PREFURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiPreferiti.php";
     private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviDaiPreferiti.php";
     private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListe.php";
+    private static final String VISURL = "http://192.168.1.9/cinematesdb/PrendiAttributiLista.php";
+    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiDettagliCinemates.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,7 +209,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             }else {
                                 RimuoviDaiPreferiti(id, UserName);
                                 CuorePreferiti.setImageResource(R.drawable.ic_like);
-                                recreate();
+                                verificaSePresente(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
                             }
                         }
                     });
@@ -213,37 +222,71 @@ public class MovieDetailActivity extends AppCompatActivity {
                 aggiungiA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0){
+                        aggiungiA.setSelectedIndex(0);
                     }else if(position == 1){
                             dialogBilder = new AlertDialog.Builder(MovieDetailActivity.this);
                             final View PopUpView = getLayoutInflater().inflate(R.layout.crea_liste_pop_up, null);
                             Conferma = (AppCompatButton) PopUpView.findViewById(R.id.conferma_button);
                             Annulla = (AppCompatButton) PopUpView.findViewById(R.id.annulla_button);
                             InserisciTitolo = (AppCompatEditText) PopUpView.findViewById(R.id.inserisci_nome_lista);
+                            InserisciDescrizione = (AppCompatEditText) PopUpView.findViewById(R.id.descrizione_lista);
+                            visibility = (RadioGroup) PopUpView.findViewById(R.id.visibilità_lista);
                             dialogBilder.setView(PopUpView);
                             CreaLista = dialogBilder.create();
                             CreaLista.show();
                             Conferma.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    if(InserisciTitolo.length() > 0){
-                                        tipoLista = InserisciTitolo.getText().toString();
-                                        listefilm.add(tipoLista);
-                                        aggiungiA.attachDataSource(listefilm);
-                                        verificaNomeLista(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
-                                        CreaLista.dismiss();
+                                    if(InserisciTitolo.length() > 0 ){
+                                        int camposelezionato = visibility.getCheckedRadioButtonId();
+                                        if (camposelezionato == -1) {
+                                            Toast.makeText(MovieDetailActivity.this, "Seleziona Un Campo Di Ricerca.", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            switch (camposelezionato){
+                                                case R.id.solo_amici:
+                                                    tipoLista = InserisciTitolo.getText().toString();
+                                                    if(InserisciDescrizione.length() > 0) {
+                                                        Descrizione = InserisciDescrizione.getText().toString();
+                                                    }else{
+                                                        Descrizione = "null";
+                                                    }
+                                                    Visibilità = "Solo Amici";
+                                                    listefilm.add(tipoLista);
+                                                    aggiungiA.attachDataSource(listefilm);
+                                                    verificaNomeLista(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
+                                                    CreaLista.dismiss();
+                                                    aggiungiA.setSelectedIndex(0);
+                                                    break;
+                                                case R.id.tutti:
+                                                    tipoLista = InserisciTitolo.getText().toString();
+                                                    if(InserisciDescrizione.length() > 0) {
+                                                        Descrizione = InserisciDescrizione.getText().toString();
+                                                    }else{
+                                                        Descrizione = "null";
+                                                    }
+                                                    Visibilità = "Tutti";
+                                                    listefilm.add(tipoLista);
+                                                    aggiungiA.attachDataSource(listefilm);
+                                                    verificaNomeLista(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
+                                                    CreaLista.dismiss();
+                                                    aggiungiA.setSelectedIndex(0);
+                                                    break;
+                                            }
+                                        }
                                     }else{
-                                        Toast.makeText(MovieDetailActivity.this, "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Inserisci Titolo", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
                                     CreaLista.dismiss();
+                                    aggiungiA.setSelectedIndex(0);
                                 }
                             });
                         }else{
                             int numero = aggiungiA.getSelectedIndex();
                             tipoLista = String.valueOf(listefilm.get(numero));
-                            verificaSePresente(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
+                            PrendiAttributiLista(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
                         }
                     }
                     @Override public void onNothingSelected(AdapterView<?> parent) {
@@ -252,16 +295,89 @@ public class MovieDetailActivity extends AppCompatActivity {
                 });
                 Recensioni.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        Intent intent1 = new Intent(MovieDetailActivity.this, RecensioniActivity.class);
-                        intent1.putExtra("Id_Film", id_film);
-                        intent1.putExtra("Titolo_Film", stringTitolo.toString());
-                        intent1.putExtra("Immagine_Poster", stringPoster.toString());
-                        intent1.putExtra("Nome_Utente", UserName);
-                        startActivity(intent1);
+                        PrendiDettagliFilm(id_film, stringTitolo.toString(),  stringPoster.toString(), UserName);
                     }
                 });
             }
         }
+    }
+
+    private void PrendiDettagliFilm(Integer id_film, String Titolo, String Poster, String userName) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response){
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        String str_n_rece = object.getString("Numero_Recensioni");
+                        String str_valu = object.getString("Valutazione");
+                        if(str_valu.equals("null")){
+                            Numero_Recensioni = 0;
+                            Valutazione_Media = 0.0;
+                        }else {
+                            Numero_Recensioni = Integer.valueOf(str_n_rece);
+                            Valutazione_Media = Double.valueOf(str_valu);
+                        }
+                    }
+                    Intent intent1 = new Intent(MovieDetailActivity.this, RecensioniActivity.class);
+                    intent1.putExtra("Id_Film", id_film);
+                    intent1.putExtra("Titolo_Film", Titolo);
+                    intent1.putExtra("Immagine_Poster", Poster);
+                    intent1.putExtra("Nome_Utente", userName);
+                    intent1.putExtra("Numero_Recensioni", Numero_Recensioni);
+                    intent1.putExtra("Valutazione", Valutazione_Media);
+                    startActivity(intent1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MovieDetailActivity.this , error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @NotNull @Override protected Map<String, String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Id_Film_Inserito", String.valueOf(id_film));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void PrendiAttributiLista(Integer id_film, String userName, String tipoLista,String Poster, String Titolo) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, VISURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
+                    for(int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        Descrizione = object.getString("Descrizione");
+                        Visibilità = object.getString("Visibilita");
+                    }
+                    verificaSePresente(id_film, userName, tipoLista, Poster, Titolo);
+                }catch (Exception e){
+                    Toast.makeText(MovieDetailActivity.this, "" + e, Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MovieDetailActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            @NotNull @Override protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("User_Proprietario", userName);
+                params.put("Tipo_Lista",tipoLista);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     private void verificaNomeLista(Integer id_film, String utente, String tipoLista, String Poster, String Titolo) {
@@ -386,7 +502,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("Id_Film_Inserito", String.valueOf(id));
                 params.put("User_Proprietario", utente);
-                params.put("Tipo_Lista",tipoLista);
+                params.put("Tipo_Lista", tipoLista);
                 return params;
             }
         };
@@ -438,6 +554,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         String titoloMod = titolo.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
+                    aggiungiA.setSelectedIndex(0);
                     Toast.makeText(MovieDetailActivity.this , "Film Aggiunto Nella Lista " + tipoLista, Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
@@ -452,6 +569,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                 params.put("Id_Film_Inserito", String.valueOf(id));
                 params.put("Titolo_Film", titoloMod);
                 params.put("Url_Immagine", poster);
+                params.put("Descrizione", Descrizione);
+                params.put("Visibilita", Visibilità);
                 return params;
             }
         };

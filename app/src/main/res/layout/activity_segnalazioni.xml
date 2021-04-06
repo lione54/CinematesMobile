@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/ColorCineBlack"
+    tools:context=".Segnalazioni.SegnalazioniActivity">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/previously_segn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/ColorCineOrange"
+            android:background="@drawable/ic_baseline_arrow_back_ios_24"
+            android:contentDescription="@string/todo" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/Logo_home"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_cinemates" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="25dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/immagine_user_x_segnalazione"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nome_utente_segnalatore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/ColorCineOrange"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:fontFamily="@font/maven_pro"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/per_quale_motivo_stai_segnalando_la_recensione_di"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/nomeutente_segnalato"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/maven_pro"
+                    android:textColor="@color/ColorCineOrange"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/contenuto_ina"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkbox_style"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/conutenuto_inappropriato"
+                android:textSize="15sp"/>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/spoiler"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkbox_style"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/spoiler"
+                android:textSize="15sp"/>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/razzismo"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkbox_style"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/razzismo"
+                android:textSize="15sp"/>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/altro"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkbox_style"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/altro"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/Altra_motivazione"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:textColor="@color/ColorCineBlack"
+                android:fontFamily="@font/maven_pro"
+                android:hint="@string/inserisci_qui_il_i_motivi_se_non_presenti"
+                android:textColorHint="@color/ColorCineBlack"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal"
+            android:layout_gravity="right">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/conferma_segnalazione"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineBlack"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"
+                android:text="@string/conferma"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/Annulla_segnalazione"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineBlack"
+                android:text="@string/annulla"
+                android:textColor="@color/ColorCineOrange"
+                android:textStyle="bold"
+                android:fontFamily="@font/maven_pro"/>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>
