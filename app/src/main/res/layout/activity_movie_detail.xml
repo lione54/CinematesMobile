@@ -23,16 +23,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.github.ivbaranov.mfb.MaterialFavoriteButton
-            android:id="@+id/preferiticuore"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="right"
-            android:layout_marginTop="5dp"
-            app:mfb_favorite_image="@drawable/ic_likeactive"
-            app:mfb_not_favorite_image="@drawable/ic_like"
-            android:background="@android:color/transparent"
-            android:layout_marginRight="5dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right">
+
+            <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                android:id="@+id/occhialidavedere"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="5dp"
+                app:mfb_not_favorite_image="@drawable/ic__d_glasses"
+                app:mfb_favorite_image="@drawable/ic__d_glasses_active"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="5dp" />
+
+            <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                android:id="@+id/preferiticuore"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="5dp"
+                app:mfb_favorite_image="@drawable/ic_likeactive"
+                app:mfb_not_favorite_image="@drawable/ic_like"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="5dp" />
+
+        </LinearLayout>
 
         <ImageView
         android:layout_width="match_parent"

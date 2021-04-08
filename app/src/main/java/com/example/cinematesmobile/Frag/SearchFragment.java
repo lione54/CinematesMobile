@@ -58,6 +58,7 @@ public class SearchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String UsernameProprietario;
     private AppCompatEditText queryEditText;
     private AppCompatButton querySearchButton;
     private RecyclerView recyclerViewRicerca;
@@ -108,6 +109,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        UsernameProprietario = this.getArguments().getString("Username");
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         queryEditText = v.findViewById(R.id.query_edit_text);
         querySearchButton = v.findViewById(R.id.query_search_button);
@@ -204,7 +206,11 @@ public class SearchFragment extends Fragment {
                     if (query.equals("") || query.equals(" ")) {
                         Toast.makeText(getContext(), "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
-                        RicercaUtente(query);
+                        if(queryEditText.getText().toString().equals(UsernameProprietario)){
+                            Toast.makeText(getContext(), "Non Puoi Cercare Te Stesso", Toast.LENGTH_SHORT).show();
+                        }else {
+                            RicercaUtente(query);
+                        }
                     }
                 }
             break;
@@ -222,9 +228,11 @@ public class SearchFragment extends Fragment {
                             String str_id_utente = object.getString("Id_Utente");
                             String str_username = object.getString("UserName");
                             String str_foto_profilo = object.getString("Foto_Profilo");
+                            String str_amicizia = object.getString("Amicizia");
                             Integer id_utente = Integer.parseInt(str_id_utente);
-                            String strt_titoloMod = str_username.replaceAll("/", "'");
-                            DBModelDataUser dbModelDataUser = new DBModelDataUser(strt_titoloMod, str_foto_profilo, id_utente);
+                            Integer EsisteAmicizia = Integer.parseInt(str_amicizia);
+                            String strt_userMod = str_username.replaceAll("/", "'");
+                            DBModelDataUser dbModelDataUser = new DBModelDataUser(UsernameProprietario,strt_userMod, str_foto_profilo, id_utente, EsisteAmicizia);
                             UtentiCercati.add(dbModelDataUser);
                         }
                     if(UtentiCercati.isEmpty()){
@@ -257,6 +265,7 @@ public class SearchFragment extends Fragment {
             @Override protected Map<String, String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("UserNameDaCercare", query);
+                params.put("User_Proprietario",UsernameProprietario);
                 return params;
             }
         };

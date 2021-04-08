@@ -21,14 +21,14 @@
         android:orientation="vertical"
         android:layout_gravity="center_horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_notification"
             android:contentDescription="@string/todo" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
@@ -39,124 +39,17 @@
 
     </LinearLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Notifiche_List"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
-        <!-- SEPARATORE VIEW -->
-         <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="1dp"
-                android:background="@color/ColorCineOrange"/>
-        <!-- FINE SEPARATORE VIEW -->
-         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent" />
 
-            <ImageView
-                android:id="@+id/image_profilo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/radius_profile" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/TestRichiestaDiAmicizia"
-                    android:textColor="@color/ColorCineOrange" />
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:gravity="right"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="5dp"
-                        android:textColor="#000"
-                        android:background="@drawable/radius"
-                        android:text="Accetta" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="right"
-                        android:textColor="#000"
-                        android:background="@drawable/radius"
-                        android:text="Rifiuta" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-         <!-- SEPARATORE VIEW -->
-         <View
-             android:layout_width="match_parent"
-             android:layout_marginTop="10dp"
-             android:layout_height="1dp"
-             android:background="@color/ColorCineOrange"/>
-         <!-- FINE SEPARATORE VIEW -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/image_report"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_megaphone" />
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/TestReportSegnalazione"
-                        android:textColor="@color/ColorCineOrange" />
-
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-         <!-- SEPARATORE VIEW -->
-         <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="1dp"
-                android:background="@color/ColorCineOrange"/>
-         <!-- FINE SEPARATORE VIEW -->
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </LinearLayout>

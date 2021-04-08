@@ -11,8 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.Recensioni.RecensioniActivity;
 import com.example.cinematesmobile.Search.Client.RetrofitClient;
 import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
 import com.example.cinematesmobile.Search.Model.GeneriResponse;
@@ -23,7 +29,14 @@ import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.example.cinematesmobile.Search.VisteHolder.SearchViewHolder;
 
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +46,9 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private Activity activity;
     private List<MovieResponseResults> results;
     private RetrofitService retrofitService;
+    public static final String JSON_ARRAY = "dbdata";
+    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMediaVoti.php";
+    private Double Valutazione_Media;
 
     public MovieSearchAdapter(Activity activity, List<MovieResponseResults> results) {
         this.activity = activity;
@@ -52,6 +68,8 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         String title = responseResults.getTitle();
         Float ratings = responseResults.getVote_average();
         List<Integer> id_generi = responseResults.getGenre_id();
+        int id = responseResults.getId();
+        PrendiVotoMedioDaDB(id, searchViewHolder);
         Call<GeneriResponse> generiResponseCall = retrofitService.getGeneri(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         generiResponseCall.enqueue(new Callback<GeneriResponse>() {
             @Override public void onResponse(@NonNull Call<GeneriResponse> call,@NonNull Response<GeneriResponse> response) {
@@ -82,7 +100,6 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 Toast.makeText(activity,"Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
             }
         });
-        int id = responseResults.getId();
         if(title != null){
             searchViewHolder.posterTitle.setVisibility(View.VISIBLE);
             searchViewHolder.posterTitle.setText(title);
@@ -109,6 +126,41 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 activity.startActivity(intent);
             }
         });
+    }
+
+    private void PrendiVotoMedioDaDB(int id, SearchViewHolder searchViewHolder) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response){
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        String str_valu = object.getString("Valutazione");
+                        if(str_valu.equals("null")){
+                            Valutazione_Media = 0.0;
+                        }else {
+                            Valutazione_Media = Double.valueOf(str_valu);
+                        }
+                    }
+                    searchViewHolder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @NotNull @Override protected Map<String, String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Id_Film_Inserito", String.valueOf(id));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(stringRequest);
     }
 
     @Override public int getItemCount() {

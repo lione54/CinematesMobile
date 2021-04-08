@@ -22,7 +22,6 @@ import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Recensioni.Adapter.RecensioniAdapter;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
-import com.example.cinematesmobile.Segnalazioni.SegnalazioniActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -75,12 +74,12 @@ public class RecensioniActivity extends AppCompatActivity {
         Voto_Medio.setText(String.valueOf(Val));
         recensioniList = new ArrayList<>();
         RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        PrendiRecensioni(Id_Film, Utente);
+        PrendiRecensioni(Titolo_film, Utente);
         firstuse = false;
         Glide.with(RecensioniActivity.this).load(Poster).into(PosterFilmRece);
         ScriviRecensione.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                PrendiFotoProfiloUtente(Utente,Id_Film);
+                PrendiFotoProfiloUtente(Utente,Titolo_film);
             }
         });
         Previously.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +89,7 @@ public class RecensioniActivity extends AppCompatActivity {
         });
     }
 
-    private void PrendiFotoProfiloUtente(String utente, Integer id_film) {
+    private void PrendiFotoProfiloUtente(String utente, String titolo_film) {
         final String[] Foto = new String[1];
         StringRequest stringRequest = new StringRequest(Request.Method.POST, FOTURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response) {
@@ -101,7 +100,7 @@ public class RecensioniActivity extends AppCompatActivity {
                         JSONObject object = array.getJSONObject(i);
                         Foto[0] = object.getString("Foto_Profilo");
                     }
-                    verificaSePresente(id_film, Foto[0], utente);
+                    verificaSePresente(titolo_film, Foto[0], utente);
                 }catch (Exception e){
                     Toast.makeText(RecensioniActivity.this, "" + e, Toast.LENGTH_LONG).show();
                 }
@@ -125,11 +124,12 @@ public class RecensioniActivity extends AppCompatActivity {
     @Override protected void onResume() {
         super.onResume();
         firstuse = false;
-        PrendiRecensioni(Id_Film, Utente);
+        PrendiRecensioni(Titolo_film, Utente);
     }
 
-    private void verificaSePresente(Integer id_film, String Foto, String nomeUtente) {
+    private void verificaSePresente(String titolo_film, String Foto, String nomeUtente) {
         final int[] validiti = new int[1];
+        String titoloMod = titolo_film.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, VERURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response) {
                 try{
@@ -143,7 +143,7 @@ public class RecensioniActivity extends AppCompatActivity {
                     if(validiti[0] == 0) {
                         Intent intent2 = new Intent(RecensioniActivity.this, ScriviRecensioneActivity.class);
                         intent2.putExtra("Nome_Utente", nomeUtente);
-                        intent2.putExtra("Id_Film", id_film);
+                        intent2.putExtra("Titolo_Film", titolo_film);
                         intent2.putExtra("Foto_Profilo", Foto);
                         startActivity(intent2);
                     }else{
@@ -161,7 +161,7 @@ public class RecensioniActivity extends AppCompatActivity {
         {
             @NotNull @Override protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("Id_Film_Recensito", String.valueOf(id_film));
+                params.put("Titolo_Film_Recensito", titoloMod);
                 params.put("User_Recensore", nomeUtente);
                 return params;
             }
@@ -170,7 +170,8 @@ public class RecensioniActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void PrendiRecensioni(Integer id_film, String utente) {
+    private void PrendiRecensioni(String titolo_film, String utente) {
+        String Titolo_Mod = titolo_film.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
                 try {
@@ -230,7 +231,7 @@ public class RecensioniActivity extends AppCompatActivity {
         }) {
             @NotNull @Override protected Map<String, String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("Id_Film_Inserito", String.valueOf(id_film));
+                params.put("Titolo_Film_Recensito", Titolo_Mod);
                 return params;
             }
         };

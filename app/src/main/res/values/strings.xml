@@ -170,6 +170,20 @@
     <string name="altro">Altro</string>
     <string name="inserisci_qui_il_i_motivi_se_non_presenti">Inserisci Qui Il/I Motivi Se Non Presenti.</string>
     <string name="_5">/5</string>
+    <string name="inserisci_vecchia_password">Inserisci Vecchia Password</string>
+    <string name="inserisci_nuova_password">Inserisci Nuova Password</string>
+    <string name="conferma_nuova_password">Conferma Nuova Password</string>
+    <string name="ti_ha_inviato_una_richiesta_di_amicizia">ti ha inviato una richiesta di amicizia</string>
+    <string name="rimuovi">Rimuovi</string>
+    <string name="rifiuta">Rifiuta</string>
+    <string name="accetta">Accetta</string>
+    <string name="ha_accettato_la_tua_richiesta">ha accettato la tua richiesta</string>
+    <string name="la_segnalazione_della_sua_recensione">La segnalazione della recensione del film</string>
+    <string name="per_la_seguente_motivazione">per la seguente motivazione</string>
+    <string name="stata_accettata_per_cui_la_sua_recensione_stata_eliminata">è stata accettata per cui la recensione è stata eliminata.</string>
+    <string name="stata_declinata">è stata declinata.</string>
+    <string name="cordialmente">Cordialmente</string>
+    <string name="gli_amministratori">Gli Amministratori</string>
 
 
 </resources>

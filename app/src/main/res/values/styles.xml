@@ -59,4 +59,25 @@
         <item name="android:minHeight">50dp</item>
         <item name="android:maxHeight">50dp</item>
     </style>
+
+    <style name="PasswordPopUpMenu" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/ColorCineOrange</item>
+        <item name="passwordToggleEnabled">true</item>
+        <item name="hintTextColor">@color/ColorCineOrange</item>
+        <item name="errorTextColor">@color/ColorCineRed</item>
+        <item name="colorControlNormal">@color/ColorCineOrange</item>
+        <item name="colorControlActivated">@color/ColorCineOrange</item>
+    </style>
+
+    <style name="PasswordPopUpMenuNuova" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/ColorCineOrange</item>
+        <item name="passwordToggleEnabled">true</item>
+        <item name="hintTextColor">@color/ColorCineOrange</item>
+        <item name="errorTextColor">@color/ColorCineRed</item>
+        <item name="colorControlNormal">@color/ColorCineOrange</item>
+        <item name="colorControlActivated">@color/ColorCineOrange</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterMaxLength">20</item>
+    </style>
+
 </resources>

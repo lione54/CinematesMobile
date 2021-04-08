@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Popup_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ColorCineBlack">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo_popup"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_cinemates"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_vecchia_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/inserisci_vecchia_password"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            android:theme="@style/PasswordPopUpMenu">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Inserisci_VecchiaPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left"
+                android:textColor="@color/ColorCineOrange"
+                android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_nuova_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/PasswordPopUpMenuNuova"
+            android:layout_marginLeft="10dp"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            app:counterTextColor="@color/ColorCineOrange"
+            android:hint="@string/inserisci_nuova_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Inserisci_NuovaPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left"
+                android:textColor="@color/ColorCineOrange"
+                android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_conferma_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/PasswordPopUpMenuNuova"
+            android:layout_marginLeft="10dp"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            app:counterTextColor="@color/ColorCineOrange"
+            android:hint="@string/conferma_nuova_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Conferma_NuovaPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left"
+                android:textColor="@color/ColorCineOrange"
+                android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="right">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/conferma_button"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:text="@string/conferma"
+            android:textColor="@color/ColorCineOrange" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/annulla_button"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:text="@string/annulla"
+            android:textColor="@color/ColorCineOrange"/>
+    </LinearLayout>
+</LinearLayout>

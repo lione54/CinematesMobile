@@ -14,26 +14,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CinematesMobile"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Segnalazioni.SegnalazioniActivity"></activity>
-        <activity android:name=".Recensioni.ScriviRecensioneActivity" />
-        <activity android:name=".Recensioni.RecensioniActivity" />
-        <activity android:name=".Search.ActivityProfiloUtenteCercato" />
+        <activity android:name=".Segnalazioni.SegnalazioniActivity"
+                  android:screenOrientation="locked"></activity>
+        <activity android:name=".Recensioni.ScriviRecensioneActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".Recensioni.RecensioniActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".Search.ActivityProfiloUtenteCercato"
+                  android:screenOrientation="locked"/>
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".Search.VisualizzaImmaginiActivity" />
-        <activity android:name=".Search.MovieDetailActivity" />
-        <activity android:name=".Search.AttoriDetailActivity" />
-        <activity android:name=".Frag.FragmentActivity" />
-        <activity android:name=".SignIn.RegisterFieldsActivity" />
-        <activity android:name=".SignIn.ConfirmCodeActivity" />
-        <activity android:name=".SignIn.SignInActivity" />
+        <activity android:name=".Search.VisualizzaImmaginiActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".Search.MovieDetailActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".Search.AttoriDetailActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".Frag.FragmentActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".SignIn.RegisterFieldsActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".SignIn.ConfirmCodeActivity"
+                  android:screenOrientation="locked"/>
+        <activity android:name=".SignIn.SignInActivity"
+                  android:screenOrientation="locked"/>
         <activity
             android:name=".Log.ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".Main.WelcomeActivity">
+            android:label="@string/title_activity_login"
+            android:screenOrientation="locked"/>
+        <activity android:name=".Main.WelcomeActivity"
+                  android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

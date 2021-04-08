@@ -18,7 +18,7 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
     private KenBurnsView posterImageView;
     public AppCompatTextView posterTitle;
     public AppCompatTextView Genere;
-    public AppCompatTextView Voto;
+    public AppCompatTextView Voto, VotoCinemates;
 
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -26,6 +26,7 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
         posterTitle = itemView.findViewById(R.id.titolo_poster);
         Voto = itemView.findViewById(R.id.film_votazione_generale);
         Genere = itemView.findViewById(R.id.film_detail_genere);
+        VotoCinemates = itemView.findViewById(R.id.film_votazione_cinemates);
         RandomTransitionGenerator generator = new RandomTransitionGenerator(1000, new DecelerateInterpolator());
         posterImageView.setTransitionGenerator(generator);
     }

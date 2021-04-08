@@ -1,14 +1,22 @@
 package com.example.cinematesmobile.Frag;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -18,6 +26,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.Search.MovieDetailActivity;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -45,14 +56,21 @@ public class ProfiloFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private LinearLayout CambiaPass;
     private String UsernameProprietario;
     private String EmailProprietario;
     private String Username, Nome, Cognome, Email, Passwd, Foto_Profilo, Descrizione, DataNascita, Sesso;
     private Integer  Recensioni_Scritte, TotaleAmici, NumeroListe;
     public CircleImageView ImmagineProfilo;
+    private AlertDialog.Builder dialogBilder;
+    private AlertDialog CambiaPassword;
+    private AppCompatButton Conferma,Annulla;
+    private TextInputLayout VecchiaPass, NuovaPass, ConfermaPass;
+    private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroListePersonalizzate, NumeroAmici;
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, PasswordUser, DescrizioneUser, DataNascitaUser, SessoUser;
     private static final String PROFURL = "http://192.168.1.9/cinematesdb/PrendiUserDataDaDB.php";
+    private static final String PASSURL = "http://192.168.1.9/cinematesdb/CambiaPassword.php";
     public static final String JSON_ARRAY = "dbdata";
 
     public ProfiloFragment() {
@@ -102,6 +120,7 @@ public class ProfiloFragment extends Fragment {
         DescrizioneUser = v.findViewById(R.id.Descrizione_User);
         DataNascitaUser = v.findViewById(R.id.Data_nascita_user);
         SessoUser = v.findViewById(R.id.Sesso_user);
+        CambiaPass = v.findViewById(R.id.Cambia_Passwd);
         CaricaProfilo(UsernameProprietario, EmailProprietario);
         return v;
     }
@@ -142,7 +161,8 @@ public class ProfiloFragment extends Fragment {
                     NomeUser.setText(Nome);
                     CognomeUser.setText(Cognome);
                     EmailUser.setText(Email);
-                    PasswordUser.setText(Passwd);
+                    String Pass = Passwd.replaceAll("[a-zA-Z0-9]", "\\*");
+                    PasswordUser.setText(Pass);
                     if(Descrizione.equals(":null")){
                         DescrizioneUser.setText(Descrizione);
                     }else{
@@ -150,6 +170,51 @@ public class ProfiloFragment extends Fragment {
                     }
                     DataNascitaUser.setText(DataNascita);
                     SessoUser.setText(Sesso);
+                    CambiaPass.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            dialogBilder = new AlertDialog.Builder(getContext());
+                            final View PopUpView = getLayoutInflater().inflate(R.layout.cambia_pass_pop_up, null);
+                            Conferma = (AppCompatButton) PopUpView.findViewById(R.id.conferma_button);
+                            Annulla = (AppCompatButton) PopUpView.findViewById(R.id.annulla_button);
+                            InserisciVecchiaPass = PopUpView.findViewById(R.id.Inserisci_VecchiaPass);
+                            InserisciNuovaPass =  PopUpView.findViewById(R.id.Inserisci_NuovaPass);
+                            ConfermaNuovaPass =  PopUpView.findViewById(R.id.Conferma_NuovaPass);
+                            VecchiaPass = PopUpView.findViewById(R.id.layout_vecchia_pass);
+                            NuovaPass = PopUpView.findViewById(R.id.layout_nuova_pass);
+                            ConfermaPass = PopUpView.findViewById(R.id.layout_conferma_pass);
+                            dialogBilder.setView(PopUpView);
+                            CambiaPassword = dialogBilder.create();
+                            CambiaPassword.show();
+                            Conferma.setOnClickListener(new View.OnClickListener() {
+                                @Override public void onClick(View v) {
+                                    if(InserisciVecchiaPass.length() == 0 || !(InserisciVecchiaPass.getText().toString().equals(Passwd))){
+                                        if(InserisciVecchiaPass.length() == 0){
+                                            VecchiaPass.setError("Inserisci Vecchia Password");
+                                        }else{
+                                            VecchiaPass.setError("La Vecchia Password Non Corrisponde");
+                                        }
+                                    }else{
+                                        if(InserisciNuovaPass.length() == 0){
+                                                NuovaPass.setError("Inserisci Nuova Password");
+                                        }else if(ConfermaNuovaPass.length() == 0){
+                                                ConfermaPass.setError("Inserisci Nuova Password");
+                                        }else if(InserisciNuovaPass.length() != ConfermaNuovaPass.length()){
+                                                ConfermaPass.setError("La Nuova Password Non Corrisponde");
+                                        }else {
+                                            cambiaPassword(usernameProprietario, InserisciNuovaPass.getText().toString());
+                                            CambiaPassword.dismiss();
+                                        }
+                                    }
+                                }
+                            });
+                            Annulla.setOnClickListener(new View.OnClickListener() {
+                                @Override public void onClick(View v) {
+                                    CambiaPassword.dismiss();
+                                    Toast.makeText(getContext() , "Cambiamento Password Annullato", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -163,6 +228,27 @@ public class ProfiloFragment extends Fragment {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("Username_Proprietario", usernameProprietario);
                 params.put("Email_Proprietario", emailProprietario);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private void cambiaPassword(String usernameProprietario, String nuovaPassword) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, PASSURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response){
+                Toast.makeText(getContext() , "Password Aggiornata", Toast.LENGTH_LONG).show();
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext() , error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @NotNull @Override protected Map<String, String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Nuova_Password", nuovaPassword);
+                params.put("User_Proprietario", usernameProprietario);
                 return params;
             }
         };

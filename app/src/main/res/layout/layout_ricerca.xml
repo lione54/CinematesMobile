@@ -120,7 +120,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
@@ -134,7 +134,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/film_votazione_cinemates"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
@@ -142,6 +142,18 @@
                 android:gravity="left"
                 android:textColor="@color/ColorCineOrange"
                 android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="10dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="left"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="14sp"
+                android:text="@string/_5"
                 android:textStyle="bold" />
         </LinearLayout>
 

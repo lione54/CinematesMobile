@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="15dp"
+    android:backgroundTint="@color/ColorCineBlack"
+    android:orientation="horizontal">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_user_notifica_richiesta"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                tools:layout_editor_absoluteX="44dp"
+                tools:layout_editor_absoluteY="89dp"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/username_richiesta_ricevuta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="left"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="left"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="14sp"
+                    android:text="@string/ti_ha_inviato_una_richiesta_di_amicizia"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="right">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/accetta_richiesta"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/ColorCineGreen"
+                    android:text="@string/accetta"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/maven_pro"
+                    android:textColor="@color/ColorCineBlack"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/rifiuta_richiesta"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/ColorCineRed"
+                    android:text="@string/rifiuta"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/maven_pro"
+                    android:textColor="@color/ColorCineBlack"/>
+
+            </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

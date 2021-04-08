@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import android.os.Bundle;
@@ -22,8 +21,6 @@ import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.R;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +29,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ScriviRecensioneActivity extends AppCompatActivity {
 
-    private String NomeUtente, UrlImmagine;
+    private String NomeUtente, UrlImmagine, TitoloFilm;
     private AppCompatTextView Nome;
-    private Integer Id_Film;
     private AppCompatEditText CorpoRecensione;
     private AppCompatButton Invia;
     private AppCompatButton Annulla;
@@ -50,7 +46,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrivi_recensione);
         NomeUtente= getIntent().getExtras().getString("Nome_Utente");
-        Id_Film = getIntent().getExtras().getInt("Id_Film");
+        TitoloFilm = getIntent().getExtras().getString("Titolo_Film");
         UrlImmagine = getIntent().getExtras().getString("Foto_Profilo");;
         ImmagineRece = findViewById(R.id.immagineRece);
         Nome = findViewById(R.id.nome_utente);
@@ -80,7 +76,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                         MettiZero.show();
                         Si.setOnClickListener(new View.OnClickListener() {
                             @Override public void onClick(View v) {
-                                Inserisci_Recensione(Id_Film, Recensione, Punteggio, NomeUtente);
+                                Inserisci_Recensione(TitoloFilm, Recensione, Punteggio, NomeUtente);
                                 MettiZero.dismiss();
                                 onBackPressed();
                             }
@@ -91,7 +87,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                             }
                         });
                     }else{
-                        Inserisci_Recensione(Id_Film, Recensione, Punteggio, NomeUtente);
+                        Inserisci_Recensione(TitoloFilm, Recensione, Punteggio, NomeUtente);
                         onBackPressed();
                     }
                 }else{
@@ -117,7 +113,8 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         });
     }
 
-    private void Inserisci_Recensione(Integer id_film, String recensione, float punteggio, String nomeUtente) {
+    private void Inserisci_Recensione(String titoloFilm, String recensione, float punteggio, String nomeUtente) {
+        String titoloMod = titoloFilm.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
                 Toast.makeText(ScriviRecensioneActivity.this , "Recensione Aggiunta" , Toast.LENGTH_SHORT).show();
@@ -131,7 +128,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("Corpo_Recensione", recensione);
                 params.put("Valutazione",String.valueOf(punteggio));
-                params.put("Id_Film_Recensito", String.valueOf(id_film));
+                params.put("Titolo_Film_Recensito", titoloMod);
                 params.put("User_Recensore", nomeUtente);
                 return params;
             }
