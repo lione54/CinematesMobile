@@ -190,26 +190,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_gravity="right">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/rimuovi_da_lista"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/ColorCineRed"
-                    android:text="@string/rimuovi"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/maven_pro"
-                    android:textColor="@color/ColorCineBlack"/>
-
-            </LinearLayout>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -27,8 +27,7 @@ public class SignInActivity extends AppCompatActivity {
         });
         Indietro.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent intent2 = new Intent(SignInActivity.this, WelcomeActivity.class);
-                startActivity(intent2);
+                onBackPressed();
             }
         });
     }

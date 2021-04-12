@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#0e1111"
+    android:background="@color/ColorCineBlack"
     android:forceDarkAllowed="false"
     tools:context=".SignIn.SignInActivity">
 
@@ -32,18 +32,28 @@
         android:gravity="center"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/InserMail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/InserMail_layout"
             android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:autofillHints=""
-            android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
-            android:drawableEnd="@drawable/ic_baseline_alternate_email_24" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/IndirizzoEmail"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            android:theme="@style/EditTextPersonalizzati1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/InserMail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left"
+                android:drawableEnd="@drawable/ic_baseline_alternate_email_24"
+                android:drawableTint="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineWhite"
+                android:inputType="textEmailAddress"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
         <!-- FINE MAIL ADDRESS -->
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -55,12 +65,12 @@
                 android:id="@+id/indietro"
                 android:layout_width="176dp"
                 android:layout_height="51dp"
-                android:background="#FF8C00"
+                android:background="@color/ColorCineOrange"
                 android:drawableStart="@drawable/ic_left_arrow"
-                android:drawableTint="#000000"
+                android:drawableTint="@color/ColorCineBlack"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/indietro"
-                android:textColor="#000000"
+                android:textColor="@color/ColorCineBlack"
                 android:textSize="18sp"
                 tools:targetApi="m" />
 
@@ -69,12 +79,12 @@
             android:layout_width="176dp"
             android:layout_height="51dp"
             android:layout_marginStart="20dp"
-            android:background="#FF8C00"
+            android:background="@color/ColorCineOrange"
             android:drawableEnd="@drawable/ic_right_arrow"
-            android:drawableTint="#000000"
+            android:drawableTint="@color/ColorCineBlack"
             android:fontFamily="sans-serif-medium"
             android:text="@string/continua"
-            android:textColor="#000000"
+            android:textColor="@color/ColorCineBlack"
             android:textSize="18sp"
             tools:targetApi="m" />
         </androidx.appcompat.widget.LinearLayoutCompat>

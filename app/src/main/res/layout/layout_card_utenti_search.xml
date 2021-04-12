@@ -7,7 +7,7 @@
     android:layout_marginTop="20dp"
     android:layout_marginLeft="10dp"
     android:backgroundTint="@color/ColorCineBlack"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/username"
+                android:layout_gravity="center"
                 android:textColor="@color/ColorCineOrange"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -46,7 +46,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/carlo_mattia_e_altri_23_amici_in_comune"
                 android:textColor="@color/ColorCineOrange"
                 android:textSize="15sp" />
 
@@ -55,7 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@drawable/radius"
-                android:text="@string/invia_richiesta"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"

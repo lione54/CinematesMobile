@@ -22,62 +22,54 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Inserisci_Nome_Lista"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:fontFamily="@font/maven_pro"
-            android:text="@string/inserisci_nome_lista"
-            android:textColor="@color/ColorCineOrange"
-            android:textSize="14sp"
-            android:textStyle="bold">
-        </androidx.appcompat.widget.AppCompatTextView>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/inserisci_nome_lista"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/ColorCineOrange"
-            android:layout_gravity="left"
-            android:textColor="@color/ColorCineBlack"
-            android:hint="@string/nome_lista"
-            android:textColorHint="@color/ColorCineBlack"/>
+            android:hint="@string/inserisci_nome_lista"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            android:theme="@style/EditTextPersonalizzati">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inserisci_nome_lista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left"
+                android:drawableEnd="@drawable/ic_baseline_edit_24"
+                android:textColor="@color/ColorCineOrange"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Inserisci_Descrizione_Lista"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:fontFamily="@font/maven_pro"
-            android:text="@string/inserisci_descrizione"
-            android:textColor="@color/ColorCineOrange"
-            android:textSize="14sp"
-            android:textStyle="bold">
-        </androidx.appcompat.widget.AppCompatTextView>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/descrizione_lista"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="left"
-            android:background="@color/ColorCineOrange"
-            android:textColor="@color/ColorCineBlack"
-            android:hint="@string/inserisci_una_descrizione"
-            android:textColorHint="@color/ColorCineBlack"/>
+            android:hint="@string/inserisci_descrizione"
+            android:theme="@style/EditTextPersonalizzati">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descrizione_lista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:drawableEnd="@drawable/ic_baseline_edit_24"
+                android:layout_gravity="left"
+                android:textColor="@color/ColorCineOrange"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout

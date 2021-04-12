@@ -207,14 +207,14 @@
                 android:id="@+id/film_dettagli_nome_originale_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
+                    android:background="@color/ColorCineOrange"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="center"
@@ -223,20 +223,20 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/Film_nome_originale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="16sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/Film_nome_originale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="16sp" />
+
             <!-- CHIUDI "FILM NOME ORIGINALE" -->
 
             <!-- APRI DATA USCITA -->
@@ -245,14 +245,14 @@
                 android:id="@+id/Film_datauscita_detail_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
+                    android:background="@color/ColorCineOrange"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="center"
@@ -261,19 +261,21 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/film_datauscita"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="16sp" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/film_datauscita"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="16sp" />
+
             <!-- CHIUDI DATA USCITA MOVIE -->
 
 
@@ -282,14 +284,14 @@
                 android:id="@+id/Film_lingua_originale_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
+                    android:background="@color/ColorCineOrange"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="center"
@@ -298,21 +300,22 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/Film_linguaoriginale"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/Film_linguaoriginale"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+
             <!-- CHIUDI LINGUA ORGINALE -->
 
             <!-- APRI BLOCCO TRAMA -->
@@ -320,15 +323,15 @@
                 android:id="@+id/Film_trama_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:background="@color/ColorCineOrange"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="center"
                     android:text="@string/trama"
@@ -336,19 +339,19 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/film_trama"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="16sp"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/film_trama"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="16sp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- FINE BLOCCO TRAMA -->
 
@@ -358,14 +361,14 @@
                 android:id="@+id/film_detail_stato_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
+                    android:background="@color/ColorCineOrange"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="center"
@@ -374,19 +377,21 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/film_detail_stato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="16sp" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/film_detail_stato"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="16sp" />
             <!-- FINE BLOCCO STATO FILM -->
 
             <!-- INIZIO BLOCCO GENERE FILM -->
@@ -394,14 +399,14 @@
                 android:id="@+id/film_detail_genere_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
+                    android:background="@color/ColorCineOrange"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="center"
@@ -410,19 +415,21 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/film_detail_genere"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="16sp" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/film_detail_genere"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="16sp" />
+
             <!-- FINE BLOCCO GENERE FILM -->
 
             <!-- INIZIO BLOCCO PRODUZIONE FILM -->
@@ -430,14 +437,13 @@
                 android:id="@+id/film_detail_produzione_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:background="@color/ColorCineOrange"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/maven_pro"
@@ -447,18 +453,20 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/film_detail_produzione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="16sp" />
+
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/film_detail_produzione"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="16sp" />
 
             <!-- FINE BLOCCO PRODUZIONE FILM -->
             <androidx.appcompat.widget.LinearLayoutCompat

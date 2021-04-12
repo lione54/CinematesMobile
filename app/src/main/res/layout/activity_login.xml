@@ -6,7 +6,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0e1111"
+    android:background="@color/ColorCineBlack"
     android:orientation="vertical"
     android:forceDarkAllowed="false"
     tools:context=".Log.ui.login.LoginActivity">
@@ -34,33 +34,47 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/username"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/username_layout"
             android:layout_width="300dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:autofillHints=""
             android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
-            android:drawableEnd="@drawable/ic_baseline_alternate_email_24" />
+            app:passwordToggleTint="@color/ColorCineOrange"
+            android:theme="@style/EditTextPersonalizzati1">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/password"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left"
+                android:drawableEnd="@drawable/ic_baseline_alternate_email_24"
+                android:drawableTint="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineWhite"
+                android:inputType="textEmailAddress"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_layout"
             android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:autofillHints=""
-            android:drawableEnd="@drawable/ic_baseline_lock_24"
+            android:layout_height="wrap_content"
             android:hint="@string/prompt_password"
-            android:imeActionLabel="@string/action_sign_in_short"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:selectAllOnFocus="true"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+            android:layout_gravity="center"
+            app:passwordToggleTint="@color/ColorCineWhite"
+            android:theme="@style/PasswordIni">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/ColorCineWhite"
+                android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- FINE AREA LOGIN -->
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -108,9 +122,9 @@
             android:drawableTint="@color/ColorCineBlack"
             android:enabled="false"
             android:text="@string/Accedi"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorLink="#000000"
+            android:textColor="@color/ColorCineBlack"
+            android:textColorHighlight="@color/ColorCineBlack"
+            android:textColorLink="@color/ColorCineBlack"
             android:textSize="18sp"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -125,9 +139,9 @@
             android:enabled="false"
             android:focusable="true"
             android:text="@string/AccediGoogle"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorLink="#000000"
+            android:textColor="@color/ColorCineBlack"
+            android:textColorHighlight="@color/ColorCineBlack"
+            android:textColorLink="@color/ColorCineBlack"
             android:textSize="18sp"
             tools:text="Accedi con Google" />
 
@@ -141,9 +155,9 @@
             android:drawableStart="@drawable/ic_facebookminimal2"
             android:enabled="false"
             android:text="@string/AccediFacebook"
-            android:textColor="#000000"
-            android:textColorHighlight="#000000"
-            android:textColorLink="#000000"
+            android:textColor="@color/ColorCineBlack"
+            android:textColorHighlight="@color/ColorCineBlack"
+            android:textColorLink="@color/ColorCineBlack"
             android:textSize="18sp"
             tools:text="Accedi con Facebook" />
 

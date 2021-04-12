@@ -1,6 +1,6 @@
 package com.example.cinematesmobile.Search.Adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +19,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.ActivityProfiloUtenteCercato;
+import com.example.cinematesmobile.Search.ActivityProfiloAltroUtente;
 import com.example.cinematesmobile.Search.Model.DBModelDataUser;
-import com.example.cinematesmobile.Search.MovieDetailActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -34,20 +33,20 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdapter.DataViewHolder> {
-    private Context mCtx;
+
+    private Activity activity;
     private List<DBModelDataUser> dataList;
     public static final String JSON_ARRAY = "dbdata";
     private static final String INSURL = "http://192.168.1.9/cinematesdb/InviaRichiestaDiAmicizia.php";
     private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeRichiestaPresente.php";
 
-    public RicercaUtenteAdapter(Context mCtx, List<DBModelDataUser> dataList) {
-        this.mCtx = mCtx;
+    public RicercaUtenteAdapter(Activity activity, List<DBModelDataUser> dataList) {
+        this.activity = activity;
         this.dataList = dataList;
     }
 
     @NonNull @Override public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.layout_card_utenti_search, null);
+        View view = LayoutInflater.from(activity).inflate(R.layout.layout_card_utenti_search, parent, false);
         return new DataViewHolder(view);
     }
 
@@ -56,25 +55,34 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
         if(data.getImmagineProfilo().equals("null")){
             holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24);
         }else{
-            Glide.with(mCtx).load(data.getImmagineProfilo()).into(holder.FotoProfilo);
+            Glide.with(activity).load(data.getImmagineProfilo()).into(holder.FotoProfilo);
         }
         holder.Username.setText(data.getUsername_Cercato());
         if(data.getEsisteAmicizia() == 1){
-            holder.DettagliAmicizia.setText("Amici");
-            holder.InviaAmicizia.setVisibility(View.GONE);
+            holder.DettagliAmicizia.setVisibility(View.GONE);
+            holder.InviaAmicizia.setEnabled(false);
+            holder.InviaAmicizia.setText("Amici");
         }else{
+            if(data.getAmiciInComune() == 0) {
+                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici In Comune").toString());
+            }else if(data.getAmiciInComune() == 1){
+                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amico In Comune").toString());
+            }else{
+                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici In Comune").toString());
+            }
             VerificaSeRichiestaGiaInviata(data.getUserCheCerca(), data.getUsername_Cercato(), holder);
         }
         holder.InviaAmicizia.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                InviaRichiestaDiAmicizia(data.getUserCheCerca(), data.getUsername_Cercato());
+                InviaRichiestaDiAmicizia(data.getUserCheCerca(), data.getUsername_Cercato(), holder);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent intent = new Intent(mCtx, ActivityProfiloUtenteCercato.class);
-                intent.putExtra("id", String.valueOf(data.getId_utente()));
-                mCtx.startActivity(intent);
+                Intent intent = new Intent(activity, ActivityProfiloAltroUtente.class);
+                intent.putExtra("UsernameAltroUtente", data.getUsername_Cercato());
+                intent.putExtra("UsernameProprietario", data.getUserCheCerca());
+                activity.startActivity(intent);
             }
         });
     }
@@ -93,17 +101,18 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                     }
                     if(validiti[0] == 0) {
                         holder.InviaAmicizia.setVisibility(View.VISIBLE);
+                        holder.InviaAmicizia.setText("Invia Richiesta");
                     }else{
                         holder.InviaAmicizia.setEnabled(false);
                         holder.InviaAmicizia.setText("Richiesta già inviata");
                     }
                 }catch (Exception e){
-                    Toast.makeText(mCtx, "" + e, Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "" + e, Toast.LENGTH_LONG).show();
                 }
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx, error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
             }
         })
         {
@@ -114,18 +123,20 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
     }
 
-    private void InviaRichiestaDiAmicizia(String userCheCerca, String username_cercato) {
+    private void InviaRichiestaDiAmicizia(String userCheCerca, String username_cercato, DataViewHolder holder) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                        Toast.makeText(mCtx, "Rchiesta Di Amicizia Inviata A" + username_cercato, Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Rchiesta Di Amicizia Inviata A " + username_cercato, Toast.LENGTH_LONG).show();
+                        holder.InviaAmicizia.setEnabled(false);
+                         holder.InviaAmicizia.setText("Richiesta inviata");
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx, error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
             }
         }) {
             @NotNull @Override protected Map<String, String> getParams(){
@@ -135,7 +146,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
     }
 

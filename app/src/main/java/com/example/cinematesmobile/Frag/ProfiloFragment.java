@@ -1,6 +1,7 @@
 package com.example.cinematesmobile.Frag;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
@@ -9,6 +10,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,6 +29,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.Recensioni.RecensioniActivity;
+import com.example.cinematesmobile.Recensioni.ScriviRecensioneActivity;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -56,7 +61,7 @@ public class ProfiloFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private LinearLayout CambiaPass;
+    private LinearLayout CambiaPass, VaiARecensioniScritte, VaiAgliAmici, VaiAListeFilm;
     private String UsernameProprietario;
     private String EmailProprietario;
     private String Username, Nome, Cognome, Email, Passwd, Foto_Profilo, Descrizione, DataNascita, Sesso;
@@ -65,6 +70,7 @@ public class ProfiloFragment extends Fragment {
     private AlertDialog.Builder dialogBilder;
     private AlertDialog CambiaPassword;
     private AppCompatButton Conferma,Annulla;
+    private Bundle bundle = new Bundle();
     private TextInputLayout VecchiaPass, NuovaPass, ConfermaPass;
     private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroListePersonalizzate, NumeroAmici;
@@ -108,6 +114,9 @@ public class ProfiloFragment extends Fragment {
         UsernameProprietario = this.getArguments().getString("Username");
         EmailProprietario = this.getArguments().getString("Email");
         View v = inflater.inflate(R.layout.fragment_profilo, container, false);
+        VaiARecensioniScritte = v.findViewById(R.id.vai_a_recensioni_scritte);
+        VaiAgliAmici = v.findViewById(R.id.vai_agli_amici);
+        VaiAListeFilm = v.findViewById(R.id.Vai_a_liste_film);
         ImmagineProfilo = v.findViewById(R.id.immagine_profilo);
         UsernameProfilo = v.findViewById(R.id.Username_Profilo);
         NumeroRecensioniScritte = v.findViewById(R.id.Numero_recensioni_scritte);
@@ -123,6 +132,11 @@ public class ProfiloFragment extends Fragment {
         CambiaPass = v.findViewById(R.id.Cambia_Passwd);
         CaricaProfilo(UsernameProprietario, EmailProprietario);
         return v;
+    }
+
+    @Override public void onResume() {
+        super.onResume();
+        CaricaProfilo(UsernameProprietario, EmailProprietario);
     }
 
     private void CaricaProfilo(String usernameProprietario, String emailProprietario) {
@@ -170,6 +184,29 @@ public class ProfiloFragment extends Fragment {
                     }
                     DataNascitaUser.setText(DataNascita);
                     SessoUser.setText(Sesso);
+                    VaiAListeFilm.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            Fragment fragment = new FragmentPreferiti();
+                            bundle.putString("Email", EmailProprietario);
+                            bundle.putString("Username", UsernameProprietario);
+                            fragment.setArguments(bundle);
+                            loadFragment(fragment);
+                        }
+                    });
+                    VaiARecensioniScritte.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            Intent intent2 = new Intent(getActivity(), ProprieRecensioniActivity.class);
+                            intent2.putExtra("Nome_Utente", Username);
+                            startActivity(intent2);
+                        }
+                    });
+                    VaiAgliAmici.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            Intent intent2 = new Intent(getActivity(), ListeAmiciActivity.class);
+                            intent2.putExtra("Nome_Utente", Username);
+                            startActivity(intent2);
+                        }
+                    });
                     CambiaPass.setOnClickListener(new View.OnClickListener() {
                         @Override public void onClick(View v) {
                             dialogBilder = new AlertDialog.Builder(getContext());
@@ -233,6 +270,14 @@ public class ProfiloFragment extends Fragment {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.my_nav_host_fragment,fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void cambiaPassword(String usernameProprietario, String nuovaPassword) {

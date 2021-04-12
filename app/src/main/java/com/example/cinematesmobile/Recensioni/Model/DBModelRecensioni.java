@@ -9,17 +9,19 @@ public class DBModelRecensioni {
     private String User_Recensore;
     private String Data_Pubblicazione;
     private String Testo_Recensione;
+    private String Titolo_Film;
     private String Foto;
 
     public DBModelRecensioni() {
     }
 
-    public DBModelRecensioni(Integer id_Recensione, Float valutazione, String user_Recensore, String data_Pubblicazione, String testo_Recensione, String foto) {
+    public DBModelRecensioni(Integer id_Recensione, Float valutazione, String user_Recensore, String data_Pubblicazione, String testo_Recensione, String titolo_Film, String foto) {
         Id_Recensione = id_Recensione;
         Valutazione = valutazione;
         User_Recensore = user_Recensore;
         Data_Pubblicazione = data_Pubblicazione;
         Testo_Recensione = testo_Recensione;
+        Titolo_Film = titolo_Film;
         Foto = foto;
     }
 
@@ -61,6 +63,14 @@ public class DBModelRecensioni {
 
     public void setTesto_Recensione(String testo_Recensione) {
         Testo_Recensione = testo_Recensione;
+    }
+
+    public String getTitolo_Film() {
+        return Titolo_Film;
+    }
+
+    public void setTitolo_Film(String titolo_Film) {
+        Titolo_Film = titolo_Film;
     }
 
     public String getFoto() {

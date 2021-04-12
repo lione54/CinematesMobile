@@ -48,46 +48,88 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/preferiti_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/preferiti_text_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableRight="@drawable/ic_like_list"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center_vertical"
-                android:text="@string/preferiti"
-                android:textColor="#FF8C00"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/davedere_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableRight="@drawable/ic__d_glasses_active"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center_vertical"
-                android:text="@string/da_vedere"
-                android:textColor="#FF8C00"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/preferiti_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center_vertical"
+                    android:text="@string/preferiti"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/liste_personalizzate_text"
-                android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_likeactive"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/davedere_text_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableRight="@drawable/ic_baseline_local_movies_24"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center_vertical"
-                android:textColor="#FF8C00"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/davedere_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center_vertical"
+                    android:text="@string/da_vedere"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic__d_glasses_active"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/liste_personalizzate_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/liste_personalizzate_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_director"/>
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

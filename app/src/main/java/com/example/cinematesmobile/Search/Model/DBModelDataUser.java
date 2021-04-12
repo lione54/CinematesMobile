@@ -7,16 +7,18 @@ public class DBModelDataUser {
     private String immagineProfilo;
     private Integer id_utente;
     private Integer EsisteAmicizia;
+    private Integer AmiciInComune;
 
     public DBModelDataUser() {
     }
 
-    public DBModelDataUser(String userCheCerca, String username_Cercato, String immagineProfilo, Integer id_utente, Integer esisteAmicizia) {
+    public DBModelDataUser(String userCheCerca, String username_Cercato, String immagineProfilo, Integer id_utente, Integer esisteAmicizia, Integer amiciInComune) {
         UserCheCerca = userCheCerca;
         Username_Cercato = username_Cercato;
         this.immagineProfilo = immagineProfilo;
         this.id_utente = id_utente;
         EsisteAmicizia = esisteAmicizia;
+        AmiciInComune = amiciInComune;
     }
 
     public String getUserCheCerca() {
@@ -57,5 +59,13 @@ public class DBModelDataUser {
 
     public void setEsisteAmicizia(Integer esisteAmicizia) {
         EsisteAmicizia = esisteAmicizia;
+    }
+
+    public Integer getAmiciInComune() {
+        return AmiciInComune;
+    }
+
+    public void setAmiciInComune(Integer amiciInComune) {
+        AmiciInComune = amiciInComune;
     }
 }

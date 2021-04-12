@@ -69,7 +69,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         Float ratings = responseResults.getVote_average();
         List<Integer> id_generi = responseResults.getGenre_id();
         int id = responseResults.getId();
-        PrendiVotoMedioDaDB(id, searchViewHolder);
+        PrendiVotoMedioDaDB(title, searchViewHolder);
         Call<GeneriResponse> generiResponseCall = retrofitService.getGeneri(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         generiResponseCall.enqueue(new Callback<GeneriResponse>() {
             @Override public void onResponse(@NonNull Call<GeneriResponse> call,@NonNull Response<GeneriResponse> response) {
@@ -100,6 +100,18 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 Toast.makeText(activity,"Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
             }
         });
+        if(responseResults.getOverview() != null){
+            if(responseResults.getOverview().length() > 0) {
+                String Trama = responseResults.getOverview().substring(0, 70);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(Trama).append("...\nContinuare a leggere.");
+                searchViewHolder.Trama.setText(stringBuilder);
+            }else{
+                searchViewHolder.Trama.setText("Non disponibile");
+            }
+        }else{
+            searchViewHolder.Trama.setText("Non disponibile");
+        }
         if(title != null){
             searchViewHolder.posterTitle.setVisibility(View.VISIBLE);
             searchViewHolder.posterTitle.setText(title);
@@ -128,7 +140,8 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         });
     }
 
-    private void PrendiVotoMedioDaDB(int id, SearchViewHolder searchViewHolder) {
+    private void PrendiVotoMedioDaDB(String titolo, SearchViewHolder searchViewHolder) {
+        String titoloMod = titolo.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
                 try {
@@ -155,7 +168,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         }) {
             @NotNull @Override protected Map<String, String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("Id_Film_Inserito", String.valueOf(id));
+                params.put("Titolo_Film_Recensito", titoloMod);
                 return params;
             }
         };

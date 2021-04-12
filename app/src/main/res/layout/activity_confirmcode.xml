@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0e1111"
+    android:background="@color/ColorCineBlack"
     android:orientation="vertical"
     android:forceDarkAllowed="false"
     tools:context=".SignIn.ConfirmCodeActivity">
@@ -43,7 +43,7 @@
             android:layout_marginBottom="32dp"
             android:text="@string/alertPIN"
             android:textAllCaps="false"
-            android:textColor="#ffffff"
+            android:textColor="@color/ColorCineWhite"
             android:textSize="18sp" />
 
         <!-- FINE AREA DESC. PIN -->
@@ -55,17 +55,25 @@
         android:gravity="center"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editTextNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:autofillHints=""
-            android:ems="10"
-
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextNumber_layout"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:hint="@string/inserisciPIN"
-            android:inputType="number"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"/>
+            app:passwordToggleTint="@color/ColorCineWhite"
+            android:theme="@style/PasswordIni">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="left"
+            android:textColor="@color/ColorCineWhite"
+            android:inputType="numberPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- FINE INSERT PIN -->
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -84,11 +92,11 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center"
-            android:background="#FF8C00"
+            android:background="@color/ColorCineOrange"
             android:drawableEnd="@drawable/ic_right_arrow"
             android:drawableTint="@color/ColorCineBlack"
             android:text="@string/btnverifyPIN"
-            android:textColor="#000000"
+            android:textColor="@color/ColorCineBlack"
             android:textSize="18sp" />
         <!-- FINE VERIFY PIN -->
 

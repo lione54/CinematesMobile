@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="#0e1111"
+    android:background="@color/ColorCineBlack"
     android:forceDarkAllowed="false"
     tools:context=".Main.WelcomeActivity">
 
@@ -41,7 +41,7 @@
             android:gravity="center"
             android:fontFamily="@font/maven_pro"
             android:text="@string/la_piattaforma_social"
-            android:textColor="#FAFAFA"
+            android:textColor="@color/ColorCineWhite"
             android:textSize="30sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -52,7 +52,7 @@
             android:fontFamily="@font/maven_pro"
             android:gravity="center"
             android:text="@string/che_fa_discutere_anche_in_sala"
-            android:textColor="#FAFAFA"
+            android:textColor="@color/ColorCineWhite"
             android:textSize="26sp"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -62,8 +62,8 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="50dp"
             android:layout_gravity="center"
-            android:background="#FF8C00"
-            android:textColor="#000000"
+            android:background="@color/ColorCineOrange"
+            android:textColor="@color/ColorCineBlack"
             android:text="@string/Accedi"
             android:textSize="18sp" />
 
@@ -72,8 +72,8 @@
             android:layout_width="300dp"
             android:layout_height="51dp"
             android:layout_gravity="center"
-            android:textColor="#000000"
-            android:background="#FF8C00"
+            android:background="@color/ColorCineOrange"
+            android:textColor="@color/ColorCineBlack"
             android:text="@string/registrati"
             android:textSize="18sp" />
 

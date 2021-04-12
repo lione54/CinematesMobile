@@ -2,14 +2,12 @@ package com.example.cinematesmobile.Search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -25,9 +23,13 @@ import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
 import com.example.cinematesmobile.Search.Model.AttoriDetails;
 import com.example.cinematesmobile.Search.Model.AttoriImage;
 import com.example.cinematesmobile.Search.Model.AttoriImmageResult;
+import com.example.cinematesmobile.Search.Model.AttoriResponse;
+import com.example.cinematesmobile.Search.Model.AttoriResponseResults;
+import com.example.cinematesmobile.Search.Model.AttoriResponseResultsKnownFor;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,7 +46,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
     private LinearLayoutCompat RoleLayout;
     private LinearLayoutCompat HomepageLayout;
     private LinearLayoutCompat BioLayout;
-    private LinearLayoutCompat ProfileImageLayout;
+    private LinearLayoutCompat ProfileImageLayout, AttoriDetailFilmfattiLayout;
     private AppCompatTextView NomeAttore;
     private AppCompatTextView AlsoKnowAs;
     private AppCompatTextView Birthday;
@@ -52,7 +54,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
     private AppCompatTextView Deathday;
     private AppCompatTextView Role;
     private AppCompatTextView Homepage;
-    private AppCompatTextView Bio;
+    private AppCompatTextView Bio, AttoriFilmfatti;
     private RecyclerView ProfileImageRecycleView;
     private ImmagineProfiloAttoriAdapter immagineProfiloAttoriAdapter;
     private RetrofitService retrofitService;
@@ -72,6 +74,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
         HomepageLayout = findViewById(R.id.attori_detail_hp_layout);
         BioLayout = findViewById(R.id.attori_detail_bio_layout);
         ProfileImageLayout = findViewById(R.id.attori_detail_profile_images_layout);
+        AttoriDetailFilmfattiLayout = findViewById(R.id.attori_detail_filmfatti_layout);
         NomeAttore = findViewById(R.id.attori_detail_name);
         AlsoKnowAs = findViewById(R.id.attori_detail_also_know);
         Birthday = findViewById(R.id.attori_detail_birthday);
@@ -80,6 +83,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
         Role = findViewById(R.id.attori_detail_role);
         Homepage = findViewById(R.id.attori_detail_hp);
         Bio = findViewById(R.id.attori_detail_bio);
+        AttoriFilmfatti = findViewById(R.id.attori_filmfatti);
         previous = findViewById(R.id.previously);
         ProfileImageRecycleView = findViewById(R.id.attori_detail_profilo_image_recyclerView);
         ProfileImageRecycleView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
@@ -137,6 +141,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
     }
 
     private void PreparePersonDetail(AttoriDetails attoriDetailsResponse) {
+        String lingua1 = "it-IT";
         String profilePath = attoriDetailsResponse.getProfile_path();
         String nome = attoriDetailsResponse.getName();
         String birthday = attoriDetailsResponse.getBirthday();
@@ -234,6 +239,47 @@ public class AttoriDetailActivity extends AppCompatActivity {
             }
         }else{
                 BioLayout.setVisibility(View.GONE);
+        }
+        Call<AttoriResponse> attoriResponseCall = retrofitService.getPersonByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua1, nome);
+        attoriResponseCall.enqueue(new Callback<AttoriResponse>() {
+            @Override public void onResponse(@NonNull Call<AttoriResponse> call,@NonNull Response<AttoriResponse> response) {
+                AttoriResponse attoriResponse = response.body();
+                if (attoriResponse != null) {
+                    List<AttoriResponseResults> attoriResponseResults = attoriResponse.getResults();
+                    PrendiFilmFatti(attoriResponseResults, attoriResponseResults.size(), attoriDetailsResponse.getId());
+                }
+            }
+
+            @Override public void onFailure(@NonNull  Call<AttoriResponse> call,@NonNull Throwable t) {
+                Toast.makeText(AttoriDetailActivity.this, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void PrendiFilmFatti(List<AttoriResponseResults> attoriResponseResults, int size, Integer id) {
+        List<List<AttoriResponseResultsKnownFor>> knownFors = new ArrayList<>();
+        for( int pointer = 0; pointer < size; pointer++){
+            if(attoriResponseResults.get(pointer).getId() == id){
+                knownFors.add(attoriResponseResults.get(pointer).getKnown_for());
+            }
+        }
+        if(!(knownFors.isEmpty())){
+            StringBuilder stringBuilder = new StringBuilder();
+            if(knownFors.size() > 0) {
+                for (int i = 0; i < knownFors.get(0).size(); i++) {
+                    if(i == ((knownFors.get(0).size()) - 1)){
+                        stringBuilder.append(knownFors.get(0).get(i).getTitle()).append(".");
+                    }else{
+                        stringBuilder.append(knownFors.get(0).get(i).getTitle()).append(", ");
+                    }
+                }
+            }
+            if (stringBuilder != null && stringBuilder.length() > 0){
+                AttoriFilmfatti.setText(stringBuilder);
+                AttoriDetailFilmfattiLayout.setVisibility(View.VISIBLE);
+            }else{
+                AttoriDetailFilmfattiLayout.setVisibility(View.GONE);
+            }
         }
     }
 

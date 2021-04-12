@@ -11,4 +11,5 @@
     <color name="ColorCineOrange">#FF8C00</color>
     <color name="ColorCineRed">#F80000</color>
     <color name="ColorCineGreen">#006400</color>
+    <color name="ColorCineWhite">#ffffff</color>
 </resources>

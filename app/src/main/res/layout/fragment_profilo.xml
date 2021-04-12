@@ -47,6 +47,7 @@
         android:background="@color/ColorCineOrange">
 
         <LinearLayout
+            android:id="@+id/vai_a_recensioni_scritte"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -75,6 +76,7 @@
             </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/Vai_a_liste_film"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -101,6 +103,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/vai_agli_amici"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

@@ -1,4 +1,4 @@
-package com.example.cinematesmobile.Search.Model;
+package com.example.cinematesmobile.Frag.Model;
 
 import java.net.URL;
 

@@ -3,7 +3,7 @@
     <string name="Accedi">Accedi</string>
     <string name="registrati">Registrati</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Email/Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -184,6 +184,17 @@
     <string name="stata_declinata">è stata declinata.</string>
     <string name="cordialmente">Cordialmente</string>
     <string name="gli_amministratori">Gli Amministratori</string>
+    <string name="trama1">Trama:</string>
+    <string name="le_mie_recensioni">Le Mie Recensioni</string>
+    <string name="elimina_da_amici">Elimina Da Amici</string>
+    <string name="lista_film">Lista Film:</string>
+    <string name="descrizione1">Descrizione:</string>
+    <string name="allerta_spoiler">ALLERTA SPOILER!!!!!</string>
+    <string name="anche_se_i_nostri_admin_lavorano_per_assicurarsi_che_nessuno_di_voi_riceva_spoiler_sul_film_in_questione_oltrepassando_questa_pagina_potreste_incappare_in_qualche_spoiler_se_cos_fosse_vi_invitiamo_a_segnalare_la_recensione_in_questione">Anche se i nostri admin lavorano per assicurarsi che nessuno di voi riceva spoiler sul film in questione oltrepassando questa pagina potreste incappare in qualche spoiler se così fosse vi invitiamo a segnalare la recensione in questione.</string>
+    <string name="lo_staff_di_cinemates">Lo Staff Di Cinemates</string>
+    <string name="ok">Ok</string>
+    <string name="noto_per">Noto Per</string>
+    <string name="film_in_comune">Film In Comune</string>
 
 
 </resources>

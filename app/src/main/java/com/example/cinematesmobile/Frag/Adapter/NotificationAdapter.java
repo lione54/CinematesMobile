@@ -1,5 +1,6 @@
 package com.example.cinematesmobile.Frag.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mCtx;
+    private Activity activity;
     private List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList;
     private List<DBNotificheModelSegnalazioni> segnalazioniList;
     private int size = 0;
@@ -50,8 +51,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final String AMURL = "http://192.168.1.9/cinematesdb/DiventaAmico.php";
     private static final String NAMURL = "http://192.168.1.9/cinematesdb/RifiutaAmicizia.php";
 
-    public NotificationAdapter(Context mCtx, List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList, List<DBNotificheModelSegnalazioni> segnalazioniList) {
-        this.mCtx = mCtx;
+    public NotificationAdapter(Activity activity, List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList, List<DBNotificheModelSegnalazioni> segnalazioniList) {
+        this.activity = activity;
         this.richiesteAmiciziaList = richiesteAmiciziaList;
         this.segnalazioniList = segnalazioniList;
         this.size = richiesteAmiciziaList.size() + segnalazioniList.size();
@@ -59,20 +60,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @NonNull @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == AmiciziaInviata){
-                LayoutInflater inflater = LayoutInflater.from(mCtx);
-                View view = inflater.inflate(R.layout.richiesta_amicizia_in_entrata, null);
+                View view = LayoutInflater.from(activity).inflate(R.layout.richiesta_amicizia_in_entrata, parent, false);
                 return new DataHolderInvia(view);
         }else if(viewType == AmiciziaAccettata){
-                LayoutInflater inflater = LayoutInflater.from(mCtx);
-                View view = inflater.inflate(R.layout.richiesta_amicizia_accettata, null);
+                View view = LayoutInflater.from(activity).inflate(R.layout.richiesta_amicizia_accettata, parent, false);
                 return new DataHolderAccettata(view);
         }else if(viewType == SegnalazioneAccettate){
-                LayoutInflater inflater = LayoutInflater.from(mCtx);
-                View view = inflater.inflate(R.layout.notifica_segnalazione_accettata, null);
+                View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_accettata, parent, false);
                 return new DataHolderSegnalzioneAccettata(view);
         }else{
-                LayoutInflater inflater = LayoutInflater.from(mCtx);
-                View view = inflater.inflate(R.layout.notifica_segnalazione_declinata, null);
+                View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_declinata, parent, false);
                 return new DataHolderegnalazioneDeclinata(view);
         }
     }
@@ -104,7 +101,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
            if(richiesteAmiciziaList.get(position).getFoto().equals("null")){
                ((DataHolderInvia) holder).ImmagineInvioRichiesta.setImageResource(R.drawable.ic_baseline_person_24);
            }else{
-               Glide.with(mCtx).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderInvia) holder).ImmagineInvioRichiesta);
+               Glide.with(activity).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderInvia) holder).ImmagineInvioRichiesta);
            }
             ((DataHolderInvia) holder).UserInvioRichiesta.setText(richiesteAmiciziaList.get(position).getAmicoDi());
             ((DataHolderInvia) holder).AccettaRichiesta.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +126,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if(richiesteAmiciziaList.get(position).getFoto().equals("null")){
                 ((DataHolderAccettata) holder).ImmagineRichiestaAccettata.setImageResource(R.drawable.ic_baseline_person_24);
             }else{
-                Glide.with(mCtx).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderAccettata) holder).ImmagineRichiestaAccettata);
+                Glide.with(activity).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderAccettata) holder).ImmagineRichiestaAccettata);
             }
             ((DataHolderAccettata) holder).UserRichiestaAccettata.setText(richiesteAmiciziaList.get(position).getAmicoDi());
             ((DataHolderAccettata) holder).RimuoviNotifica.setOnClickListener(new View.OnClickListener() {
@@ -147,11 +144,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void DiventaAmico(String utente, String amicoDi) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(mCtx, "Notifica Rimossa", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Notifica Rimossa", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx , error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
             }
         }) {
             @NotNull @Override protected Map<String, String> getParams(){
@@ -161,18 +158,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
     }
 
     private void RifiutaRichiesta(String utente, String amicoDi) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, NAMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(mCtx, "Richiesta Rifiutata", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Richiesta Rifiutata", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx , error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
             }
         }) {
             @NotNull @Override protected Map<String, String> getParams(){
@@ -182,18 +179,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
     }
 
     private void AccettaRichiesta(String utente, String amicoDi) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ACCURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(mCtx, "Richiesta Accettata", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Richiesta Accettata", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx , error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
             }
         }) {
             @NotNull @Override protected Map<String, String> getParams(){
@@ -203,7 +200,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
     }
 

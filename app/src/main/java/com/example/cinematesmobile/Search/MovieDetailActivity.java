@@ -40,6 +40,7 @@ import com.example.cinematesmobile.Search.Model.MovieImage;
 import com.example.cinematesmobile.Search.Model.Produttori;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
 import org.angmarch.views.NiceSpinner;
@@ -60,10 +61,10 @@ import retrofit2.Response;
 public class MovieDetailActivity extends AppCompatActivity {
 
     private AppCompatButton Recensioni;
-    private AlertDialog.Builder dialogBilder;
-    private AlertDialog CreaLista;
-    private AppCompatButton Conferma,Annulla;
-    private AppCompatEditText InserisciTitolo, InserisciDescrizione;
+    private AlertDialog.Builder dialogBilder, dialogBilder2;
+    private AlertDialog CreaLista, Spoiler;
+    private AppCompatButton Conferma,Annulla, Ok;
+    private TextInputEditText InserisciTitolo, InserisciDescrizione;
     private RadioGroup visibility;
     private Integer id_film;
     private KenBurnsView MovieDetailsImageView;
@@ -208,6 +209,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override public void onClick(View v) {
                         if(!stato) {
                             tipoLista = "Preferiti";
+                            Visibilità = "Solo Amici";
                             InserisciNelleListe(id, stringPoster.toString(), stringTitolo.toString(), tipoLista, UserName);
                         }else {
                             RimuoviDaiPreferiti(id, UserName);
@@ -218,6 +220,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override public void onClick(View v) {
                         if(!stato_V) {
                             tipoLista = "Da Vedere";
+                            Visibilità = "Solo Amici";
                             InserisciNelleListe(id, stringPoster.toString(), stringTitolo.toString(), tipoLista, UserName);
                         }else {
                             RimuoviDaiDaVedere(id, UserName);
@@ -239,8 +242,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                             final View PopUpView = getLayoutInflater().inflate(R.layout.crea_liste_pop_up, null);
                             Conferma = (AppCompatButton) PopUpView.findViewById(R.id.conferma_button);
                             Annulla = (AppCompatButton) PopUpView.findViewById(R.id.annulla_button);
-                            InserisciTitolo = (AppCompatEditText) PopUpView.findViewById(R.id.inserisci_nome_lista);
-                            InserisciDescrizione = (AppCompatEditText) PopUpView.findViewById(R.id.descrizione_lista);
+                            InserisciTitolo = PopUpView.findViewById(R.id.inserisci_nome_lista);
+                            InserisciDescrizione = PopUpView.findViewById(R.id.descrizione_lista);
                             visibility = (RadioGroup) PopUpView.findViewById(R.id.visibilità_lista);
                             dialogBilder.setView(PopUpView);
                             CreaLista = dialogBilder.create();
@@ -250,7 +253,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                     if(InserisciTitolo.length() > 0 ){
                                         int camposelezionato = visibility.getCheckedRadioButtonId();
                                         if (camposelezionato == -1) {
-                                            Toast.makeText(MovieDetailActivity.this, "Seleziona Un Campo Di Ricerca.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Seleziona Un Campo Di Visibilità.", Toast.LENGTH_SHORT).show();
                                         }else{
                                             switch (camposelezionato){
                                                 case R.id.solo_amici:
@@ -306,7 +309,18 @@ public class MovieDetailActivity extends AppCompatActivity {
                 });
                 Recensioni.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        PrendiDettagliFilm(id_film, stringTitolo.toString(),  stringPoster.toString(), UserName);
+                        dialogBilder2 = new AlertDialog.Builder(MovieDetailActivity.this);
+                        final View PopUpView = getLayoutInflater().inflate(R.layout.popup_allertaspoiler, null);
+                        Ok = PopUpView.findViewById(R.id.ok_button);
+                        dialogBilder2.setView(PopUpView);
+                        Spoiler = dialogBilder2.create();
+                        Spoiler.show();
+                        Ok.setOnClickListener(new View.OnClickListener() {
+                            @Override public void onClick(View v) {
+                                PrendiDettagliFilm(id_film, stringTitolo.toString(),  stringPoster.toString(), UserName);
+                                Spoiler.dismiss();
+                            }
+                        });
                     }
                 });
             }
@@ -773,7 +787,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             }else{
                 rates.setText("TBA");
                 rates_layout.setVisibility(View.VISIBLE);
-
             }
         }else{
             rates_layout.setVisibility(View.GONE);

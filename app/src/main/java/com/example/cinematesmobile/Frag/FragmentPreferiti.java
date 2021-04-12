@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,7 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Frag.Adapter.MovieListPrefAdapter;
-import com.example.cinematesmobile.Search.Model.DBModelDataFilms;
+import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
 
 import org.angmarch.views.NiceSpinner;
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +52,7 @@ public class FragmentPreferiti extends Fragment {
     private AppCompatTextView preferitiText;
     private AppCompatTextView davedereText;
     private AppCompatTextView listePersonalizzateText;
+    private LinearLayout ListePersonalizzateTextLayout, DavedereTextLayout, PreferitiTextLayout;
     private RecyclerView recyclerViewPreferiti;
     private static final String lingua = "it-IT";
     private List<DBModelDataFilms> preferiti;
@@ -117,6 +119,9 @@ public class FragmentPreferiti extends Fragment {
         preferitiText = v.findViewById(R.id.preferiti_text);
         davedereText = v.findViewById(R.id.davedere_text);
         listePersonalizzateText = v.findViewById(R.id.liste_personalizzate_text);
+        PreferitiTextLayout = v.findViewById(R.id.preferiti_text_layout);
+        DavedereTextLayout = v.findViewById(R.id.davedere_text_layout);
+        ListePersonalizzateTextLayout = v.findViewById(R.id.liste_personalizzate_text_layout);
         recyclerViewPreferiti = v.findViewById(R.id.Preferiti_List);
         recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         listePresenti.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -182,21 +187,24 @@ public class FragmentPreferiti extends Fragment {
                     }
                     if(preferiti.isEmpty()){
                         if(TipoLista.equals("Preferiti")){
-                            preferitiText.setVisibility(View.VISIBLE);
-                            davedereText.setVisibility(View.GONE);
-                            listePersonalizzateText.setVisibility(View.GONE);
+                            PreferitiTextLayout.setVisibility(View.VISIBLE);
+                            DavedereTextLayout.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
                         }else if(TipoLista.equals("Da Vedere")){
-                            davedereText.setVisibility(View.VISIBLE);
-                            preferitiText.setVisibility(View.GONE);
-                            listePersonalizzateText.setVisibility(View.GONE);
+                            DavedereTextLayout.setVisibility(View.VISIBLE);
+                            PreferitiTextLayout.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
                         }else{
                             listePersonalizzateText.setText(TipoLista);
-                            listePersonalizzateText.setVisibility(View.VISIBLE);
-                            preferitiText.setVisibility(View.GONE);
-                            davedereText.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.VISIBLE);
+                            PreferitiTextLayout.setVisibility(View.GONE);
+                            DavedereTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
                         }
                         recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        moviedetailAdapter = new MovieListPrefAdapter(getActivity(), preferiti);
+                        moviedetailAdapter = new MovieListPrefAdapter(getActivity(), preferiti, user, TipoLista);
                         recyclerViewPreferiti.setAdapter(moviedetailAdapter);
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                         recyclerViewPreferiti.setLayoutAnimation(controller);
@@ -204,21 +212,24 @@ public class FragmentPreferiti extends Fragment {
                         Toast.makeText(getContext(), "La sua lista al momento è vuota.",Toast.LENGTH_SHORT).show();
                     }else {
                         if(TipoLista.equals("Preferiti")){
-                            preferitiText.setVisibility(View.VISIBLE);
-                            davedereText.setVisibility(View.GONE);
-                            listePersonalizzateText.setVisibility(View.GONE);
+                            PreferitiTextLayout.setVisibility(View.VISIBLE);
+                            DavedereTextLayout.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
                         }else if(TipoLista.equals("Da Vedere")){
-                            davedereText.setVisibility(View.VISIBLE);
-                            preferitiText.setVisibility(View.GONE);
-                            listePersonalizzateText.setVisibility(View.GONE);
+                            DavedereTextLayout.setVisibility(View.VISIBLE);
+                            PreferitiTextLayout.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
                         }else{
                             listePersonalizzateText.setText(TipoLista);
-                            listePersonalizzateText.setVisibility(View.VISIBLE);
-                            preferitiText.setVisibility(View.GONE);
-                            davedereText.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.VISIBLE);
+                            PreferitiTextLayout.setVisibility(View.GONE);
+                            DavedereTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
                         }
                         recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        moviedetailAdapter = new MovieListPrefAdapter(getActivity(), preferiti);
+                        moviedetailAdapter = new MovieListPrefAdapter(getActivity(), preferiti, user, TipoLista);
                         recyclerViewPreferiti.setAdapter(moviedetailAdapter);
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                         recyclerViewPreferiti.setLayoutAnimation(controller);

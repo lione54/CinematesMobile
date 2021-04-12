@@ -77,35 +77,34 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="100dp"
-                android:gravity="center_horizontal">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/Numero_liste_personalizzate"
+                    android:id="@+id/Film_in_comune"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
+                    android:layout_gravity="center"
                     android:textColor="@color/ColorCineBlack"
-                    android:fontFamily="@font/maven_pro"/>
+                    android:fontFamily="@font/maven_pro"
+                    />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/liste"
+                    android:text="@string/film_in_comune"
                     android:textAllCaps="true"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:textColor="@color/ColorCineBlack"
                     android:fontFamily="@font/maven_pro"/>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="50dp">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/Numero_amici"
@@ -118,60 +117,70 @@
                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/amici_inc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/amici_in_comune"
+                    android:text="@string/amici"
                     android:textAllCaps="true"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:textColor="@color/ColorCineBlack"
                     android:fontFamily="@font/maven_pro"/>
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        </LinearLayout>
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
                     android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/Nome"
-                        android:textSize="13sp"
-                        android:textColor="@color/ColorCineOrange"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/Nome_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/maven_pro"
-                        android:textSize="18sp"
-                        android:textColor="@color/ColorCineOrange"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/ColorCineOrange"/>
-
                     <LinearLayout
+                        android:id="@+id/layout_nome_altro_utente"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Nome"
+                            android:textSize="13sp"
+                            android:textColor="@color/ColorCineOrange"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/Nome_user"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/maven_pro"
+                            android:textSize="18sp"
+                            android:textColor="@color/ColorCineOrange"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/ColorCineOrange"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_cognome_altro_utente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -196,10 +205,14 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_email_altro_utente"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -227,34 +240,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/Password"
-                            android:textSize="13sp"
-                            android:textColor="@color/ColorCineOrange"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/Password_user"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/maven_pro"
-                            android:textSize="18sp"
-                            android:textColor="@color/ColorCineOrange"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="15dp"
-                            android:background="@color/ColorCineOrange"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -280,10 +267,14 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_nascita_altro_utente"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -308,10 +299,14 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_sesso_altro_utente"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -335,8 +330,20 @@
                             android:background="@color/ColorCineOrange"/>
                     </LinearLayout>
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/liste_visibili"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </LinearLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </LinearLayout>
