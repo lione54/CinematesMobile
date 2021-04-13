@@ -1,25 +1,28 @@
 package com.example.cinematesmobile.Frag;
 
-import android.annotation.SuppressLint;
+import android.app.Instrumentation;
 import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,9 +32,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Recensioni.RecensioniActivity;
-import com.example.cinematesmobile.Recensioni.ScriviRecensioneActivity;
-import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -40,10 +40,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,15 +66,17 @@ public class ProfiloFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    final int PICK_IMAGE_REQUEST = 234;
     private LinearLayout CambiaPass, VaiARecensioniScritte, VaiAgliAmici, VaiAListeFilm;
     private String UsernameProprietario;
     private String EmailProprietario;
     private String Username, Nome, Cognome, Email, Passwd, Foto_Profilo, Descrizione, DataNascita, Sesso;
     private Integer  Recensioni_Scritte, TotaleAmici, NumeroListe;
-    public CircleImageView ImmagineProfilo;
-    private AlertDialog.Builder dialogBilder;
-    private AlertDialog CambiaPassword;
-    private AppCompatButton Conferma,Annulla;
+    public CircleImageView ImmagineProfilo, NuovaFoto;
+    private AlertDialog.Builder dialogBilderPass, dialogBilderFotoProfilo;
+    private AlertDialog CambiaPassword, CambiaFotoProfilo;
+    private Bitmap bitmap;
+    private AppCompatButton Conferma,Annulla, Scegli;
     private Bundle bundle = new Bundle();
     private TextInputLayout VecchiaPass, NuovaPass, ConfermaPass;
     private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass;
@@ -77,6 +84,7 @@ public class ProfiloFragment extends Fragment {
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, PasswordUser, DescrizioneUser, DataNascitaUser, SessoUser;
     private static final String PROFURL = "http://192.168.1.9/cinematesdb/PrendiUserDataDaDB.php";
     private static final String PASSURL = "http://192.168.1.9/cinematesdb/CambiaPassword.php";
+    private static final String FOPURL = "http://192.168.1.9/cinematesdb/CambiaFotoProfilo.php";
     public static final String JSON_ARRAY = "dbdata";
 
     public ProfiloFragment() {
@@ -163,8 +171,9 @@ public class ProfiloFragment extends Fragment {
                             TotaleAmici = Integer.valueOf(str_amici);
                             NumeroListe = Integer.valueOf(str_liste);
                         }
-                    if(Foto_Profilo.equals(":null")){
-                        Glide.with(getContext()).load(Foto_Profilo).into(ImmagineProfilo);
+                    if(!(Foto_Profilo.equals("null"))){
+                        String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
+                        Glide.with(getContext()).load(Foto).into(ImmagineProfilo);
                     }else{
                         ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
                     }
@@ -177,7 +186,7 @@ public class ProfiloFragment extends Fragment {
                     EmailUser.setText(Email);
                     String Pass = Passwd.replaceAll("[a-zA-Z0-9]", "\\*");
                     PasswordUser.setText(Pass);
-                    if(Descrizione.equals(":null")){
+                    if(!(Descrizione.equals("null"))){
                         DescrizioneUser.setText(Descrizione);
                     }else{
                         DescrizioneUser.setText("Descrizione Non Inserita Dall'User.");
@@ -209,7 +218,7 @@ public class ProfiloFragment extends Fragment {
                     });
                     CambiaPass.setOnClickListener(new View.OnClickListener() {
                         @Override public void onClick(View v) {
-                            dialogBilder = new AlertDialog.Builder(getContext());
+                            dialogBilderPass = new AlertDialog.Builder(getContext());
                             final View PopUpView = getLayoutInflater().inflate(R.layout.cambia_pass_pop_up, null);
                             Conferma = (AppCompatButton) PopUpView.findViewById(R.id.conferma_button);
                             Annulla = (AppCompatButton) PopUpView.findViewById(R.id.annulla_button);
@@ -219,8 +228,8 @@ public class ProfiloFragment extends Fragment {
                             VecchiaPass = PopUpView.findViewById(R.id.layout_vecchia_pass);
                             NuovaPass = PopUpView.findViewById(R.id.layout_nuova_pass);
                             ConfermaPass = PopUpView.findViewById(R.id.layout_conferma_pass);
-                            dialogBilder.setView(PopUpView);
-                            CambiaPassword = dialogBilder.create();
+                            dialogBilderPass.setView(PopUpView);
+                            CambiaPassword = dialogBilderPass.create();
                             CambiaPassword.show();
                             Conferma.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
@@ -252,6 +261,42 @@ public class ProfiloFragment extends Fragment {
                             });
                         }
                     });
+                    ImmagineProfilo.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override public boolean onLongClick(View v) {
+                            dialogBilderFotoProfilo = new AlertDialog.Builder(getContext());
+                            final View PopUpViewFoto = getLayoutInflater().inflate(R.layout.cambia_foto_profilo, null);
+                            Conferma = (AppCompatButton) PopUpViewFoto.findViewById(R.id.conferma_button_foto);
+                            Annulla = (AppCompatButton) PopUpViewFoto.findViewById(R.id.annulla_button_foto);
+                            Scegli = (AppCompatButton) PopUpViewFoto.findViewById(R.id.scegli_foto);
+                            NuovaFoto = PopUpViewFoto.findViewById(R.id.nuova_foto_profilo);
+                            dialogBilderFotoProfilo.setView(PopUpViewFoto);
+                            CambiaFotoProfilo = dialogBilderFotoProfilo.create();
+                            CambiaFotoProfilo.show();
+                            Scegli.setOnClickListener(new View.OnClickListener() {
+                                @Override public void onClick(View v) {
+                                    scegliImmagine();
+                                }
+                            });
+                            Conferma.setOnClickListener(new View.OnClickListener() {
+                                @Override public void onClick(View v) {
+                                    try {
+                                        UpdateFotoProfilo(Username, getImgepath(bitmap));
+                                        CambiaFotoProfilo.dismiss();
+                                    }catch (Exception e){
+                                        return;
+                                    }
+
+                                }
+                            });
+                            Annulla.setOnClickListener(new View.OnClickListener() {
+                                @Override public void onClick(View v) {
+                                    CambiaFotoProfilo.dismiss();
+                                    Toast.makeText(getContext() , "Cambiamento Foto Annullato", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            return false;
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -270,6 +315,56 @@ public class ProfiloFragment extends Fragment {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+    }
+
+    private void UpdateFotoProfilo(String username, String image) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, FOPURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response){
+                Toast.makeText(getContext() , "Foto Profilo Aggiornata", Toast.LENGTH_LONG).show();
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext() , error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @NotNull @Override protected Map<String, String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("User_Proprietario", username);
+                params.put("nome", image);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private void scegliImmagine() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Seleziona Immagine"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
+                NuovaFoto.setImageBitmap(bitmap);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getImgepath(Bitmap bitmap){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        byte [] imageByte = outputStream.toByteArray();
+        String Immagine = Base64.encodeToString(imageByte, Base64.DEFAULT);
+        return Immagine;
     }
 
     private void loadFragment(Fragment fragment) {

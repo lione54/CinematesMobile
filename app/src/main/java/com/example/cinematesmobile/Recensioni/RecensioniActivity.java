@@ -100,7 +100,9 @@ public class RecensioniActivity extends AppCompatActivity {
                         JSONObject object = array.getJSONObject(i);
                         Foto[0] = object.getString("Foto_Profilo");
                     }
-                    verificaSePresente(titolo_film, Foto[0], utente);
+                    String str = Foto[0];
+                    String Foto_Mod = "http://192.168.1.9/cinematesdb/"+ str;
+                    verificaSePresente(titolo_film, Foto_Mod, utente);
                 }catch (Exception e){
                     Toast.makeText(RecensioniActivity.this, "" + e, Toast.LENGTH_LONG).show();
                 }
@@ -186,11 +188,12 @@ public class RecensioniActivity extends AppCompatActivity {
                             String str_Val = object.getString("Valutazione");
                             String Data = object.getString("Data_Pubblicazione_Recensione");
                             String Foto = object.getString("Foto_Profilo");
+                            String Foto_Mod = "http://192.168.1.9/cinematesdb/"+ Foto;
                             String Titolo = object.getString("Titolo_Film_Recensito");
                             String titoloMod = Titolo.replaceAll("/", "'");
                             Integer Id_Recensione = Integer.valueOf(str_id);
                             Float Valutazione = Float.valueOf(str_Val);
-                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod,Foto);
+                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod,Foto_Mod);
                             recensioniList.add(dbModelRecensioni);
                             firstuse = false;
                         }
@@ -206,11 +209,12 @@ public class RecensioniActivity extends AppCompatActivity {
                             String str_Val = object.getString("Valutazione");
                             String Data = object.getString("Data_Pubblicazione_Recensione");
                             String Foto = object.getString("Foto_Profilo");
+                            String Foto_Mod = "http://192.168.1.9/cinematesdb/"+ Foto;
                             String Titolo = object.getString("Titolo_Film_Recensito");
                             String titoloMod = Titolo.replaceAll("/", "'");
                             Integer Id_Recensione = Integer.valueOf(str_id);
                             Float Valutazione = Float.valueOf(str_Val);
-                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod,Foto);
+                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod,Foto_Mod);
                             recensioniList.add(dbModelRecensioni);
                         }
                     }

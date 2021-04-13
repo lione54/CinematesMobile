@@ -122,13 +122,15 @@ public class FragmentNotifiche extends Fragment {
                                 segnalazioniList.add(dbNotificheModelSegnalazioni);
                             }else if(str_id.equals("3")){
                                 String UserQuasiAmico = object.getString("E_Amico_Di");
-                                String Foto = object.getString("Foto_Profilo");
+                                String str_foto = object.getString("Foto_Profilo");
+                                String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
                                 String Stato = "Inviata";
                                 DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserQuasiAmico,Foto, Stato);
                                 richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);
                             }else if(str_id.equals("4")){
                                 String UserAmico = object.getString("E_Amico_Di");
-                                String Foto = object.getString("Foto_Profilo");
+                                String str_foto = object.getString("Foto_Profilo");
+                                String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
                                 String Stato = "Accettata";
                                 DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserAmico,Foto, Stato);
                                 richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);

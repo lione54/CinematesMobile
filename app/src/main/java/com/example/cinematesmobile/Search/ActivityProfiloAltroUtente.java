@@ -1,6 +1,8 @@
 package com.example.cinematesmobile.Search;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +49,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
     private Integer  Recensioni_Scritte, TotaleAmici, Film;
     public CircleImageView ImmagineProfilo;
     private RecyclerView ListeVisibili;
+    private AppCompatImageButton Previously;
     private RecyclerView.LayoutManager layoutManager;
     private AltroUtenteAmicoAdapter altroUtenteAmicoAdapter;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroAmici, Amici, FilmInComune;
@@ -67,6 +70,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         LayoutNascitaAltroUtente = findViewById(R.id.layout_nascita_altro_utente);
         LayoutSessoAltroUtente = findViewById(R.id.layout_sesso_altro_utente);
         NumeroRecensioniScritte = findViewById(R.id.Numero_recensioni_scritte);
+        Previously = findViewById(R.id.previously);
         FilmInComune = findViewById(R.id.Film_in_comune);
         Amici = findViewById(R.id.amici_inc);
         NumeroAmici = findViewById(R.id.Numero_amici);
@@ -77,6 +81,11 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         DataNascitaUser = findViewById(R.id.Data_nascita_user);
         SessoUser = findViewById(R.id.Sesso_user);
         ListeVisibili = findViewById(R.id.liste_visibili);
+        Previously.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         VerificaAmicizia(UsernameProprietario,UsernameAltroUtente);
     }
 
@@ -142,8 +151,9 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                             listeFilmList.add(dbModelDataListeFilm);
                         }
                     }
-                    if(Foto_Profilo.equals(":null")){
-                        Glide.with(ActivityProfiloAltroUtente.this).load(Foto_Profilo).into(ImmagineProfilo);
+                    if(!(Foto_Profilo.equals("null"))){
+                        String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
+                        Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineProfilo);
                     }else{
                         ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
                     }
@@ -217,8 +227,9 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                             listeFilmList.add(dbModelDataListeFilm);
                         }
                     }
-                    if(Foto_Profilo.equals(":null")){
-                        Glide.with(ActivityProfiloAltroUtente.this).load(Foto_Profilo).into(ImmagineProfilo);
+                    if(!(Foto_Profilo.equals("null"))){
+                        String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
+                        Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineProfilo);
                     }else{
                         ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
                     }

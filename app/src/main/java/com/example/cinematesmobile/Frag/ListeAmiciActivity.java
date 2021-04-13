@@ -63,7 +63,8 @@ public class ListeAmiciActivity extends AppCompatActivity {
                         JSONObject object = array.getJSONObject(i);
                         String str_username = object.getString("E_Amico_Di");
                         String str_foto_profilo = object.getString("Foto_Profilo");
-                        DBModelUserAmici dbModelUserAmici = new DBModelUserAmici(username, str_username, str_foto_profilo);
+                        String Foto_Mod = "http://192.168.1.9/cinematesdb/"+ str_foto_profilo;
+                        DBModelUserAmici dbModelUserAmici = new DBModelUserAmici(username, str_username, Foto_Mod);
                         UtentiAmici.add(dbModelUserAmici);
                     }
                     if(UtentiAmici.isEmpty()){

@@ -228,13 +228,14 @@ public class SearchFragment extends Fragment {
                             String str_id_utente = object.getString("Id_Utente");
                             String str_username = object.getString("UserName");
                             String str_foto_profilo = object.getString("Foto_Profilo");
+                            String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto_profilo;
                             String str_amicizia = object.getString("Amicizia");
                             String str_amici_in_com = object.getString("Amici_In_Comune");
                             Integer id_utente = Integer.parseInt(str_id_utente);
                             Integer EsisteAmicizia = Integer.parseInt(str_amicizia);
                             Integer AmiciInComune = Integer.parseInt(str_amici_in_com);
                             String strt_userMod = str_username.replaceAll("/", "'");
-                            DBModelDataUser dbModelDataUser = new DBModelDataUser(UsernameProprietario,strt_userMod, str_foto_profilo, id_utente, EsisteAmicizia, AmiciInComune);
+                            DBModelDataUser dbModelDataUser = new DBModelDataUser(UsernameProprietario,strt_userMod, Foto, id_utente, EsisteAmicizia, AmiciInComune);
                             UtentiCercati.add(dbModelDataUser);
                         }
                     if(UtentiCercati.isEmpty()){

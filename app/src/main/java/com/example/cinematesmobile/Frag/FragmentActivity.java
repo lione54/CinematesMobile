@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Instrumentation;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -16,6 +17,7 @@ public class FragmentActivity extends AppCompatActivity {
     private Bundle bundle = new Bundle();
     private String EmailProprietario = "mattia.golino@gmail.com";
     private String UsernameProprietario = "lione54";
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +72,12 @@ public class FragmentActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.my_nav_host_fragment,fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }

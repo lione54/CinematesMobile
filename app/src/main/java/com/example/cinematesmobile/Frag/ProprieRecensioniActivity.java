@@ -69,11 +69,12 @@ public class ProprieRecensioniActivity extends AppCompatActivity {
                             String str_Val = object.getString("Valutazione");
                             String Data = object.getString("Data_Pubblicazione_Recensione");
                             String Foto = object.getString("Foto_Profilo");
+                            String Foto_Mod = "http://192.168.1.9/cinematesdb/"+ Foto;
                             String Titolo = object.getString("Titolo_Film_Recensito");
                             String titoloMod = Titolo.replaceAll("/", "'");
                             Integer Id_Recensione = Integer.valueOf(str_id);
                             Float Valutazione = Float.valueOf(str_Val);
-                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod, Foto);
+                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod, Foto_Mod);
                             recensioniList.add(dbModelRecensioni);
                         }
                     if(recensioniList.isEmpty()){
