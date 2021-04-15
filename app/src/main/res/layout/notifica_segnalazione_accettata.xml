@@ -21,6 +21,8 @@
             android:id="@+id/image_report"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
             android:src="@drawable/ic_megaphone"
             android:layout_gravity="center"/>
 
@@ -39,69 +41,55 @@
                 android:gravity="right">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rimuovi_notifica_segnalazione_accettata"
+                    android:id="@+id/rimuovi_notifica_segnalazione_declinata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_close_24"/>
 
             </LinearLayout>
 
-
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="-20dp"
                 android:text="@string/la_segnalazione_della_sua_recensione"
                 android:textColor="@color/ColorCineOrange" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/titolofilm_segnalato"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/ColorCineOrange" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="@string/per_la_seguente_motivazione"
-                android:textColor="@color/ColorCineOrange" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/per_la_seguente_motivazione"
+                    android:textColor="@color/ColorCineOrange" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/motivazione_segnalazione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:textColor="@color/ColorCineOrange" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/motivazione_segnalazione"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/ColorCineOrange" />
-
-            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rimuovi_notifica_segnalazione_accettata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="@string/stata_accettata_per_cui_la_sua_recensione_stata_eliminata"
                 android:textColor="@color/ColorCineOrange" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="right">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cordialmente"
-                    android:layout_gravity="center"
-                    android:textColor="@color/ColorCineOrange"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/gli_amministratori"
-                    android:textColor="@color/ColorCineOrange"/>
-            </LinearLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

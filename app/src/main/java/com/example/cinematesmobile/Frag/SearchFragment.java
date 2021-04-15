@@ -68,7 +68,7 @@ public class SearchFragment extends Fragment {
     private RicercaUtenteAdapter ricercaUtenteAdapter;
     private List<DBModelDataUser> UtentiCercati;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.1.9/cinematesdb/RicercaUtente.php";
+    private static final String URL = "http://192.168.178.48/cinematesdb/RicercaUtente.php";
     private RadioGroup CampiRicerca;
 
     // TODO: Rename and change types of parameters

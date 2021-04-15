@@ -21,6 +21,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_user_notifica_richiesta"
                 android:layout_width="100dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="100dp"
                 tools:layout_editor_absoluteX="44dp"
                 tools:layout_editor_absoluteY="89dp"/>
@@ -28,6 +29,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -72,7 +74,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/ColorCineGreen"
+                    android:backgroundTint="@color/ColorCineOrange"
                     android:text="@string/accetta"
                     android:textSize="15sp"
                     android:textStyle="bold"

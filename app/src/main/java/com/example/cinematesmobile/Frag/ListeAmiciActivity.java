@@ -36,7 +36,7 @@ public class ListeAmiciActivity extends AppCompatActivity {
     private List<DBModelUserAmici> UtentiAmici = new ArrayList<>();
     private MieiAmiciAdapter mieiAmiciAdapter;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.1.9/cinematesdb/ListaMieiAmici.php";
+    private static final String URL = "http://192.168.178.48/cinematesdb/ListaMieiAmici.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -46,15 +46,16 @@
         </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/ColorCineOrange"
                 android:text="@string/recensione_scritte_per"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/maven_pro"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="28sp"
                 android:gravity="center"
+                android:drawableRight="@drawable/ic_review"
                 android:layout_gravity="center"/>
 
         <LinearLayout
@@ -63,6 +64,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -98,9 +100,10 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/ColorCineOrange"
                         android:textStyle="bold"
+                        android:layout_marginBottom="50dp"
                         android:fontFamily="@font/maven_pro"
                         android:layout_marginLeft="10dp"
-                        android:textSize="18sp"/>
+                        android:textSize="25sp"/>
 
                 </LinearLayout>
 
@@ -184,7 +187,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_scrivi_recensione"
-                android:layout_width="wrap_content"
+                android:layout_width="260dp"
                 android:layout_height="wrap_content"
                 android:background="@color/ColorCineBlack"
                 android:text="@string/scrivi_una_recensione"

@@ -39,7 +39,7 @@ public class ProprieRecensioniActivity extends AppCompatActivity {
     private List<DBModelRecensioni> recensioniList = new ArrayList<>();
     private MieRecensioniAdapter mieRecensioniAdapter;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMieRecensioniDaDB.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMieRecensioniDaDB.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

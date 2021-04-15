@@ -49,9 +49,9 @@ public class RecensioniActivity extends AppCompatActivity {
     private List<DBModelRecensioni> recensioniList;
     private RecensioniAdapter recensioniAdapter;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiRecensioniDaDB.php";
-    private static final String FOTURL = "http://192.168.1.9/cinematesdb/PrendiFotoUser.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeRecensionePresente.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiRecensioniDaDB.php";
+    private static final String FOTURL = "http://192.168.178.48/cinematesdb/PrendiFotoUser.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeRecensionePresente.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +149,7 @@ public class RecensioniActivity extends AppCompatActivity {
                         intent2.putExtra("Foto_Profilo", Foto);
                         startActivity(intent2);
                     }else{
-                        Toast.makeText(RecensioniActivity.this , "Ha Già Inserito La Recensione Per Questo Film", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RecensioniActivity.this , "Ha già inserito la recensione per questo film", Toast.LENGTH_LONG).show();
                     }
                 }catch (Exception e){
                     Toast.makeText(RecensioniActivity.this, "" + e, Toast.LENGTH_LONG).show();
@@ -222,7 +222,7 @@ public class RecensioniActivity extends AppCompatActivity {
                         RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
                         recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, utente);
                         RecensioniScritte.setAdapter(recensioniAdapter);
-                        Toast.makeText(RecensioniActivity.this, "Nessun Utente Ha Recensito Questo Film.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film",Toast.LENGTH_SHORT).show();
                     }else{
                         RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
                         recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, utente);

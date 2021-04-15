@@ -47,7 +47,7 @@ public class FragmentNotifiche extends Fragment {
     private List<DBNotificheModelSegnalazioni> segnalazioniList = new ArrayList<>();
     private NotificationAdapter notificationAdapter;
     private RecyclerView notifiche;
-    private static final String NOTURL = "http://192.168.1.9/cinematesdb/PrendiNotificheDaDB.php";
+    private static final String NOTURL = "http://192.168.178.48/cinematesdb/PrendiNotificheDaDB.php";
     public static final String JSON_ARRAY = "dbdata";
 
 
@@ -149,7 +149,7 @@ public class FragmentNotifiche extends Fragment {
                         notificationAdapter = new NotificationAdapter(getActivity(), richiesteAmiciziaList, segnalazioniList);
                         notifiche.setAdapter(notificationAdapter);
                     }else{
-                        Toast.makeText(getActivity(), "Nessuna Nuova Notifica", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Nessuna nuova notifica", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

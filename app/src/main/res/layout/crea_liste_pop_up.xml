@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:hint="@string/inserisci_nome_lista"
             app:passwordToggleTint="@color/ColorCineOrange"
             android:theme="@style/EditTextPersonalizzati">
@@ -43,19 +44,15 @@
                 android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Inserisci_Descrizione_Lista"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:hint="@string/inserisci_descrizione"
+            android:layout_marginTop="-20dp"
             android:theme="@style/EditTextPersonalizzati">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -70,13 +67,14 @@
                 android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -169,7 +169,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:background="@android:color/transparent"
-            android:drawableEnd="@drawable/ic_paper_plane"
+            android:drawableEnd="@drawable/ic_review"
             android:text="@string/recensioni"
             android:textColor="@color/ColorCineOrange" />
 

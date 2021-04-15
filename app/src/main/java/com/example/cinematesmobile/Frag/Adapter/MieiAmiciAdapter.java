@@ -35,7 +35,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
     private Activity activity;
     private List<DBModelUserAmici> amiciList;
     private String Username;
-    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviAmico.php";
+    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviAmico.php";
 
     public MieiAmiciAdapter(Activity activity, List<DBModelUserAmici> amiciList, String username) {
         this.activity = activity;
@@ -77,7 +77,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
     private void RimuoviAmico(String e_amico_di) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(activity, e_amico_di + " Rimosso Dagli Amici", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, e_amico_di + " Rimosso dagli amici", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {

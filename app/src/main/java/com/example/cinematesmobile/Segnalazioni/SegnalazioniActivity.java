@@ -40,7 +40,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
     private AppCompatButton Conferma, Annulla;
     private AppCompatCheckBox Inappropriato, Spoiler, Razzismo, Altro;
     private AppCompatEditText AltraMotivazione;
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/InviaSegnalazione.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/InviaSegnalazione.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +69,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
         UserSegnalato.setText(NomeUtenteSegnalato);
         Indietro.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Toast.makeText(SegnalazioniActivity.this, "Segnalazione Annullata", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SegnalazioniActivity.this, "Segnalazione annullata", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
@@ -102,18 +102,18 @@ public class SegnalazioniActivity extends AppCompatActivity {
                                 stringBuilder.append("-").append(AltraMotivazione.getText().toString());
                             }
                         }else {
-                            Toast.makeText(SegnalazioniActivity.this, "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SegnalazioniActivity.this, "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                         }
                     }
                     InviaSegnalazione(NomeUtenteSegnalatore,NomeUtenteSegnalato, stringBuilder, IdRecensione, Stato);
                 }else {
-                    Toast.makeText(SegnalazioniActivity.this, "Seleziona Almeno Un Campo.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SegnalazioniActivity.this, "Seleziona almeno un campo.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         Annulla.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Toast.makeText(SegnalazioniActivity.this, "Segnalazione Annullata", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SegnalazioniActivity.this, "Segnalazione annullata", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
@@ -123,7 +123,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
     private void InviaSegnalazione(String nomeUtenteSegnalatore, String nomeUtenteSegnalato, StringBuilder stringBuilder, String idRecensione, String stato) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(SegnalazioniActivity.this , "Segnalazione Avvenuta Con Successo" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(SegnalazioniActivity.this , "Segnalazione avvenuta con successo" , Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         }, new com.android.volley.Response.ErrorListener() {

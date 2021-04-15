@@ -55,15 +55,15 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/ColorCineOrange"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="28sp"
                 android:text="@string/amici"
                 android:fontFamily="@font/maven_pro"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:src="@drawable/ic_friends"/>
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_cinema_seats"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

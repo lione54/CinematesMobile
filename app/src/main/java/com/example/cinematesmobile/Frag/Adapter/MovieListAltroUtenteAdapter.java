@@ -50,7 +50,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
     private List<DBModelDataFilms> dataList;
     private RetrofitService retrofitService;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMediaVoti.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
     private Double Valutazione_Media;
 
     public MovieListAltroUtenteAdapter(Activity activity, List<DBModelDataFilms> dataList) {
@@ -82,7 +82,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
             }
 
             @Override public void onFailure(@NonNull Call<MovieDetail> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         PrendiMedia(data.getTitolofilm(), holder);
@@ -141,10 +141,10 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
                 String gen = geners.replaceAll("\\]","");
                 holder.Generi.setText(gen);
             } else {
-                holder.Generi.setText("Non Disponibile");
+                holder.Generi.setText("Non disponibile");
             }
         }else {
-            holder.Generi.setText("Non Disponibile");
+            holder.Generi.setText("Non disponibile");
         }
         if(movieDetailResponse.getOverview() != null){
             if(movieDetailResponse.getOverview().length() > 0) {
@@ -162,7 +162,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
             String Punteggio = Float.toString(movieDetailResponse.getVote_average());
             holder.VotoTMDB.setText(Punteggio);
         }else{
-            holder.VotoTMDB.setText("TBA");
+            holder.VotoTMDB.setText("SV");
         }
     }
 

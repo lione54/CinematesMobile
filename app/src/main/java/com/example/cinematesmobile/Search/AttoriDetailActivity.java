@@ -98,12 +98,12 @@ public class AttoriDetailActivity extends AppCompatActivity {
                         if(attoriDetailsResponse != null){
                             PreparePersonDetail(attoriDetailsResponse);
                         }else{
-                            Toast.makeText(AttoriDetailActivity.this, "Dettagli Non Trovati",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AttoriDetailActivity.this, "Dettagli non trovati",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override public void onFailure(@NonNull Call<AttoriDetails> call,@NonNull Throwable t) {
-                        Toast.makeText(AttoriDetailActivity.this, "Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
                 Call<AttoriImage> attoriImageCall = retrofitService.getAttoriImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
@@ -126,7 +126,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
                     }
 
                     @Override public void onFailure(Call<AttoriImage> call, Throwable t) {
-                        Toast.makeText(AttoriDetailActivity.this, "Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
                 /*AGGIUNTA NUOVA*/
@@ -251,7 +251,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
             }
 
             @Override public void onFailure(@NonNull  Call<AttoriResponse> call,@NonNull Throwable t) {
-                Toast.makeText(AttoriDetailActivity.this, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
             }
         });
     }

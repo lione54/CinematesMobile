@@ -59,12 +59,12 @@ public class FragmentPreferiti extends Fragment {
     final ArrayList<String> listefilmutente = new ArrayList<>();
     private String UsernameProprietario;
     private MovieListPrefAdapter moviedetailAdapter;
-    private String scelta = "Scelga la lista da visualizzare.";
+    private String scelta = "Scelga la lista da visualizzare";
     private NiceSpinner listePresenti;
     private String ListaSelezionata = null;
-    private static final String URL = "http://192.168.1.9/cinematesdb/PrendiDaLista.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
-    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListeDaVisualizzare.php";
+    private static final String URL = "http://192.168.178.48/cinematesdb/PrendiDaLista.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
+    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListeDaVisualizzare.php";
     public static final String JSON_ARRAY = "dbdata";
     private ArrayList<Integer> id_preferti = new ArrayList<>();
     private ArrayList<Integer> id_presente = new ArrayList<>();

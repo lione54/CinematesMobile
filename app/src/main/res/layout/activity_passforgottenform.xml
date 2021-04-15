@@ -43,16 +43,18 @@
             android:layout_height="match_parent"
             android:hint="Inserisci Nuova Password"
             android:layout_marginBottom="20dp"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
+            android:textColor="@color/ColorCineOrange"
+            android:textColorHint="@color/ColorCineOrange"
+            android:drawableTint="@color/ColorCineOrange"
             android:drawableEnd="@drawable/ic_baseline_lock_24"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:hint="Re-Inserisci Nuova Password"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
+            android:textColor="@color/ColorCineOrange"
+            android:textColorHint="@color/ColorCineOrange"
+            android:drawableTint="@color/ColorCineOrange"
             android:drawableEnd="@drawable/ic_baseline_lock_24"/>
 
         <androidx.appcompat.widget.AppCompatButton

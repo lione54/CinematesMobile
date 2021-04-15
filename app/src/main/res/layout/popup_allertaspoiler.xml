@@ -16,88 +16,55 @@
         android:src="@drawable/logo_cinemates"
         android:layout_marginTop="5dp"
         android:layout_gravity="center"/>
-    <LinearLayout
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/Inserisci_Nome_Lista"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:fontFamily="@font/maven_pro"
+            android:gravity="center"
             android:text="@string/allerta_spoiler"
+            android:textAlignment="center"
             android:textColor="@color/ColorCineRed"
             android:textSize="25sp"
-            android:textAlignment="center"
             android:textStyle="bold">
+
         </androidx.appcompat.widget.AppCompatTextView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/maven_pro"
+            android:gravity="center"
             android:text="@string/anche_se_i_nostri_admin_lavorano_per_assicurarsi_che_nessuno_di_voi_riceva_spoiler_sul_film_in_questione_oltrepassando_questa_pagina_potreste_incappare_in_qualche_spoiler_se_cos_fosse_vi_invitiamo_a_segnalare_la_recensione_in_questione"
+            android:textAlignment="center"
             android:textColor="@color/ColorCineOrange"
             android:textSize="18sp"
-            android:textAlignment="center"
             android:textStyle="bold">
+
         </androidx.appcompat.widget.AppCompatTextView>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="left">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/maven_pro"
-            android:layout_gravity="center"
-            android:text="@string/cordialmente"
-            android:textColor="@color/ColorCineOrange"
-            android:textSize="15sp"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/maven_pro"
-            android:text="@string/lo_staff_di_cinemates"
-            android:textColor="@color/ColorCineOrange"
-            android:textSize="15sp"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="right">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/ok_button"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@android:color/transparent"
+            android:layout_marginBottom="10dp"
             android:text="@string/ok"
-            android:textColor="@color/ColorCineOrange"/>
+            android:textColor="@color/ColorCineOrange" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </LinearLayout>
 </LinearLayout>

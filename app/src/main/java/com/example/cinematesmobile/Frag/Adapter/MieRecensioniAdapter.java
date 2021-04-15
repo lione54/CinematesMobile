@@ -34,7 +34,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
 
     private Activity activity;
     private List<DBModelRecensioni> recensioniList;
-    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviRecensione.php";
+    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviRecensione.php";
 
     public MieRecensioniAdapter(Activity activity, List<DBModelRecensioni> recensioniList) {
         this.activity = activity;
@@ -70,7 +70,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
     private void RimuoviRecensione(String user_recensore, Integer id_recensione) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(activity, "Recensione Rimossa Con Successo", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Recensione rimossa con successo", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {

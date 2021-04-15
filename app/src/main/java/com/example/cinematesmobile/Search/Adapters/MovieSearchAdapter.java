@@ -47,7 +47,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<MovieResponseResults> results;
     private RetrofitService retrofitService;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMediaVoti.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
     private Double Valutazione_Media;
 
     public MovieSearchAdapter(Activity activity, List<MovieResponseResults> results) {

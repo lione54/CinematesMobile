@@ -47,7 +47,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -64,9 +63,9 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:drawableEnd="@drawable/ic_baseline_create_24"
-                android:drawableTint="@color/ColorCineWhite"
-                android:textColor="@color/ColorCineWhite"
+                android:drawableRight="@drawable/ic_baseline_edit_24"
+                android:drawableTint="@color/ColorCineOrange"
+                android:textColor="@color/ColorCineOrange"
                 android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,17 +75,17 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/cognomeutentenuovo"
-            app:passwordToggleTint="@color/ColorCineOrange"
+            android:layout_marginTop="-10dp"
             android:theme="@style/EditTextPersonalizzati1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/InsertCognome"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:drawableEnd="@drawable/ic_baseline_create_24"
-                android:drawableTint="@color/ColorCineWhite"
-                android:textColor="@color/ColorCineWhite"
+                android:drawableRight="@drawable/ic_baseline_create_24"
+                android:drawableTint="@color/ColorCineOrange"
+                android:textColor="@color/ColorCineOrange"
                 android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -98,8 +97,9 @@
             android:hint="@string/passwordutentenuovo"
             app:counterEnabled="true"
             app:counterMaxLength="20"
-            app:counterTextColor="@color/ColorCineWhite"
-            app:passwordToggleTint="@color/ColorCineWhite"
+            android:layout_marginTop="-10dp"
+            app:counterTextColor="@color/ColorCineOrange"
+            app:passwordToggleTint="@color/ColorCineOrange"
             android:theme="@style/PasswordIni">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -107,7 +107,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineOrange"
                 android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -118,9 +118,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/passconfirmutentenuovo"
             app:counterEnabled="true"
-            app:counterTextColor="@color/ColorCineWhite"
+            android:layout_marginTop="-10dp"
+            app:counterTextColor="@color/ColorCineOrange"
             app:counterMaxLength="20"
-            app:passwordToggleTint="@color/ColorCineWhite"
+            app:passwordToggleTint="@color/ColorCineOrange"
             android:theme="@style/PasswordIni">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -128,33 +129,42 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineOrange"
                 android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/InsertBday"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/Birthday"
+            android:layout_marginTop="-10dp"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            android:theme="@style/EditTextPersonalizzati1">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/Bday"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:autofillHints=""
+            android:drawableTint="@color/ColorCineOrange"
             android:drawableEnd="@drawable/ic_baseline_cake_24"
             android:ems="10"
             android:focusable="false"
-            android:hint="@string/textpickerdate"
             android:inputType="none"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
+            android:textColor="@color/ColorCineOrange"
+            android:textColorHint="@color/ColorCineOrange"
             android:textSize="18sp" />
 
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
             android:id="@+id/Gender"
             android:layout_width="270dp"
             android:layout_height="26dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="70dp"
-            android:layout_marginTop="24dp"
             android:layout_marginEnd="71dp"
             android:orientation="horizontal"
             android:theme="@style/RadioButtonStyle">
@@ -164,7 +174,7 @@
                 android:layout_width="54dp"
                 android:layout_height="25dp"
                 android:text="@string/sesso"
-                android:textColor="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineOrange"
                 android:textSize="18sp"
                 tools:layout_editor_absoluteX="71dp"
                 tools:layout_editor_absoluteY="453dp" />
@@ -173,27 +183,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/female"
-                android:textColor="@color/ColorCineWhite" />
+                android:textColor="@color/ColorCineOrange" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/male"
-                android:textColor="@color/ColorCineWhite" />
+                android:textColor="@color/ColorCineOrange" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/other"
-                android:textColor="@color/ColorCineWhite" />
+                android:textColor="@color/ColorCineOrange" />
 
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/InsertUsername_layout"
             android:layout_width="300dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:hint="@string/username"
             app:passwordToggleTint="@color/ColorCineOrange"
             android:theme="@style/EditTextPersonalizzati1">
@@ -204,8 +214,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableEnd="@drawable/ic_baseline_create_24"
-                android:drawableTint="@color/ColorCineWhite"
-                android:textColor="@color/ColorCineWhite"
+                android:drawableTint="@color/ColorCineOrange"
+                android:textColor="@color/ColorCineOrange"
                 android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -214,7 +224,6 @@
             android:id="@+id/Confirmation"
             android:layout_width="300dp"
             android:layout_height="51dp"
-            android:layout_marginTop="9dp"
             android:background="@color/ColorCineOrange"
             android:drawableEnd="@drawable/ic_iconfinder_movies_and_entertainment_ticket_cinema_theatre_show_6611353"
             android:text="@string/ciak_azione"

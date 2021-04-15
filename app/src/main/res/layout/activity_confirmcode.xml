@@ -43,7 +43,7 @@
             android:layout_marginBottom="32dp"
             android:text="@string/alertPIN"
             android:textAllCaps="false"
-            android:textColor="@color/ColorCineWhite"
+            android:textColor="@color/ColorCineOrange"
             android:textSize="18sp" />
 
         <!-- FINE AREA DESC. PIN -->
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="@string/inserisciPIN"
-            app:passwordToggleTint="@color/ColorCineWhite"
+            app:passwordToggleTint="@color/ColorCineOrange"
             android:theme="@style/PasswordIni">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -71,7 +71,7 @@
             android:layout_marginLeft="1dp"
             android:layout_marginRight="10dp"
             android:layout_gravity="left"
-            android:textColor="@color/ColorCineWhite"
+            android:textColor="@color/ColorCineOrange"
             android:inputType="numberPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -82,8 +82,8 @@ public class ProfiloFragment extends Fragment {
     private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroListePersonalizzate, NumeroAmici;
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, PasswordUser, DescrizioneUser, DataNascitaUser, SessoUser;
-    private static final String PROFURL = "http://192.168.1.9/cinematesdb/PrendiUserDataDaDB.php";
-    private static final String PASSURL = "http://192.168.1.9/cinematesdb/CambiaPassword.php";
+    private static final String PROFURL = "http://192.168.178.48/cinematesdb/PrendiUserDataDaDB.php";
+    private static final String PASSURL = "http://192.168.178.48/cinematesdb/CambiaPassword.php";
     private static final String FOPURL = "http://192.168.1.9/cinematesdb/CambiaFotoProfilo.php";
     public static final String JSON_ARRAY = "dbdata";
 

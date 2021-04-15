@@ -62,7 +62,7 @@
                     android:id="@+id/data_recensione"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:textColor="@color/ColorCineOrange"
                     android:textSize="15sp" />
 
@@ -85,7 +85,6 @@
                     android:id="@+id/corpo_recensione"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:textColor="@color/ColorCineOrange"
                     android:textSize="15sp" />
             </LinearLayout>

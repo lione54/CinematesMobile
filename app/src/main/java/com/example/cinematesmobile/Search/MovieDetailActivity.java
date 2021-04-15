@@ -107,15 +107,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Integer Numero_Recensioni;
     private double Valutazione_Media;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiFilmAlDatabase.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
-    private static final String PREFURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiPreferiti.php";
-    private static final String VEDURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiDaVedere.php";
-    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviDaiPreferiti.php";
-    private static final String RIMVURL = "http://192.168.1.9/cinematesdb/RimuoviDaVedere.php";
-    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListe.php";
-    private static final String VISURL = "http://192.168.1.9/cinematesdb/PrendiAttributiLista.php";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiDettagliCinemates.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiFilmAlDatabase.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
+    private static final String PREFURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiPreferiti.php";
+    private static final String VEDURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiDaVedere.php";
+    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviDaiPreferiti.php";
+    private static final String RIMVURL = "http://192.168.178.48/cinematesdb/RimuoviDaVedere.php";
+    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListe.php";
+    private static final String VISURL = "http://192.168.178.48/cinematesdb/PrendiAttributiLista.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiDettagliCinemates.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +180,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }
                     }
                     @Override public void onFailure(@NonNull Call<MovieDetail> call,@NonNull Throwable t) {
-                        Toast.makeText(MovieDetailActivity.this,"Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailActivity.this,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
                 Call<MovieImage> movieImageCall = retrofitService.getMovieImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
@@ -202,7 +202,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }
                     }
                     @Override public void onFailure(Call<MovieImage> call, Throwable t) {
-                        Toast.makeText(MovieDetailActivity.this, "Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
                 CuorePreferiti.setOnClickListener(new View.OnClickListener() {
@@ -253,7 +253,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                     if(InserisciTitolo.length() > 0 ){
                                         int camposelezionato = visibility.getCheckedRadioButtonId();
                                         if (camposelezionato == -1) {
-                                            Toast.makeText(MovieDetailActivity.this, "Seleziona Un Campo Di Visibilità.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Seleziona un campo di visibilità.", Toast.LENGTH_SHORT).show();
                                         }else{
                                             switch (camposelezionato){
                                                 case R.id.solo_amici:
@@ -263,7 +263,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                     }else{
                                                         Descrizione = "null";
                                                     }
-                                                    Visibilità = "Solo Amici";
+                                                    Visibilità = "Solo amici";
                                                     listefilm.add(tipoLista);
                                                     aggiungiA.attachDataSource(listefilm);
                                                     verificaNomeLista(id_film, UserName, tipoLista, stringPoster.toString(), stringTitolo.toString());
@@ -287,7 +287,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                             }
                                         }
                                     }else{
-                                            Toast.makeText(MovieDetailActivity.this, "Inserisci Titolo", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Inserisci titolo", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -330,7 +330,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void RimuoviDaiDaVedere(int id, String userName) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMVURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(MovieDetailActivity.this , "Film Rimosso Dalla Lista Dei Film Da Vedere.", Toast.LENGTH_LONG).show();
+                Toast.makeText(MovieDetailActivity.this , "Film rimosso dalla lista dei film da vedere.", Toast.LENGTH_LONG).show();
                 verificaSePresenteNeiDaVedere(id, userName);
             }
         }, new com.android.volley.Response.ErrorListener() {
@@ -483,7 +483,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     if(validiti[0] == 0) {
                         verificaSePresente(id_film, utente, tipoLista, Poster, Titolo);
                     }else{
-                        Toast.makeText(MovieDetailActivity.this , "Lista Già Creata Con Il Nome Di " + tipoLista, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MovieDetailActivity.this , "Lista già creata con il nome di " + tipoLista, Toast.LENGTH_LONG).show();
                     }
                 }catch (Exception e){
                     Toast.makeText(MovieDetailActivity.this, "" + e, Toast.LENGTH_LONG).show();
@@ -541,7 +541,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void RimuoviDaiPreferiti(int id, String utente) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(MovieDetailActivity.this , "Film Rimosso Dalla Lista Dei Preferiti.", Toast.LENGTH_LONG).show();
+                Toast.makeText(MovieDetailActivity.this , "Film rimosso dalla lista dei preferiti.", Toast.LENGTH_LONG).show();
                 verificaSePresenteNeiPreferiti(id, utente);
             }
         }, new com.android.volley.Response.ErrorListener() {
@@ -575,7 +575,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     if(validiti[0] == 0) {
                         InserisciNelleListe(id, Poster, Titolo, tipoLista, utente);
                     }else{
-                        Toast.makeText(MovieDetailActivity.this , "Film Già Presente Nella Lista " + tipoLista, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MovieDetailActivity.this , "Film già presente nella lista " + tipoLista, Toast.LENGTH_LONG).show();
                     }
                 }catch (Exception e){
                     Toast.makeText(MovieDetailActivity.this, "" + e, Toast.LENGTH_LONG).show();
@@ -645,15 +645,15 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override public void onResponse(String response){
                     if(tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")){
                         if(tipoLista.equals("Preferiti")){
-                            Toast.makeText(MovieDetailActivity.this, "Film Aggiunto Nella Lista " + tipoLista, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista, Toast.LENGTH_LONG).show();
                             verificaSePresenteNeiPreferiti(id_film, UserName);
                         } else{
-                            Toast.makeText(MovieDetailActivity.this, "Film Aggiunto Nella Lista " + tipoLista, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista, Toast.LENGTH_LONG).show();
                             verificaSePresenteNeiDaVedere(id_film, UserName);
                         }
                     }else {
                         aggiungiA.setSelectedIndex(0);
-                        Toast.makeText(MovieDetailActivity.this, "Film Aggiunto Nella Lista " + tipoLista, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista, Toast.LENGTH_LONG).show();
                     }
             }
         }, new com.android.volley.Response.ErrorListener() {
@@ -736,10 +736,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                 filmtrama.setText(trama);
                 filmtramalayout.setVisibility(View.VISIBLE);
             }else{
-                filmtrama.setText("Trama Non Presente");
+                filmtrama.setText("Trama non presente");
             }
         }else{
-            filmtrama.setText("Trama Non Presente");
+            filmtrama.setText("Trama non presente");
         }
         if(stato != null){
             if(stato.length() > 0){
@@ -785,7 +785,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 rates.setText(Punteggio);
                 rates_layout.setVisibility(View.VISIBLE);
             }else{
-                rates.setText("TBA");
+                rates.setText("SV");
                 rates_layout.setVisibility(View.VISIBLE);
             }
         }else{

@@ -58,7 +58,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginBottom="10dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -87,10 +87,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_horizontal"
+                android:textStyle="normal"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/ColorCineOrange"
                 android:textColor="@color/ColorCineBlack"
-                android:textStyle="bold"
                 android:hint="@string/scrivi_una_recensione_di_massimo_600_caratteri"
                 android:textColorHint="@color/ColorCineBlack"
                 android:textSize="18sp"/>
@@ -145,7 +145,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/annu_button"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:backgroundTint="@color/ColorCineBlack"
                     android:text="@string/annulla"

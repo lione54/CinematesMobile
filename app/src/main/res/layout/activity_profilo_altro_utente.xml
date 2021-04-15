@@ -57,18 +57,22 @@
                 android:textSize="32sp"/>
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:weightSum="3"
             android:background="@color/ColorCineOrange">
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
                 android:gravity="center_horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -90,22 +94,25 @@
                     android:textColor="@color/ColorCineBlack"
                     android:fontFamily="@font/maven_pro"
                     />
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="14dp"
+                android:gravity="center_horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/Film_in_comune"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
-                    android:layout_gravity="center"
                     android:textColor="@color/ColorCineBlack"
-                    android:fontFamily="@font/maven_pro"
-                    />
+                    android:fontFamily="@font/maven_pro"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -116,13 +123,15 @@
                     android:textStyle="bold"
                     android:textColor="@color/ColorCineBlack"
                     android:fontFamily="@font/maven_pro"/>
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center_horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/Numero_amici"
@@ -139,6 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/amici"
+                    android:layout_gravity="center"
                     android:textAllCaps="true"
                     android:textSize="13sp"
                     android:textStyle="bold"
@@ -146,8 +156,8 @@
                     android:fontFamily="@font/maven_pro"/>
             </LinearLayout>
 
-        </LinearLayout>
 
+        </LinearLayout>
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

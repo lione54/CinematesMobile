@@ -37,8 +37,8 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
     private Activity activity;
     private List<DBModelDataUser> dataList;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/InviaRichiestaDiAmicizia.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeRichiestaPresente.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/InviaRichiestaDiAmicizia.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeRichiestaPresente.php";
 
     public RicercaUtenteAdapter(Activity activity, List<DBModelDataUser> dataList) {
         this.activity = activity;
@@ -101,7 +101,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                     }
                     if(validiti[0] == 0) {
                         holder.InviaAmicizia.setVisibility(View.VISIBLE);
-                        holder.InviaAmicizia.setText("Invia Richiesta");
+                        holder.InviaAmicizia.setText("Invia richiesta");
                     }else{
                         holder.InviaAmicizia.setEnabled(false);
                         holder.InviaAmicizia.setText("Richiesta già inviata");
@@ -130,7 +130,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
     private void InviaRichiestaDiAmicizia(String userCheCerca, String username_cercato, DataViewHolder holder) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                        Toast.makeText(activity, "Rchiesta Di Amicizia Inviata A " + username_cercato, Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Rchiesta di amicizia inviata a " + username_cercato, Toast.LENGTH_LONG).show();
                         holder.InviaAmicizia.setEnabled(false);
                          holder.InviaAmicizia.setText("Richiesta inviata");
             }

@@ -47,9 +47,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static int SegnalazioneDeclinate = 2;
     private static int AmiciziaInviata = 3;
     private static int AmiciziaAccettata = 4;
-    private static final String ACCURL = "http://192.168.1.9/cinematesdb/AccettaAmicizia.php";
-    private static final String AMURL = "http://192.168.1.9/cinematesdb/DiventaAmico.php";
-    private static final String NAMURL = "http://192.168.1.9/cinematesdb/RifiutaAmicizia.php";
+    private static final String ACCURL = "http://192.168.178.48/cinematesdb/AccettaAmicizia.php";
+    private static final String AMURL = "http://192.168.178.48/cinematesdb/DiventaAmico.php";
+    private static final String NAMURL = "http://192.168.178.48/cinematesdb/RifiutaAmicizia.php";
 
     public NotificationAdapter(Activity activity, List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList, List<DBNotificheModelSegnalazioni> segnalazioniList) {
         this.activity = activity;

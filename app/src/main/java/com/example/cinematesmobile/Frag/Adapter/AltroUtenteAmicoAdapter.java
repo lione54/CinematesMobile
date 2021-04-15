@@ -39,7 +39,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
     private Activity activity;
     private List<DBModelDataListeFilm> dataListeFilms;
     private String UsernameAltroUtente;
-    private static final String URL = "http://192.168.1.9/cinematesdb/PrendiDaLista.php";
+    private static final String URL = "http://192.168.178.48/cinematesdb/PrendiDaLista.php";
     public static final String JSON_ARRAY = "dbdata";
     private MovieListAltroUtenteAdapter movieListAltroUtenteAdapter;
 
@@ -66,7 +66,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                 if (!(dbModelDataListeFilm.getDescrizioneLista().equals("null"))) {
                     holder.Descrizione.setText(dbModelDataListeFilm.getDescrizioneLista());
                 } else {
-                    holder.Descrizione.setText("Descrizione Non Inserita Dall'Utente.");
+                    holder.Descrizione.setText("Descrizione non inserita dall'utente");
                 }
             }
         }

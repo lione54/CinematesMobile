@@ -47,12 +47,12 @@
                 android:id="@+id/username"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="left"
                 android:drawableEnd="@drawable/ic_baseline_alternate_email_24"
-                android:drawableTint="@color/ColorCineWhite"
-                android:textColor="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineOrange"
+                android:textColorHint="@color/ColorCineOrange"
+                android:drawableTint="@color/ColorCineOrange"
                 android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -62,8 +62,9 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/prompt_password"
+            android:layout_marginTop="-20dp"
             android:layout_gravity="center"
-            app:passwordToggleTint="@color/ColorCineWhite"
+            app:passwordToggleTint="@color/ColorCineOrange"
             android:theme="@style/PasswordIni">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -71,7 +72,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineOrange"
                 android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -93,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="@string/descriptionforgottenpassword"
-            android:textColor="#ffffff" />
+            android:textColor="@color/ColorCineOrange" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView4"
@@ -116,7 +117,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:background="@color/ColorCineOrange"
             android:drawableEnd="@drawable/ic_right_arrow"
             android:drawableTint="@color/ColorCineBlack"

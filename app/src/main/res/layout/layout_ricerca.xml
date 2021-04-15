@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:backgroundTint="@color/ColorCineBlack"
     android:orientation="horizontal">
@@ -12,7 +12,8 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content">
 
         <com.github.florent37.diagonallayout.DiagonalLayout
@@ -105,12 +106,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
                 android:fontFamily="@font/maven_pro"
                 android:gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingTop="12dp"
                 android:textColor="@color/ColorCineOrange"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -143,7 +144,7 @@
                 android:fontFamily="@font/maven_pro"
                 android:gravity="left"
                 android:textColor="@color/ColorCineOrange"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

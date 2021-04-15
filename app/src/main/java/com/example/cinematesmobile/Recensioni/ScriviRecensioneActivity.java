@@ -40,7 +40,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
     private AppCompatButton Si, No;
     private AppCompatImageButton Previously;
     private CircleImageView ImmagineRece;
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiRecensioneAlDatabase.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiRecensioneAlDatabase.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
