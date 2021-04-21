@@ -49,9 +49,9 @@ public class RecensioniActivity extends AppCompatActivity {
     private List<DBModelRecensioni> recensioniList;
     private RecensioniAdapter recensioniAdapter;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiRecensioniDaDB.php";
-    private static final String FOTURL = "http://192.168.178.48/cinematesdb/PrendiFotoUser.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeRecensionePresente.php";
+    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiRecensioniDaDB.php";
+    private static final String FOTURL = "http://192.168.1.9/cinematesdb/PrendiFotoUser.php";
+    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeRecensionePresente.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

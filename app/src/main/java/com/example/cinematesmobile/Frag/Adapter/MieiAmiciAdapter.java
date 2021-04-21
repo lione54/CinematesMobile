@@ -34,13 +34,14 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
 
     private Activity activity;
     private List<DBModelUserAmici> amiciList;
-    private String Username;
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviAmico.php";
+    private String Username,Proprietario;
+    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviAmico.php";
 
-    public MieiAmiciAdapter(Activity activity, List<DBModelUserAmici> amiciList, String username) {
+    public MieiAmiciAdapter(Activity activity, List<DBModelUserAmici> amiciList, String username, String proprietario) {
         this.activity = activity;
         this.amiciList = amiciList;
         Username = username;
+        Proprietario = proprietario;
     }
 
     @NonNull @Override public MieiAmiciAdapter.DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,24 +52,29 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
     @Override public void onBindViewHolder(@NonNull MieiAmiciAdapter.DataHolder holder, int position) {
         DBModelUserAmici data = amiciList.get(position);
         if(data.getFoto_Profilo().equals("null")){
-            holder.ImageUserAmico.setImageResource(R.drawable.ic_baseline_person_24);
+            holder.ImageUserAmico.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(activity).load(data.getFoto_Profilo()).into(holder.ImageUserAmico);
         }
         holder.UsernameAmico.setText(data.getE_Amico_Di());
-        holder.RimuovidaAmici.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                RimuoviAmico(data.getE_Amico_Di());
-                amiciList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeRemoved(position, amiciList.size());
-            }
-        });
+        if(!(Username.equals(Proprietario))){
+            holder.RimuovidaAmici.setVisibility(View.GONE);
+        }else {
+            holder.RimuovidaAmici.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RimuoviAmico(data.getE_Amico_Di());
+                    amiciList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeRemoved(position, amiciList.size());
+                }
+            });
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent = new Intent(activity, ActivityProfiloAltroUtente.class);
                 intent.putExtra("UsernameAltroUtente", data.getE_Amico_Di());
-                intent.putExtra("UsernameProprietario", data.getUtente());
+                intent.putExtra("UsernameProprietario", Proprietario);
                 activity.startActivity(intent);
             }
         });

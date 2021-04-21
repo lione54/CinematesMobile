@@ -18,7 +18,7 @@
 
         <com.github.florent37.diagonallayout.DiagonalLayout
             android:layout_width="120dp"
-            android:layout_height="match_parent"
+            android:layout_height="150dp"
             app:diagonal_angle="0"
             app:diagonal_direction="left"
             android:background="@color/ColorCineOrange"
@@ -35,7 +35,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/titolo_poster_preferiti"
@@ -49,38 +50,6 @@
                 android:textColor="@color/ColorCineOrange"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
-                    android:fontFamily="@font/maven_pro"
-                    android:gravity="left"
-                    android:textColor="@color/ColorCineOrange"
-                    android:textSize="14sp"
-                    android:text="@string/genere2"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/film_detail_genere"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:fontFamily="@font/maven_pro"
-                    android:gravity="left"
-                    android:textColor="@color/ColorCineOrange"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ColorCineBlack">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo_popup"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_cinemates"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/InsertNewBdayLayout"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/inserisci_nuova_data_di_nascita"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            android:theme="@style/EditTextPersonalizzati1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/NewBday"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:drawableTint="@color/ColorCineOrange"
+                android:drawableEnd="@drawable/ic_baseline_cake_24"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="none"
+                android:textColor="@color/ColorCineOrange"
+                android:textColorHint="@color/ColorCineOrange"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="right">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/conferma_button_bday"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:text="@string/conferma"
+            android:textColor="@color/ColorCineOrange" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/annulla_button_bday"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:text="@string/annulla"
+            android:textColor="@color/ColorCineOrange"/>
+    </LinearLayout>
+</LinearLayout>

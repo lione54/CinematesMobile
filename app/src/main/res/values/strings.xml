@@ -195,6 +195,11 @@
     <string name="noto_per">Noto Per</string>
     <string name="film_in_comune">Film In Comune</string>
     <string name="scegli_una_nuova_foto">Scegli Una Nuova Foto</string>
+    <string name="inserisci_nuovo_nome">Inserisci nuovo nome</string>
+    <string name="inserisci_nuovo_cognome">Inserisci nuovo cognome</string>
+    <string name="inserisci_nuova_descrizione">Inserisci nuova descrizione</string>
+    <string name="inserisci_nuova_email">Inserisci nuova email</string>
+    <string name="inserisci_nuova_data_di_nascita">Inserisci nuova data di nascita</string>
 
 
 </resources>

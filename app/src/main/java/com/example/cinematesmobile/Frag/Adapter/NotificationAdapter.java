@@ -1,7 +1,6 @@
 package com.example.cinematesmobile.Frag.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -25,9 +23,6 @@ import com.example.cinematesmobile.Frag.Model.DBNotificheModelSegnalazioni;
 import com.example.cinematesmobile.R;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,35 +37,38 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<DBNotificheModelSegnalazioni> segnalazioniList;
     private int size = 0;
     private int secondposition = 0;
+    private String UserProprietario;
     private boolean firstitemofsecondlist = true;
     private static int SegnalazioneAccettate = 1;
     private static int SegnalazioneDeclinate = 2;
     private static int AmiciziaInviata = 3;
     private static int AmiciziaAccettata = 4;
-    private static final String ACCURL = "http://192.168.178.48/cinematesdb/AccettaAmicizia.php";
-    private static final String AMURL = "http://192.168.178.48/cinematesdb/DiventaAmico.php";
-    private static final String NAMURL = "http://192.168.178.48/cinematesdb/RifiutaAmicizia.php";
+    private static final String ACCURL = "http://192.168.1.9/cinematesdb/AccettaAmicizia.php";
+    private static final String AMURL = "http://192.168.1.9/cinematesdb/DiventaAmico.php";
+    private static final String NAMURL = "http://192.168.1.9/cinematesdb/RifiutaAmicizia.php";
+    private static final String RIMURL = "http://192.168.1.9/cinematesdb/SegnaComeLetto.php";
 
-    public NotificationAdapter(Activity activity, List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList, List<DBNotificheModelSegnalazioni> segnalazioniList) {
+    public NotificationAdapter(Activity activity, List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList, List<DBNotificheModelSegnalazioni> segnalazioniList, String UserProprietario) {
         this.activity = activity;
         this.richiesteAmiciziaList = richiesteAmiciziaList;
         this.segnalazioniList = segnalazioniList;
+        this.UserProprietario = UserProprietario;
         this.size = richiesteAmiciziaList.size() + segnalazioniList.size();
     }
 
     @NonNull @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == AmiciziaInviata){
-                View view = LayoutInflater.from(activity).inflate(R.layout.richiesta_amicizia_in_entrata, parent, false);
-                return new DataHolderInvia(view);
+            View view = LayoutInflater.from(activity).inflate(R.layout.richiesta_amicizia_in_entrata, parent, false);
+            return new DataHolderInvia(view);
         }else if(viewType == AmiciziaAccettata){
-                View view = LayoutInflater.from(activity).inflate(R.layout.richiesta_amicizia_accettata, parent, false);
-                return new DataHolderAccettata(view);
+            View view = LayoutInflater.from(activity).inflate(R.layout.richiesta_amicizia_accettata, parent, false);
+            return new DataHolderAccettata(view);
         }else if(viewType == SegnalazioneAccettate){
-                View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_accettata, parent, false);
-                return new DataHolderSegnalzioneAccettata(view);
+            View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_accettata, parent, false);
+            return new DataHolderSegnalzioneAccettata(view);
         }else{
-                View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_declinata, parent, false);
-                return new DataHolderegnalazioneDeclinata(view);
+            View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_declinata, parent, false);
+            return new DataHolderegnalazioneDeclinata(view);
         }
     }
 
@@ -80,6 +78,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((DataHolderSegnalzioneAccettata) holder).MotivazioneSegnalazione.setText(segnalazioniList.get(secondposition).getMotivazione());
             ((DataHolderSegnalzioneAccettata) holder).RimuoviSegnAccettata.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
+                    SegnaNotificaLetta(UserProprietario, segnalazioniList.get(secondposition).getIdSegnalazione());
                     segnalazioniList.remove(secondposition);
                     notifyItemRemoved(position);
                     notifyItemRangeRemoved(secondposition, segnalazioniList.size());
@@ -91,6 +90,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((DataHolderegnalazioneDeclinata) holder).MotivazioneSegnalazioneDeclinata.setText(segnalazioniList.get(secondposition).getMotivazione());
             ((DataHolderegnalazioneDeclinata) holder).RimuoviSegnDeclinata.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
+                    SegnaNotificaLetta(UserProprietario, segnalazioniList.get(secondposition).getIdSegnalazione());
                     segnalazioniList.remove(secondposition);
                     notifyItemRemoved(position);
                     notifyItemRangeRemoved(secondposition, segnalazioniList.size());
@@ -98,30 +98,30 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
         } else if(getItemViewType(position) == AmiciziaInviata){
-           if(richiesteAmiciziaList.get(position).getFoto().equals("null")){
-               ((DataHolderInvia) holder).ImmagineInvioRichiesta.setImageResource(R.drawable.ic_baseline_person_24);
-           }else{
-               Glide.with(activity).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderInvia) holder).ImmagineInvioRichiesta);
-           }
+            if(richiesteAmiciziaList.get(position).getFoto().equals("null")){
+                ((DataHolderInvia) holder).ImmagineInvioRichiesta.setImageResource(R.drawable.ic_baseline_person_24);
+            }else{
+                Glide.with(activity).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderInvia) holder).ImmagineInvioRichiesta);
+            }
             ((DataHolderInvia) holder).UserInvioRichiesta.setText(richiesteAmiciziaList.get(position).getAmicoDi());
             ((DataHolderInvia) holder).AccettaRichiesta.setOnClickListener(new View.OnClickListener() {
-               @Override public void onClick(View v) {
-                   AccettaRichiesta(richiesteAmiciziaList.get(position).getUtente(),richiesteAmiciziaList.get(position).getAmicoDi());
-                   richiesteAmiciziaList.remove(position);
-                   notifyItemRemoved(position);
-                   notifyItemRangeRemoved(position, richiesteAmiciziaList.size());
-                   size -= 1;
-               }
-           });
+                @Override public void onClick(View v) {
+                    AccettaRichiesta(richiesteAmiciziaList.get(position).getUtente(),richiesteAmiciziaList.get(position).getAmicoDi());
+                    richiesteAmiciziaList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeRemoved(position, richiesteAmiciziaList.size());
+                    size -= 1;
+                }
+            });
             ((DataHolderInvia) holder).RifiutaRichiesta.setOnClickListener(new View.OnClickListener() {
-               @Override public void onClick(View v) {
-                   RifiutaRichiesta(richiesteAmiciziaList.get(position).getUtente(),richiesteAmiciziaList.get(position).getAmicoDi());
-                   richiesteAmiciziaList.remove(position);
-                   notifyItemRemoved(position);
-                   notifyItemRangeRemoved(position, richiesteAmiciziaList.size());
-                   size -= 1;
-               }
-           });
+                @Override public void onClick(View v) {
+                    RifiutaRichiesta(richiesteAmiciziaList.get(position).getUtente(),richiesteAmiciziaList.get(position).getAmicoDi());
+                    richiesteAmiciziaList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeRemoved(position, richiesteAmiciziaList.size());
+                    size -= 1;
+                }
+            });
         }else if (getItemViewType(position) == AmiciziaAccettata){
             if(richiesteAmiciziaList.get(position).getFoto().equals("null")){
                 ((DataHolderAccettata) holder).ImmagineRichiestaAccettata.setImageResource(R.drawable.ic_baseline_person_24);
@@ -139,6 +139,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
         }
+    }
+
+    private void SegnaNotificaLetta(String userProprietario, Integer idSegnalazione) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
+            @Override public void onResponse(String response){
+                Toast.makeText(activity, "Notifica Rimossa", Toast.LENGTH_LONG).show();
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error) {
+                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @NotNull @Override protected Map<String, String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("UserProprietario", userProprietario);
+                params.put("IdSegnalazione", String.valueOf(idSegnalazione));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        requestQueue.add(stringRequest);
     }
 
     private void DiventaAmico(String utente, String amicoDi) {
@@ -211,9 +232,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override public int getItemViewType(int position) {
         if (position > (richiesteAmiciziaList.size() - 1)) {
             if (firstitemofsecondlist){
-                    firstitemofsecondlist = false;
-                    secondposition = 0;
-                    secondposition = secondposition + (position - richiesteAmiciziaList.size());
+                firstitemofsecondlist = false;
+                secondposition = 0;
+                secondposition = secondposition + (position - richiesteAmiciziaList.size());
             }else{
                 if (position != richiesteAmiciziaList.size()) {
                     firstitemofsecondlist = true;

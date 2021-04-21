@@ -2,6 +2,7 @@ package com.example.cinematesmobile.Frag.Model;
 
 public class DBNotificheModelSegnalazioni {
 
+    private Integer IdSegnalazione;
     private String UserSegnalato;
     private String UserSegnalatore;
     private String Motivazione;
@@ -11,12 +12,21 @@ public class DBNotificheModelSegnalazioni {
     public DBNotificheModelSegnalazioni() {
     }
 
-    public DBNotificheModelSegnalazioni(String userSegnalato, String userSegnalatore, String motivazione, String titoloFilmRecensito, String stato) {
+    public DBNotificheModelSegnalazioni(Integer idSegnalazione, String userSegnalato, String userSegnalatore, String motivazione, String titoloFilmRecensito, String stato) {
+        IdSegnalazione = idSegnalazione;
         UserSegnalato = userSegnalato;
         UserSegnalatore = userSegnalatore;
         Motivazione = motivazione;
         TitoloFilmRecensito = titoloFilmRecensito;
         Stato = stato;
+    }
+
+    public Integer getIdSegnalazione() {
+        return IdSegnalazione;
+    }
+
+    public void setIdSegnalazione(Integer idSegnalazione) {
+        IdSegnalazione = idSegnalazione;
     }
 
     public String getUserSegnalato() {

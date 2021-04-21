@@ -1,4 +1,4 @@
-package com.example.cinematesmobile.Frag;
+package com.example.cinematesmobile.Search;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -15,9 +15,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.Frag.Adapter.MieiAmiciAdapter;
+import com.example.cinematesmobile.Frag.ListeAmiciActivity;
 import com.example.cinematesmobile.Frag.Model.DBModelUserAmici;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.Model.DBModelDataUser;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListeAmiciActivity extends AppCompatActivity {
+public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
 
     private String Username, Proprietario;
     private RecyclerView ListaAmici;
@@ -37,16 +37,16 @@ public class ListeAmiciActivity extends AppCompatActivity {
     private MieiAmiciAdapter mieiAmiciAdapter;
     String Foto_Mod;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.1.9/cinematesdb/ListaMieiAmici.php";
+    private static final String URL = "http://192.168.1.9/cinematesdb/ListaAmiciInComune.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liste_amici);
+        setContentView(R.layout.activity_visualizza_amici_in_comune);
         Username = getIntent().getExtras().getString("Nome_Utente");
         Proprietario = getIntent().getExtras().getString("Nome_Proprietario");
         PreviouslyAmici = findViewById(R.id.previously_amici);
-        ListaAmici = findViewById(R.id.lista_amici);
-        ListaAmici.setLayoutManager(new LinearLayoutManager(ListeAmiciActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        ListaAmici = findViewById(R.id.lista_amici_in_comune);
+        ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.HORIZONTAL, false));
         PrendiAmici(Username);
         PreviouslyAmici.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -74,26 +74,27 @@ public class ListeAmiciActivity extends AppCompatActivity {
                         UtentiAmici.add(dbModelUserAmici);
                     }
                     if(UtentiAmici.isEmpty()){
-                        ListaAmici.setLayoutManager(new LinearLayoutManager(ListeAmiciActivity.this, LinearLayoutManager.VERTICAL, false));
-                        mieiAmiciAdapter = new MieiAmiciAdapter(ListeAmiciActivity.this, UtentiAmici, username, Proprietario);
+                        ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
+                        mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, username, Proprietario);
                         ListaAmici.setAdapter(mieiAmiciAdapter);
-                        Toast.makeText(ListeAmiciActivity.this, "Non Sono Presenti Amici.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non Sono Presenti Amici.",Toast.LENGTH_SHORT).show();
                     }else {
-                        ListaAmici.setLayoutManager(new LinearLayoutManager(ListeAmiciActivity.this, LinearLayoutManager.VERTICAL, false));
-                        mieiAmiciAdapter = new MieiAmiciAdapter(ListeAmiciActivity.this, UtentiAmici, username, Proprietario);
+                        ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
+                        mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, username, Proprietario);
                         ListaAmici.setAdapter(mieiAmiciAdapter);
                     }
                 }catch (Exception e){
-                    Toast.makeText(ListeAmiciActivity.this, "" + e, Toast.LENGTH_LONG).show();
+                    Toast.makeText(VisualizzaAmiciInComuneActivity.this, "" + e, Toast.LENGTH_LONG).show();
                 }
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ListeAmiciActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(VisualizzaAmiciInComuneActivity.this, error.toString(), Toast.LENGTH_LONG).show();
             }
         })
         {
-            @NotNull @Override protected Map<String, String> getParams(){
+            @NotNull
+            @Override protected Map<String, String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("User_Proprietario",username);
                 return params;

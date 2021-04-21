@@ -107,15 +107,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Integer Numero_Recensioni;
     private double Valutazione_Media;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiFilmAlDatabase.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
-    private static final String PREFURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiPreferiti.php";
-    private static final String VEDURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiDaVedere.php";
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviDaiPreferiti.php";
-    private static final String RIMVURL = "http://192.168.178.48/cinematesdb/RimuoviDaVedere.php";
-    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListe.php";
-    private static final String VISURL = "http://192.168.178.48/cinematesdb/PrendiAttributiLista.php";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiDettagliCinemates.php";
+    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiFilmAlDatabase.php";
+    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
+    private static final String PREFURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiPreferiti.php";
+    private static final String VEDURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiDaVedere.php";
+    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviDaiPreferiti.php";
+    private static final String RIMVURL = "http://192.168.1.9/cinematesdb/RimuoviDaVedere.php";
+    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListe.php";
+    private static final String VISURL = "http://192.168.1.9/cinematesdb/PrendiAttributiLista.php";
+    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiDettagliCinemates.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

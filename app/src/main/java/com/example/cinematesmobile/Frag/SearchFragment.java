@@ -66,9 +66,10 @@ public class SearchFragment extends Fragment {
     private MovieSearchAdapter movieSearchAdapter;
     private AttoriSearchAdapter attoriSearchAdapter;
     private RicercaUtenteAdapter ricercaUtenteAdapter;
+    String Foto;
     private List<DBModelDataUser> UtentiCercati;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.178.48/cinematesdb/RicercaUtente.php";
+    private static final String URL = "http://192.168.1.9/cinematesdb/RicercaUtente.php";
     private RadioGroup CampiRicerca;
 
     // TODO: Rename and change types of parameters
@@ -228,7 +229,11 @@ public class SearchFragment extends Fragment {
                             String str_id_utente = object.getString("Id_Utente");
                             String str_username = object.getString("UserName");
                             String str_foto_profilo = object.getString("Foto_Profilo");
-                            String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto_profilo;
+                            if(!(str_foto_profilo.equals("null"))) {
+                                 Foto = "http://192.168.1.9/cinematesdb/" + str_foto_profilo;
+                            }else{
+                                 Foto = "null";
+                            }
                             String str_amicizia = object.getString("Amicizia");
                             String str_amici_in_com = object.getString("Amici_In_Comune");
                             Integer id_utente = Integer.parseInt(str_id_utente);

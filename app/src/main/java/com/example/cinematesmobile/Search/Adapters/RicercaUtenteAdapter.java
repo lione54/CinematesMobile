@@ -37,8 +37,8 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
     private Activity activity;
     private List<DBModelDataUser> dataList;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.178.48/cinematesdb/InviaRichiestaDiAmicizia.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeRichiestaPresente.php";
+    private static final String INSURL = "http://192.168.1.9/cinematesdb/InviaRichiestaDiAmicizia.php";
+    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeRichiestaPresente.php";
 
     public RicercaUtenteAdapter(Activity activity, List<DBModelDataUser> dataList) {
         this.activity = activity;
@@ -53,7 +53,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
     @Override public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         DBModelDataUser data = dataList.get(position);
         if(data.getImmagineProfilo().equals("null")){
-            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24);
+            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(activity).load(data.getImmagineProfilo()).into(holder.FotoProfilo);
         }

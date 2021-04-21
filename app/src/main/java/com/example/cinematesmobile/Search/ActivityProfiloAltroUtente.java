@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,10 +22,13 @@ import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.Frag.Adapter.AltroUtenteAmicoAdapter;
 import com.example.cinematesmobile.Frag.Adapter.MovieListPrefAdapter;
 import com.example.cinematesmobile.Frag.Adapter.NotificationAdapter;
+import com.example.cinematesmobile.Frag.ListeAmiciActivity;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
 import com.example.cinematesmobile.Frag.Model.DBNotificheModelRichiesteAmicizia;
 import com.example.cinematesmobile.Frag.Model.DBNotificheModelSegnalazioni;
+import com.example.cinematesmobile.Frag.ProprieRecensioniActivity;
 import com.example.cinematesmobile.R;
+import com.flaviofaria.kenburnsview.KenBurnsView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -41,11 +45,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ActivityProfiloAltroUtente extends AppCompatActivity {
 
     private String UsernameAltroUtente, UsernameProprietario;
-    private static final String AMURL = "http://192.168.178.48/cinematesdb/PrendiAltroUserDaDBAmico.php";
-    private static final String USURL = "http://192.168.178.48/cinematesdb/PrendiAltroUserDaDB.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeAmico.php";
-    private String Username, Nome, Cognome, Email, Foto_Profilo, Descrizione, DataNascita, Sesso;
-    private LinearLayout LayoutNomeAltroUtente, LayoutCognomeAltroUtente, LayoutEmailAltroUtente, LayoutNascitaAltroUtente, LayoutSessoAltroUtente;
+    private static final String AMURL = "http://192.168.1.9/cinematesdb/PrendiAltroUserDaDBAmico.php";
+    private static final String USURL = "http://192.168.1.9/cinematesdb/PrendiAltroUserDaDB.php";
+    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeAmico.php";
+    private String Username, Nome, Cognome, Email, Foto_Profilo, Descrizione, DataNascita, Sesso, FotoCopertina;
+    private KenBurnsView ImmagineCopertina;
+    private LinearLayout LayoutNomeAltroUtente, LayoutCognomeAltroUtente, LayoutEmailAltroUtente, LayoutNascitaAltroUtente, LayoutSessoAltroUtente, VaiRecensioniAltroUtente, VediAmici;
     private Integer  Recensioni_Scritte, TotaleAmici, Film;
     public CircleImageView ImmagineProfilo;
     private RecyclerView ListeVisibili;
@@ -70,6 +75,9 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         LayoutNascitaAltroUtente = findViewById(R.id.layout_nascita_altro_utente);
         LayoutSessoAltroUtente = findViewById(R.id.layout_sesso_altro_utente);
         NumeroRecensioniScritte = findViewById(R.id.Numero_recensioni_scritte);
+        VaiRecensioniAltroUtente = findViewById(R.id.vai_recensioni_altro_utente);
+        VediAmici = findViewById(R.id.VediAmici);
+        ImmagineCopertina = findViewById(R.id.foto_copertina);
         Previously = findViewById(R.id.previously);
         FilmInComune = findViewById(R.id.Film_in_comune);
         Amici = findViewById(R.id.amici_inc);
@@ -141,6 +149,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                             String str_rece = object.getString("Recensioni_Scritte");
                             Foto_Profilo = object.getString("Foto_Profilo");
                             Descrizione = object.getString("Descrizione_Profilo");
+                            FotoCopertina = object.getString("Foto_Copertina");
                             String str_amici = object.getString("Amici_In_Comune");
                             Recensioni_Scritte = Integer.valueOf(str_rece);
                             TotaleAmici = Integer.valueOf(str_amici);
@@ -155,12 +164,19 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
                         Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineProfilo);
                     }else{
-                        ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
+                        ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
+                    }
+                    if(!(FotoCopertina.equals("null"))){
+                        String Foto = "http://192.168.1.9/cinematesdb/"+ FotoCopertina;
+                        Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineCopertina);
+                    }else{
+                        //ImmagineCopertina.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
                     }
                     UsernameProfilo.setText(Username);
                     NumeroRecensioniScritte.setText(String.valueOf(Recensioni_Scritte));
                     Amici.setText("Amici in comune");
                     NumeroAmici.setText(String.valueOf(TotaleAmici));
+                    FilmInComune.setText(String.valueOf(0));
                     if(!(Descrizione.equals("null"))){
                         DescrizioneUser.setText(Descrizione);
                     }else{
@@ -176,6 +192,21 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                     }else{
                         Toast.makeText(ActivityProfiloAltroUtente.this, "Nessuna lista da mostrare agli estranei.",Toast.LENGTH_SHORT).show();
                     }
+                    VaiRecensioniAltroUtente.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, ProprieRecensioniActivity.class);
+                            intent2.putExtra("Nome_Utente", usernameAltroUtente);
+                            startActivity(intent2);
+                        }
+                    });
+                    VediAmici.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, VisualizzaAmiciInComuneActivity.class);
+                            intent2.putExtra("Nome_Utente", usernameAltroUtente);
+                            intent2.putExtra("Nome_Proprietario", UsernameProprietario);
+                            startActivity(intent2);
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -216,6 +247,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                             DataNascita = object.getString("Data_Nascita");
                             Sesso = object.getString("Sesso");
                             String str_amici = object.getString("Totale_Amici");
+                            FotoCopertina = object.getString("Foto_Copertina");
                             String str_film = object.getString("Film_In_Comune");
                             Recensioni_Scritte = Integer.valueOf(str_rece);
                             TotaleAmici = Integer.valueOf(str_amici);
@@ -228,10 +260,16 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         }
                     }
                     if(!(Foto_Profilo.equals("null"))){
-                        String Foto = "http://192.168.178.48/cinematesdb/"+ Foto_Profilo;
+                        String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
                         Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineProfilo);
                     }else{
-                        ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
+                        ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
+                    }
+                    if(!(FotoCopertina.equals("null"))){
+                        String Foto = "http://192.168.1.9/cinematesdb/"+ FotoCopertina;
+                        Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineCopertina);
+                    }else{
+                        //ImmagineCopertina.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
                     }
                     UsernameProfilo.setText(Username);
                     NumeroRecensioniScritte.setText(String.valueOf(Recensioni_Scritte));
@@ -270,6 +308,21 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         ListeVisibili.setAdapter(altroUtenteAmicoAdapter);
                         altroUtenteAmicoAdapter.notifyDataSetChanged();
                     }
+                    VaiRecensioniAltroUtente.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, ProprieRecensioniActivity.class);
+                            intent2.putExtra("Nome_Utente", username);
+                            startActivity(intent2);
+                        }
+                    });
+                    VediAmici.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, ListeAmiciActivity.class);
+                            intent2.putExtra("Nome_Utente", username);
+                            intent2.putExtra("Nome_Proprietario", UsernameProprietario);
+                            startActivity(intent2);
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

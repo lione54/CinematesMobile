@@ -47,7 +47,7 @@ public class FragmentNotifiche extends Fragment {
     private List<DBNotificheModelSegnalazioni> segnalazioniList = new ArrayList<>();
     private NotificationAdapter notificationAdapter;
     private RecyclerView notifiche;
-    private static final String NOTURL = "http://192.168.178.48/cinematesdb/PrendiNotificheDaDB.php";
+    private static final String NOTURL = "http://192.168.1.9/cinematesdb/PrendiNotificheDaDB.php";
     public static final String JSON_ARRAY = "dbdata";
 
 
@@ -99,54 +99,58 @@ public class FragmentNotifiche extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, NOTURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
                 try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            String str_id = object.getString("Divisore");
-                            if(str_id.equals("1")) {
-                                String UserSegnalato = object.getString("UserSegnalato");
-                                String Moti = object.getString("Motivazione");
-                                String Titolo_Film_Segn_Accettata = object.getString("Titolo_Film");
-                                String Stato = "Accettata";
-                                String Motivazione = Moti.replaceAll("-", " ");
-                                DBNotificheModelSegnalazioni dbNotificheModelSegnalazioni = new DBNotificheModelSegnalazioni(UserSegnalato, nomeUtente, Motivazione, Titolo_Film_Segn_Accettata, Stato);
-                                segnalazioniList.add(dbNotificheModelSegnalazioni);
-                            }else if(str_id.equals("2")){
-                                String UserSegnalato = object.getString("UserSegnalato");
-                                String Moti = object.getString("Motivazione");
-                                String Titolo_Film_Segn_Declinata = object.getString("Titolo_Film");
-                                String Stato = "Declinata";
-                                String Motivazione = Moti.replaceAll("-", " ");
-                                DBNotificheModelSegnalazioni dbNotificheModelSegnalazioni = new DBNotificheModelSegnalazioni(UserSegnalato, nomeUtente, Motivazione, Titolo_Film_Segn_Declinata, Stato);
-                                segnalazioniList.add(dbNotificheModelSegnalazioni);
-                            }else if(str_id.equals("3")){
-                                String UserQuasiAmico = object.getString("E_Amico_Di");
-                                String str_foto = object.getString("Foto_Profilo");
-                                String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
-                                String Stato = "Inviata";
-                                DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserQuasiAmico,Foto, Stato);
-                                richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);
-                            }else if(str_id.equals("4")){
-                                String UserAmico = object.getString("E_Amico_Di");
-                                String str_foto = object.getString("Foto_Profilo");
-                                String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
-                                String Stato = "Accettata";
-                                DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserAmico,Foto, Stato);
-                                richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);
-                            }
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        String str_id = object.getString("Divisore");
+                        if(str_id.equals("1")) {
+                            String str_id_segn = object.getString("Id_Segnalazione");
+                            String UserSegnalato = object.getString("UserSegnalato");
+                            String Moti = object.getString("Motivazione");
+                            String Titolo_Film_Segn_Accettata = object.getString("Titolo_Film");
+                            String Stato = "Accettata";
+                            String Motivazione = Moti.replaceAll("-", " ");
+                            Integer IdSegnalazione = Integer.valueOf(str_id_segn);
+                            DBNotificheModelSegnalazioni dbNotificheModelSegnalazioni = new DBNotificheModelSegnalazioni(IdSegnalazione, UserSegnalato, nomeUtente, Motivazione, Titolo_Film_Segn_Accettata, Stato);
+                            segnalazioniList.add(dbNotificheModelSegnalazioni);
+                        }else if(str_id.equals("2")){
+                            String str_id_segn = object.getString("Id_Segnalazione");
+                            String UserSegnalato = object.getString("UserSegnalato");
+                            String Moti = object.getString("Motivazione");
+                            String Titolo_Film_Segn_Declinata = object.getString("Titolo_Film");
+                            String Stato = "Declinata";
+                            String Motivazione = Moti.replaceAll("-", " ");
+                            Integer IdSegnalazione = Integer.valueOf(str_id_segn);
+                            DBNotificheModelSegnalazioni dbNotificheModelSegnalazioni = new DBNotificheModelSegnalazioni(IdSegnalazione, UserSegnalato, nomeUtente, Motivazione, Titolo_Film_Segn_Declinata, Stato);
+                            segnalazioniList.add(dbNotificheModelSegnalazioni);
+                        }else if(str_id.equals("3")){
+                            String UserQuasiAmico = object.getString("E_Amico_Di");
+                            String str_foto = object.getString("Foto_Profilo");
+                            String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
+                            String Stato = "Inviata";
+                            DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserQuasiAmico,Foto, Stato);
+                            richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);
+                        }else if(str_id.equals("4")){
+                            String UserAmico = object.getString("E_Amico_Di");
+                            String str_foto = object.getString("Foto_Profilo");
+                            String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
+                            String Stato = "Accettata";
+                            DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserAmico,Foto, Stato);
+                            richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);
                         }
+                    }
                     if(!(richiesteAmiciziaList.isEmpty()) && !(segnalazioniList.isEmpty())){
                         notifiche.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        notificationAdapter = new NotificationAdapter(getActivity(), richiesteAmiciziaList, segnalazioniList);
+                        notificationAdapter = new NotificationAdapter(getActivity(), richiesteAmiciziaList, segnalazioniList, nomeUtente);
                         notifiche.setAdapter(notificationAdapter);
                     }else if(!(richiesteAmiciziaList.isEmpty()) && segnalazioniList.isEmpty()) {
                         notifiche.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        notificationAdapter = new NotificationAdapter(getActivity(), richiesteAmiciziaList, segnalazioniList);
+                        notificationAdapter = new NotificationAdapter(getActivity(), richiesteAmiciziaList, segnalazioniList, nomeUtente);
                         notifiche.setAdapter(notificationAdapter);
                     }else if(richiesteAmiciziaList.isEmpty() && !(segnalazioniList.isEmpty())) {
                         notifiche.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        notificationAdapter = new NotificationAdapter(getActivity(), richiesteAmiciziaList, segnalazioniList);
+                        notificationAdapter = new NotificationAdapter(getActivity(), richiesteAmiciziaList, segnalazioniList, nomeUtente);
                         notifiche.setAdapter(notificationAdapter);
                     }else{
                         Toast.makeText(getActivity(), "Nessuna nuova notifica", Toast.LENGTH_LONG).show();

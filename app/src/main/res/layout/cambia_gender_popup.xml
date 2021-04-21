@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ColorCineBlack">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo_popup"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_cinemates"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <RadioGroup
+            android:id="@+id/Gender"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="71dp"
+            android:orientation="horizontal"
+            android:theme="@style/RadioButtonStyle">
+
+            <TextView
+                android:id="@+id/Sex_text"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sesso"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="71dp"
+                tools:layout_editor_absoluteY="453dp" />
+
+            <RadioButton
+                android:id="@+id/gender_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                android:textColor="@color/ColorCineOrange" />
+
+            <RadioButton
+                android:id="@+id/gender_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male"
+                android:textColor="@color/ColorCineOrange" />
+
+            <RadioButton
+                android:id="@+id/gender_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other"
+                android:textColor="@color/ColorCineOrange" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="right">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/conferma_button_gender"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:text="@string/conferma"
+            android:textColor="@color/ColorCineOrange" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/annulla_button_gender"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:text="@string/annulla"
+            android:textColor="@color/ColorCineOrange"/>
+    </LinearLayout>
+</LinearLayout>

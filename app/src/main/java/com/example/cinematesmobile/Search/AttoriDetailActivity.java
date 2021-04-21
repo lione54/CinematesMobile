@@ -172,6 +172,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
                         stringBuilder.append(alsoknow.get(i)).append(", ");
                     }
                 }
+
                 AlsoKnowAs.setText(stringBuilder.toString());
                 AlsoKnowAsLayout.setVisibility(View.VISIBLE);
             }else{
@@ -275,8 +276,15 @@ public class AttoriDetailActivity extends AppCompatActivity {
                 }
             }
             if (stringBuilder != null && stringBuilder.length() > 0){
-                AttoriFilmfatti.setText(stringBuilder);
+                String InitialString = stringBuilder.toString();
+                String Mod = InitialString.replaceAll("null,|, null,| null.", "");
+                if(Mod.length() == 0){
+                    AttoriFilmfatti.setText("Nessun film da mostrare");
+                    AttoriDetailFilmfattiLayout.setVisibility(View.VISIBLE);
+                }else{
+                AttoriFilmfatti.setText(Mod);
                 AttoriDetailFilmfattiLayout.setVisibility(View.VISIBLE);
+                }
             }else{
                 AttoriDetailFilmfattiLayout.setVisibility(View.GONE);
             }

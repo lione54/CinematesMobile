@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,10 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CinematesMobile"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Frag.ListeAmiciActivity"
-                  android:screenOrientation="locked"></activity>
-        <activity android:name=".Frag.ProprieRecensioniActivity"
-                  android:screenOrientation="locked"/>
+        <activity android:name=".Search.VisualizzaAmiciInComuneActivity"></activity>
+        <activity
+            android:name=".Frag.ListeAmiciActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".Frag.ProprieRecensioniActivity"
+            android:screenOrientation="locked" />
         <activity
             android:name=".Segnalazioni.SegnalazioniActivity"
             android:screenOrientation="locked" />

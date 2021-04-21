@@ -84,23 +84,11 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/ColorCineOrange"
-                        android:text="@string/titolo_film"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/maven_pro"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="18sp"
-                        android:visibility="gone"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/Titolo_film_per_recensioni"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/ColorCineOrange"
                         android:textStyle="bold"
-                        android:layout_marginBottom="50dp"
                         android:fontFamily="@font/maven_pro"
                         android:layout_marginLeft="10dp"
                         android:textSize="25sp"/>

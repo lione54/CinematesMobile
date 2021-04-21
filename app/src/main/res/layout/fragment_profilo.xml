@@ -13,32 +13,38 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/foto_copertina"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/ic_launcher_background">
+            android:gravity="center">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/immagine_profilo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"/>
+            <com.flaviofaria.kenburnsview.KenBurnsView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/foto_copertina"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/Username_Profilo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/maven_pro"
-                android:textStyle="bold"
-                android:layout_marginBottom="15dp"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="32sp"/>
-        </LinearLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/immagine_profilo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="30dp"/>
+
+
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/Username_Profilo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-40dp"
+            android:fontFamily="@font/maven_pro"
+            android:textColor="@color/ColorCineOrange"
+            android:textSize="32sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -184,6 +190,7 @@
                         android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/cambia_nome"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="right"
@@ -231,6 +238,7 @@
                              android:layout_height="wrap_content">
 
                          <androidx.appcompat.widget.AppCompatImageView
+                             android:id="@+id/cambia_cognome"
                              android:layout_width="wrap_content"
                              android:layout_height="match_parent"
                              android:layout_gravity="right"
@@ -279,6 +287,7 @@
                          android:gravity="right">
 
                      <androidx.appcompat.widget.AppCompatImageView
+                         android:id="@+id/cambia_indirizzo_email"
                          android:layout_width="wrap_content"
                          android:layout_height="match_parent"
                          android:src="@drawable/ic_baseline_edit_24"/>
@@ -296,7 +305,6 @@
 
 
                     <LinearLayout
-                        android:id="@+id/Cambia_Passwd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -327,6 +335,7 @@
                             android:gravity="right">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/cambia_password"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_baseline_edit_24"/>
@@ -373,6 +382,7 @@
                              android:layout_height="wrap_content">
 
                          <androidx.appcompat.widget.AppCompatImageView
+                             android:id="@+id/cambia_descrizione"
                              android:layout_width="wrap_content"
                              android:layout_height="match_parent"
                              android:src="@drawable/ic_baseline_edit_24"/>
@@ -418,6 +428,7 @@
                              android:layout_height="wrap_content">
 
                          <androidx.appcompat.widget.AppCompatImageView
+                             android:id="@+id/cambia_datanascita"
                              android:layout_width="wrap_content"
                              android:layout_height="match_parent"
                              android:src="@drawable/ic_baseline_edit_24"/>
@@ -464,6 +475,7 @@
                             android:gravity="right">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/cambia_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_baseline_edit_24"/>

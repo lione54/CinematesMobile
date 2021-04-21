@@ -50,7 +50,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
     private List<DBModelDataFilms> dataList;
     private RetrofitService retrofitService;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
+    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMediaVoti.php";
     private Double Valutazione_Media;
 
     public MovieListAltroUtenteAdapter(Activity activity, List<DBModelDataFilms> dataList) {
@@ -133,19 +133,6 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
     }
 
     private void prepareMovieDetails(MovieDetail movieDetailResponse, MovieListAltroUtenteAdapter.DataHolder holder) {
-        if(movieDetailResponse.getGenres() != null){
-            if (movieDetailResponse.getGenres().size() > 0) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(movieDetailResponse.getGenres().stream().map(generi -> generi.getName()).collect(Collectors.toList()));
-                String geners = stringBuilder.toString().replaceAll("\\[", "");
-                String gen = geners.replaceAll("\\]","");
-                holder.Generi.setText(gen);
-            } else {
-                holder.Generi.setText("Non disponibile");
-            }
-        }else {
-            holder.Generi.setText("Non disponibile");
-        }
         if(movieDetailResponse.getOverview() != null){
             if(movieDetailResponse.getOverview().length() > 0) {
                 String Trama = movieDetailResponse.getOverview().substring(0, 70);
@@ -173,13 +160,12 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
     class DataHolder extends RecyclerView.ViewHolder {
 
         private KenBurnsView posterImageView;
-        public AppCompatTextView posterTitle, Generi, Trama, VotoTMDB, VotoCinemates;
+        public AppCompatTextView posterTitle, Trama, VotoTMDB, VotoCinemates;
 
         public DataHolder(View itemView) {
             super(itemView);
             posterImageView = itemView.findViewById(R.id.poster_image_view_preferiti);
             posterTitle = itemView.findViewById(R.id.titolo_poster_preferiti);
-            Generi = itemView.findViewById(R.id.film_detail_genere);
             Trama = itemView.findViewById(R.id.film_pref_trama);
             VotoTMDB = itemView.findViewById(R.id.film_votazione_generale);
             VotoCinemates = itemView.findViewById(R.id.film_votazione_cinemates);

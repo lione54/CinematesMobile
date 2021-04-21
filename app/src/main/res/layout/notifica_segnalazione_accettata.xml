@@ -41,7 +41,7 @@
                 android:gravity="right">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rimuovi_notifica_segnalazione_declinata"
+                    android:id="@+id/rimuovi_notifica_segnalazione_accettata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_close_24"/>
@@ -65,7 +65,8 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -77,14 +78,13 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/motivazione_segnalazione"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:textColor="@color/ColorCineOrange" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/rimuovi_notifica_segnalazione_accettata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
