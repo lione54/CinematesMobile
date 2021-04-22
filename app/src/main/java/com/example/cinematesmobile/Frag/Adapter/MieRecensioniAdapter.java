@@ -34,7 +34,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
 
     private Activity activity;
     private List<DBModelRecensioni> recensioniList;
-    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviRecensione.php";
+    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviRecensione.php";
 
     public MieRecensioniAdapter(Activity activity, List<DBModelRecensioni> recensioniList) {
         this.activity = activity;

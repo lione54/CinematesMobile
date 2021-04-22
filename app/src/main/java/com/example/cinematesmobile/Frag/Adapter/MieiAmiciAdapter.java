@@ -35,7 +35,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
     private Activity activity;
     private List<DBModelUserAmici> amiciList;
     private String Username,Proprietario;
-    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviAmico.php";
+    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviAmico.php";
 
     public MieiAmiciAdapter(Activity activity, List<DBModelUserAmici> amiciList, String username, String proprietario) {
         this.activity = activity;

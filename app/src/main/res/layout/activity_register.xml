@@ -38,8 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="@string/IndirizzoEmail"
-            app:passwordToggleTint="@color/ColorCineOrange"
-            android:theme="@style/EditTextPersonalizzati1">
+            app:passwordToggleTint="@color/ColorCineWhite"
+            android:theme="@style/EditTextPersonalizzati">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/InserMail"
@@ -49,8 +49,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_gravity="left"
                 android:drawableEnd="@drawable/ic_baseline_alternate_email_24"
-                android:drawableTint="@color/ColorCineOrange"
-                android:textColor="@color/ColorCineOrange"
+                android:drawableTint="@color/ColorCineWhite"
+                android:textColor="@color/ColorCineWhite"
                 android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>

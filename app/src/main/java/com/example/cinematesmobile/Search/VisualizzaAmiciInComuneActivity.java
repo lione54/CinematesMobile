@@ -37,7 +37,7 @@ public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
     private MieiAmiciAdapter mieiAmiciAdapter;
     String Foto_Mod;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.1.9/cinematesdb/ListaAmiciInComune.php";
+    private static final String URL = "http://192.168.178.48/cinematesdb/ListaAmiciInComune.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +66,7 @@ public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
                         String str_username = object.getString("E_Amico_Di");
                         String str_foto_profilo = object.getString("Foto_Profilo");
                         if(!(str_foto_profilo.equals("null"))) {
-                            Foto_Mod = "http://192.168.1.9/cinematesdb/" + str_foto_profilo;
+                            Foto_Mod = "http://192.168.178.48/cinematesdb/" + str_foto_profilo;
                         }else {
                             Foto_Mod = "null";
                         }
@@ -77,7 +77,7 @@ public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
                         ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
                         mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, username, Proprietario);
                         ListaAmici.setAdapter(mieiAmiciAdapter);
-                        Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non Sono Presenti Amici.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici",Toast.LENGTH_SHORT).show();
                     }else {
                         ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
                         mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, username, Proprietario);

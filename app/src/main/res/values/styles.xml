@@ -37,6 +37,16 @@
 
     <!-- Sezione Gender -->
     <style name="RadioButtonStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textColorHint">@color/ColorCineWhite</item>
+        <!-- Coloro i radio buttons sul gender -->
+        <item name="android:textColorSecondary">@color/ColorCineWhite</item>
+        <item name="android:textColorTertiary">@color/ColorCineWhite</item>
+        <item name="colorControlActivated">@color/ColorCineOrange</item>
+
+    </style>
+
+    <!-- Sezione Gender MODIFICA-->
+    <style name="RadioButtonStyle1" parent="Theme.AppCompat.Light">
         <item name="android:textColorHint">@color/ColorCineOrange</item>
         <!-- Coloro i radio buttons sul gender -->
         <item name="android:textColorSecondary">@color/ColorCineOrange</item>
@@ -44,7 +54,6 @@
         <item name="colorControlActivated">@color/ColorCineOrange</item>
 
     </style>
-
     <!-- Sezione Cerca -->
     <style name="RadioButtonStyleSearch" parent="Theme.AppCompat.Light">
         <item name="android:textColorHint">@color/ColorCineBlack</item>
@@ -81,10 +90,10 @@
     </style>
 
     <style name="EditTextPersonalizzati" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColorHint">@color/ColorCineOrange</item>
-        <item name="hintTextColor">@color/ColorCineOrange</item>
-        <item name="colorControlNormal">@color/ColorCineOrange</item>
-        <item name="colorControlActivated">@color/ColorCineOrange</item>
+        <item name="android:textColorHint">@color/ColorCineWhite</item>
+        <item name="hintTextColor">@color/ColorCineWhite</item>
+        <item name="colorControlNormal">@color/ColorCineWhite</item>
+        <item name="colorControlActivated">@color/ColorCineWhite</item>
         <item name="errorEnabled">true</item>
         <item name="errorTextColor">@color/ColorCineRed</item>
     </style>
@@ -99,12 +108,12 @@
     </style>
 
     <style name="PasswordIni" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColorHint">@color/ColorCineOrange</item>
+        <item name="android:textColorHint">@color/ColorCineWhite</item>
         <item name="passwordToggleEnabled">true</item>
-        <item name="hintTextColor">@color/ColorCineOrange</item>
+        <item name="hintTextColor">@color/ColorCineWhite</item>
         <item name="errorTextColor">@color/ColorCineRed</item>
-        <item name="colorControlNormal">@color/ColorCineOrange</item>
-        <item name="colorControlActivated">@color/ColorCineOrange</item>
+        <item name="colorControlNormal">@color/ColorCineWhite</item>
+        <item name="colorControlActivated">@color/ColorCineWhite</item>
     </style>
 
 </resources>

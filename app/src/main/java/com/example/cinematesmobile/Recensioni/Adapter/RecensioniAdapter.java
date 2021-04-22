@@ -44,7 +44,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
     private List<DBModelRecensioni> recensioniList;
     private String User_Segnalatore;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeSegnalazionePresente.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeSegnalazionePresente.php";
 
     public RecensioniAdapter(Context mCtx, List<DBModelRecensioni> recensioniList, String user_Segnalatore) {
         this.mCtx = mCtx;
@@ -118,7 +118,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                         intent2.putExtra("Id_Recensione", idRecensione);
                         mCtx.startActivity(intent2);
                     }else{
-                        Toast.makeText(mCtx, "Hai già segnalato la recensione di questo user", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mCtx, "Recensione già segnalata dell'user", Toast.LENGTH_LONG).show();
                     }
                 }catch (Exception e){
                     Toast.makeText(mCtx, "" + e, Toast.LENGTH_LONG).show();

@@ -32,8 +32,6 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="30dp"/>
 
-
-
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -182,12 +180,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/maven_pro"
                         android:textSize="18sp"
+                        android:layout_weight="2"
                         android:textColor="@color/ColorCineOrange"/>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:gravity="right"
-                        android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/cambia_nome"
@@ -195,7 +190,6 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="right"
                         android:src="@drawable/ic_baseline_edit_24"/>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -228,14 +222,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/maven_pro"
+                            android:layout_weight="2"
                             android:textSize="18sp"
                             android:textColor="@color/ColorCineOrange"/>
-
-                         <androidx.appcompat.widget.LinearLayoutCompat
-                             android:layout_width="match_parent"
-                             android:layout_gravity="right"
-                             android:gravity="right"
-                             android:layout_height="wrap_content">
 
                          <androidx.appcompat.widget.AppCompatImageView
                              android:id="@+id/cambia_cognome"
@@ -243,8 +232,6 @@
                              android:layout_height="match_parent"
                              android:layout_gravity="right"
                              android:src="@drawable/ic_baseline_edit_24"/>
-
-                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -278,13 +265,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/maven_pro"
                         android:textSize="18sp"
+                        android:layout_weight="2"
                         android:textColor="@color/ColorCineOrange"/>
-
-                     <androidx.appcompat.widget.LinearLayoutCompat
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:layout_gravity="right"
-                         android:gravity="right">
 
                      <androidx.appcompat.widget.AppCompatImageView
                          android:id="@+id/cambia_indirizzo_email"
@@ -292,7 +274,7 @@
                          android:layout_height="match_parent"
                          android:src="@drawable/ic_baseline_edit_24"/>
 
-                     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -327,20 +309,14 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/maven_pro"
                             android:textSize="18sp"
+                            android:layout_weight="2"
                             android:textColor="@color/ColorCineOrange"/>
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/cambia_password"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_baseline_edit_24"/>
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -372,22 +348,17 @@
                             android:id="@+id/Descrizione_User"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="2"
                             android:fontFamily="@font/maven_pro"
                             android:textColor="@color/ColorCineOrange"
                             android:textSize="18sp" />
 
-                         <androidx.appcompat.widget.LinearLayoutCompat
-                             android:layout_width="match_parent"
-                             android:gravity="right"
-                             android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/cambia_descrizione"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_baseline_edit_24"/>
 
-                         <androidx.appcompat.widget.AppCompatImageView
-                             android:id="@+id/cambia_descrizione"
-                             android:layout_width="wrap_content"
-                             android:layout_height="match_parent"
-                             android:src="@drawable/ic_baseline_edit_24"/>
-
-                         </androidx.appcompat.widget.LinearLayoutCompat>
                         </androidx.appcompat.widget.LinearLayoutCompat>
                         <View
                             android:layout_width="match_parent"
@@ -419,21 +390,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/maven_pro"
+                            android:layout_weight="2"
                             android:textColor="@color/ColorCineOrange"
                             android:textSize="18sp" />
-
-                         <androidx.appcompat.widget.LinearLayoutCompat
-                             android:layout_width="match_parent"
-                             android:gravity="right"
-                             android:layout_height="wrap_content">
 
                          <androidx.appcompat.widget.AppCompatImageView
                              android:id="@+id/cambia_datanascita"
                              android:layout_width="wrap_content"
                              android:layout_height="match_parent"
                              android:src="@drawable/ic_baseline_edit_24"/>
-
-                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -466,13 +431,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/maven_pro"
+                            android:layout_weight="2"
                             android:textColor="@color/ColorCineOrange"
                             android:textSize="18sp" />
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/cambia_gender"
@@ -481,12 +442,11 @@
                             android:src="@drawable/ic_baseline_edit_24"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginTop="15dp"
+                            android:layout_marginBottom="10dp"
                             android:background="@color/ColorCineOrange"/>
                     </LinearLayout>
 

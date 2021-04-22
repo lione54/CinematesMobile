@@ -252,7 +252,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
             }
 
             @Override public void onFailure(@NonNull  Call<AttoriResponse> call,@NonNull Throwable t) {
-                Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
     }

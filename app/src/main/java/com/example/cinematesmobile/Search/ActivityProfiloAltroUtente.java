@@ -45,9 +45,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ActivityProfiloAltroUtente extends AppCompatActivity {
 
     private String UsernameAltroUtente, UsernameProprietario;
-    private static final String AMURL = "http://192.168.1.9/cinematesdb/PrendiAltroUserDaDBAmico.php";
-    private static final String USURL = "http://192.168.1.9/cinematesdb/PrendiAltroUserDaDB.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeAmico.php";
+    private static final String AMURL = "http://192.168.178.48/cinematesdb/PrendiAltroUserDaDBAmico.php";
+    private static final String USURL = "http://192.168.178.48/cinematesdb/PrendiAltroUserDaDB.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeAmico.php";
     private String Username, Nome, Cognome, Email, Foto_Profilo, Descrizione, DataNascita, Sesso, FotoCopertina;
     private KenBurnsView ImmagineCopertina;
     private LinearLayout LayoutNomeAltroUtente, LayoutCognomeAltroUtente, LayoutEmailAltroUtente, LayoutNascitaAltroUtente, LayoutSessoAltroUtente, VaiRecensioniAltroUtente, VediAmici;
@@ -161,13 +161,13 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         }
                     }
                     if(!(Foto_Profilo.equals("null"))){
-                        String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
+                        String Foto = "http://192.168.178.48/cinematesdb/"+ Foto_Profilo;
                         Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineProfilo);
                     }else{
                         ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
                     }
                     if(!(FotoCopertina.equals("null"))){
-                        String Foto = "http://192.168.1.9/cinematesdb/"+ FotoCopertina;
+                        String Foto = "http://192.168.178.48/cinematesdb/"+ FotoCopertina;
                         Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineCopertina);
                     }else{
                         //ImmagineCopertina.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
@@ -260,13 +260,13 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         }
                     }
                     if(!(Foto_Profilo.equals("null"))){
-                        String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
+                        String Foto = "http://192.168.178.48/cinematesdb/"+ Foto_Profilo;
                         Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineProfilo);
                     }else{
                         ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
                     }
                     if(!(FotoCopertina.equals("null"))){
-                        String Foto = "http://192.168.1.9/cinematesdb/"+ FotoCopertina;
+                        String Foto = "http://192.168.178.48/cinematesdb/"+ FotoCopertina;
                         Glide.with(ActivityProfiloAltroUtente.this).load(Foto).into(ImmagineCopertina);
                     }else{
                         //ImmagineCopertina.setImageResource(R.drawable.ic_baseline_person_24_cineblack);

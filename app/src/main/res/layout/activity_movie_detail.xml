@@ -473,29 +473,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="20dp"
+                    android:background="@color/ColorCineOrange"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:fontFamily="@font/maven_pro"
-                    android:gravity="start"
                     android:text="@string/immagini_film"
-                    android:textColor="@color/ColorCineOrange"
-                    android:textSize="15sp"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/film_detail__image_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/ColorCineOrange"
+                    android:background="@color/ColorCineBlack"
                     android:nestedScrollingEnabled="false" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

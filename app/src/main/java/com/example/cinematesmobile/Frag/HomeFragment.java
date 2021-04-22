@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
                 recyclerViewUpcoming.scheduleLayoutAnimation();
             }
             @Override public void onFailure(@NonNull Call<UpcomingResponse> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
         Call<PopularResponse> popularResponseCall = retrofitService.getPopularByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
                 recyclerViewPopular.scheduleLayoutAnimation();
             }
             @Override public void onFailure(@NonNull Call<PopularResponse> call,@NonNull  Throwable t) {
-                Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
         Call<TopRatedResponse> topRatedResponseCall = retrofitService.getTopRatedByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment {
                 recyclerTopRated.scheduleLayoutAnimation();
             }
             @Override public void onFailure(@NonNull Call<TopRatedResponse> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
         Call<AttoriPopularResponse> attoriPopularResponseCall = retrofitService.getAttoriPopular(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override public void onFailure(@NonNull Call<AttoriPopularResponse> call,@NonNull Throwable t) {
-                Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
         Call<NowPlayngResponse> nowPlayngResponseCall = retrofitService.getNowPlayng(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override public void onFailure(@NonNull Call<NowPlayngResponse> call,@NonNull Throwable t) {
-                Toast.makeText(getActivity(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
         return v;

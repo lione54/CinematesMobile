@@ -50,7 +50,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
     private List<DBModelDataFilms> dataList;
     private RetrofitService retrofitService;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMediaVoti.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
     private Double Valutazione_Media;
 
     public MovieListAltroUtenteAdapter(Activity activity, List<DBModelDataFilms> dataList) {

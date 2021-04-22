@@ -39,7 +39,7 @@ public class ProprieRecensioniActivity extends AppCompatActivity {
     private List<DBModelRecensioni> recensioniList = new ArrayList<>();
     private MieRecensioniAdapter mieRecensioniAdapter;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMieRecensioniDaDB.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMieRecensioniDaDB.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +81,7 @@ public class ProprieRecensioniActivity extends AppCompatActivity {
                         MieRecenisoni.setLayoutManager(new LinearLayoutManager(ProprieRecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
                         mieRecensioniAdapter = new MieRecensioniAdapter(ProprieRecensioniActivity.this, recensioniList);
                         MieRecenisoni.setAdapter(mieRecensioniAdapter);
-                        Toast.makeText(ProprieRecensioniActivity.this, "Nessuna Recensione Da Mostrare.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProprieRecensioniActivity.this, "Nessuna recensione da mostrare",Toast.LENGTH_SHORT).show();
                     }else{
                         MieRecenisoni.setLayoutManager(new LinearLayoutManager(ProprieRecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
                         mieRecensioniAdapter = new MieRecensioniAdapter(ProprieRecensioniActivity.this, recensioniList);

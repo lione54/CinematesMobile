@@ -92,11 +92,11 @@ public class ProfiloFragment extends Fragment {
     private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass, NuovoAttributo;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroListePersonalizzate, NumeroAmici;
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, PasswordUser, DescrizioneUser, DataNascitaUser, SessoUser;
-    private static final String PROFURL = "http://192.168.1.9/cinematesdb/PrendiUserDataDaDB.php";
-    private static final String PASSURL = "http://192.168.1.9/cinematesdb/CambiaPassword.php";
-    private static final String FOPURL = "http://192.168.1.9/cinematesdb/CambiaFotoProfilo.php";
-    private static final String COPURL = "http://192.168.1.9/cinematesdb/CambiaFotoCopertina.php";
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/CambiaAttributo.php";
+    private static final String PROFURL = "http://192.168.178.48/cinematesdb/PrendiUserDataDaDB.php";
+    private static final String PASSURL = "http://192.168.178.48/cinematesdb/CambiaPassword.php";
+    private static final String FOPURL = "http://192.168.178.48/cinematesdb/CambiaFotoProfilo.php";
+    private static final String COPURL = "http://192.168.178.48/cinematesdb/CambiaFotoCopertina.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/CambiaAttributo.php";
     public static final String JSON_ARRAY = "dbdata";
     private RadioGroup CampiRicerca;
 
@@ -193,17 +193,16 @@ public class ProfiloFragment extends Fragment {
                             NumeroListe = Integer.valueOf(str_liste);
                         }
                     if(!(Foto_Profilo.equals("null"))){
-                        String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
+                        String Foto = "http://192.168.178.48/cinematesdb/"+ Foto_Profilo;
                         Glide.with(getContext()).load(Foto).into(ImmagineProfilo);
                     }else{
                         ImmagineProfilo.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
                     }
                     if(!(FotoCopertina.equals("null"))){
-                        String Foto = "http://192.168.1.9/cinematesdb/"+ FotoCopertina;
+                        String Foto = "http://192.168.178.48/cinematesdb/"+ FotoCopertina;
                         Glide.with(getContext()).load(Foto).into(ImmagineCopertina);
-                    }else{
-                        //ImmagineCopertina.setImageResource(R.drawable.ic_baseline_person_24_cineblack);
                     }
+
                     UsernameProfilo.setText(Username);
                     NumeroRecensioniScritte.setText(String.valueOf(Recensioni_Scritte));
                     NumeroListePersonalizzate.setText(String.valueOf(NumeroListe));
@@ -216,7 +215,7 @@ public class ProfiloFragment extends Fragment {
                     if(!(Descrizione.equals("null"))){
                         DescrizioneUser.setText(Descrizione);
                     }else{
-                        DescrizioneUser.setText("Descrizione Non Inserita Dall'User.");
+                        DescrizioneUser.setText("Descrizione non inserita dall'user");
                     }
                     DataNascitaUser.setText(DataNascita);
                     SessoUser.setText(Sesso);
@@ -263,17 +262,17 @@ public class ProfiloFragment extends Fragment {
                                 @Override public void onClick(View v) {
                                     if(InserisciVecchiaPass.length() == 0 || !(InserisciVecchiaPass.getText().toString().equals(Passwd))){
                                         if(InserisciVecchiaPass.length() == 0){
-                                            VecchiaPass.setError("Inserisci Vecchia Password");
+                                            VecchiaPass.setError("Inserisci vecchia password");
                                         }else{
-                                            VecchiaPass.setError("La Vecchia Password Non Corrisponde");
+                                            VecchiaPass.setError("La vecchia password non corrisponde");
                                         }
                                     }else{
                                         if(InserisciNuovaPass.length() == 0){
-                                                NuovaPass.setError("Inserisci Nuova Password");
+                                                NuovaPass.setError("Inserisci nuova password");
                                         }else if(ConfermaNuovaPass.length() == 0){
-                                                ConfermaPass.setError("Inserisci Nuova Password");
+                                                ConfermaPass.setError("Inserisci nuova password");
                                         }else if(InserisciNuovaPass.length() != ConfermaNuovaPass.length()){
-                                                ConfermaPass.setError("La Nuova Password Non Corrisponde");
+                                                ConfermaPass.setError("La nuova password non corrisponde");
                                         }else {
                                             cambiaPassword(usernameProprietario, InserisciNuovaPass.getText().toString());
                                             Fragment fragment = new ProfiloFragment();
@@ -289,7 +288,7 @@ public class ProfiloFragment extends Fragment {
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
                                     CambiaPassword.dismiss();
-                                    Toast.makeText(getContext() , "Cambiamento Password Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento password annullato", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -297,7 +296,7 @@ public class ProfiloFragment extends Fragment {
                     ImmagineProfilo.setOnClickListener(new View.OnClickListener() {
                         @Override public void onClick(View v) {
                             Intent visualizzaImmagineintent = new Intent(getActivity(), VisualizzaImmaginiActivity.class);
-                            String Foto = "http://192.168.1.9/cinematesdb/"+ Foto_Profilo;
+                            String Foto = "http://192.168.178.48/cinematesdb/"+ Foto_Profilo;
                             visualizzaImmagineintent.putExtra("image_url", Foto);
                             startActivity(visualizzaImmagineintent);
                         }
@@ -305,7 +304,7 @@ public class ProfiloFragment extends Fragment {
                     ImmagineCopertina.setOnClickListener(new View.OnClickListener() {
                         @Override public void onClick(View v) {
                             Intent visualizzaImmagineintent = new Intent(getActivity(), VisualizzaImmaginiActivity.class);
-                            String Foto = "http://192.168.1.9/cinematesdb/"+ FotoCopertina;
+                            String Foto = "http://192.168.178.48/cinematesdb/"+ FotoCopertina;
                             visualizzaImmagineintent.putExtra("image_url", Foto);
                             startActivity(visualizzaImmagineintent);
                         }
@@ -345,7 +344,7 @@ public class ProfiloFragment extends Fragment {
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
                                     CambiaFotoProfilo.dismiss();
-                                    Toast.makeText(getContext() , "Cambiamento Foto Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento foto annullato", Toast.LENGTH_LONG).show();
                                 }
                             });
                             return false;
@@ -386,7 +385,7 @@ public class ProfiloFragment extends Fragment {
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
                                     CambiaFotoCopertina.dismiss();
-                                    Toast.makeText(getContext() , "Cambiamento Foto Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento foto annullato", Toast.LENGTH_LONG).show();
                                 }
                             });
                             return false;
@@ -414,13 +413,13 @@ public class ProfiloFragment extends Fragment {
                                         loadFragment(fragment);
                                         CambiaNome.dismiss();
                                     }else{
-                                        Toast.makeText(getContext() , "Inserisci Nome", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext() , "Inserisci nome", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    Toast.makeText(getContext() , "Cambiamento Nome Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento nome annullato", Toast.LENGTH_LONG).show();
                                     CambiaNome.dismiss();
                                 }
                             });
@@ -448,13 +447,13 @@ public class ProfiloFragment extends Fragment {
                                         loadFragment(fragment);
                                         CambiaCognome.dismiss();
                                     }else{
-                                        Toast.makeText(getContext() , "Inserisci Cognome", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext() , "Inserisci cognome", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    Toast.makeText(getContext() , "Cambiamento Cognome Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento cognome annullato", Toast.LENGTH_LONG).show();
                                     CambiaCognome.dismiss();
                                 }
                             });
@@ -482,13 +481,13 @@ public class ProfiloFragment extends Fragment {
                                         loadFragment(fragment);
                                         CambiaDescrizione.dismiss();
                                     }else{
-                                        Toast.makeText(getContext() , "Inserisci Descrizione", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext() , "Inserisci descrizione", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    Toast.makeText(getContext() , "Cambiamento Descrizione Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento descrizione annullato", Toast.LENGTH_LONG).show();
                                     CambiaDescrizione.dismiss();
                                 }
                             });
@@ -516,13 +515,13 @@ public class ProfiloFragment extends Fragment {
                                         loadFragment(fragment);
                                         CambiaEmail.dismiss();
                                     }else{
-                                        Toast.makeText(getContext() , "Inserisci Descrizione", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext() , "Inserisci descrizione", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    Toast.makeText(getContext() , "Cambiamento Descrizione Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento descrizione annullato", Toast.LENGTH_LONG).show();
                                     CambiaEmail.dismiss();
                                 }
                             });
@@ -565,13 +564,13 @@ public class ProfiloFragment extends Fragment {
                                         loadFragment(fragment);
                                         CambiaDataNascita.dismiss();
                                     }else{
-                                        Toast.makeText(getContext() , "Inserisci Data Di Nascita", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext() , "Inserisci data di nascita", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    Toast.makeText(getContext() , "Cambiamento Data Di Nascita Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento data di nascita annullato", Toast.LENGTH_LONG).show();
                                     CambiaDataNascita.dismiss();
                                 }
                             });
@@ -592,7 +591,7 @@ public class ProfiloFragment extends Fragment {
                                 @Override public void onClick(View v) {
                                     int camposelezionato = CampiRicerca.getCheckedRadioButtonId();
                                     if (camposelezionato == -1){
-                                        Toast.makeText(getContext(), "Seleziona Un Campo Di Ricerca.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
                                     }else{
                                         Nuovosesso[0] = CambiaSesso(camposelezionato);
                                     }
@@ -606,13 +605,13 @@ public class ProfiloFragment extends Fragment {
                                         loadFragment(fragment);
                                         CambiaGender.dismiss();
                                     }else{
-                                        Toast.makeText(getContext() , "Inserisci Sesso", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext() , "Inserisci sesso", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    Toast.makeText(getContext() , "Cambiamento Sesso Annullato", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext() , "Cambiamento sesso annullato", Toast.LENGTH_LONG).show();
                                     CambiaGender.dismiss();
                                 }
                             });
@@ -679,7 +678,7 @@ public class ProfiloFragment extends Fragment {
     private void UpdateFotoCopertina(String username, String imgepath) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, COPURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(getContext() , "Foto Copertina Aggiornata", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext() , "Foto copertina aggiornata", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
@@ -700,7 +699,7 @@ public class ProfiloFragment extends Fragment {
     private void UpdateFotoProfilo(String username, String image) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, FOPURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(getContext() , "Foto Profilo Aggiornata", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext() , "Foto profilo aggiornata", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
@@ -722,7 +721,7 @@ public class ProfiloFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Seleziona Immagine"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent,"Seleziona immagine"), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -758,7 +757,7 @@ public class ProfiloFragment extends Fragment {
     private void cambiaPassword(String usernameProprietario, String nuovaPassword) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, PASSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(getContext() , "Password Aggiornata", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext() , "Password aggiornata", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {

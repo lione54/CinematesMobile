@@ -40,7 +40,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
     private AppCompatButton Si, No;
     private AppCompatImageButton Previously;
     private CircleImageView ImmagineRece;
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiRecensioneAlDatabase.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiRecensioneAlDatabase.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,22 +92,22 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                     }
                 }else{
                     if(CorpoRecensione.length() <= 0){
-                        Toast.makeText(ScriviRecensioneActivity.this, "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScriviRecensioneActivity.this, "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                     }else if(CorpoRecensione.length() >= 600){
-                        Toast.makeText(ScriviRecensioneActivity.this, "Superato La Lunghezza Massima Della Recensione", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScriviRecensioneActivity.this, "Superato la lunghezza massima della recensione", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
         Annulla.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Toast.makeText(ScriviRecensioneActivity.this, "Inserimento Recensione Annullato", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScriviRecensioneActivity.this, "Inserimento recensione annullato", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
         Previously.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Toast.makeText(ScriviRecensioneActivity.this, "Inserimento Recensione Annullato", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScriviRecensioneActivity.this, "Inserimento recensione annullato", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
@@ -117,7 +117,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         String titoloMod = titoloFilm.replaceAll("'", "/");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(ScriviRecensioneActivity.this , "Recensione Aggiunta" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta" , Toast.LENGTH_SHORT).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {

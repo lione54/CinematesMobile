@@ -69,7 +69,7 @@ public class SearchFragment extends Fragment {
     String Foto;
     private List<DBModelDataUser> UtentiCercati;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.1.9/cinematesdb/RicercaUtente.php";
+    private static final String URL = "http://192.168.178.48/cinematesdb/RicercaUtente.php";
     private RadioGroup CampiRicerca;
 
     // TODO: Rename and change types of parameters
@@ -122,7 +122,7 @@ public class SearchFragment extends Fragment {
             @Override public void onClick(View v) {
                 int camposelezionato = CampiRicerca.getCheckedRadioButtonId();
                 if (camposelezionato == -1){
-                    Toast.makeText(getContext(), "Seleziona Un Campo Di Ricerca.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
                 }else{
                     UtentiCercati = new ArrayList<>();
                     Ricerca(camposelezionato);
@@ -139,7 +139,7 @@ public class SearchFragment extends Fragment {
                     String query = queryEditText.getText().toString();
                     String lingua = "it-IT";
                     if (query.equals("") || query.equals(" ")) {
-                        Toast.makeText(getContext(), "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
                         queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
@@ -156,11 +156,11 @@ public class SearchFragment extends Fragment {
                                     recyclerViewRicerca.setLayoutAnimation(controller);
                                     recyclerViewRicerca.scheduleLayoutAnimation();
                                 } else {
-                                    Toast.makeText(getContext(), "Nessuna Voce Corrisponde Ai Criteri Di Ricerca.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Nessuna voce corrisponde ai criteri di ricerca", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             @Override public void onFailure(@NonNull Call<MovieResponse> call,@NonNull Throwable t) {
-                                Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -171,7 +171,7 @@ public class SearchFragment extends Fragment {
                     String query = queryEditText.getText().toString();
                     String lingua = "it-IT";
                     if (query.equals("") || query.equals(" ")) {
-                        Toast.makeText(getContext(), "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
                         queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
@@ -189,13 +189,13 @@ public class SearchFragment extends Fragment {
                                     recyclerViewRicerca.setLayoutAnimation(controller);
                                     recyclerViewRicerca.scheduleLayoutAnimation();
                                 } else {
-                                    Toast.makeText(getContext(), "Nessuna Voce Corrisponde Ai Criteri Di Ricerca.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Nessuna voce corrisponde ai criteri di ricerca", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(@NonNull Call<AttoriResponse> call, @NonNull Throwable t) {
-                                Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -205,10 +205,10 @@ public class SearchFragment extends Fragment {
                 if (queryEditText.getText() != null) {
                     String query = queryEditText.getText().toString();
                     if (query.equals("") || query.equals(" ")) {
-                        Toast.makeText(getContext(), "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
                         if(queryEditText.getText().toString().equals(UsernameProprietario)){
-                            Toast.makeText(getContext(), "Non Puoi Cercare Te Stesso", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Non puoi cercare te stesso", Toast.LENGTH_SHORT).show();
                         }else {
                             RicercaUtente(query);
                         }
@@ -250,7 +250,7 @@ public class SearchFragment extends Fragment {
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                         recyclerViewRicerca.setLayoutAnimation(controller);
                         recyclerViewRicerca.scheduleLayoutAnimation();
-                        Toast.makeText(getContext(), "Nessun Utente Corrisponde Ai Criteri.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Nessun utente corrisponde ai criteri",Toast.LENGTH_SHORT).show();
                     }else {
                         recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                         ricercaUtenteAdapter = new RicercaUtenteAdapter(getActivity(), UtentiCercati);

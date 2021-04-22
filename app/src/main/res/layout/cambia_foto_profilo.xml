@@ -25,7 +25,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/nuova_foto_profilo"
-            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_baseline_person_24_orange"
             android:layout_width="100dp"
             android:layout_height="100dp"/>
 
@@ -34,11 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="15dp"
             android:background="@color/ColorCineBlack"
             android:fontFamily="@font/maven_pro"
             android:text="@string/scegli_una_nuova_foto"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/ColorCineOrange"/>
 
     </LinearLayout>

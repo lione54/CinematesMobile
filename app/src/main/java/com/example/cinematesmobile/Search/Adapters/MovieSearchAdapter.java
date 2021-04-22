@@ -47,7 +47,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private List<MovieResponseResults> results;
     private RetrofitService retrofitService;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiMediaVoti.php";
+    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
     private Double Valutazione_Media;
 
     public MovieSearchAdapter(Activity activity, List<MovieResponseResults> results) {
@@ -97,7 +97,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 }
             }
             @Override public void onFailure(@NonNull Call<GeneriResponse> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops Qualcosa è Andato Storto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         if(responseResults.getOverview() != null){
@@ -124,7 +124,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 searchViewHolder.Voto.setText(Punteggio);
                 searchViewHolder.Voto.setVisibility(View.VISIBLE);
             }else{
-                searchViewHolder.Voto.setText("TBA");
+                searchViewHolder.Voto.setText("SV");
                 searchViewHolder.Voto.setVisibility(View.VISIBLE);
 
             }

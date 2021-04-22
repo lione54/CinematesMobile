@@ -37,8 +37,8 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
     private Activity activity;
     private List<DBModelDataUser> dataList;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/InviaRichiestaDiAmicizia.php";
-    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSeRichiestaPresente.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/InviaRichiestaDiAmicizia.php";
+    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeRichiestaPresente.php";
 
     public RicercaUtenteAdapter(Activity activity, List<DBModelDataUser> dataList) {
         this.activity = activity;
@@ -64,11 +64,11 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
             holder.InviaAmicizia.setText("Amici");
         }else{
             if(data.getAmiciInComune() == 0) {
-                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici In Comune").toString());
+                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici in comune").toString());
             }else if(data.getAmiciInComune() == 1){
-                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amico In Comune").toString());
+                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amico in comune").toString());
             }else{
-                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici In Comune").toString());
+                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici in comune").toString());
             }
             VerificaSeRichiestaGiaInviata(data.getUserCheCerca(), data.getUsername_Cercato(), holder);
         }

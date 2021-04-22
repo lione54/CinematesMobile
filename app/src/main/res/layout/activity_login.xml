@@ -40,8 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/prompt_email"
-            app:passwordToggleTint="@color/ColorCineOrange"
-            android:theme="@style/EditTextPersonalizzati1">
+            app:passwordToggleTint="@color/ColorCineWhite"
+            android:theme="@style/EditTextPersonalizzati">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username"
@@ -50,9 +50,9 @@
                 android:layout_marginRight="10dp"
                 android:layout_gravity="left"
                 android:drawableEnd="@drawable/ic_baseline_alternate_email_24"
-                android:textColor="@color/ColorCineOrange"
-                android:textColorHint="@color/ColorCineOrange"
-                android:drawableTint="@color/ColorCineOrange"
+                android:textColor="@color/ColorCineWhite"
+                android:textColorHint="@color/ColorCineWhite"
+                android:drawableTint="@color/ColorCineWhite"
                 android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -64,7 +64,7 @@
             android:hint="@string/prompt_password"
             android:layout_marginTop="-20dp"
             android:layout_gravity="center"
-            app:passwordToggleTint="@color/ColorCineOrange"
+            app:passwordToggleTint="@color/ColorCineWhite"
             android:theme="@style/PasswordIni">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -72,7 +72,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/ColorCineOrange"
+                android:textColor="@color/ColorCineWhite"
                 android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="@string/descriptionforgottenpassword"
-            android:textColor="@color/ColorCineOrange" />
+            android:textColor="@color/ColorCineWhite" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView4"

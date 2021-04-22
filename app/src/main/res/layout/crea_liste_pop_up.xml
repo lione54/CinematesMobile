@@ -30,7 +30,7 @@
             android:layout_marginRight="10dp"
             android:hint="@string/inserisci_nome_lista"
             app:passwordToggleTint="@color/ColorCineOrange"
-            android:theme="@style/EditTextPersonalizzati">
+            android:theme="@style/EditTextPersonalizzati1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inserisci_nome_lista"
@@ -53,7 +53,7 @@
             android:layout_marginRight="10dp"
             android:hint="@string/inserisci_descrizione"
             android:layout_marginTop="-20dp"
-            android:theme="@style/EditTextPersonalizzati">
+            android:theme="@style/EditTextPersonalizzati1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descrizione_lista"
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:theme="@style/RadioButtonStyle"
+                android:theme="@style/RadioButtonStyle1"
                 android:layout_gravity="center"
                 android:gravity="center"/>
 
@@ -117,7 +117,7 @@
                 android:id="@+id/tutti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/RadioButtonStyle"
+                android:theme="@style/RadioButtonStyle1"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center"
                 android:gravity="center"/>

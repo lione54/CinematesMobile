@@ -40,7 +40,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
     private AppCompatButton Conferma, Annulla;
     private AppCompatCheckBox Inappropriato, Spoiler, Razzismo, Altro;
     private AppCompatEditText AltraMotivazione;
-    private static final String INSURL = "http://192.168.1.9/cinematesdb/InviaSegnalazione.php";
+    private static final String INSURL = "http://192.168.178.48/cinematesdb/InviaSegnalazione.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +107,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
                     }
                     InviaSegnalazione(NomeUtenteSegnalatore,NomeUtenteSegnalato, stringBuilder, IdRecensione, Stato);
                 }else {
-                    Toast.makeText(SegnalazioniActivity.this, "Seleziona almeno un campo.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SegnalazioniActivity.this, "Seleziona almeno un campo", Toast.LENGTH_SHORT).show();
                 }
             }
         });

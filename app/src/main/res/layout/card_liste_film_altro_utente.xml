@@ -13,16 +13,20 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:background="@color/ColorCineOrange"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lista_film"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="15sp"
+                android:textColor="@color/ColorCineBlack"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/maven_pro"/>
 
@@ -30,8 +34,8 @@
                 android:id="@+id/nome_lista"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="15sp"
+                android:textColor="@color/ColorCineBlack"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/maven_pro"/>
         </LinearLayout>
@@ -43,9 +47,12 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/descrizione1"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
                 android:textColor="@color/ColorCineOrange"
                 android:textSize="15sp"
                 android:textStyle="bold"
