@@ -12,8 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.Model.AttoriImage;
-import com.example.cinematesmobile.Search.Model.AttoriImmageResult;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriImmageResult;
 import com.example.cinematesmobile.Search.VisteHolder.ImmagineProfiloSerchViewHolder;
 import com.example.cinematesmobile.Search.VisualizzaImmaginiActivity;
 

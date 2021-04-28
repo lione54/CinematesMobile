@@ -23,7 +23,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.Frag.FragmentPreferiti;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
+import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -34,13 +37,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmicoAdapter.DataHolder> {
 
     private Activity activity;
     private List<DBModelDataListeFilm> dataListeFilms;
     private String UsernameAltroUtente;
-    private static final String URL = "http://192.168.178.48/cinematesdb/PrendiDaLista.php";
-    public static final String JSON_ARRAY = "dbdata";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private MovieListAltroUtenteAdapter movieListAltroUtenteAdapter;
 
     public AltroUtenteAmicoAdapter(Activity activity, List<DBModelDataListeFilm> dataListeFilms, String usernameAltroUtente) {
@@ -56,6 +61,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
 
     @Override public void onBindViewHolder(@NonNull AltroUtenteAmicoAdapter.DataHolder holder, int position) {
         DBModelDataListeFilm dbModelDataListeFilm = dataListeFilms.get(position);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(dbModelDataListeFilm.getTitoloLista() != null){
             holder.Nomelista.setText(dbModelDataListeFilm.getTitoloLista());
         }
@@ -70,26 +76,12 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                 }
             }
         }
-        PrendiDaListeAltroUtente(UsernameAltroUtente, dbModelDataListeFilm.getTitoloLista(), holder);
-    }
-
-    private void PrendiDaListeAltroUtente(String usernameAltroUtente, String titoloLista, DataHolder holder) {
-        List<DBModelDataFilms> preferiti = new ArrayList<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            String str_id_film = object.getString("id_film_inserito");
-                            String str_titolo = object.getString("Titolo_Film");
-                            String str_url = object.getString("Url_Immagine");
-                            Integer id_film = Integer.parseInt(str_id_film);
-                            String strt_titoloMod = str_titolo.replaceAll("/", "'");
-                            DBModelDataFilms dbModelDataFilms = new DBModelDataFilms(id_film, strt_titoloMod, str_url);
-                            preferiti.add(dbModelDataFilms);
-                        }
+        Call<DBModelFilmsResponce> filmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(UsernameAltroUtente, dbModelDataListeFilm.getTitoloLista());
+        filmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
+            @Override public void onResponse(Call<DBModelFilmsResponce> call, retrofit2.Response<DBModelFilmsResponce> response) {
+                DBModelFilmsResponce dbModelFilmsResponce  = response.body();
+                if(dbModelFilmsResponce != null){
+                    List<DBModelDataFilms> preferiti = dbModelFilmsResponce.getResults();
                     if(!(preferiti.isEmpty())){
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.film.getContext(), RecyclerView.HORIZONTAL, false);
                         holder.film.setLayoutManager(linearLayoutManager);
@@ -97,27 +89,17 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                         movieListAltroUtenteAdapter = new MovieListAltroUtenteAdapter(activity, preferiti);
                         holder.film.setAdapter(movieListAltroUtenteAdapter);
                         movieListAltroUtenteAdapter.notifyDataSetChanged();
+                    }else{
+                        Toast.makeText(activity,"Nessun film da mostrare.",Toast.LENGTH_SHORT).show();
                     }
-                }catch (Exception e){
-                    Toast.makeText(activity, "" + e, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(activity,"Impossibile recuperare i film.",Toast.LENGTH_SHORT).show();
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
+            @Override public void onFailure(Call<DBModelFilmsResponce> call, Throwable t) {
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
-        })
-        {
-            @NotNull
-            @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("User_Proprietario", usernameAltroUtente);
-                params.put("Tipo_Lista",titoloLista);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
+        });
     }
 
     @Override public int getItemCount() {

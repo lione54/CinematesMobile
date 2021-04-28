@@ -18,7 +18,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScriviRecensioneActivity extends AppCompatActivity {
 
@@ -40,7 +46,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
     private AppCompatButton Si, No;
     private AppCompatImageButton Previously;
     private CircleImageView ImmagineRece;
-    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiRecensioneAlDatabase.php";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         Invia = findViewById(R.id.invia_button);
         Annulla = findViewById(R.id.annu_button);
         Voto = findViewById(R.id.Votofilm);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(UrlImmagine.equals("null")){
             ImmagineRece.setImageResource(R.drawable.ic_baseline_person_24);
         }else{
@@ -76,9 +83,27 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                         MettiZero.show();
                         Si.setOnClickListener(new View.OnClickListener() {
                             @Override public void onClick(View v) {
-                                Inserisci_Recensione(TitoloFilm, Recensione, Punteggio, NomeUtente);
-                                MettiZero.dismiss();
-                                onBackPressed();
+                                String titoloMod = TitoloFilm.replaceAll("'", "/");
+                                Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(Recensione, String.valueOf(Punteggio), titoloMod, NomeUtente);
+                                scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                        if(dbModelResponseToInsert != null) {
+                                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo." , Toast.LENGTH_SHORT).show();
+                                                MettiZero.dismiss();
+                                                onBackPressed();
+                                            }else{
+                                                Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                            }
+                                        }else{
+                                            Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         });
                         No.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +112,26 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                             }
                         });
                     }else{
-                        Inserisci_Recensione(TitoloFilm, Recensione, Punteggio, NomeUtente);
-                        onBackPressed();
+                        String titoloMod = TitoloFilm.replaceAll("'", "/");
+                        Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(Recensione, String.valueOf(Punteggio), titoloMod, NomeUtente);
+                        scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                            @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                if(dbModelResponseToInsert != null) {
+                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo." , Toast.LENGTH_SHORT).show();
+                                        onBackPressed();
+                                    }else{
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                    }
+                                }else{
+                                    Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }else{
                     if(CorpoRecensione.length() <= 0){
@@ -111,29 +154,5 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-    }
-
-    private void Inserisci_Recensione(String titoloFilm, String recensione, float punteggio, String nomeUtente) {
-        String titoloMod = titoloFilm.replaceAll("'", "/");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta" , Toast.LENGTH_SHORT).show();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ScriviRecensioneActivity.this , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Corpo_Recensione", recensione);
-                params.put("Valutazione",String.valueOf(punteggio));
-                params.put("Titolo_Film_Recensito", titoloMod);
-                params.put("User_Recensore", nomeUtente);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
     }
 }

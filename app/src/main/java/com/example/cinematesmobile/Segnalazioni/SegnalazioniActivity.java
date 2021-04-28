@@ -19,17 +19,26 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Recensioni.ScriviRecensioneActivity;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SegnalazioniActivity extends AppCompatActivity {
 
@@ -40,7 +49,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
     private AppCompatButton Conferma, Annulla;
     private AppCompatCheckBox Inappropriato, Spoiler, Razzismo, Altro;
     private AppCompatEditText AltraMotivazione;
-    private static final String INSURL = "http://192.168.178.48/cinematesdb/InviaSegnalazione.php";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
         Razzismo = findViewById(R.id.razzismo);
         Altro = findViewById(R.id.altro);
         AltraMotivazione = findViewById(R.id.Altra_motivazione);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(FotoProfilo.equals("null")){
             Profilo.setImageResource(R.drawable.ic_baseline_person_24);
         }else{
@@ -85,7 +95,6 @@ public class SegnalazioniActivity extends AppCompatActivity {
         Conferma.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 StringBuilder stringBuilder = new StringBuilder();
-                String Stato = "Inviata";
                 if(Inappropriato.isChecked() || Spoiler.isChecked() || Razzismo.isChecked() || Altro.isChecked()){
                     if(Inappropriato.isChecked()) {
                         stringBuilder.append(Inappropriato.getText().toString());
@@ -105,7 +114,26 @@ public class SegnalazioniActivity extends AppCompatActivity {
                             Toast.makeText(SegnalazioniActivity.this, "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    InviaSegnalazione(NomeUtenteSegnalatore,NomeUtenteSegnalato, stringBuilder, IdRecensione, Stato);
+                    Call<DBModelResponseToInsert> inviaSegnalazioneCall = retrofitServiceDBInterno.InviaSegnalazione(NomeUtenteSegnalatore, NomeUtenteSegnalato, String.valueOf(IdRecensione), stringBuilder.toString());
+                    inviaSegnalazioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Toast.makeText(SegnalazioniActivity.this , "Segnalazione avvenuta con successo" , Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
+                                }else{
+                                    Toast.makeText(SegnalazioniActivity.this, "Invio segnalazione nei confronti di " + NomeUtenteSegnalato + " Fallito.", Toast.LENGTH_LONG).show();
+                                    onBackPressed();
+                                }
+                            }else {
+                                Toast.makeText(SegnalazioniActivity.this, "Impossibile Inviare Segnalazione", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                            Toast.makeText(SegnalazioniActivity.this, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }else {
                     Toast.makeText(SegnalazioniActivity.this, "Seleziona almeno un campo", Toast.LENGTH_SHORT).show();
                 }
@@ -117,31 +145,5 @@ public class SegnalazioniActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-    }
-
-
-    private void InviaSegnalazione(String nomeUtenteSegnalatore, String nomeUtenteSegnalato, StringBuilder stringBuilder, String idRecensione, String stato) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(SegnalazioniActivity.this , "Segnalazione avvenuta con successo" , Toast.LENGTH_SHORT).show();
-                onBackPressed();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SegnalazioniActivity.this , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("User_Segnalatore", nomeUtenteSegnalatore);
-                params.put("User_Segnalato",nomeUtenteSegnalato);
-                params.put("Id_Recensione", String.valueOf(idRecensione));
-                params.put("Motivazione", String.valueOf(stringBuilder));
-                params.put("Stato_Segnalazione",stato);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
     }
 }

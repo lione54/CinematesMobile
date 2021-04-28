@@ -17,14 +17,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.BuildConfig;
+import com.example.cinematesmobile.Frag.Model.DBModelVoti;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVotiResponse;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Recensioni.RecensioniActivity;
-import com.example.cinematesmobile.Search.Client.RetrofitClient;
-import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
-import com.example.cinematesmobile.Search.Model.GeneriResponse;
-import com.example.cinematesmobile.Search.Model.GeneriResponseResult;
-import com.example.cinematesmobile.Search.Model.MovieDetail;
-import com.example.cinematesmobile.Search.Model.MovieResponseResults;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientFilm;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceFilm;
+import com.example.cinematesmobile.Search.ModelMovieActor.GeneriResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.GeneriResponseResult;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponseResults;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.example.cinematesmobile.Search.VisteHolder.SearchViewHolder;
 
@@ -43,11 +45,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
+
     private Activity activity;
     private List<MovieResponseResults> results;
-    private RetrofitService retrofitService;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
+    private RetrofitServiceFilm retrofitServiceFilm;
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private Double Valutazione_Media;
 
     public MovieSearchAdapter(Activity activity, List<MovieResponseResults> results) {
@@ -62,15 +64,42 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
     @Override public void onBindViewHolder(@NonNull SearchViewHolder searchViewHolder, int i) {
         MovieResponseResults responseResults = results.get(i);
-        retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         String lingua = "it-IT";
         searchViewHolder.setPosterImageView(activity, responseResults.getPoster_path());
         String title = responseResults.getTitle();
         Float ratings = responseResults.getVote_average();
         List<Integer> id_generi = responseResults.getGenre_id();
         int id = responseResults.getId();
-        PrendiVotoMedioDaDB(title, searchViewHolder);
-        Call<GeneriResponse> generiResponseCall = retrofitService.getGeneri(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        String titoloMod = title.replaceAll("'", "/");
+        Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
+        votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
+            @Override public void onResponse(Call<DBModelVotiResponse> call, Response<DBModelVotiResponse> response) {
+                DBModelVotiResponse dbModelVotiResponse = response.body();
+                if(dbModelVotiResponse != null){
+                    List<DBModelVoti> votiList = dbModelVotiResponse.getResults();
+                    if(!(votiList.isEmpty())){
+                        for(int i = 0; i < votiList.size(); i++){
+                            if(votiList.get(i).getValutazione_Media() == null){
+                                Valutazione_Media = 0.0;
+                            }else{
+                                Valutazione_Media = votiList.get(i).getValutazione_Media();
+                            }
+                        }
+                        searchViewHolder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
+                    }else {
+                        Toast.makeText(activity,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override public void onFailure(Call<DBModelVotiResponse> call, Throwable t) {
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+            }
+        });
+        Call<GeneriResponse> generiResponseCall = retrofitServiceFilm.getGeneri(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         generiResponseCall.enqueue(new Callback<GeneriResponse>() {
             @Override public void onResponse(@NonNull Call<GeneriResponse> call,@NonNull Response<GeneriResponse> response) {
                 GeneriResponse generiResponse = response.body();
@@ -88,29 +117,35 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                         searchViewHolder.Genere.setText(stringBuilder);
                         searchViewHolder.Genere.setVisibility(View.VISIBLE);
                     } else {
-                        searchViewHolder.Genere.setText("Genere Non Disponibile");
+                        searchViewHolder.Genere.setText("Genere Non Disponibile.");
                         searchViewHolder.Genere.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    searchViewHolder.Genere.setText("Genere Non Disponibile");
+                    searchViewHolder.Genere.setText("Genere Non Disponibile.");
                     searchViewHolder.Genere.setVisibility(View.VISIBLE);
                 }
             }
             @Override public void onFailure(@NonNull Call<GeneriResponse> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
         if(responseResults.getOverview() != null){
-            if(responseResults.getOverview().length() > 0) {
+            Integer Maxlen = responseResults.getOverview().length();
+            if(Maxlen > 70) {
                 String Trama = responseResults.getOverview().substring(0, 70);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(Trama).append("...\nContinuare a leggere.");
                 searchViewHolder.Trama.setText(stringBuilder);
+            }else if (Maxlen == 0){
+                searchViewHolder.Trama.setText("Non disponibile.");
             }else{
-                searchViewHolder.Trama.setText("Non disponibile");
+                String Trama = responseResults.getOverview().substring(0, 50);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(Trama).append("...\nContinuare a leggere.");
+                searchViewHolder.Trama.setText(stringBuilder);
             }
         }else{
-            searchViewHolder.Trama.setText("Non disponibile");
+            searchViewHolder.Trama.setText("Non disponibile.");
         }
         if(title != null){
             searchViewHolder.posterTitle.setVisibility(View.VISIBLE);
@@ -138,42 +173,6 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 activity.startActivity(intent);
             }
         });
-    }
-
-    private void PrendiVotoMedioDaDB(String titolo, SearchViewHolder searchViewHolder) {
-        String titoloMod = titolo.replaceAll("'", "/");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String str_valu = object.getString("Valutazione");
-                        if(str_valu.equals("null")){
-                            Valutazione_Media = 0.0;
-                        }else {
-                            Valutazione_Media = Double.valueOf(str_valu);
-                        }
-                    }
-                    searchViewHolder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Titolo_Film_Recensito", titoloMod);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
     }
 
     @Override public int getItemCount() {

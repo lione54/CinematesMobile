@@ -17,7 +17,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.Frag.Adapter.MieiAmiciAdapter;
 import com.example.cinematesmobile.Frag.ListeAmiciActivity;
 import com.example.cinematesmobile.Frag.Model.DBModelUserAmici;
+import com.example.cinematesmobile.ModelDBInterno.DBModelUserAmiciResponce;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -28,6 +31,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
 
     private String Username, Proprietario;
@@ -35,9 +42,7 @@ public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
     private AppCompatImageButton PreviouslyAmici;
     private List<DBModelUserAmici> UtentiAmici = new ArrayList<>();
     private MieiAmiciAdapter mieiAmiciAdapter;
-    String Foto_Mod;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.178.48/cinematesdb/ListaAmiciInComune.php";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,61 +51,29 @@ public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
         Proprietario = getIntent().getExtras().getString("Nome_Proprietario");
         PreviouslyAmici = findViewById(R.id.previously_amici);
         ListaAmici = findViewById(R.id.lista_amici_in_comune);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        PrendiAmici(Username);
+        Call<DBModelUserAmiciResponce> dbModelUserAmiciResponceCall = retrofitServiceDBInterno.getAmiciInComune(Username);
+        dbModelUserAmiciResponceCall.enqueue(new Callback<DBModelUserAmiciResponce>() {
+            @Override public void onResponse(Call<DBModelUserAmiciResponce> call, Response<DBModelUserAmiciResponce> response) {
+                DBModelUserAmiciResponce dbModelUserAmiciResponce = response.body();
+                if(dbModelUserAmiciResponce != null){
+                    UtentiAmici = dbModelUserAmiciResponce.getResults();
+                    ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
+                    mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, Username, Proprietario);
+                    ListaAmici.setAdapter(mieiAmiciAdapter);
+                }else{
+                    Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici.",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override public void onFailure(Call<DBModelUserAmiciResponce> call, Throwable t) {
+                Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+            }
+        });
         PreviouslyAmici.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 onBackPressed();
             }
         });
-    }
-
-    private void PrendiAmici(String username) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for(int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String str_username = object.getString("E_Amico_Di");
-                        String str_foto_profilo = object.getString("Foto_Profilo");
-                        if(!(str_foto_profilo.equals("null"))) {
-                            Foto_Mod = "http://192.168.178.48/cinematesdb/" + str_foto_profilo;
-                        }else {
-                            Foto_Mod = "null";
-                        }
-                        DBModelUserAmici dbModelUserAmici = new DBModelUserAmici(username, str_username, Foto_Mod);
-                        UtentiAmici.add(dbModelUserAmici);
-                    }
-                    if(UtentiAmici.isEmpty()){
-                        ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
-                        mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, username, Proprietario);
-                        ListaAmici.setAdapter(mieiAmiciAdapter);
-                        Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici",Toast.LENGTH_SHORT).show();
-                    }else {
-                        ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
-                        mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, username, Proprietario);
-                        ListaAmici.setAdapter(mieiAmiciAdapter);
-                    }
-                }catch (Exception e){
-                    Toast.makeText(VisualizzaAmiciInComuneActivity.this, "" + e, Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(VisualizzaAmiciInComuneActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            @NotNull
-            @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("User_Proprietario",username);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
     }
 }

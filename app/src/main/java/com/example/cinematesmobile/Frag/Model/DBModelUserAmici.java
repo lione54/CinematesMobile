@@ -1,9 +1,14 @@
 package com.example.cinematesmobile.Frag.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DBModelUserAmici {
 
+    @SerializedName("User_Proprietario")
     private String Utente;
+    @SerializedName("E_Amico_Di")
     private String E_Amico_Di;
+    @SerializedName("Foto_Profilo")
     private String Foto_Profilo;
 
     public DBModelUserAmici() {
@@ -32,7 +37,8 @@ public class DBModelUserAmici {
     }
 
     public String getFoto_Profilo() {
-        return Foto_Profilo;
+        String UrlBase = "http://192.168.1.9/cinematesdb/";
+        return UrlBase + Foto_Profilo;
     }
 
     public void setFoto_Profilo(String foto_Profilo) {

@@ -17,32 +17,24 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Search.Adapters.AttoriSearchAdapter;
 import com.example.cinematesmobile.Search.Adapters.MovieSearchAdapter;
 import com.example.cinematesmobile.Search.Adapters.RicercaUtenteAdapter;
-import com.example.cinematesmobile.Search.Client.RetrofitClient;
-import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
-import com.example.cinematesmobile.Search.Model.AttoriResponse;
-import com.example.cinematesmobile.Search.Model.AttoriResponseResults;
-import com.example.cinematesmobile.Search.Model.DBModelDataUser;
-import com.example.cinematesmobile.Search.Model.MovieResponse;
-import com.example.cinematesmobile.Search.Model.MovieResponseResults;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientFilm;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceFilm;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponseResults;
+import com.example.cinematesmobile.ModelDBInterno.DBModelDataUser;
+import com.example.cinematesmobile.Frag.Model.DBModelDataUserResults;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponseResults;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,14 +54,12 @@ public class SearchFragment extends Fragment {
     private AppCompatEditText queryEditText;
     private AppCompatButton querySearchButton;
     private RecyclerView recyclerViewRicerca;
-    private RetrofitService retrofitService;
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
+    private RetrofitServiceFilm retrofitServiceFilm;
     private MovieSearchAdapter movieSearchAdapter;
     private AttoriSearchAdapter attoriSearchAdapter;
     private RicercaUtenteAdapter ricercaUtenteAdapter;
-    String Foto;
-    private List<DBModelDataUser> UtentiCercati;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String URL = "http://192.168.178.48/cinematesdb/RicercaUtente.php";
+    private List<DBModelDataUserResults> UtentiCercati = new ArrayList<>();
     private RadioGroup CampiRicerca;
 
     // TODO: Rename and change types of parameters
@@ -117,14 +107,14 @@ public class SearchFragment extends Fragment {
         recyclerViewRicerca = v.findViewById(R.id.results_recycle_view);
         CampiRicerca = v.findViewById(R.id.gruppo_ricerca);
         recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         querySearchButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 int camposelezionato = CampiRicerca.getCheckedRadioButtonId();
                 if (camposelezionato == -1){
-                    Toast.makeText(getContext(), "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Seleziona Un Campo Di Ricerca.", Toast.LENGTH_SHORT).show();
                 }else{
-                    UtentiCercati = new ArrayList<>();
                     Ricerca(camposelezionato);
                 }
             }
@@ -139,11 +129,11 @@ public class SearchFragment extends Fragment {
                     String query = queryEditText.getText().toString();
                     String lingua = "it-IT";
                     if (query.equals("") || query.equals(" ")) {
-                        Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
                         queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
-                        Call<MovieResponse> movieResponseCall = retrofitService.getMoviesByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
+                        Call<MovieResponse> movieResponseCall = retrofitServiceFilm.getMoviesByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
                         movieResponseCall.enqueue(new Callback<MovieResponse>() {
                             @Override public void onResponse(@NonNull Call<MovieResponse> call,@NonNull Response<MovieResponse> response) {
                                 MovieResponse movieResponse = response.body();
@@ -156,11 +146,11 @@ public class SearchFragment extends Fragment {
                                     recyclerViewRicerca.setLayoutAnimation(controller);
                                     recyclerViewRicerca.scheduleLayoutAnimation();
                                 } else {
-                                    Toast.makeText(getContext(), "Nessuna voce corrisponde ai criteri di ricerca", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Nessuna Voce Corrisponde Ai Criteri Di Ricerca.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             @Override public void onFailure(@NonNull Call<MovieResponse> call,@NonNull Throwable t) {
-                                Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -171,11 +161,11 @@ public class SearchFragment extends Fragment {
                     String query = queryEditText.getText().toString();
                     String lingua = "it-IT";
                     if (query.equals("") || query.equals(" ")) {
-                        Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
                         queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
-                        Call<AttoriResponse> attoriResponseCall = retrofitService.getPersonByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
+                        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.getPersonByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
                         attoriResponseCall.enqueue(new Callback<AttoriResponse>() {
                             @Override
                             public void onResponse(@NonNull Call<AttoriResponse> call, @NonNull Response<AttoriResponse> response) {
@@ -189,13 +179,13 @@ public class SearchFragment extends Fragment {
                                     recyclerViewRicerca.setLayoutAnimation(controller);
                                     recyclerViewRicerca.scheduleLayoutAnimation();
                                 } else {
-                                    Toast.makeText(getContext(), "Nessuna voce corrisponde ai criteri di ricerca", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Nessuna Voce Corrisponde Ai Criteri Di Ricerca.", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(@NonNull Call<AttoriResponse> call, @NonNull Throwable t) {
-                                Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -205,79 +195,35 @@ public class SearchFragment extends Fragment {
                 if (queryEditText.getText() != null) {
                     String query = queryEditText.getText().toString();
                     if (query.equals("") || query.equals(" ")) {
-                        Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Scrivi Qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
                         if(queryEditText.getText().toString().equals(UsernameProprietario)){
-                            Toast.makeText(getContext(), "Non puoi cercare te stesso", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Non Puoi Cercare Te Stesso", Toast.LENGTH_SHORT).show();
                         }else {
-                            RicercaUtente(query);
+                            Call<DBModelDataUser> dbModelDataUserCall = retrofitServiceDBInterno.getUserByQuery(query, UsernameProprietario);
+                            dbModelDataUserCall.enqueue(new Callback<DBModelDataUser>() {
+                                @Override public void onResponse(Call<DBModelDataUser> call, Response<DBModelDataUser> response) {
+                                    DBModelDataUser dbModelDataUser = response.body();
+                                    if (dbModelDataUser != null){
+                                        UtentiCercati = dbModelDataUser.getResults();
+                                        recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                                        ricercaUtenteAdapter = new RicercaUtenteAdapter(getActivity(), UtentiCercati);
+                                        recyclerViewRicerca.setAdapter(ricercaUtenteAdapter);
+                                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
+                                        recyclerViewRicerca.setLayoutAnimation(controller);
+                                        recyclerViewRicerca.scheduleLayoutAnimation();
+                                    }else{
+                                        Toast.makeText(getContext(), "Nessun Utente Corrisponde Ai Criteri  Di Ricerca.",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override public void onFailure(Call<DBModelDataUser> call, Throwable t) {
+                                    Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 }
             break;
         }
-    }
-
-    private void RicercaUtente(String query) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                        for(int i = 0; i < array.length(); i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            String str_id_utente = object.getString("Id_Utente");
-                            String str_username = object.getString("UserName");
-                            String str_foto_profilo = object.getString("Foto_Profilo");
-                            if(!(str_foto_profilo.equals("null"))) {
-                                 Foto = "http://192.168.1.9/cinematesdb/" + str_foto_profilo;
-                            }else{
-                                 Foto = "null";
-                            }
-                            String str_amicizia = object.getString("Amicizia");
-                            String str_amici_in_com = object.getString("Amici_In_Comune");
-                            Integer id_utente = Integer.parseInt(str_id_utente);
-                            Integer EsisteAmicizia = Integer.parseInt(str_amicizia);
-                            Integer AmiciInComune = Integer.parseInt(str_amici_in_com);
-                            String strt_userMod = str_username.replaceAll("/", "'");
-                            DBModelDataUser dbModelDataUser = new DBModelDataUser(UsernameProprietario,strt_userMod, Foto, id_utente, EsisteAmicizia, AmiciInComune);
-                            UtentiCercati.add(dbModelDataUser);
-                        }
-                    if(UtentiCercati.isEmpty()){
-                        recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        ricercaUtenteAdapter = new RicercaUtenteAdapter(getActivity(), UtentiCercati);
-                        recyclerViewRicerca.setAdapter(ricercaUtenteAdapter);
-                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
-                        recyclerViewRicerca.setLayoutAnimation(controller);
-                        recyclerViewRicerca.scheduleLayoutAnimation();
-                        Toast.makeText(getContext(), "Nessun utente corrisponde ai criteri",Toast.LENGTH_SHORT).show();
-                    }else {
-                        recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        ricercaUtenteAdapter = new RicercaUtenteAdapter(getActivity(), UtentiCercati);
-                        recyclerViewRicerca.setAdapter(ricercaUtenteAdapter);
-                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
-                        recyclerViewRicerca.setLayoutAnimation(controller);
-                        recyclerViewRicerca.scheduleLayoutAnimation();
-                    }
-                }catch (Exception e){
-                    Toast.makeText(getContext(), "" + e, Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            @NotNull
-            @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("UserNameDaCercare", query);
-                params.put("User_Proprietario",UsernameProprietario);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
     }
 }

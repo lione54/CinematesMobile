@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.Model.MovieResponseResults;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponseResults;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.example.cinematesmobile.Search.VisteHolder.SearchViewHolder;
 

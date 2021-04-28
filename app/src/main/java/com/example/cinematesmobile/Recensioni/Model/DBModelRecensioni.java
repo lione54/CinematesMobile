@@ -1,15 +1,24 @@
 package com.example.cinematesmobile.Recensioni.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class DBModelRecensioni {
 
+    @SerializedName("Id_Recensione")
     private Integer Id_Recensione;
-    private Float Valutazione;
+    @SerializedName("User_Recensore")
     private String User_Recensore;
-    private String Data_Pubblicazione;
+    @SerializedName("Testo_Recensione")
     private String Testo_Recensione;
+    @SerializedName("Valutazione")
+    private Float Valutazione;
+    @SerializedName("Data_Pubblicazione_Recensione")
+    private String Data_Pubblicazione;
+    @SerializedName("Titolo_Film_Recensito")
     private String Titolo_Film;
+    @SerializedName("Foto_Profilo")
     private String Foto;
 
     public DBModelRecensioni() {
@@ -74,7 +83,12 @@ public class DBModelRecensioni {
     }
 
     public String getFoto() {
-        return Foto;
+        if(Foto.equals("null")){
+            return Foto;
+        }else {
+            String UrlBase = "http://192.168.1.9/cinematesdb/";
+            return UrlBase + Foto;
+        }
     }
 
     public void setFoto(String foto) {

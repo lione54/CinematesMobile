@@ -1,10 +1,16 @@
 package com.example.cinematesmobile.Frag.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.net.URL;
 
 public class DBModelDataFilms {
+
+    @SerializedName("id_film_inserito")
     private Integer id_film;
+    @SerializedName("Titolo_Film")
     private String Titolofilm;
+    @SerializedName("Url_Immagine")
     private String image;
 
     public DBModelDataFilms(Integer id_film, String titolofilm, String image) {

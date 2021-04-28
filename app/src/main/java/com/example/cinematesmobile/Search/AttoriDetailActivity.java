@@ -18,14 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Search.Adapters.ImmagineProfiloAttoriAdapter;
-import com.example.cinematesmobile.Search.Client.RetrofitClient;
-import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
-import com.example.cinematesmobile.Search.Model.AttoriDetails;
-import com.example.cinematesmobile.Search.Model.AttoriImage;
-import com.example.cinematesmobile.Search.Model.AttoriImmageResult;
-import com.example.cinematesmobile.Search.Model.AttoriResponse;
-import com.example.cinematesmobile.Search.Model.AttoriResponseResults;
-import com.example.cinematesmobile.Search.Model.AttoriResponseResultsKnownFor;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientFilm;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceFilm;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriDetails;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriImage;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriImmageResult;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponseResults;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponseResultsKnownFor;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.squareup.picasso.Picasso;
 
@@ -57,14 +57,14 @@ public class AttoriDetailActivity extends AppCompatActivity {
     private AppCompatTextView Bio, AttoriFilmfatti;
     private RecyclerView ProfileImageRecycleView;
     private ImmagineProfiloAttoriAdapter immagineProfiloAttoriAdapter;
-    private RetrofitService retrofitService;
+    private RetrofitServiceFilm retrofitServiceFilm;
     private AppCompatImageButton previous;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attori_detail);
         Intent intent = getIntent();
-        retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
         attoriDetailProfileImageView = findViewById(R.id.attori_detail_profile_image);
         AlsoKnowAsLayout = findViewById(R.id.attori_detail_also_know_layout);
         BirthdayLayout = findViewById(R.id.attori_detail_birthday_layout);
@@ -91,7 +91,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
         if(intent != null && intent.getExtras() != null){
             if(intent.getExtras().getString("id") != null) {
                 int id = Integer.parseInt(intent.getExtras().getString("id"));
-                Call<AttoriDetails> attoriDetailsCall = retrofitService.getAttoriDetails(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+                Call<AttoriDetails> attoriDetailsCall = retrofitServiceFilm.getAttoriDetails(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
                 attoriDetailsCall.enqueue(new Callback<AttoriDetails>() {
                     @Override public void onResponse(@NonNull Call<AttoriDetails> call,@NonNull Response<AttoriDetails> response) {
                         AttoriDetails attoriDetailsResponse = response.body();
@@ -106,7 +106,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
                         Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
-                Call<AttoriImage> attoriImageCall = retrofitService.getAttoriImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
+                Call<AttoriImage> attoriImageCall = retrofitServiceFilm.getAttoriImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
                 attoriImageCall.enqueue(new Callback<AttoriImage>() {
                     @Override public void onResponse(Call<AttoriImage> call, Response<AttoriImage> response) {
                         AttoriImage attoriImage = response.body();
@@ -241,7 +241,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
         }else{
                 BioLayout.setVisibility(View.GONE);
         }
-        Call<AttoriResponse> attoriResponseCall = retrofitService.getPersonByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua1, nome);
+        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.getPersonByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua1, nome);
         attoriResponseCall.enqueue(new Callback<AttoriResponse>() {
             @Override public void onResponse(@NonNull Call<AttoriResponse> call,@NonNull Response<AttoriResponse> response) {
                 AttoriResponse attoriResponse = response.body();

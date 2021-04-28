@@ -19,9 +19,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.cinematesmobile.ModelDBInterno.DBModelFotoProfiloResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Recensioni.Adapter.RecensioniAdapter;
+import com.example.cinematesmobile.Recensioni.Model.DBModelFotoProfilo;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -32,6 +39,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecensioniActivity extends AppCompatActivity {
 
@@ -45,13 +56,9 @@ public class RecensioniActivity extends AppCompatActivity {
     private AppCompatImageButton Previously;
     private RecyclerView RecensioniScritte;
     private String Utente;
-    private boolean firstuse = true;
-    private List<DBModelRecensioni> recensioniList;
+    private List<DBModelRecensioni> recensioniList = new ArrayList<>();
     private RecensioniAdapter recensioniAdapter;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiRecensioniDaDB.php";
-    private static final String FOTURL = "http://192.168.178.48/cinematesdb/PrendiFotoUser.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeRecensionePresente.php";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +79,75 @@ public class RecensioniActivity extends AppCompatActivity {
         TitoloFilmPerRecensioni.setText(Titolo_film);
         Numero_Recensioni.setText(String.valueOf(N_Rece));
         Voto_Medio.setText(String.valueOf(Val));
-        recensioniList = new ArrayList<>();
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        PrendiRecensioni(Titolo_film, Utente);
-        firstuse = false;
+        String Titolo_Mod = Titolo_film.replaceAll("'", "/");
+        Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod);
+        recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
+            @Override public void onResponse(Call<DBModelRecensioniResponce> call, Response<DBModelRecensioniResponce> response) {
+                DBModelRecensioniResponce dbModelRecensioniResponce = response.body();
+                if(dbModelRecensioniResponce != null){
+                    recensioniList = dbModelRecensioniResponce.getResults();
+                    if(!(recensioniList.isEmpty())){
+                        RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
+                        recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, Utente);
+                        RecensioniScritte.setAdapter(recensioniAdapter);
+                    }else{
+                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film.",Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni.",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override public void onFailure(Call<DBModelRecensioniResponce> call, Throwable t) {
+                Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+            }
+        });
         Glide.with(RecensioniActivity.this).load(Poster).into(PosterFilmRece);
         ScriviRecensione.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                PrendiFotoProfiloUtente(Utente,Titolo_film);
+                Call<DBModelFotoProfiloResponce> fotoProfiloResponceCall = retrofitServiceDBInterno.PrendiFotoProfilo(Utente);
+                fotoProfiloResponceCall.enqueue(new Callback<DBModelFotoProfiloResponce>() {
+                    @Override public void onResponse(Call<DBModelFotoProfiloResponce> call, Response<DBModelFotoProfiloResponce> response) {
+                        DBModelFotoProfiloResponce fotoProfiloResponce = response.body();
+                        if(fotoProfiloResponce != null){
+                            List<DBModelFotoProfilo> fotoProfilos = fotoProfiloResponce.getResults();
+                            if(!(fotoProfilos.isEmpty())){
+                                String Titolo_Mod = Titolo_film.replaceAll("'", "/");
+                                Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaPresenzaRecensione(Titolo_Mod, Utente);
+                                verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                    @Override public void onResponse(Call<DBModelVerifica> call, Response<DBModelVerifica> response) {
+                                        DBModelVerifica dbModelVerifica = response.body();
+                                        if(dbModelVerifica != null) {
+                                            List<DBModelVerificaResults> modelVerificaResults = dbModelVerifica.getResults();
+                                            if (modelVerificaResults.get(0).getCodVerifica() == 0) {
+                                                Intent intent2 = new Intent(RecensioniActivity.this, ScriviRecensioneActivity.class);
+                                                intent2.putExtra("Nome_Utente", Utente);
+                                                intent2.putExtra("Titolo_Film", Titolo_Mod);
+                                                intent2.putExtra("Foto_Profilo", fotoProfilos.get(0).getFotoProfilo());
+                                                startActivity(intent2);
+                                            }else{
+                                                Toast.makeText(RecensioniActivity.this , "Ha già inserito la recensione per questo film.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }else{
+                                            Toast.makeText(RecensioniActivity.this , "Impossibile verificare presenza recensione.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override public void onFailure(Call<DBModelVerifica> call, Throwable t) {
+                                        Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(RecensioniActivity.this , "Impossibile caricare foto profilo.", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(RecensioniActivity.this , "Impossibile caricare foto profilo.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override public void onFailure(Call<DBModelFotoProfiloResponce> call, Throwable t) {
+                        Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         Previously.setOnClickListener(new View.OnClickListener() {
@@ -89,162 +157,30 @@ public class RecensioniActivity extends AppCompatActivity {
         });
     }
 
-    private void PrendiFotoProfiloUtente(String utente, String titolo_film) {
-        final String[] Foto = new String[1];
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, FOTURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for(int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        Foto[0] = object.getString("Foto_Profilo");
-                    }
-                    String str = Foto[0];
-                    String Foto_Mod = "http://192.168.178.48/cinematesdb/"+ str;
-                    verificaSePresente(titolo_film, Foto_Mod, utente);
-                }catch (Exception e){
-                    Toast.makeText(RecensioniActivity.this, "" + e, Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RecensioniActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            @NotNull @Override protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("User", utente);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
     @Override protected void onResume() {
         super.onResume();
-        firstuse = false;
-        PrendiRecensioni(Titolo_film, Utente);
-    }
-
-    private void verificaSePresente(String titolo_film, String Foto, String nomeUtente) {
-        final int[] validiti = new int[1];
-        String titoloMod = titolo_film.replaceAll("'", "/");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, VERURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for(int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String respo = object.getString("Id_Film_Recensito");
-                        validiti[0] = Integer.parseInt(respo);
-                    }
-                    if(validiti[0] == 0) {
-                        Intent intent2 = new Intent(RecensioniActivity.this, ScriviRecensioneActivity.class);
-                        intent2.putExtra("Nome_Utente", nomeUtente);
-                        intent2.putExtra("Titolo_Film", titolo_film);
-                        intent2.putExtra("Foto_Profilo", Foto);
-                        startActivity(intent2);
+        recensioniList.clear();
+        String Titolo_Mod = Titolo_film.replaceAll("'", "/");
+        Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod);
+        recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
+            @Override public void onResponse(Call<DBModelRecensioniResponce> call, Response<DBModelRecensioniResponce> response) {
+                DBModelRecensioniResponce dbModelRecensioniResponce = response.body();
+                if(dbModelRecensioniResponce != null){
+                    recensioniList = dbModelRecensioniResponce.getResults();
+                    if(!(recensioniList.isEmpty())){
+                        RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
+                        recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, Utente);
+                        RecensioniScritte.setAdapter(recensioniAdapter);
                     }else{
-                        Toast.makeText(RecensioniActivity.this , "Ha già inserito la recensione per questo film", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film.",Toast.LENGTH_SHORT).show();
                     }
-                }catch (Exception e){
-                    Toast.makeText(RecensioniActivity.this, "" + e, Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni.",Toast.LENGTH_SHORT).show();
                 }
             }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RecensioniActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            @Override public void onFailure(Call<DBModelRecensioniResponce> call, Throwable t) {
+                Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
-        })
-        {
-            @NotNull @Override protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Titolo_Film_Recensito", titoloMod);
-                params.put("User_Recensore", nomeUtente);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        });
     }
-
-    private void PrendiRecensioni(String titolo_film, String utente) {
-        String Titolo_Mod = titolo_film.replaceAll("'", "/");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                try {
-                    if(firstuse == true){
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            String str_id = object.getString("Id_Recensione");
-                            String User = object.getString("User_Recensore");
-                            String Corpo_Rece = object.getString("Testo_Recensione");
-                            String str_Val = object.getString("Valutazione");
-                            String Data = object.getString("Data_Pubblicazione_Recensione");
-                            String Foto = object.getString("Foto_Profilo");
-                            String Foto_Mod = "http://192.168.1.9/cinematesdb/"+ Foto;
-                            String Titolo = object.getString("Titolo_Film_Recensito");
-                            String titoloMod = Titolo.replaceAll("/", "'");
-                            Integer Id_Recensione = Integer.valueOf(str_id);
-                            Float Valutazione = Float.valueOf(str_Val);
-                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod,Foto_Mod);
-                            recensioniList.add(dbModelRecensioni);
-                            firstuse = false;
-                        }
-                    }else{
-                        recensioniList.clear();
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            String str_id = object.getString("Id_Recensione");
-                            String User = object.getString("User_Recensore");
-                            String Corpo_Rece = object.getString("Testo_Recensione");
-                            String str_Val = object.getString("Valutazione");
-                            String Data = object.getString("Data_Pubblicazione_Recensione");
-                            String Foto = object.getString("Foto_Profilo");
-                            String Foto_Mod = "http://192.168.1.9/cinematesdb/"+ Foto;
-                            String Titolo = object.getString("Titolo_Film_Recensito");
-                            String titoloMod = Titolo.replaceAll("/", "'");
-                            Integer Id_Recensione = Integer.valueOf(str_id);
-                            Float Valutazione = Float.valueOf(str_Val);
-                            DBModelRecensioni dbModelRecensioni = new DBModelRecensioni(Id_Recensione, Valutazione, User, Data, Corpo_Rece, titoloMod,Foto_Mod);
-                            recensioniList.add(dbModelRecensioni);
-                        }
-                    }
-                    if(recensioniList.isEmpty()){
-                        RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
-                        recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, utente);
-                        RecensioniScritte.setAdapter(recensioniAdapter);
-                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film",Toast.LENGTH_SHORT).show();
-                    }else{
-                        RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
-                        recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, utente);
-                        RecensioniScritte.setAdapter(recensioniAdapter);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RecensioniActivity.this , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Titolo_Film_Recensito", Titolo_Mod);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(RecensioniActivity.this);
-        requestQueue.add(stringRequest);
-    }
-
 }

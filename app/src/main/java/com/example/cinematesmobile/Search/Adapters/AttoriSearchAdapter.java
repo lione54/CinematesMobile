@@ -1,9 +1,7 @@
 package com.example.cinematesmobile.Search.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Search.AttoriDetailActivity;
-import com.example.cinematesmobile.Search.Model.AttoriResponseResults;
-import com.example.cinematesmobile.Search.VisteHolder.SearchViewHolder;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponseResults;
 import com.example.cinematesmobile.Search.VisteHolder.SearchViewHolderAttori;
 
 import java.util.List;

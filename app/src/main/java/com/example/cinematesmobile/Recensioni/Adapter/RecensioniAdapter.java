@@ -21,10 +21,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.Recensioni.RecensioniActivity;
 import com.example.cinematesmobile.Recensioni.ScriviRecensioneActivity;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Segnalazioni.SegnalazioniActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +40,9 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.DataViewHolder>{
@@ -43,8 +50,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
     private Context mCtx;
     private List<DBModelRecensioni> recensioniList;
     private String User_Segnalatore;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeSegnalazionePresente.php";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
     public RecensioniAdapter(Context mCtx, List<DBModelRecensioni> recensioniList, String user_Segnalatore) {
         this.mCtx = mCtx;
@@ -60,6 +66,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
 
     @Override public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         DBModelRecensioni dbModelRecensioni = recensioniList.get(position);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(dbModelRecensioni.getFoto().equals("null")){
             holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24);
         }else{
@@ -71,7 +78,30 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
         holder.Voto.setRating(dbModelRecensioni.getValutazione());
         holder.Segnala.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                VerificaSeSegnalazioneEsistente(User_Segnalatore, dbModelRecensioni.getUser_Recensore(), dbModelRecensioni.getFoto(), String.valueOf(dbModelRecensioni.getId_Recensione()));
+                Call<DBModelVerifica> verificaSegnalazioniCall = retrofitServiceDBInterno.VerificaPresenzaSegnalazione(User_Segnalatore, dbModelRecensioni.getUser_Recensore(), String.valueOf(dbModelRecensioni.getId_Recensione()));
+                verificaSegnalazioniCall.enqueue(new Callback<DBModelVerifica>() {
+                    @Override public void onResponse(Call<DBModelVerifica> call, Response<DBModelVerifica> response) {
+                        DBModelVerifica dbModelVerifica = response.body();
+                        if(dbModelVerifica != null) {
+                            List<DBModelVerificaResults> modelVerificaResults = dbModelVerifica.getResults();
+                            if (modelVerificaResults.get(0).getCodVerifica() == 0) {
+                                Intent intent2 = new Intent(mCtx, SegnalazioniActivity.class);
+                                intent2.putExtra("Nome_Utente_Segnalatore", User_Segnalatore);
+                                intent2.putExtra("Nome_Utente_Segnalato", dbModelRecensioni.getUser_Recensore());
+                                intent2.putExtra("Foto_Profilo", dbModelRecensioni.getFoto());
+                                intent2.putExtra("Id_Recensione", String.valueOf(dbModelRecensioni.getId_Recensione()));
+                                mCtx.startActivity(intent2);
+                            }else{
+                                Toast.makeText(mCtx, "Hai già segnalato questa recensione.", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(mCtx, "Impossibile verificare se hai già degnalato questa recensione.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override public void onFailure(Call<DBModelVerifica> call, Throwable t) {
+                        Toast.makeText(mCtx, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -96,49 +126,5 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
             Segnala = itemView.findViewById(R.id.segnalazioni_button);
             Voto = itemView.findViewById(R.id.valutazione_db);
         }
-    }
-
-    private void VerificaSeSegnalazioneEsistente(String nomeUtenteSegnalatore, String nomeUtenteSegnalato, String Foto,String idRecensione) {
-        final int[] validiti = new int[1];
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, VERURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for(int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String respo = object.getString("Id_Film_Recensito");
-                        validiti[0] = Integer.parseInt(respo);
-                    }
-                    if(validiti[0] == 0) {
-                        Intent intent2 = new Intent(mCtx, SegnalazioniActivity.class);
-                        intent2.putExtra("Nome_Utente_Segnalatore", nomeUtenteSegnalatore);
-                        intent2.putExtra("Nome_Utente_Segnalato", nomeUtenteSegnalato);
-                        intent2.putExtra("Foto_Profilo", Foto);
-                        intent2.putExtra("Id_Recensione", idRecensione);
-                        mCtx.startActivity(intent2);
-                    }else{
-                        Toast.makeText(mCtx, "Recensione già segnalata dell'user", Toast.LENGTH_LONG).show();
-                    }
-                }catch (Exception e){
-                    Toast.makeText(mCtx, "" + e, Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            @NotNull @Override protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("User_Segnalatore", nomeUtenteSegnalatore);
-                params.put("User_Segnalato",nomeUtenteSegnalato);
-                params.put("Id_Recensione", String.valueOf(idRecensione));
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
-        requestQueue.add(stringRequest);
     }
 }

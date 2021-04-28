@@ -3,7 +3,6 @@ package com.example.cinematesmobile.Frag;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,15 +19,15 @@ import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Frag.Adapter.AttoriPopularAdapter;
 import com.example.cinematesmobile.Frag.Adapter.MovieListHomeAdapter;
 import com.example.cinematesmobile.Search.Adapters.UpcomingSearchAdapter;
-import com.example.cinematesmobile.Search.Client.RetrofitClient;
-import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
-import com.example.cinematesmobile.Search.Model.AttoriPopularResponse;
-import com.example.cinematesmobile.Search.Model.AttoriResponseResults;
-import com.example.cinematesmobile.Search.Model.MovieResponseResults;
-import com.example.cinematesmobile.Search.Model.NowPlayngResponse;
-import com.example.cinematesmobile.Search.Model.PopularResponse;
-import com.example.cinematesmobile.Search.Model.TopRatedResponse;
-import com.example.cinematesmobile.Search.Model.UpcomingResponse;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientFilm;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceFilm;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriPopularResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponseResults;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponseResults;
+import com.example.cinematesmobile.Search.ModelMovieActor.NowPlayngResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.PopularResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.TopRatedResponse;
+import com.example.cinematesmobile.Search.ModelMovieActor.UpcomingResponse;
 
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private RecyclerView recyclerViewPopular;
     private RecyclerView recyclerViewUpcoming, recyclerTopRated, attoriPopularRecycleView, nowplayingFilmRecycleView;
-    private RetrofitService retrofitService;
+    private RetrofitServiceFilm retrofitServiceFilm;
     private AttoriPopularAdapter attoriPopularAdapter;
     private MovieListHomeAdapter popularSearchAdapter, topRatedcomingSearchAdapter, nowPlayngSerchAdapter;
     private UpcomingSearchAdapter upcomingSearchAdapter;
@@ -97,8 +96,8 @@ public class HomeFragment extends Fragment {
         recyclerTopRated = v.findViewById(R.id.recyclerView2);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
-        Call<UpcomingResponse> upcomingResponseCall = retrofitService.getUpcomingByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
+        Call<UpcomingResponse> upcomingResponseCall = retrofitServiceFilm.getUpcomingByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
         upcomingResponseCall.enqueue(new Callback<UpcomingResponse>() {
             @Override public void onResponse(@NonNull Call<UpcomingResponse> call,@NonNull Response<UpcomingResponse> response) {
                 UpcomingResponse upcomingResponse = response.body();
@@ -114,7 +113,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<PopularResponse> popularResponseCall = retrofitService.getPopularByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<PopularResponse> popularResponseCall = retrofitServiceFilm.getPopularByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         popularResponseCall.enqueue(new Callback<PopularResponse>() {
             @Override public void onResponse(@NonNull Call<PopularResponse> call,@NonNull  Response<PopularResponse> response) {
                 PopularResponse popularResponse = response.body();
@@ -130,7 +129,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<TopRatedResponse> topRatedResponseCall = retrofitService.getTopRatedByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+        Call<TopRatedResponse> topRatedResponseCall = retrofitServiceFilm.getTopRatedByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
         topRatedResponseCall.enqueue(new Callback<TopRatedResponse>() {
             @Override public void onResponse(@NonNull Call<TopRatedResponse> call,@NonNull Response<TopRatedResponse> response) {
                 TopRatedResponse topRatedResponse = response.body();
@@ -146,7 +145,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<AttoriPopularResponse> attoriPopularResponseCall = retrofitService.getAttoriPopular(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<AttoriPopularResponse> attoriPopularResponseCall = retrofitServiceFilm.getAttoriPopular(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         attoriPopularResponseCall.enqueue(new Callback<AttoriPopularResponse>() {
             @Override public void onResponse(@NonNull Call<AttoriPopularResponse> call,@NonNull Response<AttoriPopularResponse> response) {
                 AttoriPopularResponse attoriPopularResponse = response.body();
@@ -163,7 +162,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<NowPlayngResponse> nowPlayngResponseCall = retrofitService.getNowPlayng(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<NowPlayngResponse> nowPlayngResponseCall = retrofitServiceFilm.getNowPlayng(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         nowPlayngResponseCall.enqueue(new Callback<NowPlayngResponse>() {
             @Override public void onResponse(@NonNull Call<NowPlayngResponse> call,@NonNull Response<NowPlayngResponse> response) {
                 NowPlayngResponse nowPlayngResponse = response.body();

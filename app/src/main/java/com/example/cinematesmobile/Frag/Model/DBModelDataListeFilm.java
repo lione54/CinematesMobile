@@ -1,8 +1,12 @@
 package com.example.cinematesmobile.Frag.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DBModelDataListeFilm {
 
+    @SerializedName("Tipo_Lista")
     private String TitoloLista;
+    @SerializedName("Descrizione")
     private String DescrizioneLista;
 
     public DBModelDataListeFilm() {

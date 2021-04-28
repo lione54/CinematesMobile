@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,13 +29,13 @@ import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Recensioni.RecensioniActivity;
 import com.example.cinematesmobile.Search.Adapters.ImmagineProfiloAttoriAdapter;
-import com.example.cinematesmobile.Search.Client.RetrofitClient;
-import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
-import com.example.cinematesmobile.Search.Model.AttoriImmageResult;
-import com.example.cinematesmobile.Search.Model.Generi;
-import com.example.cinematesmobile.Search.Model.MovieDetail;
-import com.example.cinematesmobile.Search.Model.MovieImage;
-import com.example.cinematesmobile.Search.Model.Produttori;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientFilm;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceFilm;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriImmageResult;
+import com.example.cinematesmobile.Search.ModelMovieActor.Generi;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieDetail;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieImage;
+import com.example.cinematesmobile.Search.ModelMovieActor.Produttori;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -89,8 +87,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageView Locandina;
     private String tipoLista = null;
     private MaterialFavoriteButton CuorePreferiti, OcchialiDaVedere;
-    private RetrofitService retrofitService;
-    private RetrofitService retrofitService2;
+    private RetrofitServiceFilm retrofitServiceFilm;
+    private RetrofitServiceFilm retrofitServiceFilm2;
     private NiceSpinner aggiungiA;
     private String preferiti = "Aggiungi A...";
     private String crealista = "Nuova Lista";
@@ -107,15 +105,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Integer Numero_Recensioni;
     private double Valutazione_Media;
     public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.178.48/cinematesdb/AggiungiFilmAlDatabase.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
-    private static final String PREFURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiPreferiti.php";
-    private static final String VEDURL = "http://192.168.178.48/cinematesdb/VerificaSePresenteNeiDaVedere.php";
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviDaiPreferiti.php";
-    private static final String RIMVURL = "http://192.168.178.48/cinematesdb/RimuoviDaVedere.php";
-    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListe.php";
-    private static final String VISURL = "http://192.168.178.48/cinematesdb/PrendiAttributiLista.php";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiDettagliCinemates.php";
+    private static final String INSURL = "http://192.168.1.9/cinematesdb/AggiungiFilmAlDatabase.php";
+    private static final String VERURL = "http://192.168.1.9/cinematesdb/VerificaSePresente.php";
+    private static final String PREFURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiPreferiti.php";
+    private static final String VEDURL = "http://192.168.1.9/cinematesdb/VerificaSePresenteNeiDaVedere.php";
+    private static final String RIMURL = "http://192.168.1.9/cinematesdb/RimuoviDaiPreferiti.php";
+    private static final String RIMVURL = "http://192.168.1.9/cinematesdb/RimuoviDaVedere.php";
+    private static final String LISURL = "http://192.168.1.9/cinematesdb/TrovaListe.php";
+    private static final String VISURL = "http://192.168.1.9/cinematesdb/PrendiAttributiLista.php";
+    private static final String RECURL = "http://192.168.1.9/cinematesdb/PrendiDettagliCinemates.php";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,14 +157,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         StringBuilder stringTitolo = new StringBuilder();
         StringBuilder stringPoster = new StringBuilder();
-        retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
-        retrofitService2 = RetrofitClient.getClient().create(RetrofitService.class);
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
+        retrofitServiceFilm2 = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
         if ( intent != null && intent.getExtras()!= null ){
             if(intent.getExtras().getString("id")!=null) {
                 int id = Integer.parseInt(intent.getExtras().getString("id"));
                 verificaSePresenteNeiPreferiti(id, UserName);
                 verificaSePresenteNeiDaVedere(id, UserName);
-                Call<MovieDetail> movieDetailCall = retrofitService2.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+                Call<MovieDetail> movieDetailCall = retrofitServiceFilm2.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
                 movieDetailCall.enqueue(new Callback<MovieDetail>() {
                     @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
                         MovieDetail movieDetailResponse = response.body();
@@ -183,7 +181,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Toast.makeText(MovieDetailActivity.this,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
-                Call<MovieImage> movieImageCall = retrofitService.getMovieImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
+                Call<MovieImage> movieImageCall = retrofitServiceFilm.getMovieImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
                 movieImageCall.enqueue(new Callback<MovieImage>() {
                     @Override public void onResponse(Call<MovieImage> call, Response<MovieImage> response) {
                         MovieImage movieImage = response.body();

@@ -1,7 +1,6 @@
 package com.example.cinematesmobile.Frag.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +20,14 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
+import com.example.cinematesmobile.Frag.Model.DBModelVoti;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVotiResponse;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Search.Client.RetrofitClient;
-import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
-import com.example.cinematesmobile.Search.Model.MovieDetail;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientFilm;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceFilm;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieDetail;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
@@ -38,7 +40,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,9 +49,8 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
 
     private Activity activity;
     private List<DBModelDataFilms> dataList;
-    private RetrofitService retrofitService;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
+    private RetrofitServiceFilm retrofitServiceFilm;
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private Double Valutazione_Media;
 
     public MovieListAltroUtenteAdapter(Activity activity, List<DBModelDataFilms> dataList) {
@@ -65,12 +65,13 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
 
     @Override public void onBindViewHolder(MovieListAltroUtenteAdapter.DataHolder holder, int position) {
         DBModelDataFilms data = dataList.get(position);
-        retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         String lingua = "it-IT";
         Glide.with(activity).load(data.getImage()).into(holder.posterImageView);
         holder.posterTitle.setText(data.getTitolofilm());
         int id = data.getId_film();
-        Call<MovieDetail> movieDetailCall = retrofitService.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<MovieDetail> movieDetailCall = retrofitServiceFilm.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         movieDetailCall.enqueue(new Callback<MovieDetail>() {
             @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
                 MovieDetail movieDetailResponse = response.body();
@@ -85,7 +86,33 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
                 Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
-        PrendiMedia(data.getTitolofilm(), holder);
+        String titoloMod = data.getTitolofilm().replaceAll("'", "/");
+        Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
+        votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
+            @Override public void onResponse(Call<DBModelVotiResponse> call, Response<DBModelVotiResponse> response) {
+                DBModelVotiResponse dbModelVotiResponse = response.body();
+                if(dbModelVotiResponse != null){
+                    List<DBModelVoti> votiList = dbModelVotiResponse.getResults();
+                    if(!(votiList.isEmpty())){
+                        for(int i = 0; i < votiList.size(); i++){
+                            if(votiList.get(i).getValutazione_Media() == null){
+                                Valutazione_Media = 0.0;
+                            }else{
+                                Valutazione_Media = votiList.get(i).getValutazione_Media();
+                            }
+                        }
+                       holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
+                    }else {
+                        Toast.makeText(activity,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override public void onFailure(Call<DBModelVotiResponse> call, Throwable t) {
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent = new Intent(activity, MovieDetailActivity.class);
@@ -93,43 +120,6 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
                 activity.startActivity(intent);
             }
         });
-    }
-
-    private void PrendiMedia(String titolofilm, MovieListAltroUtenteAdapter.DataHolder holder) {
-        String titoloMod = titolofilm.replaceAll("'", "/");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String str_valu = object.getString("Valutazione");
-                        if(str_valu.equals("null")){
-                            Valutazione_Media = 0.0;
-                        }else {
-                            Valutazione_Media = Double.valueOf(str_valu);
-                        }
-                    }
-                    holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull
-            @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Titolo_Film_Recensito", titoloMod);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
     }
 
     private void prepareMovieDetails(MovieDetail movieDetailResponse, MovieListAltroUtenteAdapter.DataHolder holder) {

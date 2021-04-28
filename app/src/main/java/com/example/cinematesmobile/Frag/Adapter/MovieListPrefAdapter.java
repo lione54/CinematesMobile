@@ -20,11 +20,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.BuildConfig;
+import com.example.cinematesmobile.Frag.Model.DBModelVoti;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVotiResponse;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
-import com.example.cinematesmobile.Search.Client.RetrofitClient;
-import com.example.cinematesmobile.Search.Interfaces.RetrofitService;
-import com.example.cinematesmobile.Search.Model.MovieDetail;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientFilm;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceFilm;
+import com.example.cinematesmobile.Search.ModelMovieActor.MovieDetail;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
@@ -50,10 +55,8 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
     private List<DBModelDataFilms> dataList;
     private String User;
     private String Tipo_lista;
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviDaListeFilm.php";
-    private RetrofitService retrofitService;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String RECURL = "http://192.168.178.48/cinematesdb/PrendiMediaVoti.php";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
+    private RetrofitServiceFilm retrofitServiceFilm;
     private Double Valutazione_Media;
 
     public MovieListPrefAdapter(Context mCtx, List<DBModelDataFilms> dataList, String user, String tipo_lista) {
@@ -73,33 +76,76 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
     @Override
     public void onBindViewHolder(DataViewHolder holder, int position) {
         DBModelDataFilms data = dataList.get(position);
-        retrofitService = RetrofitClient.getClient().create(RetrofitService.class);
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         String lingua = "it-IT";
         Glide.with(mCtx).load(data.getImage()).into(holder.posterImageView);
         holder.posterTitle.setText(data.getTitolofilm());
         int id = data.getId_film();
-        Call<MovieDetail> movieDetailCall = retrofitService.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<MovieDetail> movieDetailCall = retrofitServiceFilm.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         movieDetailCall.enqueue(new Callback<MovieDetail>() {
             @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
                 MovieDetail movieDetailResponse = response.body();
                 if(movieDetailResponse != null){
                     prepareMovieDetails(movieDetailResponse, holder);
                 }else{
-                    Toast.makeText(mCtx,"Nessun dettaglio trovato",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mCtx,"Nessun dettaglio trovato.",Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override public void onFailure(@NonNull Call<MovieDetail> call,@NonNull Throwable t) {
-                Toast.makeText(mCtx,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
-        PrendiMedia(data.getTitolofilm(), holder);
+        String titoloMod = data.getTitolofilm().replaceAll("'", "/");
+        Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
+        votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
+            @Override public void onResponse(Call<DBModelVotiResponse> call, Response<DBModelVotiResponse> response) {
+                DBModelVotiResponse dbModelVotiResponse = response.body();
+                if(dbModelVotiResponse != null){
+                    List<DBModelVoti> votiList = dbModelVotiResponse.getResults();
+                    if(!(votiList.isEmpty())){
+                        for(int i = 0; i < votiList.size(); i++){
+                            if(votiList.get(i).getValutazione_Media() == null){
+                                Valutazione_Media = 0.0;
+                            }else{
+                                Valutazione_Media = votiList.get(i).getValutazione_Media();
+                            }
+                        }
+                        holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
+                    }else {
+                        Toast.makeText(mCtx,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(mCtx,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override public void onFailure(Call<DBModelVotiResponse> call, Throwable t) {
+                Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.RimuoviDaLista.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                RimuoviFilmDaLista(User, Tipo_lista, data.getId_film());
-                dataList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeRemoved(position, dataList.size());
+                Call<DBModelResponseToInsert> rimuoviCall = retrofitServiceDBInterno.RimuoviFilm(String.valueOf(data.getId_film()), User);
+                rimuoviCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                        if (dbModelResponseToInsert != null) {
+                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                Toast.makeText(mCtx, "Film rimosso dalla lista " + Tipo_lista + ".", Toast.LENGTH_SHORT).show();
+                                dataList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeRemoved(position, dataList.size());
+                            }else{
+                                Toast.makeText(mCtx, "Rimozione dalla lista " + Tipo_lista + " fallito.", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(mCtx, "Impossibile rimuovere da " + Tipo_lista + ".", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                        Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -111,42 +157,6 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
         });
     }
 
-    private void PrendiMedia(String titolofilm, DataViewHolder holder) {
-        String titoloMod = titolofilm.replaceAll("'", "/");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, RECURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String str_valu = object.getString("Valutazione");
-                        if(str_valu.equals("null")){
-                            Valutazione_Media = 0.0;
-                        }else {
-                            Valutazione_Media = Double.valueOf(str_valu);
-                        }
-                    }
-                    holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Titolo_Film_Recensito", titoloMod);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
-        requestQueue.add(stringRequest);
-    }
-
     private void prepareMovieDetails(MovieDetail movieDetailResponse, DataViewHolder holder) {
         if(movieDetailResponse.getGenres() != null){
             if (movieDetailResponse.getGenres().size() > 0) {
@@ -156,10 +166,10 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                 String gen = geners.replaceAll("\\]","");
                 holder.Generi.setText(gen);
             } else {
-                holder.Generi.setText("Non Disponibile");
+                holder.Generi.setText("Non Disponibile.");
             }
         }else {
-            holder.Generi.setText("Non Disponibile");
+            holder.Generi.setText("Non Disponibile.");
         }
         if(movieDetailResponse.getOverview() != null){
             if(movieDetailResponse.getOverview().length() > 0) {
@@ -168,10 +178,10 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                 stringBuilder.append(Trama).append("...\nContinuare a leggere.");
                 holder.Trama.setText(stringBuilder);
             }else{
-                holder.Trama.setText("Non disponibile");
+                holder.Trama.setText("Non disponibile.");
             }
         }else{
-            holder.Trama.setText("Non disponibile");
+            holder.Trama.setText("Non disponibile.");
         }
         if(movieDetailResponse.getVote_average() > 0){
             String Punteggio = Float.toString(movieDetailResponse.getVote_average());
@@ -179,28 +189,6 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
         }else{
             holder.VotoTMDB.setText("SV");
         }
-    }
-
-    private void RimuoviFilmDaLista(String user, String tipo_lista, Integer id_film) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(mCtx, "Film rimosso dalla lista " + tipo_lista, Toast.LENGTH_LONG).show();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mCtx , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Id_Film_Inserito", String.valueOf(id_film));
-                params.put("User_Proprietario", user);
-                params.put("Tipo_Lista",tipo_lista);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(mCtx);
-        requestQueue.add(stringRequest);
     }
 
     @Override public int getItemCount() {

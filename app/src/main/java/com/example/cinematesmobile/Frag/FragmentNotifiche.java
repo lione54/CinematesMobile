@@ -47,7 +47,7 @@ public class FragmentNotifiche extends Fragment {
     private List<DBNotificheModelSegnalazioni> segnalazioniList = new ArrayList<>();
     private NotificationAdapter notificationAdapter;
     private RecyclerView notifiche;
-    private static final String NOTURL = "http://192.168.178.48/cinematesdb/PrendiNotificheDaDB.php";
+    private static final String NOTURL = "http://192.168.1.9/cinematesdb/PrendiNotificheDaDB.php";
     public static final String JSON_ARRAY = "dbdata";
 
 
@@ -127,14 +127,14 @@ public class FragmentNotifiche extends Fragment {
                         }else if(str_id.equals("3")){
                             String UserQuasiAmico = object.getString("E_Amico_Di");
                             String str_foto = object.getString("Foto_Profilo");
-                            String Foto = "http://192.168.178.48/cinematesdb/"+ str_foto;
+                            String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
                             String Stato = "Inviata";
                             DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserQuasiAmico,Foto, Stato);
                             richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);
                         }else if(str_id.equals("4")){
                             String UserAmico = object.getString("E_Amico_Di");
                             String str_foto = object.getString("Foto_Profilo");
-                            String Foto = "http://192.168.178.48/cinematesdb/"+ str_foto;
+                            String Foto = "http://192.168.1.9/cinematesdb/"+ str_foto;
                             String Stato = "Accettata";
                             DBNotificheModelRichiesteAmicizia dbNotificheModelRichiesteAmicizia = new DBNotificheModelRichiesteAmicizia(nomeUtente, UserAmico,Foto, Stato);
                             richiesteAmiciziaList.add(dbNotificheModelRichiesteAmicizia);

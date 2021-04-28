@@ -12,35 +12,30 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Search.ActivityProfiloAltroUtente;
-import com.example.cinematesmobile.Search.Model.DBModelDataUser;
+import com.example.cinematesmobile.Frag.Model.DBModelDataUserResults;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdapter.DataViewHolder> {
 
     private Activity activity;
-    private List<DBModelDataUser> dataList;
-    public static final String JSON_ARRAY = "dbdata";
-    private static final String INSURL = "http://192.168.178.48/cinematesdb/InviaRichiestaDiAmicizia.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSeRichiestaPresente.php";
+    private List<DBModelDataUserResults> dataList;
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
-    public RicercaUtenteAdapter(Activity activity, List<DBModelDataUser> dataList) {
+    public RicercaUtenteAdapter(Activity activity, List<DBModelDataUserResults> dataList) {
         this.activity = activity;
         this.dataList = dataList;
     }
@@ -51,7 +46,8 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
     }
 
     @Override public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
-        DBModelDataUser data = dataList.get(position);
+        DBModelDataUserResults data = dataList.get(position);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(data.getImmagineProfilo().equals("null")){
             holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
@@ -70,11 +66,51 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
             }else{
                 holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici in comune").toString());
             }
-            VerificaSeRichiestaGiaInviata(data.getUserCheCerca(), data.getUsername_Cercato(), holder);
+            Call<DBModelVerifica> dbModelVerificaCall = retrofitServiceDBInterno.getVerificaRichiestaDiAmicizia(data.getUserCheCerca(), data.getUsername_Cercato());
+            dbModelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
+                @Override public void onResponse(Call<DBModelVerifica> call, Response<DBModelVerifica> response) {
+                    DBModelVerifica dbModelVerifica = response.body();
+                    if(dbModelVerifica != null){
+                        List<DBModelVerificaResults> modelVerificaResults = dbModelVerifica.getResults();
+                        if(modelVerificaResults.get(0).getCodVerifica() == 0){
+                            holder.InviaAmicizia.setVisibility(View.VISIBLE);
+                            holder.InviaAmicizia.setText("Invia richiesta");
+                        }else{
+                            holder.InviaAmicizia.setEnabled(false);
+                            holder.InviaAmicizia.setText("Richiesta già inviata");
+                        }
+                    }else{
+                        Toast.makeText(activity, "Impossibile Verificare Stato Richiesta.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override public void onFailure(Call<DBModelVerifica> call, Throwable t) {
+                    Toast.makeText(activity, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         holder.InviaAmicizia.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                InviaRichiestaDiAmicizia(data.getUserCheCerca(), data.getUsername_Cercato(), holder);
+                Call<DBModelResponseToInsert> dbModelResponseToInsertCall = retrofitServiceDBInterno.InviaRichiestaAmicizia(data.getUserCheCerca(), data.getUsername_Cercato());
+                dbModelResponseToInsertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                        if(dbModelResponseToInsert != null){
+                            if (dbModelResponseToInsert.getStato().equals("Successfull")){
+                                Toast.makeText(activity, "Rchiesta di amicizia inviata a " + data.getUsername_Cercato(), Toast.LENGTH_LONG).show();
+                                holder.InviaAmicizia.setEnabled(false);
+                                holder.InviaAmicizia.setText("Richiesta inviata");
+                            }else{
+                                Toast.makeText(activity, "Invio Richiesta Di Amicizia a " + data.getUsername_Cercato() + " Fallito.", Toast.LENGTH_LONG).show();
+                            }
+                        }else{
+                            Toast.makeText(activity, "Impossibile Inviare Richiesta", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                        Toast.makeText(activity, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,69 +121,6 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                 activity.startActivity(intent);
             }
         });
-    }
-
-    private void VerificaSeRichiestaGiaInviata(String userCheCerca, String username_cercato, DataViewHolder holder) {
-        final int[] validiti = new int[1];
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, VERURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for(int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String respo = object.getString("Amicizia");
-                        validiti[0] = Integer.parseInt(respo);
-                    }
-                    if(validiti[0] == 0) {
-                        holder.InviaAmicizia.setVisibility(View.VISIBLE);
-                        holder.InviaAmicizia.setText("Invia richiesta");
-                    }else{
-                        holder.InviaAmicizia.setEnabled(false);
-                        holder.InviaAmicizia.setText("Richiesta già inviata");
-                    }
-                }catch (Exception e){
-                    Toast.makeText(activity, "" + e, Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            @NotNull @Override protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Utente", userCheCerca);
-                params.put("E_Amico_Di",username_cercato);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
-    }
-
-    private void InviaRichiestaDiAmicizia(String userCheCerca, String username_cercato, DataViewHolder holder) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, INSURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                        Toast.makeText(activity, "Rchiesta di amicizia inviata a " + username_cercato, Toast.LENGTH_LONG).show();
-                        holder.InviaAmicizia.setEnabled(false);
-                         holder.InviaAmicizia.setText("Richiesta inviata");
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Utente", userCheCerca);
-                params.put("E_Amico_Di",username_cercato);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
     }
 
     @Override public int getItemCount() {

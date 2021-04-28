@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Search.AttoriDetailActivity;
-import com.example.cinematesmobile.Search.Model.AttoriResponseResults;
+import com.example.cinematesmobile.Search.ModelMovieActor.AttoriResponseResults;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

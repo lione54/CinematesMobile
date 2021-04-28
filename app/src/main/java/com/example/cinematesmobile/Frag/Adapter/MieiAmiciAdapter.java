@@ -19,7 +19,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.Frag.Model.DBModelUserAmici;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Search.ActivityProfiloAltroUtente;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,13 +32,16 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.DataHolder>{
 
     private Activity activity;
     private List<DBModelUserAmici> amiciList;
     private String Username,Proprietario;
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/RimuoviAmico.php";
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
     public MieiAmiciAdapter(Activity activity, List<DBModelUserAmici> amiciList, String username, String proprietario) {
         this.activity = activity;
@@ -51,6 +57,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
 
     @Override public void onBindViewHolder(@NonNull MieiAmiciAdapter.DataHolder holder, int position) {
         DBModelUserAmici data = amiciList.get(position);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(data.getFoto_Profilo().equals("null")){
             holder.ImageUserAmico.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
@@ -63,10 +70,27 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
             holder.RimuovidaAmici.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RimuoviAmico(data.getE_Amico_Di());
-                    amiciList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeRemoved(position, amiciList.size());
+                    Call<DBModelResponseToInsert> rimuoviamiciCall = retrofitServiceDBInterno.RimuoviAmico(Proprietario, data.getE_Amico_Di());
+                    rimuoviamiciCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if (dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")){
+                                    Toast.makeText(activity, data.getE_Amico_Di() + " Rimosso dagli amici.", Toast.LENGTH_SHORT).show();
+                                    amiciList.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeRemoved(position, amiciList.size());
+                                }else{
+                                    Toast.makeText(activity, "Rimozione di " + data.getE_Amico_Di() + " dagli amici fallita.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Toast.makeText(activity, "Impossibile eliminare " + data.getE_Amico_Di() + " dagli amici.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }
@@ -78,28 +102,6 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
                 activity.startActivity(intent);
             }
         });
-    }
-
-    private void RimuoviAmico(String e_amico_di) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(activity, e_amico_di + " Rimosso dagli amici", Toast.LENGTH_LONG).show();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull
-            @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("UserProprietario",Username);
-                params.put("User_Da_Rimuovere", e_amico_di);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
     }
 
     @Override public int getItemCount() {
