@@ -68,7 +68,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
             }
             Call<DBModelVerifica> dbModelVerificaCall = retrofitServiceDBInterno.getVerificaRichiestaDiAmicizia(data.getUserCheCerca(), data.getUsername_Cercato());
             dbModelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
-                @Override public void onResponse(Call<DBModelVerifica> call, Response<DBModelVerifica> response) {
+                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                     DBModelVerifica dbModelVerifica = response.body();
                     if(dbModelVerifica != null){
                         List<DBModelVerificaResults> modelVerificaResults = dbModelVerifica.getResults();
@@ -83,7 +83,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                         Toast.makeText(activity, "Impossibile Verificare Stato Richiesta.", Toast.LENGTH_SHORT).show();
                     }
                 }
-                @Override public void onFailure(Call<DBModelVerifica> call, Throwable t) {
+                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
                     Toast.makeText(activity, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -92,7 +92,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
             @Override public void onClick(View v) {
                 Call<DBModelResponseToInsert> dbModelResponseToInsertCall = retrofitServiceDBInterno.InviaRichiestaAmicizia(data.getUserCheCerca(), data.getUsername_Cercato());
                 dbModelResponseToInsertCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                         if(dbModelResponseToInsert != null){
                             if (dbModelResponseToInsert.getStato().equals("Successfull")){
@@ -107,7 +107,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                         }
                     }
 
-                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                         Toast.makeText(activity, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                     }
                 });

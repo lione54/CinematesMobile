@@ -7,16 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
@@ -31,16 +24,7 @@ import com.example.cinematesmobile.Search.ModelMovieActor.MovieDetail;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,12 +42,12 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
         this.dataList = dataList;
     }
 
-    @Override public MovieListAltroUtenteAdapter.DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull @Override public MovieListAltroUtenteAdapter.DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(activity).inflate(R.layout.card_film_altro_utente, parent, false);
         return new MovieListAltroUtenteAdapter.DataHolder(view);
     }
 
-    @Override public void onBindViewHolder(MovieListAltroUtenteAdapter.DataHolder holder, int position) {
+    @Override public void onBindViewHolder(@NonNull MovieListAltroUtenteAdapter.DataHolder holder, int position) {
         DBModelDataFilms data = dataList.get(position);
         retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
@@ -89,7 +73,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
         String titoloMod = data.getTitolofilm().replaceAll("'", "/");
         Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
         votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
-            @Override public void onResponse(Call<DBModelVotiResponse> call, Response<DBModelVotiResponse> response) {
+            @Override public void onResponse(@NonNull Call<DBModelVotiResponse> call,@NonNull Response<DBModelVotiResponse> response) {
                 DBModelVotiResponse dbModelVotiResponse = response.body();
                 if(dbModelVotiResponse != null){
                     List<DBModelVoti> votiList = dbModelVotiResponse.getResults();
@@ -109,7 +93,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
                     Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelVotiResponse> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call,@NonNull Throwable t) {
                 Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });

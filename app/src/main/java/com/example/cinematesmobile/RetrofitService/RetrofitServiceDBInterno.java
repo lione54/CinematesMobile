@@ -1,10 +1,11 @@
 package com.example.cinematesmobile.RetrofitService;
 
+import com.example.cinematesmobile.ModelDBInterno.DBModelAttributiLista;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDataUser;
+import com.example.cinematesmobile.ModelDBInterno.DBModelDettagliCinemates;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFotoProfiloResponce;
-import com.example.cinematesmobile.ModelDBInterno.DBModelListeFilmResponse;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloAltroUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
@@ -35,7 +36,7 @@ public interface RetrofitServiceDBInterno {
 
     @FormUrlEncoded
     @POST("TrovaListeDaVisualizzare.php")
-    Call<DBModelListeFilmResponse> getListeFilm(@Field("User_Proprietario") String UserNameAmico);
+    Call<DBModelDataListeFilmResponce> getListeFilm(@Field("User_Proprietario") String User_Proprietario);
 
     @FormUrlEncoded
     @POST("PrendiDaLista.php")
@@ -128,4 +129,42 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("PrendiListeFilmUser.php")
     Call<DBModelDataListeFilmResponce> PrendiFilmUser(@Field("AltroUser") String AltroUser);
+
+    @FormUrlEncoded
+    @POST("TrovaListe.php")
+    Call<DBModelDataListeFilmResponce> TrovaListe(@Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("VerificaSePresente.php")
+    Call<DBModelVerifica> VerificaSePresente(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("User_Proprietario") String User_Proprietario, @Field("Tipo_Lista") String Tipo_Lista);
+
+    @FormUrlEncoded
+    @POST("VerificaSePresenteNeiPreferiti.php")
+    Call<DBModelVerifica> VerificaSePresenteNeiPreferiti(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("VerificaSePresenteNeiDaVedere.php")
+    Call<DBModelVerifica> VerificaSePresenteNeiDaVedere(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("AggiungiFilmAlDatabase.php")
+    Call<DBModelResponseToInsert> AggiungiFilmAlDatabase(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("Tipo_Lista") String Tipo_Lista, @Field("User_Proprietario") String User_Proprietario, @Field("Titolo_Film") String Titolo_Film, @Field("Url_Immagine") String Url_Immagine, @Field("Descrizione") String Descrizione, @Field("Visibilita") String Visibilita);
+
+    @FormUrlEncoded
+    @POST("RimuoviDaiPreferiti.php")
+    Call<DBModelResponseToInsert> RimuoviFilmDaPreferiti(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("RimuoviDaVedere.php")
+    Call<DBModelResponseToInsert> RimuoviFilmDaVedere(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("PrendiAttributiLista.php")
+    Call<DBModelAttributiLista> getAttributiLista(@Field("User_Proprietario") String User_Proprietario, @Field("Tipo_Lista") String Tipo_Lista);
+
+    @FormUrlEncoded
+    @POST("PrendiDettagliCinemates.php")
+    Call<DBModelDettagliCinemates> getDettagliCinemates(@Field("Titolo_Film_Recensito") String Titolo_Film_Recensito);
+
+
 }

@@ -7,17 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.Frag.Model.DBModelVoti;
@@ -33,17 +26,8 @@ import com.example.cinematesmobile.Search.ModelMovieActor.MovieDetail;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,15 +50,13 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
         Tipo_lista = tipo_lista;
     }
 
-    @Override
-    public DataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull @Override public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.layout_preferiti, null);
         return new DataViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(DataViewHolder holder, int position) {
+    @Override public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         DBModelDataFilms data = dataList.get(position);
         retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
@@ -99,7 +81,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
         String titoloMod = data.getTitolofilm().replaceAll("'", "/");
         Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
         votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
-            @Override public void onResponse(Call<DBModelVotiResponse> call, Response<DBModelVotiResponse> response) {
+            @Override public void onResponse(@NonNull Call<DBModelVotiResponse> call,@NonNull Response<DBModelVotiResponse> response) {
                 DBModelVotiResponse dbModelVotiResponse = response.body();
                 if(dbModelVotiResponse != null){
                     List<DBModelVoti> votiList = dbModelVotiResponse.getResults();
@@ -119,7 +101,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                     Toast.makeText(mCtx,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelVotiResponse> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call,@NonNull Throwable t) {
                 Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
@@ -127,7 +109,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
             @Override public void onClick(View v) {
                 Call<DBModelResponseToInsert> rimuoviCall = retrofitServiceDBInterno.RimuoviFilm(String.valueOf(data.getId_film()), User);
                 rimuoviCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                         if (dbModelResponseToInsert != null) {
                             if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -142,7 +124,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                             Toast.makeText(mCtx, "Impossibile rimuovere da " + Tipo_lista + ".", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                         Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -152,6 +134,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
             @Override public void onClick(View v) {
                 Intent intent = new Intent(mCtx, MovieDetailActivity.class);
                 intent.putExtra("id", String.valueOf(id));
+                intent.putExtra("UsernameProprietario", User);
                 mCtx.startActivity(intent);
             }
         });
@@ -197,7 +180,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
 
     class DataViewHolder extends RecyclerView.ViewHolder {
 
-        private KenBurnsView posterImageView;
+        private final KenBurnsView posterImageView;
         public AppCompatTextView posterTitle, Generi, Trama, VotoTMDB, VotoCinemates;
         public AppCompatButton RimuoviDaLista;
 

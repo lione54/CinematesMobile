@@ -1,19 +1,16 @@
 package com.example.cinematesmobile.Frag;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
-
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Frag.Adapter.AttoriPopularAdapter;
@@ -28,9 +25,7 @@ import com.example.cinematesmobile.Search.ModelMovieActor.NowPlayngResponse;
 import com.example.cinematesmobile.Search.ModelMovieActor.PopularResponse;
 import com.example.cinematesmobile.Search.ModelMovieActor.TopRatedResponse;
 import com.example.cinematesmobile.Search.ModelMovieActor.UpcomingResponse;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,6 +47,7 @@ public class HomeFragment extends Fragment {
     private AttoriPopularAdapter attoriPopularAdapter;
     private MovieListHomeAdapter popularSearchAdapter, topRatedcomingSearchAdapter, nowPlayngSerchAdapter;
     private UpcomingSearchAdapter upcomingSearchAdapter;
+    private String User_Proprietario;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -88,6 +84,8 @@ public class HomeFragment extends Fragment {
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+        Bundle b = getActivity().getIntent().getExtras();
+        User_Proprietario = b.getString("UserProprietario");
         String lingua = "it-IT";
         recyclerViewPopular = v.findViewById(R.id.recyclerView);
         recyclerViewUpcoming = v.findViewById(R.id.upcoming_recycleView);
@@ -103,7 +101,7 @@ public class HomeFragment extends Fragment {
                 UpcomingResponse upcomingResponse = response.body();
                 List<MovieResponseResults> upcomingResponseResults = upcomingResponse.getResults();
                 recyclerViewUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                upcomingSearchAdapter = new UpcomingSearchAdapter(getActivity(), upcomingResponseResults);
+                upcomingSearchAdapter = new UpcomingSearchAdapter(getActivity(), upcomingResponseResults , User_Proprietario);
                 recyclerViewUpcoming.setAdapter(upcomingSearchAdapter);
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                 recyclerViewUpcoming.setLayoutAnimation(controller);
@@ -119,7 +117,7 @@ public class HomeFragment extends Fragment {
                 PopularResponse popularResponse = response.body();
                 List<MovieResponseResults> popularResponseResults = popularResponse.getResults();
                 recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                popularSearchAdapter = new MovieListHomeAdapter(getActivity(), popularResponseResults);
+                popularSearchAdapter = new MovieListHomeAdapter(getActivity(), popularResponseResults, User_Proprietario);
                 recyclerViewPopular.setAdapter(popularSearchAdapter);
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                 recyclerViewPopular.setLayoutAnimation(controller);
@@ -135,7 +133,7 @@ public class HomeFragment extends Fragment {
                 TopRatedResponse topRatedResponse = response.body();
                 List<MovieResponseResults> topRatedResponseResults = topRatedResponse.getResults();
                 recyclerTopRated.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                topRatedcomingSearchAdapter = new MovieListHomeAdapter(getActivity(), topRatedResponseResults);
+                topRatedcomingSearchAdapter = new MovieListHomeAdapter(getActivity(), topRatedResponseResults, User_Proprietario);
                 recyclerTopRated.setAdapter(topRatedcomingSearchAdapter);
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                 recyclerTopRated.setLayoutAnimation(controller);
@@ -168,7 +166,7 @@ public class HomeFragment extends Fragment {
                 NowPlayngResponse nowPlayngResponse = response.body();
                 List<MovieResponseResults> movieResponseResultsList = nowPlayngResponse.getResults();
                 nowplayingFilmRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                nowPlayngSerchAdapter = new MovieListHomeAdapter(getActivity(), movieResponseResultsList);
+                nowPlayngSerchAdapter = new MovieListHomeAdapter(getActivity(), movieResponseResultsList, User_Proprietario);
                 nowplayingFilmRecycleView.setAdapter(nowPlayngSerchAdapter);
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                 nowplayingFilmRecycleView.setLayoutAnimation(controller);

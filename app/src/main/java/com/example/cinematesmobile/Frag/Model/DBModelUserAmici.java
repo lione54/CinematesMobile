@@ -37,7 +37,7 @@ public class DBModelUserAmici {
     }
 
     public String getFoto_Profilo() {
-        String UrlBase = "http://192.168.1.9/cinematesdb/";
+        String UrlBase = "http://192.168.1.4/cinematesdb/";
         return UrlBase + Foto_Profilo;
     }
 

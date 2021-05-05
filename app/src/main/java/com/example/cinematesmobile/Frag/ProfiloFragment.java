@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
@@ -151,7 +152,7 @@ public class ProfiloFragment extends Fragment {
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         Call<DBModelProfiloUtenteResponce> userResultsCall = retrofitServiceDBInterno.PrendiInfoUtente(UsernameProprietario);
         userResultsCall.enqueue(new Callback<DBModelProfiloUtenteResponce>() {
-            @Override public void onResponse(Call<DBModelProfiloUtenteResponce> call, Response<DBModelProfiloUtenteResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelProfiloUtenteResponce> call,@NonNull Response<DBModelProfiloUtenteResponce> response) {
                 DBModelProfiloUtenteResponce profiloUtenteResponce = response.body();
                 if(profiloUtenteResponce != null){
                     List<DBModelProfiloUtente> profiloUtenteList = profiloUtenteResponce.getResults();
@@ -164,7 +165,7 @@ public class ProfiloFragment extends Fragment {
                     Toast.makeText(getContext() , "Impossibile caricare informazioni.", Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelProfiloUtenteResponce> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelProfiloUtenteResponce> call,@NonNull Throwable t) {
                 Toast.makeText(getContext() , "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -254,7 +255,7 @@ public class ProfiloFragment extends Fragment {
                                 String Tipo = "Password";
                                 Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, InserisciNuovaPass.getText().toString());
                                 cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                         if(dbModelResponseToInsert != null) {
                                             if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -272,7 +273,7 @@ public class ProfiloFragment extends Fragment {
                                             Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                         }
                                     }
-                                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                         Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -332,7 +333,7 @@ public class ProfiloFragment extends Fragment {
                         try {
                             Call<DBModelResponseToInsert> cambiaFotoProfiloCall = retrofitServiceDBInterno.CambiaFotoProfilo(UsernameProprietario, getImgepath(bitmap));
                             cambiaFotoProfiloCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -350,7 +351,7 @@ public class ProfiloFragment extends Fragment {
                                         Toast.makeText(getContext(), "Impossibile cambiare foto profilo." , Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -385,13 +386,9 @@ public class ProfiloFragment extends Fragment {
                             if(ContextCompat.checkSelfPermission(getContext(), permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
                                 String [] permissions = {permission.READ_EXTERNAL_STORAGE};
                                 requestPermissions(permissions, PERMISSION_CODE);
-                                scegliImmagine();
-                            }else{
-                                scegliImmagine();
                             }
-                        }else{
-                            scegliImmagine();
                         }
+                        scegliImmagine();
                     }
                 });
                 Conferma.setOnClickListener(new View.OnClickListener() {
@@ -399,7 +396,7 @@ public class ProfiloFragment extends Fragment {
                         try {
                             Call<DBModelResponseToInsert> cambiaFotoCopertinaCall = retrofitServiceDBInterno.CambiaFotoCopertina(UsernameProprietario, getImgepath(bitmap));
                             cambiaFotoCopertinaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -417,7 +414,7 @@ public class ProfiloFragment extends Fragment {
                                         Toast.makeText(getContext(), "Impossibile cambiare foto di copertina." , Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -451,7 +448,7 @@ public class ProfiloFragment extends Fragment {
                             String Tipo = "Nome";
                             Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
                             cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -469,7 +466,7 @@ public class ProfiloFragment extends Fragment {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -502,7 +499,7 @@ public class ProfiloFragment extends Fragment {
                             String Tipo = "Cognome";
                             Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
                             cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -553,7 +550,7 @@ public class ProfiloFragment extends Fragment {
                             String Tipo = "Descrizione";
                             Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
                             cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -571,7 +568,7 @@ public class ProfiloFragment extends Fragment {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -604,7 +601,7 @@ public class ProfiloFragment extends Fragment {
                             String Tipo = "Email";
                             Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
                             cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -622,7 +619,7 @@ public class ProfiloFragment extends Fragment {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -670,7 +667,7 @@ public class ProfiloFragment extends Fragment {
                             String Tipo = "DataNascita";
                             Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
                             cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -688,7 +685,7 @@ public class ProfiloFragment extends Fragment {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -728,7 +725,7 @@ public class ProfiloFragment extends Fragment {
                             String Tipo = "Gender";
                             Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, Nuovosesso[0]);
                             cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -746,7 +743,7 @@ public class ProfiloFragment extends Fragment {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });

@@ -6,14 +6,12 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-
-import com.example.cinematesmobile.Main.WelcomeActivity;
 import com.example.cinematesmobile.R;
 
 public class SignInActivity extends AppCompatActivity {
-    private Button Continua;
-    private  Button Indietro;
+
+    private AppCompatButton Continua, Indietro;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);

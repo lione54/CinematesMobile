@@ -6,16 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.Frag.Model.DBModelVoti;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVotiResponse;
@@ -29,17 +21,7 @@ import com.example.cinematesmobile.Search.ModelMovieActor.GeneriResponseResult;
 import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponseResults;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.example.cinematesmobile.Search.VisteHolder.SearchViewHolder;
-
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,7 +57,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         String titoloMod = title.replaceAll("'", "/");
         Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
         votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
-            @Override public void onResponse(Call<DBModelVotiResponse> call, Response<DBModelVotiResponse> response) {
+            @Override public void onResponse(@NonNull Call<DBModelVotiResponse> call,@NonNull Response<DBModelVotiResponse> response) {
                 DBModelVotiResponse dbModelVotiResponse = response.body();
                 if(dbModelVotiResponse != null){
                     List<DBModelVoti> votiList = dbModelVotiResponse.getResults();
@@ -95,7 +77,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                     Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelVotiResponse> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call, Throwable t) {
                 Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });

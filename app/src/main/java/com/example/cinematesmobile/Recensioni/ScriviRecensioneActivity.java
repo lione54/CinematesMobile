@@ -1,33 +1,21 @@
 package com.example.cinematesmobile.Recensioni;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +41,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrivi_recensione);
         NomeUtente= getIntent().getExtras().getString("Nome_Utente");
         TitoloFilm = getIntent().getExtras().getString("Titolo_Film");
-        UrlImmagine = getIntent().getExtras().getString("Foto_Profilo");;
+        UrlImmagine = getIntent().getExtras().getString("Foto_Profilo");
         ImmagineRece = findViewById(R.id.immagineRece);
         Nome = findViewById(R.id.nome_utente);
         CorpoRecensione = findViewById(R.id.corp_rece);
@@ -86,7 +74,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                                 String titoloMod = TitoloFilm.replaceAll("'", "/");
                                 Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(Recensione, String.valueOf(Punteggio), titoloMod, NomeUtente);
                                 scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                         if(dbModelResponseToInsert != null) {
                                             if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -100,7 +88,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                                             Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
                                         }
                                     }
-                                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                         Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -115,7 +103,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                         String titoloMod = TitoloFilm.replaceAll("'", "/");
                         Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(Recensione, String.valueOf(Punteggio), titoloMod, NomeUtente);
                         scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                            @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                 if(dbModelResponseToInsert != null) {
                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -128,7 +116,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                                     Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                 Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                             }
                         });

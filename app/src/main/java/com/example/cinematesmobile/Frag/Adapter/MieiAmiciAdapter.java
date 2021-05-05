@@ -6,17 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.Frag.Model.DBModelUserAmici;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
@@ -24,13 +17,7 @@ import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Search.ActivityProfiloAltroUtente;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,7 +59,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
                 public void onClick(View v) {
                     Call<DBModelResponseToInsert> rimuoviamiciCall = retrofitServiceDBInterno.RimuoviAmico(Proprietario, data.getE_Amico_Di());
                     rimuoviamiciCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                        @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
                             if (dbModelResponseToInsert != null){
                                 if (dbModelResponseToInsert.getStato().equals("Successfull")){
@@ -87,7 +74,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
                                 Toast.makeText(activity, "Impossibile eliminare " + data.getE_Amico_Di() + " dagli amici.", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                             Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                         }
                     });

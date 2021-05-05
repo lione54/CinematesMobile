@@ -4,39 +4,19 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.cinematesmobile.Frag.FragmentPreferiti;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -78,7 +58,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
         }
         Call<DBModelFilmsResponce> filmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(UsernameAltroUtente, dbModelDataListeFilm.getTitoloLista());
         filmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
-            @Override public void onResponse(Call<DBModelFilmsResponce> call, retrofit2.Response<DBModelFilmsResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call,@NonNull retrofit2.Response<DBModelFilmsResponce> response) {
                 DBModelFilmsResponce dbModelFilmsResponce  = response.body();
                 if(dbModelFilmsResponce != null){
                     List<DBModelDataFilms> preferiti = dbModelFilmsResponce.getResults();
@@ -96,7 +76,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                     Toast.makeText(activity,"Impossibile recuperare i film.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelFilmsResponce> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
                 Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });

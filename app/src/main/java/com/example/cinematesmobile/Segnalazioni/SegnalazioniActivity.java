@@ -1,40 +1,21 @@
 package com.example.cinematesmobile.Segnalazioni;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
-import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
-import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
-import com.example.cinematesmobile.Recensioni.ScriviRecensioneActivity;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,21 +97,20 @@ public class SegnalazioniActivity extends AppCompatActivity {
                     }
                     Call<DBModelResponseToInsert> inviaSegnalazioneCall = retrofitServiceDBInterno.InviaSegnalazione(NomeUtenteSegnalatore, NomeUtenteSegnalato, String.valueOf(IdRecensione), stringBuilder.toString());
                     inviaSegnalazioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                        @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
                             if(dbModelResponseToInsert != null) {
                                 if (dbModelResponseToInsert.getStato().equals("Successfull")) {
                                     Toast.makeText(SegnalazioniActivity.this , "Segnalazione avvenuta con successo" , Toast.LENGTH_SHORT).show();
-                                    onBackPressed();
                                 }else{
                                     Toast.makeText(SegnalazioniActivity.this, "Invio segnalazione nei confronti di " + NomeUtenteSegnalato + " Fallito.", Toast.LENGTH_LONG).show();
-                                    onBackPressed();
                                 }
+                                onBackPressed();
                             }else {
                                 Toast.makeText(SegnalazioniActivity.this, "Impossibile Inviare Segnalazione", Toast.LENGTH_LONG).show();
                             }
                         }
-                        @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                             Toast.makeText(SegnalazioniActivity.this, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_LONG).show();
                         }
                     });

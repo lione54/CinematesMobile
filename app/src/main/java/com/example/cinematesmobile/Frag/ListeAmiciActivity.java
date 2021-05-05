@@ -1,35 +1,21 @@
 package com.example.cinematesmobile.Frag;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.Frag.Adapter.MieiAmiciAdapter;
 import com.example.cinematesmobile.Frag.Model.DBModelUserAmici;
 import com.example.cinematesmobile.ModelDBInterno.DBModelUserAmiciResponce;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,7 +41,7 @@ public class ListeAmiciActivity extends AppCompatActivity {
         ListaAmici.setLayoutManager(new LinearLayoutManager(ListeAmiciActivity.this, LinearLayoutManager.HORIZONTAL, false));
         Call<DBModelUserAmiciResponce> amiciResponceCall = retrofitServiceDBInterno.getMieiAmici(Username);
         amiciResponceCall.enqueue(new Callback<DBModelUserAmiciResponce>() {
-            @Override public void onResponse(Call<DBModelUserAmiciResponce> call, Response<DBModelUserAmiciResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelUserAmiciResponce> call,@NonNull Response<DBModelUserAmiciResponce> response) {
                 DBModelUserAmiciResponce dbModelUserAmiciResponce = response.body();
                 if(dbModelUserAmiciResponce != null){
                     UtentiAmici = dbModelUserAmiciResponce.getResults();
@@ -70,7 +56,7 @@ public class ListeAmiciActivity extends AppCompatActivity {
                     Toast.makeText(ListeAmiciActivity.this, "Impossibile caricare lista amici.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelUserAmiciResponce> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelUserAmiciResponce> call,@NonNull Throwable t) {
                 Toast.makeText(ListeAmiciActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });

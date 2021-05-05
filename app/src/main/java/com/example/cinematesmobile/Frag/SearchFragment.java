@@ -1,5 +1,6 @@
 package com.example.cinematesmobile.Frag;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,6 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Search.Adapters.AttoriSearchAdapter;
@@ -32,10 +31,8 @@ import com.example.cinematesmobile.ModelDBInterno.DBModelDataUser;
 import com.example.cinematesmobile.Frag.Model.DBModelDataUserResults;
 import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponse;
 import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponseResults;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -122,6 +119,7 @@ public class SearchFragment extends Fragment {
         return v;
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void Ricerca(int camposelezionato){
         switch (camposelezionato){
             case R.id.radio_ricerca_film:
@@ -202,7 +200,7 @@ public class SearchFragment extends Fragment {
                         }else {
                             Call<DBModelDataUser> dbModelDataUserCall = retrofitServiceDBInterno.getUserByQuery(query, UsernameProprietario);
                             dbModelDataUserCall.enqueue(new Callback<DBModelDataUser>() {
-                                @Override public void onResponse(Call<DBModelDataUser> call, Response<DBModelDataUser> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelDataUser> call,@NonNull Response<DBModelDataUser> response) {
                                     DBModelDataUser dbModelDataUser = response.body();
                                     if (dbModelDataUser != null){
                                         UtentiCercati = dbModelDataUser.getResults();
@@ -216,7 +214,7 @@ public class SearchFragment extends Fragment {
                                         Toast.makeText(getContext(), "Nessun Utente Corrisponde Ai Criteri  Di Ricerca.",Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                @Override public void onFailure(Call<DBModelDataUser> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelDataUser> call,@NonNull Throwable t) {
                                     Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                                 }
                             });

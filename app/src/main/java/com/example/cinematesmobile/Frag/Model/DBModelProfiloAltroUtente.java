@@ -2,8 +2,6 @@ package com.example.cinematesmobile.Frag.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class DBModelProfiloAltroUtente {
 
     @SerializedName("UserName")
@@ -86,7 +84,7 @@ public class DBModelProfiloAltroUtente {
         if(Foto_Profilo.equals("null")){
             return Foto_Profilo;
         }else {
-            String UrlBase = "http://192.168.1.9/cinematesdb/";
+            String UrlBase = "http://192.168.1.4/cinematesdb/";
             return UrlBase + Foto_Profilo;
         }
     }
@@ -131,7 +129,7 @@ public class DBModelProfiloAltroUtente {
         if(Foto_Copertina.equals("null")){
             return Foto_Copertina;
         }else {
-            String UrlBase = "http://192.168.1.9/cinematesdb/";
+            String UrlBase = "http://192.168.1.4/cinematesdb/";
             return UrlBase + Foto_Copertina;
         }
     }

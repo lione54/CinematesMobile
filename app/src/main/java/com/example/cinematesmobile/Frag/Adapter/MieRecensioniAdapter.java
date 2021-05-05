@@ -1,36 +1,22 @@
 package com.example.cinematesmobile.Frag.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,7 +54,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
             @Override public void onClick(View v) {
                 Call<DBModelResponseToInsert> rimuoviCall = retrofitServiceDBInterno.RimuoviRecensione(String.valueOf(dbModelRecensioni.getId_Recensione()), dbModelRecensioni.getUser_Recensore());
                 rimuoviCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                         if (dbModelResponseToInsert != null) {
                             if (dbModelResponseToInsert.getStato().equals("Successfull")) {
@@ -83,7 +69,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                             Toast.makeText(activity, "Impossibile eliminare recensione.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                         Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                     }
                 });

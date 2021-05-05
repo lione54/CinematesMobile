@@ -39,22 +39,8 @@ import retrofit2.Response;
 public class AttoriDetailActivity extends AppCompatActivity {
 
     private KenBurnsView attoriDetailProfileImageView;
-    private LinearLayoutCompat AlsoKnowAsLayout;
-    private LinearLayoutCompat BirthdayLayout;
-    private LinearLayoutCompat PlaceLayout;
-    private LinearLayoutCompat DeathdayLayout;
-    private LinearLayoutCompat RoleLayout;
-    private LinearLayoutCompat HomepageLayout;
-    private LinearLayoutCompat BioLayout;
-    private LinearLayoutCompat ProfileImageLayout, AttoriDetailFilmfattiLayout;
-    private AppCompatTextView NomeAttore;
-    private AppCompatTextView AlsoKnowAs;
-    private AppCompatTextView Birthday;
-    private AppCompatTextView Place;
-    private AppCompatTextView Deathday;
-    private AppCompatTextView Role;
-    private AppCompatTextView Homepage;
-    private AppCompatTextView Bio, AttoriFilmfatti;
+    private LinearLayoutCompat AlsoKnowAsLayout, BirthdayLayout, PlaceLayout, DeathdayLayout, RoleLayout, HomepageLayout, BioLayout, ProfileImageLayout, AttoriDetailFilmfattiLayout;
+    private AppCompatTextView NomeAttore, AlsoKnowAs, Birthday, Place, Deathday, Role, Homepage, Bio, AttoriFilmfatti;
     private RecyclerView ProfileImageRecycleView;
     private ImmagineProfiloAttoriAdapter immagineProfiloAttoriAdapter;
     private RetrofitServiceFilm retrofitServiceFilm;
@@ -108,7 +94,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
                 });
                 Call<AttoriImage> attoriImageCall = retrofitServiceFilm.getAttoriImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
                 attoriImageCall.enqueue(new Callback<AttoriImage>() {
-                    @Override public void onResponse(Call<AttoriImage> call, Response<AttoriImage> response) {
+                    @Override public void onResponse(@NonNull Call<AttoriImage> call,@NonNull Response<AttoriImage> response) {
                         AttoriImage attoriImage = response.body();
                         if(attoriImage != null){
                             List<AttoriImmageResult> attoriImmageResultList = attoriImage.getProfiles();
@@ -125,7 +111,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
                         }
                     }
 
-                    @Override public void onFailure(Call<AttoriImage> call, Throwable t) {
+                    @Override public void onFailure(@NonNull Call<AttoriImage> call,@NonNull Throwable t) {
                         Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });

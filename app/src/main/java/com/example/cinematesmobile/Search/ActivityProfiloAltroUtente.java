@@ -1,35 +1,23 @@
 package com.example.cinematesmobile.Search;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.Frag.Adapter.AltroUtenteAmicoAdapter;
-import com.example.cinematesmobile.Frag.Adapter.MovieListPrefAdapter;
-import com.example.cinematesmobile.Frag.Adapter.NotificationAdapter;
 import com.example.cinematesmobile.Frag.ListeAmiciActivity;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
 import com.example.cinematesmobile.Frag.Model.DBModelProfiloAltroUtente;
-import com.example.cinematesmobile.Frag.Model.DBNotificheModelRichiesteAmicizia;
-import com.example.cinematesmobile.Frag.Model.DBNotificheModelSegnalazioni;
 import com.example.cinematesmobile.Frag.ProprieRecensioniActivity;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
-import com.example.cinematesmobile.ModelDBInterno.DBModelListeFilmResponse;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloAltroUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
@@ -37,17 +25,7 @@ import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.flaviofaria.kenburnsview.KenBurnsView;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,14 +80,14 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         });
         Call<DBModelVerifica> VerificaAmiciziaCall = retrofitServiceDBInterno.VerificaSeAmico(UsernameProprietario,UsernameAltroUtente);
         VerificaAmiciziaCall.enqueue(new Callback<DBModelVerifica>() {
-            @Override public void onResponse(Call<DBModelVerifica> call, Response<DBModelVerifica> response) {
+            @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                 DBModelVerifica dbModelVerifica = response.body();
                 if(dbModelVerifica != null) {
                     List<DBModelVerificaResults> modelVerificaResults = dbModelVerifica.getResults();
                     if (modelVerificaResults.get(0).getCodVerifica() == 1) {
                             Call<DBModelProfiloAltroUtenteResponce> amicoCall = retrofitServiceDBInterno.PrendiAmico(UsernameAltroUtente,UsernameProprietario);
                             amicoCall.enqueue(new Callback<DBModelProfiloAltroUtenteResponce>() {
-                                @Override public void onResponse(Call<DBModelProfiloAltroUtenteResponce> call, Response<DBModelProfiloAltroUtenteResponce> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelProfiloAltroUtenteResponce> call,@NonNull Response<DBModelProfiloAltroUtenteResponce> response) {
                                  DBModelProfiloAltroUtenteResponce dbModelProfiloAltroUtenteResponce = response.body();
                                  if(dbModelProfiloAltroUtenteResponce != null){
                                      List<DBModelProfiloAltroUtente> altroUtenteList = dbModelProfiloAltroUtenteResponce.getResults();
@@ -122,14 +100,14 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                                      Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile trovare i dettagli." , Toast.LENGTH_SHORT).show();
                                  }
                                 }
-                                @Override public void onFailure(Call<DBModelProfiloAltroUtenteResponce> call, Throwable t) {
+                                @Override public void onFailure(@NonNull Call<DBModelProfiloAltroUtenteResponce> call,@NonNull Throwable t) {
                                     Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                                 }
                             });
                     }else{
                         Call<DBModelProfiloAltroUtenteResponce> utenteCall = retrofitServiceDBInterno.PrendiUser(UsernameAltroUtente);
                         utenteCall.enqueue(new Callback<DBModelProfiloAltroUtenteResponce>() {
-                            @Override public void onResponse(Call<DBModelProfiloAltroUtenteResponce> call, Response<DBModelProfiloAltroUtenteResponce> response) {
+                            @Override public void onResponse(@NonNull Call<DBModelProfiloAltroUtenteResponce> call,@NonNull Response<DBModelProfiloAltroUtenteResponce> response) {
                                 DBModelProfiloAltroUtenteResponce dbModelProfiloAltroUtenteResponce = response.body();
                                 if(dbModelProfiloAltroUtenteResponce != null){
                                     List<DBModelProfiloAltroUtente> altroUtenteList = dbModelProfiloAltroUtenteResponce.getResults();
@@ -142,7 +120,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                                     Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile trovare i dettagli." , Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            @Override public void onFailure(Call<DBModelProfiloAltroUtenteResponce> call, Throwable t) {
+                            @Override public void onFailure(@NonNull Call<DBModelProfiloAltroUtenteResponce> call,@NonNull Throwable t) {
                                 Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -151,7 +129,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                     Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile verificare amicizia." , Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelVerifica> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
                 Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
             }
         });
@@ -178,7 +156,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         }
         Call<DBModelDataListeFilmResponce> filmCall = retrofitServiceDBInterno.PrendiFilmUser(UsernameAltroUtente);
         filmCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
-            @Override public void onResponse(Call<DBModelDataListeFilmResponce> call, Response<DBModelDataListeFilmResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Response<DBModelDataListeFilmResponce> response) {
                 DBModelDataListeFilmResponce dbModelListeFilmResponse = response.body();
                 if(dbModelListeFilmResponse != null){
                    List<DBModelDataListeFilm> listeFilms = dbModelListeFilmResponse.getListeFilms();
@@ -196,7 +174,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                     Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile prendere liste film.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelDataListeFilmResponce> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
                 Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
@@ -257,7 +235,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         }
         Call<DBModelDataListeFilmResponce> filmAmiciCall = retrofitServiceDBInterno.PrendiFilmAmico(UsernameAltroUtente,UsernameProprietario);
         filmAmiciCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
-            @Override public void onResponse(Call<DBModelDataListeFilmResponce> call, Response<DBModelDataListeFilmResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Response<DBModelDataListeFilmResponce> response) {
                 DBModelDataListeFilmResponce dbModelListeFilmResponse = response.body();
                 if(dbModelListeFilmResponse != null){
                     List<DBModelDataListeFilm> listeFilms = dbModelListeFilmResponse.getListeFilms();
@@ -275,7 +253,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                     Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile prendere liste film.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelDataListeFilmResponce> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
 
             }
         });

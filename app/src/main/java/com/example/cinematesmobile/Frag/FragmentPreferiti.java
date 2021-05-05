@@ -2,6 +2,7 @@ package com.example.cinematesmobile.Frag;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,31 +16,17 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
+import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
-import com.example.cinematesmobile.ModelDBInterno.DBModelListeFilmResponse;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Frag.Adapter.MovieListPrefAdapter;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
-
 import org.angmarch.views.NiceSpinner;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -113,12 +100,12 @@ public class FragmentPreferiti extends Fragment {
         if(inizializza == true) {
             inizializza = false;
             listefilmutente.add(scelta);
-            Call<DBModelListeFilmResponse> dbModelListeFilmResponseCall = retrofitServiceDBInterno.getListeFilm(UsernameProprietario);
-            dbModelListeFilmResponseCall.enqueue(new Callback<DBModelListeFilmResponse>() {
-                @Override public void onResponse(Call<DBModelListeFilmResponse> call, retrofit2.Response<DBModelListeFilmResponse> response) {
-                    DBModelListeFilmResponse dbModelListeFilmResponse = response.body();
+            Call<DBModelDataListeFilmResponce> dbModelListeFilmResponseCall = retrofitServiceDBInterno.getListeFilm(UsernameProprietario);
+            dbModelListeFilmResponseCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
+                @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull retrofit2.Response<DBModelDataListeFilmResponce> response) {
+                    DBModelDataListeFilmResponce dbModelListeFilmResponse = response.body();
                     if(dbModelListeFilmResponse != null){
-                        List<DBModelDataListeFilm> dataListeFilms = dbModelListeFilmResponse.getResults();
+                        List<DBModelDataListeFilm> dataListeFilms = dbModelListeFilmResponse.getListeFilms();
                         for(int i = 0; i < dataListeFilms.size(); i++){
                             listefilmutente.add(dataListeFilms.get(i).getTitoloLista());
                         }
@@ -127,17 +114,17 @@ public class FragmentPreferiti extends Fragment {
                         Toast.makeText(getContext(), "Nessuna Lista Da Mostrare", Toast.LENGTH_SHORT).show();
                     }
                 }
-                @Override public void onFailure(Call<DBModelListeFilmResponse> call, Throwable t) {
+                @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
                     Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                 }
             });
         }else{
-            Call<DBModelListeFilmResponse> dbModelListeFilmResponseCall = retrofitServiceDBInterno.getListeFilm(UsernameProprietario);
-            dbModelListeFilmResponseCall.enqueue(new Callback<DBModelListeFilmResponse>() {
-                @Override public void onResponse(Call<DBModelListeFilmResponse> call, retrofit2.Response<DBModelListeFilmResponse> response) {
-                    DBModelListeFilmResponse dbModelListeFilmResponse = response.body();
+            Call<DBModelDataListeFilmResponce> dbModelListeFilmResponseCall = retrofitServiceDBInterno.getListeFilm(UsernameProprietario);
+            dbModelListeFilmResponseCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
+                @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull retrofit2.Response<DBModelDataListeFilmResponce> response) {
+                    DBModelDataListeFilmResponce dbModelListeFilmResponse = response.body();
                     if(dbModelListeFilmResponse != null){
-                        List<DBModelDataListeFilm> dataListeFilms = dbModelListeFilmResponse.getResults();
+                        List<DBModelDataListeFilm> dataListeFilms = dbModelListeFilmResponse.getListeFilms();
                         for(int i = 0; i < dataListeFilms.size(); i++){
                             listefilmutente.add(dataListeFilms.get(i).getTitoloLista());
                         }
@@ -146,7 +133,7 @@ public class FragmentPreferiti extends Fragment {
                         Toast.makeText(getContext(), "Nessuna Lista Da Mostrare.", Toast.LENGTH_SHORT).show();
                     }
                 }
-                @Override public void onFailure(Call<DBModelListeFilmResponse> call, Throwable t) {
+                @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
                     Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -167,7 +154,7 @@ public class FragmentPreferiti extends Fragment {
                     preferiti = new ArrayList<>();
                     Call<DBModelFilmsResponce> dbModelFilmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(UsernameProprietario, ListaSelezionata);
                     dbModelFilmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
-                        @Override public void onResponse(Call<DBModelFilmsResponce> call, retrofit2.Response<DBModelFilmsResponce> response) {
+                        @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call,@NonNull retrofit2.Response<DBModelFilmsResponce> response) {
                             DBModelFilmsResponce dbModelFilmsResponce = response.body();
                             if(dbModelFilmsResponce != null){
                                 List<DBModelDataFilms> dbModelDataFilms = dbModelFilmsResponce.getResults();
@@ -202,7 +189,7 @@ public class FragmentPreferiti extends Fragment {
                                 Toast.makeText(getContext(), "Impossibile Mostrare la Lista.",Toast.LENGTH_SHORT).show();
                             }
                         }
-                        @Override public void onFailure(Call<DBModelFilmsResponce> call, Throwable t) {
+                        @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
                             Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -218,7 +205,7 @@ public class FragmentPreferiti extends Fragment {
         super.onResume();
         Call<DBModelFilmsResponce> dbModelFilmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(UsernameProprietario, ListaSelezionata);
         dbModelFilmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
-            @Override public void onResponse(Call<DBModelFilmsResponce> call, retrofit2.Response<DBModelFilmsResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call,@NonNull retrofit2.Response<DBModelFilmsResponce> response) {
             DBModelFilmsResponce dbModelFilmsResponce = response.body();
             if(dbModelFilmsResponce != null){
                 List<DBModelDataFilms> dbModelDataFilms = dbModelFilmsResponce.getResults();
@@ -253,7 +240,7 @@ public class FragmentPreferiti extends Fragment {
                Toast.makeText(getContext(), "Impossibile Mostrare la Lista.",Toast.LENGTH_SHORT).show();
             }
         }
-        @Override public void onFailure(Call<DBModelFilmsResponce> call, Throwable t) {
+        @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
             }
         });
     }

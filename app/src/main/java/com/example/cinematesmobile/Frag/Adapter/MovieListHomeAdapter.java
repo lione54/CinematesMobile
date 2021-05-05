@@ -19,10 +19,12 @@ import java.util.List;
 public class MovieListHomeAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     private Activity activity;
     private List<MovieResponseResults> results;
+    private String UserProprietario;
 
-    public MovieListHomeAdapter(Activity activity, List<MovieResponseResults> results) {
+    public MovieListHomeAdapter(Activity activity, List<MovieResponseResults> results, String userProprietario) {
         this.activity = activity;
         this.results = results;
+        UserProprietario = userProprietario;
     }
 
     @NonNull @Override public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -45,6 +47,7 @@ public class MovieListHomeAdapter extends RecyclerView.Adapter<SearchViewHolder>
             @Override public void onClick(View v) {
                 Intent intent = new Intent(activity, MovieDetailActivity.class);
                 intent.putExtra("id", String.valueOf(id));
+                intent.putExtra("UsernameProprietario", UserProprietario);
                 activity.startActivity(intent);
             }
         });

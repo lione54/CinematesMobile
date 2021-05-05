@@ -1,5 +1,6 @@
 package com.example.cinematesmobile.Recensioni;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -7,17 +8,10 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFotoProfiloResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
@@ -29,24 +23,15 @@ import com.example.cinematesmobile.Recensioni.Model.DBModelFotoProfilo;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RecensioniActivity extends AppCompatActivity {
 
-    private Integer Id_Film, N_Rece;
+    private Integer N_Rece;
     private Double Val;
     private String Titolo_film;
     private String Poster;
@@ -63,7 +48,6 @@ public class RecensioniActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recensioni);
-        Id_Film = getIntent().getExtras().getInt("Id_Film");
         N_Rece = getIntent().getExtras().getInt("Numero_Recensioni");
         Val = getIntent().getExtras().getDouble("Valutazione");
         Titolo_film = getIntent().getExtras().getString("Titolo_Film");
@@ -84,7 +68,7 @@ public class RecensioniActivity extends AppCompatActivity {
         String Titolo_Mod = Titolo_film.replaceAll("'", "/");
         Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod);
         recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
-            @Override public void onResponse(Call<DBModelRecensioniResponce> call, Response<DBModelRecensioniResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Response<DBModelRecensioniResponce> response) {
                 DBModelRecensioniResponce dbModelRecensioniResponce = response.body();
                 if(dbModelRecensioniResponce != null){
                     recensioniList = dbModelRecensioniResponce.getResults();
@@ -99,7 +83,7 @@ public class RecensioniActivity extends AppCompatActivity {
                     Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelRecensioniResponce> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Throwable t) {
                 Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
@@ -108,7 +92,7 @@ public class RecensioniActivity extends AppCompatActivity {
             @Override public void onClick(View v) {
                 Call<DBModelFotoProfiloResponce> fotoProfiloResponceCall = retrofitServiceDBInterno.PrendiFotoProfilo(Utente);
                 fotoProfiloResponceCall.enqueue(new Callback<DBModelFotoProfiloResponce>() {
-                    @Override public void onResponse(Call<DBModelFotoProfiloResponce> call, Response<DBModelFotoProfiloResponce> response) {
+                    @Override public void onResponse(@NonNull Call<DBModelFotoProfiloResponce> call,@NonNull Response<DBModelFotoProfiloResponce> response) {
                         DBModelFotoProfiloResponce fotoProfiloResponce = response.body();
                         if(fotoProfiloResponce != null){
                             List<DBModelFotoProfilo> fotoProfilos = fotoProfiloResponce.getResults();
@@ -116,7 +100,7 @@ public class RecensioniActivity extends AppCompatActivity {
                                 String Titolo_Mod = Titolo_film.replaceAll("'", "/");
                                 Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaPresenzaRecensione(Titolo_Mod, Utente);
                                 verificaCall.enqueue(new Callback<DBModelVerifica>() {
-                                    @Override public void onResponse(Call<DBModelVerifica> call, Response<DBModelVerifica> response) {
+                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                         DBModelVerifica dbModelVerifica = response.body();
                                         if(dbModelVerifica != null) {
                                             List<DBModelVerificaResults> modelVerificaResults = dbModelVerifica.getResults();
@@ -133,7 +117,7 @@ public class RecensioniActivity extends AppCompatActivity {
                                             Toast.makeText(RecensioniActivity.this , "Impossibile verificare presenza recensione.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
-                                    @Override public void onFailure(Call<DBModelVerifica> call, Throwable t) {
+                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
                                         Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -144,7 +128,7 @@ public class RecensioniActivity extends AppCompatActivity {
                             Toast.makeText(RecensioniActivity.this , "Impossibile caricare foto profilo.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    @Override public void onFailure(Call<DBModelFotoProfiloResponce> call, Throwable t) {
+                    @Override public void onFailure(@NonNull Call<DBModelFotoProfiloResponce> call,@NonNull Throwable t) {
                         Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -163,7 +147,7 @@ public class RecensioniActivity extends AppCompatActivity {
         String Titolo_Mod = Titolo_film.replaceAll("'", "/");
         Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod);
         recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
-            @Override public void onResponse(Call<DBModelRecensioniResponce> call, Response<DBModelRecensioniResponce> response) {
+            @Override public void onResponse(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Response<DBModelRecensioniResponce> response) {
                 DBModelRecensioniResponce dbModelRecensioniResponce = response.body();
                 if(dbModelRecensioniResponce != null){
                     recensioniList = dbModelRecensioniResponce.getResults();
@@ -178,7 +162,7 @@ public class RecensioniActivity extends AppCompatActivity {
                     Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni.",Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<DBModelRecensioniResponce> call, Throwable t) {
+            @Override public void onFailure(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Throwable t) {
                 Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });

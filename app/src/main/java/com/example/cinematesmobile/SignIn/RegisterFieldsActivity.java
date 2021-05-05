@@ -1,23 +1,15 @@
 package com.example.cinematesmobile.SignIn;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import java.util.Calendar;
-
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import com.example.cinematesmobile.Frag.FragmentActivity;
-import com.example.cinematesmobile.Main.WelcomeActivity;
 import com.example.cinematesmobile.R;
 
 public class RegisterFieldsActivity extends AppCompatActivity {
@@ -25,6 +17,7 @@ public class RegisterFieldsActivity extends AppCompatActivity {
     private EditText date;
     private DatePickerDialog datePickerDialog;
     private Button Finito;
+    private String UsernameProprietario = "lione54";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +47,7 @@ public class RegisterFieldsActivity extends AppCompatActivity {
         Finito.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent = new Intent(RegisterFieldsActivity.this, FragmentActivity.class);
+                intent.putExtra("UserProprietario", UsernameProprietario);
                 startActivity(intent);
             }
         });
