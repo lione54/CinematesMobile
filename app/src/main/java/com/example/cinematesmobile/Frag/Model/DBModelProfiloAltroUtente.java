@@ -127,7 +127,7 @@ public class DBModelProfiloAltroUtente {
 
     public String getFoto_Copertina() {
         if(Foto_Copertina == null){
-            return Foto_Copertina;
+            return null;
         }else {
             String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + Foto_Copertina;

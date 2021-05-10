@@ -92,7 +92,7 @@ public class DBModelProfiloUtente {
 
     public String getFoto_Profilo() {
         if(Foto_Profilo == null){
-            return Foto_Profilo;
+            return null;
         }else {
             String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + Foto_Profilo;
@@ -137,7 +137,7 @@ public class DBModelProfiloUtente {
 
     public String getFoto_Copertina() {
         if(Foto_Copertina == null){
-            return Foto_Copertina;
+            return null;
         }else {
             String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + Foto_Copertina;

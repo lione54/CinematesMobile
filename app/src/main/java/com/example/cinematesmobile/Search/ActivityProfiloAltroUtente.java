@@ -296,6 +296,6 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         });
         //ReactionButton.setReactions(new Reaction[]{new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp)});
         //reaction1 = new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp);
-        ReactionButton.setReactions();
+        //ReactionButton.setReactions();
     }
 }
