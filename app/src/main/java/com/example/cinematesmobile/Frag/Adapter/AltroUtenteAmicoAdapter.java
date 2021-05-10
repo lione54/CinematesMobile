@@ -47,6 +47,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
         }
         if(dbModelDataListeFilm.getTitoloLista().equals("Da Vedere") || dbModelDataListeFilm.getTitoloLista().equals("Preferiti")){
             holder.DescrizioneListaAltroUserLayout.setVisibility(View.GONE);
+            holder.Emoj.setVisibility(View.GONE);
         }else {
             if (dbModelDataListeFilm.getDescrizioneLista() != null) {
                 if (!(dbModelDataListeFilm.getDescrizioneLista().equals("null"))) {
@@ -90,7 +91,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
 
         private AppCompatTextView Nomelista, Descrizione;
         private RecyclerView film;
-        private LinearLayout DescrizioneListaAltroUserLayout;
+        private LinearLayout DescrizioneListaAltroUserLayout, Emoj;
 
         public DataHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +99,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
             Descrizione = itemView.findViewById(R.id.descrizione_lista_altro_user);
             film = itemView.findViewById(R.id.film_altro_utente);
             DescrizioneListaAltroUserLayout = itemView.findViewById(R.id.descrizione_lista_altro_user_layout);
+            Emoj = itemView.findViewById(R.id.emoj_rapide);
         }
     }
 }

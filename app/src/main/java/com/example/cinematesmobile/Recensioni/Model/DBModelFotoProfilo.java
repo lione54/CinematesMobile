@@ -15,10 +15,10 @@ public class DBModelFotoProfilo {
     }
 
     public String getFotoProfilo() {
-        if(FotoProfilo.equals("null")){
+        if(FotoProfilo == null){
             return FotoProfilo;
         }else {
-            String UrlBase = "http://192.168.1.4/cinematesdb/";
+            String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + FotoProfilo;
         }
     }

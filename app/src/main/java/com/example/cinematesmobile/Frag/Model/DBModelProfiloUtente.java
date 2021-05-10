@@ -91,10 +91,10 @@ public class DBModelProfiloUtente {
     }
 
     public String getFoto_Profilo() {
-        if(Foto_Profilo.equals("null")){
+        if(Foto_Profilo == null){
             return Foto_Profilo;
         }else {
-            String UrlBase = "http://192.168.1.4/cinematesdb/";
+            String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + Foto_Profilo;
         }
     }
@@ -136,10 +136,10 @@ public class DBModelProfiloUtente {
     }
 
     public String getFoto_Copertina() {
-        if(Foto_Copertina.equals("null")){
+        if(Foto_Copertina == null){
             return Foto_Copertina;
         }else {
-            String UrlBase = "http://192.168.1.4/cinematesdb/";
+            String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + Foto_Copertina;
         }
     }

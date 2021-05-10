@@ -80,6 +80,21 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/emoj_rapide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/ColorCineOrange">
+
+            <com.amrdeveloper.reactbutton.ReactButton
+                android:id="@+id/reactbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorCineOrange"/>
+
+        </LinearLayout>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.cardview.widget.CardView>

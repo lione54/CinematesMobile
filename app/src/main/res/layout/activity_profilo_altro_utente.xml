@@ -98,6 +98,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Vai_film_in_comune"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

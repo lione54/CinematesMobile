@@ -46,10 +46,10 @@ public class DBModelDataUserResults {
     }
 
     public String getImmagineProfilo() {
-        if(immagineProfilo.equals("null")){
-            return immagineProfilo;
+        if(immagineProfilo == null){
+            return null;
         }else{
-            String UrlBase = "http://192.168.1.4/cinematesdb/";
+            String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + immagineProfilo;
         }
     }

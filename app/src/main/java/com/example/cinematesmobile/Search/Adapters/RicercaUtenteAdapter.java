@@ -21,6 +21,7 @@ import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Search.ActivityProfiloAltroUtente;
 import com.example.cinematesmobile.Frag.Model.DBModelDataUserResults;
+import com.example.cinematesmobile.Search.VisualizzaAmiciInComuneActivity;
 
 import java.util.List;
 
@@ -66,6 +67,14 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
             }else{
                 holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici in comune").toString());
             }
+            holder.DettagliAmicizia.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    Intent intent = new Intent(activity, VisualizzaAmiciInComuneActivity.class);
+                    intent.putExtra("Nome_Utente", data.getUsername_Cercato());
+                    intent.putExtra("Nome_Proprietario", data.getUserCheCerca());
+                    activity.startActivity(intent);
+                }
+            });
             Call<DBModelVerifica> dbModelVerificaCall = retrofitServiceDBInterno.getVerificaRichiestaDiAmicizia(data.getUserCheCerca(), data.getUsername_Cercato());
             dbModelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
                 @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {

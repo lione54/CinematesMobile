@@ -9,10 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.amrdeveloper.reactbutton.ReactButton;
+import com.amrdeveloper.reactbutton.Reaction;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.Frag.Adapter.AltroUtenteAmicoAdapter;
+import com.example.cinematesmobile.Frag.FilmInComuneActivity;
 import com.example.cinematesmobile.Frag.ListeAmiciActivity;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
 import com.example.cinematesmobile.Frag.Model.DBModelProfiloAltroUtente;
@@ -36,12 +41,14 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
     private String UsernameAltroUtente, UsernameProprietario;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private KenBurnsView ImmagineCopertina;
-    private LinearLayout LayoutNomeAltroUtente, LayoutCognomeAltroUtente, LayoutEmailAltroUtente, LayoutNascitaAltroUtente, LayoutSessoAltroUtente, VaiRecensioniAltroUtente, VediAmici;
+    private LinearLayout LayoutNomeAltroUtente, LayoutCognomeAltroUtente, LayoutEmailAltroUtente, LayoutNascitaAltroUtente, LayoutSessoAltroUtente, VaiRecensioniAltroUtente, VediAmici, VaiFilmInComune;
     public CircleImageView ImmagineProfilo;
     private RecyclerView ListeVisibili;
     private AppCompatImageButton Previously;
     private RecyclerView.LayoutManager layoutManager;
     private AltroUtenteAmicoAdapter altroUtenteAmicoAdapter;
+    private ReactButton ReactionButton;
+    private Reaction [] reactions;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroAmici, Amici, FilmInComune;
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, DescrizioneUser, DataNascitaUser, SessoUser;
 
@@ -53,6 +60,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         ImmagineProfilo = findViewById(R.id.immagine_profilo);
         UsernameProfilo = findViewById(R.id.Username_Profilo);
+        ReactionButton = findViewById(R.id.reactbutton);
         LayoutNomeAltroUtente = findViewById(R.id.layout_nome_altro_utente);
         LayoutCognomeAltroUtente = findViewById(R.id.layout_cognome_altro_utente);
         LayoutEmailAltroUtente = findViewById(R.id.layout_email_altro_utente);
@@ -61,6 +69,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         NumeroRecensioniScritte = findViewById(R.id.Numero_recensioni_scritte);
         VaiRecensioniAltroUtente = findViewById(R.id.vai_recensioni_altro_utente);
         VediAmici = findViewById(R.id.VediAmici);
+        VaiFilmInComune = findViewById(R.id.Vai_film_in_comune);
         ImmagineCopertina = findViewById(R.id.foto_copertina);
         Previously = findViewById(R.id.previously);
         FilmInComune = findViewById(R.id.Film_in_comune);
@@ -193,6 +202,11 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
+        VaiFilmInComune.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Toast.makeText(ActivityProfiloAltroUtente.this, "Solo gli amici possono vedere i film in comune.",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void DettagliAmico(List<DBModelProfiloAltroUtente> altroUtenteList) {
@@ -272,5 +286,16 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
+        VaiFilmInComune.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, FilmInComuneActivity.class);
+                intent2.putExtra("Nome_Utente", UsernameAltroUtente);
+                intent2.putExtra("Nome_Proprietario", UsernameProprietario);
+                startActivity(intent2);
+            }
+        });
+        //ReactionButton.setReactions(new Reaction[]{new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp)});
+        //reaction1 = new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp);
+        ReactionButton.setReactions();
     }
 }

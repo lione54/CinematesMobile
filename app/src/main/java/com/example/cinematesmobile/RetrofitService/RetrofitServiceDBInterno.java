@@ -166,5 +166,7 @@ public interface RetrofitServiceDBInterno {
     @POST("PrendiDettagliCinemates.php")
     Call<DBModelDettagliCinemates> getDettagliCinemates(@Field("Titolo_Film_Recensito") String Titolo_Film_Recensito);
 
-
+    @FormUrlEncoded
+    @POST("PrendiFilmInComune.php")
+    Call<DBModelFilmsResponce> PrendiFilmInComune(@Field("AltroUser") String AltroUser, @Field("User_Proprietario") String User_Proprietario);
 }

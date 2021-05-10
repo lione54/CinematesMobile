@@ -64,6 +64,7 @@ dependencies {
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     apply plugin: "androidx.navigation.safeargs"
+    implementation 'com.github.AmrDeveloper.ReactButton:reactbutton:1.0.7'
 }
 
 android{
