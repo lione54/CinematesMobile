@@ -169,4 +169,8 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("PrendiFilmInComune.php")
     Call<DBModelFilmsResponce> PrendiFilmInComune(@Field("AltroUser") String AltroUser, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("VerificaSeHaInseritoEmoj.php")
+    Call<DBModelVerifica> VerificaInserimentoEmoj(@Field("User_Proprietario") String User_Proprietario, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista);
 }

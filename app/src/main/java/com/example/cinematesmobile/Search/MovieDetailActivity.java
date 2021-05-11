@@ -212,7 +212,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
                     }
                 });
-                Call<MovieDetail> movieDetailCall = retrofitServiceFilm2.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+                Call<MovieDetail> movieDetailCall = retrofitServiceFilm2.PredndiDettagliFilmTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
                 movieDetailCall.enqueue(new Callback<MovieDetail>() {
                     @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
                         MovieDetail movieDetailResponse = response.body();
@@ -229,7 +229,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Toast.makeText(MovieDetailActivity.this,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
-                Call<MovieImage> movieImageCall = retrofitServiceFilm.getMovieImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
+                Call<MovieImage> movieImageCall = retrofitServiceFilm.PrendiImmaginiFilmTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
                 movieImageCall.enqueue(new Callback<MovieImage>() {
                     @Override public void onResponse(@NonNull Call<MovieImage> call,@NonNull Response<MovieImage> response) {
                         MovieImage movieImage = response.body();

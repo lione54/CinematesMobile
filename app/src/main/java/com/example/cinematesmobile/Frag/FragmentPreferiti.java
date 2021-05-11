@@ -2,6 +2,7 @@ package com.example.cinematesmobile.Frag;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,27 +16,19 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
+import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Frag.Adapter.MovieListPrefAdapter;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
-
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import org.angmarch.views.NiceSpinner;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,13 +55,7 @@ public class FragmentPreferiti extends Fragment {
     private String scelta = "Scelga la lista da visualizzare";
     private NiceSpinner listePresenti;
     private String ListaSelezionata = null;
-    private static final String URL = "http://192.168.178.48/cinematesdb/PrendiDaLista.php";
-    private static final String VERURL = "http://192.168.178.48/cinematesdb/VerificaSePresente.php";
-    private static final String LISURL = "http://192.168.178.48/cinematesdb/TrovaListeDaVisualizzare.php";
-    public static final String JSON_ARRAY = "dbdata";
-    private ArrayList<Integer> id_preferti = new ArrayList<>();
-    private ArrayList<Integer> id_presente = new ArrayList<>();
-    private boolean firstuse = true;
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private boolean inizializza = true;
 
     // TODO: Rename and change types of parameters
@@ -108,13 +95,48 @@ public class FragmentPreferiti extends Fragment {
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         UsernameProprietario = this.getArguments().getString("Username");
         View v = inflater.inflate(R.layout.fragment__preferiti, container, false);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         listePresenti = v.findViewById(R.id.liste_presenti);
         if(inizializza == true) {
             inizializza = false;
             listefilmutente.add(scelta);
-            ListePresenti(UsernameProprietario);
+            Call<DBModelDataListeFilmResponce> dbModelListeFilmResponseCall = retrofitServiceDBInterno.getListeFilm(UsernameProprietario);
+            dbModelListeFilmResponseCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
+                @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull retrofit2.Response<DBModelDataListeFilmResponce> response) {
+                    DBModelDataListeFilmResponce dbModelListeFilmResponse = response.body();
+                    if(dbModelListeFilmResponse != null){
+                        List<DBModelDataListeFilm> dataListeFilms = dbModelListeFilmResponse.getListeFilms();
+                        for(int i = 0; i < dataListeFilms.size(); i++){
+                            listefilmutente.add(dataListeFilms.get(i).getTitoloLista());
+                        }
+                        listePresenti.attachDataSource(listefilmutente);
+                    }else{
+                        Toast.makeText(getContext(), "Nessuna Lista Da Mostrare", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
+                    Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }else{
-            ListePresenti(UsernameProprietario);
+            Call<DBModelDataListeFilmResponce> dbModelListeFilmResponseCall = retrofitServiceDBInterno.getListeFilm(UsernameProprietario);
+            dbModelListeFilmResponseCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
+                @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull retrofit2.Response<DBModelDataListeFilmResponce> response) {
+                    DBModelDataListeFilmResponce dbModelListeFilmResponse = response.body();
+                    if(dbModelListeFilmResponse != null){
+                        List<DBModelDataListeFilm> dataListeFilms = dbModelListeFilmResponse.getListeFilms();
+                        for(int i = 0; i < dataListeFilms.size(); i++){
+                            listefilmutente.add(dataListeFilms.get(i).getTitoloLista());
+                        }
+                        listePresenti.attachDataSource(listefilmutente);
+                    }else{
+                        Toast.makeText(getContext(), "Nessuna Lista Da Mostrare.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
+                    Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         preferitiText = v.findViewById(R.id.preferiti_text);
         davedereText = v.findViewById(R.id.davedere_text);
@@ -130,7 +152,47 @@ public class FragmentPreferiti extends Fragment {
                     int numero = listePresenti.getSelectedIndex();
                     ListaSelezionata = String.valueOf(listefilmutente.get(numero));
                     preferiti = new ArrayList<>();
-                    PrendiDaListe(UsernameProprietario, ListaSelezionata);
+                    Call<DBModelFilmsResponce> dbModelFilmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(UsernameProprietario, ListaSelezionata);
+                    dbModelFilmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
+                        @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call,@NonNull retrofit2.Response<DBModelFilmsResponce> response) {
+                            DBModelFilmsResponce dbModelFilmsResponce = response.body();
+                            if(dbModelFilmsResponce != null){
+                                List<DBModelDataFilms> dbModelDataFilms = dbModelFilmsResponce.getResults();
+                                if(dbModelDataFilms.size() > 0){
+                                    if(ListaSelezionata.equals("Preferiti")){
+                                        PreferitiTextLayout.setVisibility(View.VISIBLE);
+                                        DavedereTextLayout.setVisibility(View.GONE);
+                                        ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                                        listePresenti.setSelectedIndex(0);
+                                    }else if(ListaSelezionata.equals("Da Vedere")){
+                                        DavedereTextLayout.setVisibility(View.VISIBLE);
+                                        PreferitiTextLayout.setVisibility(View.GONE);
+                                        ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                                        listePresenti.setSelectedIndex(0);
+                                    }else{
+                                        listePersonalizzateText.setText(ListaSelezionata);
+                                        ListePersonalizzateTextLayout.setVisibility(View.VISIBLE);
+                                        PreferitiTextLayout.setVisibility(View.GONE);
+                                        DavedereTextLayout.setVisibility(View.GONE);
+                                        listePresenti.setSelectedIndex(0);
+                                    }
+                                    recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                                    moviedetailAdapter = new MovieListPrefAdapter(getActivity(), dbModelDataFilms, UsernameProprietario, ListaSelezionata);
+                                    recyclerViewPreferiti.setAdapter(moviedetailAdapter);
+                                    LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
+                                    recyclerViewPreferiti.setLayoutAnimation(controller);
+                                    recyclerViewPreferiti.scheduleLayoutAnimation();
+                                }else{
+                                    Toast.makeText(getContext(), "La sua lista al momento è vuota.",Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Toast.makeText(getContext(), "Impossibile Mostrare la Lista.",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
+                            Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {
@@ -141,186 +203,45 @@ public class FragmentPreferiti extends Fragment {
 
     @Override public void onResume() {
         super.onResume();
-        for (int i = 0; i<id_preferti.size(); i++){
-            verificaSePresente(id_preferti.get(i), UsernameProprietario, ListaSelezionata);
-        }
-        if (id_preferti.size() != id_presente.size() || firstuse == false) {
-            PrendiDaListe(UsernameProprietario, ListaSelezionata);
-        }
-    }
-
-    private void PrendiDaListe(String user, String TipoLista) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                    if(firstuse == true){
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                        for(int i = 0; i < array.length(); i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            String str_id_film = object.getString("id_film_inserito");
-                            String str_titolo = object.getString("Titolo_Film");
-                            String str_url = object.getString("Url_Immagine");
-                            Integer id_film = Integer.parseInt(str_id_film);
-                            String strt_titoloMod = str_titolo.replaceAll("/", "'");
-                            DBModelDataFilms dbModelDataFilms = new DBModelDataFilms(id_film, strt_titoloMod, str_url);
-                            id_preferti.add(id_film);
-                            preferiti.add(dbModelDataFilms);
-                            firstuse = false;
+        Call<DBModelFilmsResponce> dbModelFilmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(UsernameProprietario, ListaSelezionata);
+        dbModelFilmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
+            @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call,@NonNull retrofit2.Response<DBModelFilmsResponce> response) {
+                DBModelFilmsResponce dbModelFilmsResponce = response.body();
+                if(dbModelFilmsResponce != null){
+                    List<DBModelDataFilms> dbModelDataFilms = dbModelFilmsResponce.getResults();
+                    if(dbModelDataFilms.size() > 0){
+                        if(ListaSelezionata.equals("Preferiti")){
+                            PreferitiTextLayout.setVisibility(View.VISIBLE);
+                            DavedereTextLayout.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
+                        }else if(ListaSelezionata.equals("Da Vedere")){
+                            DavedereTextLayout.setVisibility(View.VISIBLE);
+                            PreferitiTextLayout.setVisibility(View.GONE);
+                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
+                        }else{
+                            listePersonalizzateText.setText(ListaSelezionata);
+                            ListePersonalizzateTextLayout.setVisibility(View.VISIBLE);
+                            PreferitiTextLayout.setVisibility(View.GONE);
+                            DavedereTextLayout.setVisibility(View.GONE);
+                            listePresenti.setSelectedIndex(0);
                         }
+                        recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                        moviedetailAdapter = new MovieListPrefAdapter(getActivity(), dbModelDataFilms, UsernameProprietario, ListaSelezionata);
+                        recyclerViewPreferiti.setAdapter(moviedetailAdapter);
+                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
+                        recyclerViewPreferiti.setLayoutAnimation(controller);
+                        recyclerViewPreferiti.scheduleLayoutAnimation();
                     }else{
-                        id_preferti.clear();
-                        preferiti.clear();
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                        for(int i = 0; i < array.length(); i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            String str_id_film = object.getString("id_film_inserito");
-                            String str_titolo = object.getString("Titolo_Film");
-                            String str_url = object.getString("Url_Immagine");
-                            Integer id_film = Integer.parseInt(str_id_film);
-                            String strt_titoloMod = str_titolo.replaceAll("/", "'");
-                            DBModelDataFilms dbModelDataFilms = new DBModelDataFilms(id_film, strt_titoloMod, str_url);
-                            id_preferti.add(id_film);
-                            preferiti.add(dbModelDataFilms);
-                        }
-                    }
-                    if(preferiti.isEmpty()){
-                        if(TipoLista.equals("Preferiti")){
-                            PreferitiTextLayout.setVisibility(View.VISIBLE);
-                            DavedereTextLayout.setVisibility(View.GONE);
-                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
-                            listePresenti.setSelectedIndex(0);
-                        }else if(TipoLista.equals("Da Vedere")){
-                            DavedereTextLayout.setVisibility(View.VISIBLE);
-                            PreferitiTextLayout.setVisibility(View.GONE);
-                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
-                            listePresenti.setSelectedIndex(0);
-                        }else{
-                            listePersonalizzateText.setText(TipoLista);
-                            ListePersonalizzateTextLayout.setVisibility(View.VISIBLE);
-                            PreferitiTextLayout.setVisibility(View.GONE);
-                            DavedereTextLayout.setVisibility(View.GONE);
-                            listePresenti.setSelectedIndex(0);
-                        }
-                        recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        moviedetailAdapter = new MovieListPrefAdapter(getActivity(), preferiti, user, TipoLista);
-                        recyclerViewPreferiti.setAdapter(moviedetailAdapter);
-                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
-                        recyclerViewPreferiti.setLayoutAnimation(controller);
-                        recyclerViewPreferiti.scheduleLayoutAnimation();
                         Toast.makeText(getContext(), "La sua lista al momento è vuota.",Toast.LENGTH_SHORT).show();
-                    }else {
-                        if(TipoLista.equals("Preferiti")){
-                            PreferitiTextLayout.setVisibility(View.VISIBLE);
-                            DavedereTextLayout.setVisibility(View.GONE);
-                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
-                            listePresenti.setSelectedIndex(0);
-                        }else if(TipoLista.equals("Da Vedere")){
-                            DavedereTextLayout.setVisibility(View.VISIBLE);
-                            PreferitiTextLayout.setVisibility(View.GONE);
-                            ListePersonalizzateTextLayout.setVisibility(View.GONE);
-                            listePresenti.setSelectedIndex(0);
-                        }else{
-                            listePersonalizzateText.setText(TipoLista);
-                            ListePersonalizzateTextLayout.setVisibility(View.VISIBLE);
-                            PreferitiTextLayout.setVisibility(View.GONE);
-                            DavedereTextLayout.setVisibility(View.GONE);
-                            listePresenti.setSelectedIndex(0);
-                        }
-                        recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        moviedetailAdapter = new MovieListPrefAdapter(getActivity(), preferiti, user, TipoLista);
-                        recyclerViewPreferiti.setAdapter(moviedetailAdapter);
-                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
-                        recyclerViewPreferiti.setLayoutAnimation(controller);
-                        recyclerViewPreferiti.scheduleLayoutAnimation();
                     }
-                }catch (Exception e){
-                    Toast.makeText(getContext(), "" + e, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getContext(), "Impossibile Mostrare la Lista.",Toast.LENGTH_SHORT).show();
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
+            @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
             }
-        })
-        {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("User_Proprietario", user);
-                params.put("Tipo_Lista",TipoLista);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
-    }
-
-    private void verificaSePresente(int id, String utente, String tipoLista) {
-        final int[] validiti = new int[1];
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, VERURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for(int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String respo = object.getString("id_film_inserito");
-                        validiti[0] = Integer.parseInt(respo);
-                    }
-                    if(validiti[0] == 1) {
-                        id_presente.add(id);
-                    }
-                }catch (Exception e){
-                    Toast.makeText(getContext(), "" + e, Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            @NotNull @Override protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Id_Film_Inserito", String.valueOf(id));
-                params.put("User_Proprietario", utente);
-                params.put("Tipo_Lista",tipoLista);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
-    }
-
-    private void ListePresenti(String utente) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, LISURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray array = jsonObject.getJSONArray(JSON_ARRAY);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String respo = object.getString("Tipo_Lista");
-                        listefilmutente.add(respo);
-                    }
-                    listePresenti.attachDataSource(listefilmutente);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext() , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("User_Proprietario", utente);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
+        });
     }
 }

@@ -43,10 +43,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static int SegnalazioneDeclinate = 2;
     private static int AmiciziaInviata = 3;
     private static int AmiciziaAccettata = 4;
-    private static final String ACCURL = "http://192.168.178.48/cinematesdb/AccettaAmicizia.php";
-    private static final String AMURL = "http://192.168.178.48/cinematesdb/DiventaAmico.php";
-    private static final String NAMURL = "http://192.168.178.48/cinematesdb/RifiutaAmicizia.php";
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/SegnaComeLetto.php";
+    private static final String ACCURL = "http://192.168.1.9/cinematesdb/AccettaAmicizia.php";
+    private static final String AMURL = "http://192.168.1.9/cinematesdb/DiventaAmico.php";
+    private static final String NAMURL = "http://192.168.1.9/cinematesdb/RifiutaAmicizia.php";
+    private static final String RIMURL = "http://192.168.1.9/cinematesdb/SegnaComeLetto.php";
 
     public NotificationAdapter(Activity activity, List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList, List<DBNotificheModelSegnalazioni> segnalazioniList, String UserProprietario) {
         this.activity = activity;
@@ -165,7 +165,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void DiventaAmico(String utente, String amicoDi) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(activity, "Notifica rimossa", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Notifica Rimossa", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
@@ -186,7 +186,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void RifiutaRichiesta(String utente, String amicoDi) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, NAMURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(activity, "Richiesta rifiutata", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Richiesta Rifiutata", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {
@@ -207,7 +207,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void AccettaRichiesta(String utente, String amicoDi) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ACCURL, new com.android.volley.Response.Listener<String>() {
             @Override public void onResponse(String response){
-                Toast.makeText(activity, "Richiesta accettata", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Richiesta Accettata", Toast.LENGTH_LONG).show();
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error) {

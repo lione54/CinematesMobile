@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment {
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
-        Call<UpcomingResponse> upcomingResponseCall = retrofitServiceFilm.getUpcomingByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+        Call<UpcomingResponse> upcomingResponseCall = retrofitServiceFilm.PrendiProssimeUsciteTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
         upcomingResponseCall.enqueue(new Callback<UpcomingResponse>() {
             @Override public void onResponse(@NonNull Call<UpcomingResponse> call,@NonNull Response<UpcomingResponse> response) {
                 UpcomingResponse upcomingResponse = response.body();
@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<PopularResponse> popularResponseCall = retrofitServiceFilm.getPopularByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<PopularResponse> popularResponseCall = retrofitServiceFilm.PrendiFilmPopolariTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         popularResponseCall.enqueue(new Callback<PopularResponse>() {
             @Override public void onResponse(@NonNull Call<PopularResponse> call,@NonNull  Response<PopularResponse> response) {
                 PopularResponse popularResponse = response.body();
@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<TopRatedResponse> topRatedResponseCall = retrofitServiceFilm.getTopRatedByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+        Call<TopRatedResponse> topRatedResponseCall = retrofitServiceFilm.PrendiFilmPiuVotatiTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
         topRatedResponseCall.enqueue(new Callback<TopRatedResponse>() {
             @Override public void onResponse(@NonNull Call<TopRatedResponse> call,@NonNull Response<TopRatedResponse> response) {
                 TopRatedResponse topRatedResponse = response.body();
@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<AttoriPopularResponse> attoriPopularResponseCall = retrofitServiceFilm.getAttoriPopular(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<AttoriPopularResponse> attoriPopularResponseCall = retrofitServiceFilm.PrendiAttoriPopolariTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         attoriPopularResponseCall.enqueue(new Callback<AttoriPopularResponse>() {
             @Override public void onResponse(@NonNull Call<AttoriPopularResponse> call,@NonNull Response<AttoriPopularResponse> response) {
                 AttoriPopularResponse attoriPopularResponse = response.body();
@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
             }
         });
-        Call<NowPlayngResponse> nowPlayngResponseCall = retrofitServiceFilm.getNowPlayng(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<NowPlayngResponse> nowPlayngResponseCall = retrofitServiceFilm.OraInSalaTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         nowPlayngResponseCall.enqueue(new Callback<NowPlayngResponse>() {
             @Override public void onResponse(@NonNull Call<NowPlayngResponse> call,@NonNull Response<NowPlayngResponse> response) {
                 NowPlayngResponse nowPlayngResponse = response.body();

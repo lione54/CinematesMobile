@@ -20,38 +20,38 @@ import retrofit2.http.Query;
 
 public interface RetrofitServiceFilm {
     @GET("search/movie")
-    Call<MovieResponse> getMoviesByQuery(@Query("api_key") String api_key, @Query("language") String lingua, @Query("query") String query);
+    Call<MovieResponse> CercaFilmTMDB(@Query("api_key") String api_key, @Query("language") String lingua, @Query("query") String query);
 
     @GET("search/person")
-    Call<AttoriResponse> getPersonByQuery(@Query("api_key") String api_key, @Query("language") String lingua, @Query("query") String query);
+    Call<AttoriResponse> CercaAttoreTMDB(@Query("api_key") String api_key, @Query("language") String lingua, @Query("query") String query);
 
     @GET("movie/popular")
-    Call<PopularResponse> getPopularByQuery(@Query("api_key") String api_key, @Query("language") String lingua);
+    Call<PopularResponse> PrendiFilmPopolariTMDB(@Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("movie/upcoming")
-    Call<UpcomingResponse> getUpcomingByQuery(@Query("api_key") String api_key, @Query("language") String lingua);
+    Call<UpcomingResponse> PrendiProssimeUsciteTMDB(@Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("movie/top_rated")
-    Call<TopRatedResponse> getTopRatedByQuery(@Query("api_key") String api_key, @Query("language") String lingua);
+    Call<TopRatedResponse> PrendiFilmPiuVotatiTMDB(@Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("person/{person_id}")
-    Call<AttoriDetails> getAttoriDetails(@Path("person_id") int person_id, @Query("api_key") String api_key, @Query("language") String lingua);
+    Call<AttoriDetails> PrendiDettagliAttoreTMDB(@Path("person_id") int person_id, @Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("person/{person_id}/images")
-    Call<AttoriImage> getAttoriImage(@Path("person_id") int person_id, @Query("api_key") String api_key);
+    Call<AttoriImage> PrendiImmaginiAttoriTMDB(@Path("person_id") int person_id, @Query("api_key") String api_key);
 
     @GET("movie/{movie_id}")
-    Call<MovieDetail> getMovieDetail(@Path("movie_id") int person_id, @Query("api_key") String api_key, @Query("language") String lingua);
+    Call<MovieDetail> PredndiDettagliFilmTMDB(@Path("movie_id") int person_id, @Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("movie/{movie_id}/images")
-    Call<MovieImage> getMovieImage(@Path("movie_id") int person_id, @Query("api_key") String api_key);
+    Call<MovieImage> PrendiImmaginiFilmTMDB(@Path("movie_id") int person_id, @Query("api_key") String api_key);
 
     @GET("person/popular")
-    Call<AttoriPopularResponse> getAttoriPopular(@Query("api_key") String api_key, @Query("language") String lingua);
+    Call<AttoriPopularResponse> PrendiAttoriPopolariTMDB(@Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("movie/now_playing")
-    Call<NowPlayngResponse> getNowPlayng(@Query("api_key") String api_key, @Query("language") String lingua);
+    Call<NowPlayngResponse> OraInSalaTMDB(@Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("genre/movie/list")
-    Call<GeneriResponse> getGeneri(@Query("api_key") String api_key, @Query("language") String lingua);
+    Call<GeneriResponse> PrendiGeneriTMDB(@Query("api_key") String api_key, @Query("language") String lingua);
 }

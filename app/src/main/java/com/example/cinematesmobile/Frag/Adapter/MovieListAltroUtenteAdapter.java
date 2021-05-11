@@ -33,13 +33,17 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
 
     private Activity activity;
     private List<DBModelDataFilms> dataList;
+    private String UsernameAltroUtente;
+    private String UsernameProprietario;
     private RetrofitServiceFilm retrofitServiceFilm;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private Double Valutazione_Media;
 
-    public MovieListAltroUtenteAdapter(Activity activity, List<DBModelDataFilms> dataList) {
+    public MovieListAltroUtenteAdapter(Activity activity, List<DBModelDataFilms> dataList, String usernameAltroUtente, String usernameProprietario) {
         this.activity = activity;
         this.dataList = dataList;
+        UsernameAltroUtente = usernameAltroUtente;
+        UsernameProprietario = usernameProprietario;
     }
 
     @NonNull @Override public MovieListAltroUtenteAdapter.DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,7 +59,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
         Glide.with(activity).load(data.getImage()).into(holder.posterImageView);
         holder.posterTitle.setText(data.getTitolofilm());
         int id = data.getId_film();
-        Call<MovieDetail> movieDetailCall = retrofitServiceFilm.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<MovieDetail> movieDetailCall = retrofitServiceFilm.PredndiDettagliFilmTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         movieDetailCall.enqueue(new Callback<MovieDetail>() {
             @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
                 MovieDetail movieDetailResponse = response.body();
@@ -85,22 +89,23 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
                                 Valutazione_Media = votiList.get(i).getValutazione_Media();
                             }
                         }
-                       holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
+                        holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
                     }else {
-                        Toast.makeText(activity,"Nessuna media voto trovata",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(activity,"Impossibile trovare valutazione media",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent = new Intent(activity, MovieDetailActivity.class);
                 intent.putExtra("id", String.valueOf(id));
+                intent.putExtra("UsernameProprietario", UsernameProprietario);
                 activity.startActivity(intent);
             }
         });

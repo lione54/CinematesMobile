@@ -45,7 +45,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
     @Override public void onBindViewHolder(@NonNull MieiAmiciAdapter.DataHolder holder, int position) {
         DBModelUserAmici data = amiciList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(data.getFoto_Profilo().equals("null")){
+        if(data.getFoto_Profilo() == null){
             holder.ImageUserAmico.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(activity).load(data.getFoto_Profilo()).into(holder.ImageUserAmico);
@@ -75,7 +75,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
                             }
                         }
                         @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                            Toast.makeText(activity, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

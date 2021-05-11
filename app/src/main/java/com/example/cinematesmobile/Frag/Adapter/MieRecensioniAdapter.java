@@ -58,19 +58,19 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                         if (dbModelResponseToInsert != null) {
                             if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                Toast.makeText(activity, "Recensione rimossa con successo", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, "Recensione rimossa con successo.", Toast.LENGTH_SHORT).show();
                                 recensioniList.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeRemoved(position, recensioniList.size());
                             }else{
-                                Toast.makeText(activity, "Rimozione recensione fallita", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, "Rimozione recensione fallita.", Toast.LENGTH_SHORT).show();
                             }
                         }else{
                             Toast.makeText(activity, "Impossibile eliminare recensione.", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                        Toast.makeText(activity, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -87,7 +87,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
         public AppCompatTextView Username, DataRecensione, CorpoRecensione;
         public AppCompatButton Rimuovi;
         public RatingBar Voto;
-        
+
         public DataHolder(@NonNull View itemView) {
             super(itemView);
             FotoProfilo = itemView.findViewById(R.id.mia_image_user_viusalizza_rece);

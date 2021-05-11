@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
@@ -167,7 +166,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         layoutManager = new LinearLayoutManager(ActivityProfiloAltroUtente.this);
                         ListeVisibili.setLayoutManager(layoutManager);
                         ListeVisibili.setHasFixedSize(false);
-                        altroUtenteAmicoAdapter = new AltroUtenteAmicoAdapter(ActivityProfiloAltroUtente.this, listeFilms, UsernameAltroUtente);
+                        altroUtenteAmicoAdapter = new AltroUtenteAmicoAdapter(ActivityProfiloAltroUtente.this, listeFilms, UsernameAltroUtente, UsernameProprietario);
                         ListeVisibili.setAdapter(altroUtenteAmicoAdapter);
                         altroUtenteAmicoAdapter.notifyDataSetChanged();
                     }else{
@@ -251,7 +250,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         layoutManager = new LinearLayoutManager(ActivityProfiloAltroUtente.this);
                         ListeVisibili.setLayoutManager(layoutManager);
                         ListeVisibili.setHasFixedSize(false);
-                        altroUtenteAmicoAdapter = new AltroUtenteAmicoAdapter(ActivityProfiloAltroUtente.this, listeFilms, UsernameAltroUtente);
+                        altroUtenteAmicoAdapter = new AltroUtenteAmicoAdapter(ActivityProfiloAltroUtente.this, listeFilms, UsernameAltroUtente, UsernameProprietario);
                         ListeVisibili.setAdapter(altroUtenteAmicoAdapter);
                         altroUtenteAmicoAdapter.notifyDataSetChanged();
                     }else{
@@ -288,8 +287,6 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
-        //ReactionButton.setReactions(new Reaction[]{new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp), new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp)});
-        //reaction1 = new Reaction("Like", "Default", "#616770", R.drawable.ic_whatsapp);
-        //ReactionButton.setReactions();
+
     }
 }

@@ -77,7 +77,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
         if(intent != null && intent.getExtras() != null){
             if(intent.getExtras().getString("id") != null) {
                 int id = Integer.parseInt(intent.getExtras().getString("id"));
-                Call<AttoriDetails> attoriDetailsCall = retrofitServiceFilm.getAttoriDetails(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
+                Call<AttoriDetails> attoriDetailsCall = retrofitServiceFilm.PrendiDettagliAttoreTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
                 attoriDetailsCall.enqueue(new Callback<AttoriDetails>() {
                     @Override public void onResponse(@NonNull Call<AttoriDetails> call,@NonNull Response<AttoriDetails> response) {
                         AttoriDetails attoriDetailsResponse = response.body();
@@ -92,7 +92,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
                         Toast.makeText(AttoriDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
-                Call<AttoriImage> attoriImageCall = retrofitServiceFilm.getAttoriImage(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
+                Call<AttoriImage> attoriImageCall = retrofitServiceFilm.PrendiImmaginiAttoriTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY);
                 attoriImageCall.enqueue(new Callback<AttoriImage>() {
                     @Override public void onResponse(@NonNull Call<AttoriImage> call,@NonNull Response<AttoriImage> response) {
                         AttoriImage attoriImage = response.body();
@@ -227,7 +227,7 @@ public class AttoriDetailActivity extends AppCompatActivity {
         }else{
                 BioLayout.setVisibility(View.GONE);
         }
-        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.getPersonByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua1, nome);
+        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.CercaAttoreTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua1, nome);
         attoriResponseCall.enqueue(new Callback<AttoriResponse>() {
             @Override public void onResponse(@NonNull Call<AttoriResponse> call,@NonNull Response<AttoriResponse> response) {
                 AttoriResponse attoriResponse = response.body();

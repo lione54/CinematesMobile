@@ -86,7 +86,7 @@ public class DBModelRecensioni {
         if(Foto.equals("null")){
             return Foto;
         }else {
-            String UrlBase = "http://192.168.178.48/cinematesdb/";
+            String UrlBase = "http://192.168.1.9/cinematesdb/";
             return UrlBase + Foto;
         }
     }

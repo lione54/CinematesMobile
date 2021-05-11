@@ -94,8 +94,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         UsernameProprietario = this.getArguments().getString("Username");
         View v = inflater.inflate(R.layout.fragment_search, container, false);
@@ -118,7 +117,6 @@ public class SearchFragment extends Fragment {
         });
         return v;
     }
-
     @SuppressLint("NonConstantResourceId")
     private void Ricerca(int camposelezionato){
         switch (camposelezionato){
@@ -131,14 +129,14 @@ public class SearchFragment extends Fragment {
                     } else {
                         queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
-                        Call<MovieResponse> movieResponseCall = retrofitServiceFilm.getMoviesByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
+                        Call<MovieResponse> movieResponseCall = retrofitServiceFilm.CercaFilmTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
                         movieResponseCall.enqueue(new Callback<MovieResponse>() {
                             @Override public void onResponse(@NonNull Call<MovieResponse> call,@NonNull Response<MovieResponse> response) {
                                 MovieResponse movieResponse = response.body();
                                 if (movieResponse != null) {
                                     List<MovieResponseResults> movieResponseResults = movieResponse.getResults();
                                     recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                                    movieSearchAdapter = new MovieSearchAdapter(getActivity(), movieResponseResults);
+                                    movieSearchAdapter = new MovieSearchAdapter(getActivity(), movieResponseResults, UsernameProprietario);
                                     recyclerViewRicerca.setAdapter(movieSearchAdapter);
                                     LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_scorri_destra);
                                     recyclerViewRicerca.setLayoutAnimation(controller);
@@ -153,7 +151,7 @@ public class SearchFragment extends Fragment {
                         });
                     }
                 }
-            break;
+                break;
             case R.id.radio_ricerca_attori:
                 if (queryEditText.getText() != null) {
                     String query = queryEditText.getText().toString();
@@ -163,7 +161,7 @@ public class SearchFragment extends Fragment {
                     } else {
                         queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
-                        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.getPersonByQuery(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
+                        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.CercaAttoreTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
                         attoriResponseCall.enqueue(new Callback<AttoriResponse>() {
                             @Override
                             public void onResponse(@NonNull Call<AttoriResponse> call, @NonNull Response<AttoriResponse> response) {
@@ -180,15 +178,13 @@ public class SearchFragment extends Fragment {
                                     Toast.makeText(getContext(), "Nessuna Voce Corrisponde Ai Criteri Di Ricerca.", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
-                            @Override
-                            public void onFailure(@NonNull Call<AttoriResponse> call, @NonNull Throwable t) {
+                            @Override public void onFailure(@NonNull Call<AttoriResponse> call, @NonNull Throwable t) {
                                 Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 }
-            break;
+                break;
             case R.id.radio_ricerca_amici:
                 if (queryEditText.getText() != null) {
                     String query = queryEditText.getText().toString();
@@ -221,7 +217,7 @@ public class SearchFragment extends Fragment {
                         }
                     }
                 }
-            break;
+                break;
         }
     }
 }

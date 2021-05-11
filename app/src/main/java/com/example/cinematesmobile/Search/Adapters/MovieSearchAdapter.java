@@ -30,13 +30,15 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
     private Activity activity;
     private List<MovieResponseResults> results;
+    private String UsernameProprietario;
     private RetrofitServiceFilm retrofitServiceFilm;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private Double Valutazione_Media;
 
-    public MovieSearchAdapter(Activity activity, List<MovieResponseResults> results) {
+    public MovieSearchAdapter(Activity activity, List<MovieResponseResults> results, String usernameProprietario) {
         this.activity = activity;
         this.results = results;
+        UsernameProprietario = usernameProprietario;
     }
 
     @NonNull @Override public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -81,7 +83,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
-        Call<GeneriResponse> generiResponseCall = retrofitServiceFilm.getGeneri(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<GeneriResponse> generiResponseCall = retrofitServiceFilm.PrendiGeneriTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         generiResponseCall.enqueue(new Callback<GeneriResponse>() {
             @Override public void onResponse(@NonNull Call<GeneriResponse> call,@NonNull Response<GeneriResponse> response) {
                 GeneriResponse generiResponse = response.body();
@@ -152,6 +154,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
             @Override public void onClick(View v) {
                 Intent intent = new Intent(activity, MovieDetailActivity.class);
                 intent.putExtra("id", String.valueOf(id));
+                intent.putExtra("UsernameProprietario", UsernameProprietario);
                 activity.startActivity(intent);
             }
         });

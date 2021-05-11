@@ -22,42 +22,42 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AttoriPopularAdapter extends RecyclerView.Adapter<AttoriPopularAdapter.SearchViewHolderAttoriHome> {
 
-        private Activity activity;
-        private List<AttoriResponseResults> results;
+    private Activity activity;
+    private List<AttoriResponseResults> results;
 
-        public AttoriPopularAdapter(Activity activity, List<AttoriResponseResults> results) {
-            this.activity = activity;
-            this.results = results;
+    public AttoriPopularAdapter(Activity activity, List<AttoriResponseResults> results) {
+        this.activity = activity;
+        this.results = results;
+    }
+
+    @NonNull @Override public SearchViewHolderAttoriHome onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.layout_card_celebrity_home, viewGroup, false);
+        return new SearchViewHolderAttoriHome(view);
+    }
+
+    @Override public void onBindViewHolder(@NonNull SearchViewHolderAttoriHome searchViewHolder, int i) {
+        AttoriResponseResults responseResults = results.get(i);
+        searchViewHolder.setPosterImageView(activity, responseResults.getProfile_path());
+        String nome = responseResults.getName();
+        int id = responseResults.getId();
+        if (nome != null) {
+            searchViewHolder.posterTitle.setVisibility(View.VISIBLE);
+            searchViewHolder.posterTitle.setText(nome);
+        } else {
+            searchViewHolder.posterTitle.setVisibility(View.GONE);
         }
-
-        @NonNull @Override public SearchViewHolderAttoriHome onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(activity).inflate(R.layout.layout_card_celebrity_home, viewGroup, false);
-            return new SearchViewHolderAttoriHome(view);
-        }
-
-        @Override public void onBindViewHolder(@NonNull SearchViewHolderAttoriHome searchViewHolder, int i) {
-            AttoriResponseResults responseResults = results.get(i);
-            searchViewHolder.setPosterImageView(activity, responseResults.getProfile_path());
-            String nome = responseResults.getName();
-            int id = responseResults.getId();
-            if (nome != null) {
-                searchViewHolder.posterTitle.setVisibility(View.VISIBLE);
-                searchViewHolder.posterTitle.setText(nome);
-            } else {
-                searchViewHolder.posterTitle.setVisibility(View.GONE);
+        searchViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent(activity, AttoriDetailActivity.class);
+                intent.putExtra("id", String.valueOf(id));
+                activity.startActivity(intent);
             }
-            searchViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    Intent intent = new Intent(activity, AttoriDetailActivity.class);
-                    intent.putExtra("id", String.valueOf(id));
-                    activity.startActivity(intent);
-                }
-            });
-        }
+        });
+    }
 
-        @Override public int getItemCount() {
-            return results.size();
-        }
+    @Override public int getItemCount() {
+        return results.size();
+    }
 
     public class SearchViewHolderAttoriHome extends RecyclerView.ViewHolder {
 

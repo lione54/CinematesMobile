@@ -62,18 +62,18 @@ public class MovieListInComAdapter extends RecyclerView.Adapter<MovieListInComAd
         Glide.with(activity).load(data.getImage()).into(holder.posterImageView);
         holder.posterTitle.setText(data.getTitolofilm());
         int id = data.getId_film();
-        Call<MovieDetail> movieDetailCall = retrofitServiceFilm.getMovieDetail(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
+        Call<MovieDetail> movieDetailCall = retrofitServiceFilm.PredndiDettagliFilmTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         movieDetailCall.enqueue(new Callback<MovieDetail>() {
             @Override public void onResponse(@NonNull Call<MovieDetail> call,@NonNull Response<MovieDetail> response) {
                 MovieDetail movieDetailResponse = response.body();
                 if(movieDetailResponse != null){
                     prepareMovieDetails(movieDetailResponse, holder);
                 }else{
-                    Toast.makeText(activity,"Nessun dettaglio trovato",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Nessun dettaglio trovato.",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<MovieDetail> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
         String titoloMod = data.getTitolofilm().replaceAll("'", "/");
@@ -93,14 +93,14 @@ public class MovieListInComAdapter extends RecyclerView.Adapter<MovieListInComAd
                         }
                         holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
                     }else {
-                        Toast.makeText(activity,"Nessuna media voto trovata",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(activity,"Impossibile trovare valutazione media",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +114,7 @@ public class MovieListInComAdapter extends RecyclerView.Adapter<MovieListInComAd
     }
 
     private void prepareMovieDetails(MovieDetail movieDetailResponse, MovieListInComAdapter.DataHolder holder) {
-        String Disponibilita = "Non Disponibile";
+        String Disponibilita = "Non Disponibile.";
         String SV = "SV";
         if(movieDetailResponse.getGenres() != null){
             if (movieDetailResponse.getGenres().size() > 0) {
