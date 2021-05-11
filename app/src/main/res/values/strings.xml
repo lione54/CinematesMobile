@@ -189,7 +189,15 @@
     <string name="inserisci_nuova_descrizione">Inserisci nuova descrizione</string>
     <string name="inserisci_nuova_email">Inserisci nuova email</string>
     <string name="inserisci_nuova_data_di_nascita">Inserisci nuova data di nascita</string>
-    <string name="film_in_comune2">Film in comune</string>
+    <string name="Logout_success">Sei uscito da Cinemates!</string>
+    <string name="Hope">Speriamo di rivederti presto!</string>
+    <string name="torna_al_menu">Vai alla schermata principale</string>
+    <string name="reinserisci_nuova_password">Re-Inserisci nuova password</string>
+    <string name="per_quale_motivo_stai">Per quale motivo stai</string>
+    <string name="segnalando_la_recensione_di">segnalando la recensione di </string>
+    <string name="film_in_comune2">Amici in comune</string>
+    <string name="vai_a_cinemates">Entra in Cinemates!</string>
+    <string name="Register_successo">Registrazione avvenuta con successo!</string>
 
 
 </resources>

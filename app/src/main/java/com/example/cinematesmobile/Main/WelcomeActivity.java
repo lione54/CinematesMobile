@@ -18,6 +18,9 @@ import com.example.cinematesmobile.Log.ui.login.LoginActivity;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.SignIn.SignInActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static android.view.animation.AnimationUtils.loadAnimation;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -39,6 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         logo = findViewById(R.id.logo_cinemates);
         logo.startAnimation(loadAnimation(WelcomeActivity.this, R.anim.entry_animation));
+
         final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

@@ -12,9 +12,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.amrdeveloper.reactbutton.ReactButton;
-import com.amrdeveloper.reactbutton.Reaction;
 import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.Frag.Adapter.AltroUtenteAmicoAdapter;
 import com.example.cinematesmobile.Frag.FilmInComuneActivity;
@@ -47,8 +44,6 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
     private AppCompatImageButton Previously;
     private RecyclerView.LayoutManager layoutManager;
     private AltroUtenteAmicoAdapter altroUtenteAmicoAdapter;
-    private ReactButton ReactionButton;
-    private Reaction [] reactions;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroAmici, Amici, FilmInComune;
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, DescrizioneUser, DataNascitaUser, SessoUser;
 
@@ -60,7 +55,6 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         ImmagineProfilo = findViewById(R.id.immagine_profilo);
         UsernameProfilo = findViewById(R.id.Username_Profilo);
-        ReactionButton = findViewById(R.id.reactbutton);
         LayoutNomeAltroUtente = findViewById(R.id.layout_nome_altro_utente);
         LayoutCognomeAltroUtente = findViewById(R.id.layout_cognome_altro_utente);
         LayoutEmailAltroUtente = findViewById(R.id.layout_email_altro_utente);

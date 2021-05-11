@@ -46,7 +46,7 @@ public class RegisterFieldsActivity extends AppCompatActivity {
         });
         Finito.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent intent = new Intent(RegisterFieldsActivity.this, FragmentActivity.class);
+                Intent intent = new Intent(RegisterFieldsActivity.this, RegisterFieldsActivitySuccess.class);
                 intent.putExtra("UserProprietario", UsernameProprietario);
                 startActivity(intent);
             }

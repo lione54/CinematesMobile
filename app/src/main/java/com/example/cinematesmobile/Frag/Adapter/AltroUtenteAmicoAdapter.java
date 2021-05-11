@@ -71,14 +71,14 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                         holder.film.setAdapter(movieListAltroUtenteAdapter);
                         movieListAltroUtenteAdapter.notifyDataSetChanged();
                     }else{
-                        Toast.makeText(activity,"Nessun film da mostrare.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Nessun film da mostrare",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(activity,"Impossibile recuperare i film.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Impossibile recuperare i film",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -156,14 +156,14 @@ public class RecensioniActivity extends AppCompatActivity {
                         recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, Utente);
                         RecensioniScritte.setAdapter(recensioniAdapter);
                     }else{
-                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Throwable t) {
-                Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
     }

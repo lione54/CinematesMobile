@@ -87,14 +87,14 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
                         }
                        holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
                     }else {
-                        Toast.makeText(activity,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Nessuna media voto trovata",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Impossibile trovare valutazione media",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {

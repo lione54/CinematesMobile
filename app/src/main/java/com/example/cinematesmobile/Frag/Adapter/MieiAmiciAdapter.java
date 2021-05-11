@@ -75,7 +75,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
                             }
                         }
                         @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

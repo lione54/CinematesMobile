@@ -87,12 +87,6 @@
             android:orientation="horizontal"
             android:background="@color/ColorCineOrange">
 
-            <com.amrdeveloper.reactbutton.ReactButton
-                android:id="@+id/reactbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/ColorCineOrange"/>
-
         </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -98,6 +98,8 @@
             android:indeterminate="false"
             android:progress="3"
             android:theme="@style/ProgressBarStyle"/>
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

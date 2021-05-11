@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:forceDarkAllowed="false"
+    android:background="@color/ColorCineBlack"
+    tools:context=".SignIn.RegisterFieldsActivitySuccess">
+
+    <!-- INIZIO AREA LOGO -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_marginTop="110dp"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            app:srcCompat="@drawable/logo_cinemates"
+            android:contentDescription="@string/todo1" />
+        <!-- FINE AREA LOGO -->
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-150dp"
+        app:lottie_fileName="confirm.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/Register_successo"
+        android:layout_gravity="center"
+        android:layout_marginTop="-120dp"
+        android:textSize="21sp"
+        android:textColor="@color/ColorCineOrange"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/successo"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:text="@string/vai_a_cinemates"
+        android:layout_marginTop="30dp"
+        android:textSize="18sp"
+        android:textColor="@color/ColorCineBlack"
+        android:background="@drawable/radius2"
+        android:layout_gravity="center"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
