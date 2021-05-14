@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CinematesMobile"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Frag.FilmInComuneActivity"></activity>
+        <activity android:name=".Frag.CommentiActivity"></activity>
+        <activity android:name=".Frag.FilmInComuneActivity" />
         <activity android:name=".Search.VisualizzaAmiciInComuneActivity" />
         <activity
             android:name=".Frag.ListeAmiciActivity"
@@ -79,7 +80,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <meta-data

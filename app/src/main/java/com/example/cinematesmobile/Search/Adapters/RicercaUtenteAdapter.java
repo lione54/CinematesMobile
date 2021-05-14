@@ -49,7 +49,7 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
     @Override public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         DBModelDataUserResults data = dataList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(data.getImmagineProfilo().equals("null")){
+        if(data.getImmagineProfilo() == null){
             holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(activity).load(data.getImmagineProfilo()).into(holder.FotoProfilo);

@@ -199,6 +199,10 @@
     <string name="vai_a_cinemates">Entra in Cinemates!</string>
     <string name="Register_successo">Registrazione avvenuta con successo!</string>
     <string name="vai_ai_commenti">Vai ai commenti</string>
+    <string name="commenta">Commenta</string>
+    <string name="commenti">Commenti:</string>
+    <string name="data_commento">Data commento:</string>
+    <string name="commento">Commento:</string>
 
 
 </resources>

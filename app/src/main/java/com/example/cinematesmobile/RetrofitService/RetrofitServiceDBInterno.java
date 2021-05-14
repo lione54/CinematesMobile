@@ -1,9 +1,11 @@
 package com.example.cinematesmobile.RetrofitService;
 
 import com.example.cinematesmobile.ModelDBInterno.DBModelAttributiLista;
+import com.example.cinematesmobile.ModelDBInterno.DBModelCommentiResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDataUser;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDettagliCinemates;
+import com.example.cinematesmobile.ModelDBInterno.DBModelEmojResponde;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFotoProfiloResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloAltroUtenteResponce;
@@ -173,4 +175,32 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("VerificaSeHaInseritoEmoj.php")
     Call<DBModelVerifica> VerificaInserimentoEmoj(@Field("User_Proprietario") String User_Proprietario, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista);
+
+    @FormUrlEncoded
+    @POST("PrendiEmojDaDB.php")
+    Call<DBModelEmojResponde> PrendiEmojDaDB(@Field("UsernameAltroUtente") String UsernameAltroUtente, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("EliminaEmoj.php")
+    Call<DBModelResponseToInsert> EliminaEmoj(@Field("UsernameAltroUtente") String UsernameAltroUtente, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("InserisciEmoj.php")
+    Call<DBModelResponseToInsert> InserisciEmoj(@Field("UsernameAltroUtente") String UsernameAltroUtente, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista, @Field("User_Proprietario") String User_Proprietario, @Field("Tipo_Reaction") String Tipo_Reaction);
+
+    @FormUrlEncoded
+    @POST("MandaNotificaEmoj.php")
+    Call<DBModelResponseToInsert> NotificaInserimentoEmoj(@Field("UsernameAltroUtente") String UsernameAltroUtente, @Field("Nome_Lista") String Nome_Lista, @Field("Tipo_Reaction") String Tipo_Reaction, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("VerificaSeCiSonoCommenti.php")
+    Call<DBModelVerifica> VerificaSeCiSonoCommenti(@Field("AltroUtente") String UsernameAltroUtente, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista);
+
+    @FormUrlEncoded
+    @POST("PrendiCommenti.php")
+    Call<DBModelCommentiResponce> PrendiCommenti(@Field("AltroUtente") String UsernameAltroUtente, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista);
+
+    @FormUrlEncoded
+    @POST("AggiungiCommento.php")
+    Call<DBModelResponseToInsert> ScriviCommento(@Field("testo_commento") String testo_commento, @Field("Chi_ha_Commentato") String Chi_ha_Commentato, @Field("Dove_ha_Inserito_commento") String Dove_ha_Inserito_commento, @Field("quale_post") String quale_post, @Field("Proprietario_Post") String Proprietario_Post);
 }

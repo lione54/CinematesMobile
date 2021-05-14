@@ -1,6 +1,7 @@
 package com.example.cinematesmobile.Frag.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +9,27 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cinematesmobile.Frag.CommentiActivity;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
+import com.example.cinematesmobile.Frag.Model.DBModelEmoj;
+import com.example.cinematesmobile.ModelDBInterno.DBModelEmojResponde;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import retrofit2.Call;
@@ -34,6 +44,8 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
     private String UsernameProprietario;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private MovieListAltroUtenteAdapter movieListAltroUtenteAdapter;
+    private boolean dislike, like;
+    private int Nlike, Ndislike;
 
     public AltroUtenteAmicoAdapter(Activity activity, List<DBModelDataListeFilm> dataListeFilms, String usernameAltroUtente, String usernameProprietario) {
         this.activity = activity;
@@ -58,7 +70,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
             holder.Emoj.setVisibility(View.GONE);
         }else {
             if (dbModelDataListeFilm.getDescrizioneLista() != null) {
-                if (!(dbModelDataListeFilm.getDescrizioneLista().equals("null"))) {
+                if (dbModelDataListeFilm.getDescrizioneLista() != null) {
                     holder.Descrizione.setText(dbModelDataListeFilm.getDescrizioneLista());
                 } else {
                     holder.Descrizione.setText("Descrizione non inserita dall'utente");
@@ -72,7 +84,66 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                         List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                         if(!(verificaResults.isEmpty())){
                             if(verificaResults.get(0).getCodVerifica() == 0){
-
+                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(UsernameAltroUtente, "Lista", dbModelDataListeFilm.getTitoloLista(), UsernameProprietario);
+                                EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
+                                    @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
+                                        DBModelEmojResponde dbModelEmojResponde = response.body();
+                                        if(dbModelEmojResponde != null){
+                                            List<DBModelEmoj> emojList = dbModelEmojResponde.getResults();
+                                            if (!(emojList.isEmpty())){
+                                                holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
+                                                holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
+                                                holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                                holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                                Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                                Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                                like = false;
+                                                dislike = false;
+                                            }else {
+                                                Toast.makeText(activity,"Prelievo delle informazioni sulle emoj fallito.",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }else{
+                                            Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoj.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override public void onFailure(@NotNull Call<DBModelEmojResponde> call, @NotNull Throwable t) {
+                                        Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }else{
+                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(UsernameAltroUtente, "Lista", dbModelDataListeFilm.getTitoloLista(), UsernameProprietario);
+                                EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
+                                    @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
+                                        DBModelEmojResponde dbModelEmojResponde = response.body();
+                                        if(dbModelEmojResponde != null){
+                                            List<DBModelEmoj> emojList = dbModelEmojResponde.getResults();
+                                            if (!(emojList.isEmpty())){
+                                                holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
+                                                holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
+                                                if(emojList.get(0).getTipo_Emoj().equals("Like")){
+                                                    holder.Like.setImageResource(R.drawable.ic_like_active);
+                                                    like = true;
+                                                    dislike = false;
+                                                    holder.Dislike.setEnabled(false);
+                                                }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
+                                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                                    dislike = true;
+                                                    like = false;
+                                                    holder.Like.setEnabled(false);
+                                                }
+                                                Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                                Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                            }else {
+                                                Toast.makeText(activity,"Prelievo delle informazioni sulle emoj fallito.",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }else{
+                                            Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoj.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override public void onFailure(@NotNull Call<DBModelEmojResponde> call, @NotNull Throwable t) {
+                                        Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         }else{
                             Toast.makeText(activity,"Verifica Fallita.",Toast.LENGTH_SHORT).show();
@@ -110,6 +181,135 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                 Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
             }
         });
+        holder.Like.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if(like){
+                    Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(UsernameAltroUtente, "Lista", dataListeFilms.get(position).getTitoloLista(), UsernameProprietario);
+                    deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    like = false;
+                                    Nlike--;
+                                    holder.NumeroLike.setText(String.valueOf(Nlike));
+                                    holder.Dislike.setEnabled(true);
+                                    holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(UsernameAltroUtente, "Lista", dataListeFilms.get(position).getTitoloLista(), UsernameProprietario, "Like");
+                    insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    like = true;
+                                    Nlike++;
+                                    holder.NumeroLike.setText(String.valueOf(Nlike));
+                                    holder.Dislike.setEnabled(false);
+                                    holder.Like.setImageResource(R.drawable.ic_like_active);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(UsernameAltroUtente, dataListeFilms.get(position).getTitoloLista(), "Like", UsernameProprietario);
+                                    notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                            if(dbModelResponseToInsert != null) {
+                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+
+                                                }
+                                            }
+                                        }
+                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+        holder.Dislike.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if(dislike){
+                    Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(UsernameAltroUtente, "Lista", dataListeFilms.get(position).getTitoloLista(), UsernameProprietario);
+                    deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                        dislike = false;
+                                        Ndislike--;
+                                        holder.NuemroDislike.setText(String.valueOf(Ndislike));
+                                        holder.Like.setEnabled(true);
+                                        holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NotNull Call<DBModelResponseToInsert> call, @NotNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(UsernameAltroUtente, "Lista", dataListeFilms.get(position).getTitoloLista(), UsernameProprietario, "Dislike");
+                    insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    dislike = true;
+                                    Ndislike++;
+                                    holder.NuemroDislike.setText(String.valueOf(Ndislike));
+                                    holder.Like.setEnabled(false);
+                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(UsernameAltroUtente, dataListeFilms.get(position).getTitoloLista(), "Dislike", UsernameProprietario);
+                                    notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                            if(dbModelResponseToInsert != null) {
+                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+
+                                                }
+                                            }
+                                        }
+                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NotNull Call<DBModelResponseToInsert> call, @NotNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+        holder.Commenta.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent(activity, CommentiActivity.class);
+                intent.putExtra("UsernameProprietario", UsernameProprietario);
+                intent.putExtra("UsernameAltroUtente", UsernameAltroUtente);
+                intent.putExtra("TitoloLista", dataListeFilms.get(position).getTitoloLista());
+                if(dataListeFilms.get(position).getDescrizioneLista() == null) {
+                    intent.putExtra("Descrizione", "Descrizione non inserita dall' utente");
+                }else{
+                    intent.putExtra("Descrizione", dataListeFilms.get(position).getTitoloLista());
+                }
+                intent.putExtra("TipoCorrente", "Lista");
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override public int getItemCount() {
@@ -122,6 +322,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
         private RecyclerView film;
         private LinearLayout DescrizioneListaAltroUserLayout, Emoj;
         private MaterialFavoriteButton Like, Dislike;
+        private AppCompatButton Commenta;
 
         public DataHolder(@NonNull View itemView) {
             super(itemView);
@@ -134,6 +335,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
             NuemroDislike = itemView.findViewById(R.id.number_dislike);
             Like = itemView.findViewById(R.id.like_button);
             Dislike = itemView.findViewById(R.id.dislike_button);
+            Commenta = itemView.findViewById(R.id.commenti);
         }
     }
 }

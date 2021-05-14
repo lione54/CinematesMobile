@@ -26,7 +26,11 @@ public class DBModelDataListeFilm {
     }
 
     public String getDescrizioneLista() {
-        return DescrizioneLista;
+        if(DescrizioneLista == null){
+            return null;
+        }else {
+            return DescrizioneLista;
+        }
     }
 
     public void setDescrizioneLista(String descrizioneLista) {
