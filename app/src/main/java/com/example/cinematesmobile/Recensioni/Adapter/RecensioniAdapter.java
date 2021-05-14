@@ -12,6 +12,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.example.cinematesmobile.Frag.CommentiActivity;
+import com.example.cinematesmobile.Frag.Model.DBModelEmoj;
+import com.example.cinematesmobile.ModelDBInterno.DBModelEmojResponde;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
@@ -19,6 +23,10 @@ import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Segnalazioni.SegnalazioniActivity;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -32,6 +40,8 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
     private List<DBModelRecensioni> recensioniList;
     private String User_Segnalatore;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
+    private boolean dislike, like;
+    private int Nlike, Ndislike;
 
     public RecensioniAdapter(Activity activity, List<DBModelRecensioni> recensioniList, String user_Segnalatore) {
         this.activity = activity;
@@ -47,7 +57,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
     @Override public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         DBModelRecensioni dbModelRecensioni = recensioniList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(dbModelRecensioni.getFoto().equals("null")){
+        if(dbModelRecensioni.getFoto() == null){
             holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24);
         }else{
             Glide.with(activity).load(dbModelRecensioni.getFoto()).into(holder.FotoProfilo);
@@ -56,6 +66,86 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
         holder.DataRecensione.setText(dbModelRecensioni.getData_Pubblicazione());
         holder.CorpoRecensione.setText(dbModelRecensioni.getTesto_Recensione());
         holder.Voto.setRating(dbModelRecensioni.getValutazione());
+        Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film());
+        verificaCall.enqueue(new Callback<DBModelVerifica>() {
+            @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
+                DBModelVerifica dbModelVerifica = response.body();
+                if(dbModelVerifica != null){
+                    List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                    if(!(verificaResults.isEmpty())){
+                        if(verificaResults.get(0).getCodVerifica() == 0){
+                            Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Segnalatore);
+                            EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
+                                @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
+                                    DBModelEmojResponde dbModelEmojResponde = response.body();
+                                    if(dbModelEmojResponde != null){
+                                        List<DBModelEmoj> emojList = dbModelEmojResponde.getResults();
+                                        if (!(emojList.isEmpty())){
+                                            holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
+                                            holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
+                                            holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                            holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                            Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                            Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                            like = false;
+                                            dislike = false;
+                                        }else {
+                                            Toast.makeText(activity,"Prelievo delle informazioni sulle emoj fallito.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }else{
+                                        Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoj.",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override public void onFailure(@NotNull Call<DBModelEmojResponde> call, @NotNull Throwable t) {
+                                    Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else{
+                            Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Segnalatore);
+                            EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
+                                @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
+                                    DBModelEmojResponde dbModelEmojResponde = response.body();
+                                    if(dbModelEmojResponde != null){
+                                        List<DBModelEmoj> emojList = dbModelEmojResponde.getResults();
+                                        if (!(emojList.isEmpty())){
+                                            holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
+                                            holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
+                                            if(emojList.get(0).getTipo_Emoj().equals("Like")){
+                                                holder.Like.setImageResource(R.drawable.ic_like_active);
+                                                like = true;
+                                                dislike = false;
+                                                holder.Dislike.setEnabled(false);
+                                            }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
+                                                holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                                dislike = true;
+                                                like = false;
+                                                holder.Like.setEnabled(false);
+                                            }
+                                            Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                            Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                        }else {
+                                            Toast.makeText(activity,"Prelievo delle informazioni sulle emoj fallito.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }else{
+                                        Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoj.",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override public void onFailure(@NotNull Call<DBModelEmojResponde> call, @NotNull Throwable t) {
+                                    Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }else{
+                        Toast.makeText(activity,"Verifica Fallita.",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(activity,"Impossibile verificare inserimento emoj.",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
+                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.Segnala.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Call<DBModelVerifica> verificaSegnalazioniCall = retrofitServiceDBInterno.VerificaPresenzaSegnalazione(User_Segnalatore, dbModelRecensioni.getUser_Recensore(), String.valueOf(dbModelRecensioni.getId_Recensione()));
@@ -84,6 +174,130 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                 });
             }
         });
+        holder.Like.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if(like){
+                    Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore);
+                    deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    like = false;
+                                    Nlike--;
+                                    holder.NumeroLike.setText(String.valueOf(Nlike));
+                                    holder.Dislike.setEnabled(true);
+                                    holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore, "Like");
+                    insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    like = true;
+                                    Nlike++;
+                                    holder.NumeroLike.setText(String.valueOf(Nlike));
+                                    holder.Dislike.setEnabled(false);
+                                    holder.Like.setImageResource(R.drawable.ic_like_active);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),  recensioniList.get(position).getTitolo_Film(), "Like", User_Segnalatore);
+                                    notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                            if(dbModelResponseToInsert != null) {
+                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+
+                                                }
+                                            }
+                                        }
+                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+        holder.Dislike.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if(dislike){
+                    Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore);
+                    deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    dislike = false;
+                                    Ndislike--;
+                                    holder.NuemroDislike.setText(String.valueOf(Ndislike));
+                                    holder.Like.setEnabled(true);
+                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NotNull Call<DBModelResponseToInsert> call, @NotNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore, "Dislike");
+                    insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null) {
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    dislike = true;
+                                    Ndislike++;
+                                    holder.NuemroDislike.setText(String.valueOf(Ndislike));
+                                    holder.Like.setEnabled(false);
+                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(), recensioniList.get(position).getTitolo_Film(), "Dislike", User_Segnalatore);
+                                    notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                            if(dbModelResponseToInsert != null) {
+                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+
+                                                }
+                                            }
+                                        }
+                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NotNull Call<DBModelResponseToInsert> call, @NotNull Throwable t) {
+                            Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+        holder.Commenta.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent(activity, CommentiActivity.class);
+                intent.putExtra("UsernameProprietario", User_Segnalatore);
+                intent.putExtra("UsernameAltroUtente", dbModelRecensioni.getUser_Recensore());
+                intent.putExtra("TitoloFilm", recensioniList.get(position).getTitolo_Film());
+                intent.putExtra("TipoCorrente", "Recensioni");
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override public int getItemCount() {
@@ -93,9 +307,11 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
     public class DataViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView FotoProfilo;
-        public AppCompatTextView Username, DataRecensione, CorpoRecensione;
+        public AppCompatTextView Username, DataRecensione, CorpoRecensione, NumeroLike, NuemroDislike;
         public AppCompatButton Segnala;
         public RatingBar Voto;
+        private MaterialFavoriteButton Like, Dislike;
+        private AppCompatButton Commenta;
 
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,6 +321,11 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
             CorpoRecensione = itemView.findViewById(R.id.corpo_recensione);
             Segnala = itemView.findViewById(R.id.segnalazioni_button);
             Voto = itemView.findViewById(R.id.valutazione_db);
+            NumeroLike = itemView.findViewById(R.id.number_like);
+            NuemroDislike = itemView.findViewById(R.id.number_dislike);
+            Like = itemView.findViewById(R.id.like_button);
+            Dislike = itemView.findViewById(R.id.dislike_button);
+            Commenta = itemView.findViewById(R.id.commenti);
         }
     }
 }

@@ -18,14 +18,19 @@ import com.example.cinematesmobile.Frag.Model.DBModelCommenti;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
 import com.example.cinematesmobile.ModelDBInterno.DBModelCommentiResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.Recensioni.Adapter.RecensioniAdapter;
+import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
+import com.example.cinematesmobile.Recensioni.RecensioniActivity;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,7 +39,7 @@ import retrofit2.Response;
 
 public class CommentiActivity extends AppCompatActivity {
 
-    private String UserProprietario, Titololista, AltroUser, TextDescrizione, TipoCorrente;
+    private String UserProprietario, Titololista, AltroUser, TextDescrizione, TipoCorrente, TitoloFilm;
     private AppCompatImageButton Indietro;
     private AppCompatTextView NomeLista, Descrizione;
     private RecyclerView Film, Commenti;
@@ -43,6 +48,8 @@ public class CommentiActivity extends AppCompatActivity {
     private CommentiAdapter commentiAdapter;
     private AppCompatButton InviaCommento;
     private TextInputEditText ScriviCommento;
+    private List<DBModelRecensioni> recensioniList = new ArrayList<>();
+    private RecensioniAdapter recensioniAdapter;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +57,11 @@ public class CommentiActivity extends AppCompatActivity {
         UserProprietario = getIntent().getExtras().getString("UsernameProprietario");
         AltroUser = getIntent().getExtras().getString("UsernameAltroUtente");
         TipoCorrente = getIntent().getExtras().getString("TipoCorrente");
-        TextDescrizione = getIntent().getExtras().getString("Descrizione");
         if(TipoCorrente.equals("Lista")) {
             Titololista = getIntent().getExtras().getString("TitoloLista");
+            TextDescrizione = getIntent().getExtras().getString("Descrizione");
+        }else{
+            TitoloFilm = getIntent().getExtras().getString("TitoloFilm");
         }
         Indietro = findViewById(R.id.previously);
         NomeLista = findViewById(R.id.nome_lista);
@@ -69,84 +78,177 @@ public class CommentiActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        Call<DBModelFilmsResponce> filmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(AltroUser, Titololista);
-        filmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
-            @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call, @NonNull retrofit2.Response<DBModelFilmsResponce> response) {
-                DBModelFilmsResponce dbModelFilmsResponce  = response.body();
-                if(dbModelFilmsResponce != null){
-                    List<DBModelDataFilms> preferiti = dbModelFilmsResponce.getResults();
-                    if(!(preferiti.isEmpty())){
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Film.getContext(), RecyclerView.HORIZONTAL, false);
-                        Film.setLayoutManager(linearLayoutManager);
-                        Film.setHasFixedSize(false);
-                        movieListAltroUtenteAdapter = new MovieListAltroUtenteAdapter(CommentiActivity.this, preferiti, AltroUser, UserProprietario);
-                        Film.setAdapter(movieListAltroUtenteAdapter);
-                        movieListAltroUtenteAdapter.notifyDataSetChanged();
-                    }else{
-                        Toast.makeText(CommentiActivity.this,"Nessun film da mostrare.",Toast.LENGTH_SHORT).show();
+        if(TipoCorrente.equals("Lista")) {
+            Call<DBModelFilmsResponce> filmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(AltroUser, Titololista);
+            filmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
+                @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call, @NonNull retrofit2.Response<DBModelFilmsResponce> response) {
+                    DBModelFilmsResponce dbModelFilmsResponce = response.body();
+                    if (dbModelFilmsResponce != null) {
+                        List<DBModelDataFilms> preferiti = dbModelFilmsResponce.getResults();
+                        if (!(preferiti.isEmpty())) {
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Film.getContext(), RecyclerView.HORIZONTAL, false);
+                            Film.setLayoutManager(linearLayoutManager);
+                            Film.setHasFixedSize(false);
+                            movieListAltroUtenteAdapter = new MovieListAltroUtenteAdapter(CommentiActivity.this, preferiti, AltroUser, UserProprietario);
+                            Film.setAdapter(movieListAltroUtenteAdapter);
+                            movieListAltroUtenteAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(CommentiActivity.this, "Nessun film da mostrare.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(CommentiActivity.this, "Impossibile recuperare i film.", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(CommentiActivity.this,"Impossibile recuperare i film.",Toast.LENGTH_SHORT).show();
                 }
-            }
-            @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
-                Toast.makeText(CommentiActivity.this,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
-            }
-        });
-        Call<DBModelVerifica> verificaCommentiCall = retrofitServiceDBInterno.VerificaSeCiSonoCommenti(AltroUser, TipoCorrente, Titololista);
-        verificaCommentiCall.enqueue(new Callback<DBModelVerifica>() {
-            @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                DBModelVerifica dbModelVerifica = response.body();
-                if(dbModelVerifica != null){
-                    List<DBModelVerificaResults> results = dbModelVerifica.getResults();
-                    if(results.get(0).getCodVerifica() == 1){
+                @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call, @NonNull Throwable t) {
+                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            Call<DBModelVerifica> verificaCommentiCall = retrofitServiceDBInterno.VerificaSeCiSonoCommenti(AltroUser, TipoCorrente, Titololista);
+            verificaCommentiCall.enqueue(new Callback<DBModelVerifica>() {
+                @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                    DBModelVerifica dbModelVerifica = response.body();
+                    if (dbModelVerifica != null) {
+                        List<DBModelVerificaResults> results = dbModelVerifica.getResults();
+                        if (results.get(0).getCodVerifica() == 1) {
                             Call<DBModelCommentiResponce> commentiCall = retrofitServiceDBInterno.PrendiCommenti(AltroUser, TipoCorrente, Titololista);
                             commentiCall.enqueue(new Callback<DBModelCommentiResponce>() {
-                                @Override public void onResponse(@NonNull Call<DBModelCommentiResponce> call,@NonNull Response<DBModelCommentiResponce> response) {
+                                @Override public void onResponse(@NonNull Call<DBModelCommentiResponce> call, @NonNull Response<DBModelCommentiResponce> response) {
                                     DBModelCommentiResponce dbModelCommentiResponce = response.body();
-                                    if(dbModelCommentiResponce != null){
+                                    if (dbModelCommentiResponce != null) {
                                         List<DBModelCommenti> commentiList = dbModelCommentiResponce.getResults();
-                                        if(!(commentiList.isEmpty())){
+                                        if (!(commentiList.isEmpty())) {
                                             Commenti.setLayoutManager(new LinearLayoutManager(CommentiActivity.this, LinearLayoutManager.VERTICAL, false));
                                             commentiAdapter = new CommentiAdapter(CommentiActivity.this, commentiList);
                                             Commenti.setAdapter(commentiAdapter);
-                                        }else{
-                                            Toast.makeText(CommentiActivity.this,"Non sono presenti commenti per questo post.",Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(CommentiActivity.this, "Non sono presenti commenti per questo post.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
-                                @Override public void onFailure(@NonNull Call<DBModelCommentiResponce> call,@NonNull Throwable t) {
-                                    Toast.makeText(CommentiActivity.this,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                @Override public void onFailure(@NonNull Call<DBModelCommentiResponce> call, @NonNull Throwable t) {
+                                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                 }
                             });
+                        }
                     }
                 }
-            }
-            @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                Toast.makeText(CommentiActivity.this,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
-            }
-        });
-        InviaCommento.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                if(ScriviCommento.length() > 0){
-                    Call<DBModelResponseToInsert> scriviCommentoCall = retrofitServiceDBInterno.ScriviCommento(ScriviCommento.getText().toString(), UserProprietario, TipoCorrente,Titololista, AltroUser);
-                    scriviCommentoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                            if(dbModelResponseToInsert != null){
-                                if(dbModelResponseToInsert.getStato().equals("Successfull")){
-                                    recreate();
+                @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            InviaCommento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ScriviCommento.length() > 0) {
+                        Call<DBModelResponseToInsert> scriviCommentoCall = retrofitServiceDBInterno.ScriviCommento(ScriviCommento.getText().toString(), UserProprietario, TipoCorrente, Titololista, AltroUser);
+                        scriviCommentoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                            @Override
+                            public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                if (dbModelResponseToInsert != null) {
+                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                        recreate();
+                                    }
                                 }
                             }
-                        }
-                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                            Toast.makeText(CommentiActivity.this,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }else{
-                    Toast.makeText(CommentiActivity.this,"Scrivi qualcosa.",Toast.LENGTH_SHORT).show();
+
+                            @Override
+                            public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(CommentiActivity.this, "Scrivi qualcosa.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(TitoloFilm);
+            recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
+                @Override public void onResponse(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Response<DBModelRecensioniResponce> response) {
+                    DBModelRecensioniResponce dbModelRecensioniResponce = response.body();
+                    if(dbModelRecensioniResponce != null){
+                        recensioniList = dbModelRecensioniResponce.getResults();
+                        if(!(recensioniList.isEmpty())){
+                            Film.setLayoutManager(new LinearLayoutManager(CommentiActivity.this, LinearLayoutManager.VERTICAL, false));
+                            recensioniAdapter = new RecensioniAdapter(CommentiActivity.this, recensioniList, UserProprietario);
+                            Film.setAdapter(recensioniAdapter);
+                        }else{
+                            Toast.makeText(CommentiActivity.this, "Nessun utente ha recensito questo film",Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(CommentiActivity.this, "Impossibile caricare le recensioni",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override public void onFailure(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Throwable t) {
+                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
+                }
+            });
+            Call<DBModelVerifica> verificaCommentiCall = retrofitServiceDBInterno.VerificaSeCiSonoCommenti(AltroUser, TipoCorrente, TitoloFilm);
+            verificaCommentiCall.enqueue(new Callback<DBModelVerifica>() {
+                @Override
+                public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                    DBModelVerifica dbModelVerifica = response.body();
+                    if (dbModelVerifica != null) {
+                        List<DBModelVerificaResults> results = dbModelVerifica.getResults();
+                        if (results.get(0).getCodVerifica() == 1) {
+                            Call<DBModelCommentiResponce> commentiCall = retrofitServiceDBInterno.PrendiCommenti(AltroUser, TipoCorrente, TitoloFilm);
+                            commentiCall.enqueue(new Callback<DBModelCommentiResponce>() {
+                                @Override
+                                public void onResponse(@NonNull Call<DBModelCommentiResponce> call, @NonNull Response<DBModelCommentiResponce> response) {
+                                    DBModelCommentiResponce dbModelCommentiResponce = response.body();
+                                    if (dbModelCommentiResponce != null) {
+                                        List<DBModelCommenti> commentiList = dbModelCommentiResponce.getResults();
+                                        if (!(commentiList.isEmpty())) {
+                                            Commenti.setLayoutManager(new LinearLayoutManager(CommentiActivity.this, LinearLayoutManager.VERTICAL, false));
+                                            commentiAdapter = new CommentiAdapter(CommentiActivity.this, commentiList);
+                                            Commenti.setAdapter(commentiAdapter);
+                                        } else {
+                                            Toast.makeText(CommentiActivity.this, "Non sono presenti commenti per questo post.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<DBModelCommentiResponce> call, @NonNull Throwable t) {
+                                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            InviaCommento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ScriviCommento.length() > 0) {
+                        Call<DBModelResponseToInsert> scriviCommentoCall = retrofitServiceDBInterno.ScriviCommento(ScriviCommento.getText().toString(), UserProprietario, TipoCorrente, TitoloFilm, AltroUser);
+                        scriviCommentoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                            @Override
+                            public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                if (dbModelResponseToInsert != null) {
+                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                        recreate();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(CommentiActivity.this, "Scrivi qualcosa.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }
