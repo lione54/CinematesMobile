@@ -103,7 +103,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
                                 if (dbModelResponseToInsert.getStato().equals("Successfull")) {
                                     Toast.makeText(SegnalazioniActivity.this , "Segnalazione avvenuta con successo" , Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Toast.makeText(SegnalazioniActivity.this, "Invio segnalazione nei confronti di " + NomeUtenteSegnalato + " Fallito.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(SegnalazioniActivity.this, "Invio segnalazione nei confronti di " + NomeUtenteSegnalato + " fallito", Toast.LENGTH_LONG).show();
                                 }
                                 onBackPressed();
                             }else {
@@ -111,7 +111,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
                             }
                         }
                         @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                            Toast.makeText(SegnalazioniActivity.this, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SegnalazioniActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
                         }
                     });
                 }else {

@@ -132,11 +132,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                             aggiungiA.attachDataSource(listefilm);
                         }
                     }else{
-                        Toast.makeText(MovieDetailActivity.this, "Liste non trovate.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailActivity.this, "Liste non trovate",Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
-                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                 }
             });
         }else{
@@ -153,11 +153,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                             aggiungiA.attachDataSource(listefilm);
                         }
                     }else{
-                        Toast.makeText(MovieDetailActivity.this, "Liste non trovate.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailActivity.this, "Liste non trovate",Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
-                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -184,11 +184,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 stato = true;
                             }
                         }else {
-                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
                 Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(String.valueOf(id), UserName);
@@ -205,11 +205,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 stato_V = true;
                             }
                         }else{
-                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
                 Call<MovieDetail> movieDetailCall = retrofitServiceFilm2.PredndiDettagliFilmTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
@@ -248,7 +248,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }
                     }
                     @Override public void onFailure(@NonNull Call<MovieImage> call,@NonNull Throwable t) {
-                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
                 CuorePreferiti.setOnClickListener(new View.OnClickListener() {
@@ -280,11 +280,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                     Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }else {
-                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                                 } else{
@@ -303,11 +303,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                     Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }else{
-                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                                 }
@@ -316,14 +316,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                 Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
-                                            Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita.",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita",Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else {
@@ -348,18 +348,18 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                             stato = true;
                                                         }
                                                     }else {
-                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }else{
-                                            Toast.makeText(MovieDetailActivity.this, "Rimozione dalla lista dei film preferiti fallita.",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Rimozione dalla lista dei film preferiti fallita",Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(MovieDetailActivity.this, "Impossibile rimuovere dalla lista dei film preferiti.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MovieDetailActivity.this, "Impossibile rimuovere dalla lista dei film preferiti",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
@@ -398,11 +398,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                     Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }else {
-                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                                 } else{
@@ -421,11 +421,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                     Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }else{
-                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                                 }
@@ -434,14 +434,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                 Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
-                                            Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita.",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita",Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else {
@@ -460,24 +460,24 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                         if (verificaResults.get(0).getCodVerifica() == 0){
                                                             OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses);
                                                             stato_V = false;
-                                                            Toast.makeText(MovieDetailActivity.this , "Film rimosso dalla lista dei film da vedere.", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MovieDetailActivity.this , "Film rimosso dalla lista dei film da vedere", Toast.LENGTH_SHORT).show();
                                                         }else{
                                                             OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses_active);
                                                             stato_V = true;
                                                         }
                                                     }else{
-                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }else{
-                                            Toast.makeText(MovieDetailActivity.this, "Rimozione dalla lista dei film da vedere fallita.",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Rimozione dalla lista dei film da vedere fallita",Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(MovieDetailActivity.this, "Impossibile rimuovere dalla lista dei film da vedere.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MovieDetailActivity.this, "Impossibile rimuovere dalla lista dei film da vedere",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
@@ -514,7 +514,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                     if(InserisciTitolo.length() > 0 ){
                                         int camposelezionato = visibility.getCheckedRadioButtonId();
                                         if (camposelezionato == -1) {
-                                            Toast.makeText(MovieDetailActivity.this, "Seleziona un campo di visibilità.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Seleziona un campo di visibilità", Toast.LENGTH_SHORT).show();
                                         }else{
                                             switch (camposelezionato){
                                                 case R.id.solo_amici:
@@ -562,11 +562,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                                             Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                                         }
                                                                                                                     }else {
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
                                                                                                                 }
                                                                                                                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                                                 }
                                                                                                             });
                                                                                                         } else{
@@ -585,11 +585,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                                             Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                                         }
                                                                                                                     }else{
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
                                                                                                                 }
                                                                                                                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                                                 }
                                                                                                             });
                                                                                                         }
@@ -601,16 +601,16 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                     }
                                                                                                 }else{
                                                                                                     aggiungiA.setSelectedIndex(0);
-                                                                                                    Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                    Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita",Toast.LENGTH_SHORT).show();
                                                                                                 }
                                                                                             }else{
                                                                                                 aggiungiA.setSelectedIndex(0);
-                                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film.",Toast.LENGTH_SHORT).show();
+                                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film",Toast.LENGTH_SHORT).show();
                                                                                             }
                                                                                         }
                                                                                         @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                                                                             aggiungiA.setSelectedIndex(0);
-                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                         }
                                                                                     });
                                                                                 }else {
@@ -619,12 +619,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                 }
                                                                             }else{
                                                                                 aggiungiA.setSelectedIndex(0);
-                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente.",Toast.LENGTH_SHORT).show();
+                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente",Toast.LENGTH_SHORT).show();
                                                                             }
                                                                         }
                                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
                                                                             aggiungiA.setSelectedIndex(0);
-                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     });
                                                                 }else {
@@ -633,12 +633,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                 }
                                                             }else{
                                                                 aggiungiA.setSelectedIndex(0);
-                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente.",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente",Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
                                                             aggiungiA.setSelectedIndex(0);
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                                     CreaLista.dismiss();
@@ -688,11 +688,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                                             Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                                         }
                                                                                                                     }else {
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
                                                                                                                 }
                                                                                                                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                                                 }
                                                                                                             });
                                                                                                         } else{
@@ -711,11 +711,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                                             Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                                         }
                                                                                                                     }else{
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
                                                                                                                 }
                                                                                                                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                                                 }
                                                                                                             });
                                                                                                         }
@@ -727,16 +727,16 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                     }
                                                                                                 }else{
                                                                                                     aggiungiA.setSelectedIndex(0);
-                                                                                                    Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                    Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita",Toast.LENGTH_SHORT).show();
                                                                                                 }
                                                                                             }else{
                                                                                                 aggiungiA.setSelectedIndex(0);
-                                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film.",Toast.LENGTH_SHORT).show();
+                                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film",Toast.LENGTH_SHORT).show();
                                                                                             }
                                                                                         }
                                                                                         @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
                                                                                             aggiungiA.setSelectedIndex(0);
-                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                         }
                                                                                     });
                                                                                 }else {
@@ -745,12 +745,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                 }
                                                                             }else{
                                                                                 aggiungiA.setSelectedIndex(0);
-                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente.",Toast.LENGTH_SHORT).show();
+                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente",Toast.LENGTH_SHORT).show();
                                                                             }
                                                                         }
                                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
                                                                             aggiungiA.setSelectedIndex(0);
-                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     });
                                                                 }else {
@@ -759,12 +759,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                 }
                                                             }else{
                                                                 aggiungiA.setSelectedIndex(0);
-                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente.",Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente",Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
                                                             aggiungiA.setSelectedIndex(0);
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                                     CreaLista.dismiss();
@@ -824,11 +824,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                     Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                 }
                                                                                             }else {
-                                                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                             }
                                                                                         }
                                                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                         }
                                                                                     });
                                                                                 } else{
@@ -847,11 +847,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                     Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                 }
                                                                                             }else{
-                                                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                                                                Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                             }
                                                                                         }
                                                                                         @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                                         }
                                                                                     });
                                                                                 }
@@ -860,14 +860,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                 Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                             }
                                                                         }else{
-                                                                            Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita.",Toast.LENGTH_SHORT).show();
+                                                                            Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita",Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }else{
-                                                                        Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film.",Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film",Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 }
                                                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
                                                         }else{
@@ -876,24 +876,24 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                         }
                                                     }else {
                                                         aggiungiA.setSelectedIndex(0);
-                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita.",Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }else{
                                             aggiungiA.setSelectedIndex(0);
-                                            Toast.makeText(MovieDetailActivity.this, "Recupero attributi fallito.",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Recupero attributi fallito",Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
                                         aggiungiA.setSelectedIndex(0);
-                                        Toast.makeText(MovieDetailActivity.this, "Impossibile recuperare attributi lista.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MovieDetailActivity.this, "Impossibile recuperare attributi lista",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelAttributiLista> call,@NonNull Throwable t) {
-                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -942,14 +942,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                 intent1.putExtra("Valutazione", Valutazione_Media);
                                                 startActivity(intent1);
                                             }else{
-                                                Toast.makeText(MovieDetailActivity.this, "Recupero informazioni dal database fallito.",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(MovieDetailActivity.this, "Recupero informazioni dal database fallito",Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
-                                            Toast.makeText(MovieDetailActivity.this, "Impossibile recuperare informazioni dal database.",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MovieDetailActivity.this, "Impossibile recuperare informazioni dal database",Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override public void onFailure(@NonNull Call<DBModelDettagliCinemates> call,@NonNull Throwable t) {
-                                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 Spoiler.dismiss();

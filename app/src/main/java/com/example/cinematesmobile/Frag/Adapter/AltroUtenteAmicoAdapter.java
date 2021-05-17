@@ -146,14 +146,14 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                 });
                             }
                         }else{
-                            Toast.makeText(activity,"Verifica Fallita.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity,"Verifica Fallita",Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(activity,"Impossibile verificare inserimento emoj.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Impossibile verificare inserimento emoji",Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                    Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -171,14 +171,14 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                         holder.film.setAdapter(movieListAltroUtenteAdapter);
                         movieListAltroUtenteAdapter.notifyDataSetChanged();
                     }else{
-                        Toast.makeText(activity,"Nessun film da mostrare.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Nessun film da mostrare",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(activity,"Impossibile recuperare i film.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Impossibile recuperare i film",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         holder.Like.setOnClickListener(new View.OnClickListener() {

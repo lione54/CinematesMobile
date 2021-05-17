@@ -96,14 +96,14 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                                      if(!(altroUtenteList.isEmpty())){
                                          DettagliAmico(altroUtenteList);
                                      }else{
-                                         Toast.makeText(ActivityProfiloAltroUtente.this, "Nessun dettaglio trovato." , Toast.LENGTH_SHORT).show();
+                                         Toast.makeText(ActivityProfiloAltroUtente.this, "Nessun dettaglio trovato" , Toast.LENGTH_SHORT).show();
                                      }
                                  } else{
-                                     Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile trovare i dettagli." , Toast.LENGTH_SHORT).show();
+                                     Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile trovare i dettagli" , Toast.LENGTH_SHORT).show();
                                  }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelProfiloAltroUtenteResponce> call,@NonNull Throwable t) {
-                                    Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
                                 }
                             });
                     }else{
@@ -116,14 +116,14 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                                     if(!(altroUtenteList.isEmpty())){
                                         DettagliUser(altroUtenteList);
                                     }else{
-                                        Toast.makeText(ActivityProfiloAltroUtente.this, "Nessun dettaglio trovato." , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ActivityProfiloAltroUtente.this, "Nessun dettaglio trovato" , Toast.LENGTH_SHORT).show();
                                     }
                                 } else{
-                                    Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile trovare i dettagli." , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile trovare i dettagli" , Toast.LENGTH_SHORT).show();
                                 }
                             }
                             @Override public void onFailure(@NonNull Call<DBModelProfiloAltroUtenteResponce> call,@NonNull Throwable t) {
-                                Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityProfiloAltroUtente.this, "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

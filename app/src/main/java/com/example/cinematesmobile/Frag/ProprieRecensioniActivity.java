@@ -50,11 +50,11 @@ public class ProprieRecensioniActivity extends AppCompatActivity {
                         Toast.makeText(ProprieRecensioniActivity.this, "Nessuna recensione da mostrare",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(ProprieRecensioniActivity.this, "Impossibile caricare le recensioni.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProprieRecensioniActivity.this, "Impossibile caricare le recensioni",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Throwable t) {
-                Toast.makeText(ProprieRecensioniActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProprieRecensioniActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         PreviouslyRecensioni.setOnClickListener(new View.OnClickListener() {

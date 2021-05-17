@@ -4,8 +4,8 @@
     android:shape="rectangle">
 
     <corners android:radius="100dp" />
-    <solid android:color="#b2b200" />
+    <solid android:color="#FF8C00" />
     <stroke
         android:width="1dip"
-        android:color="#b2b200" /> <!-- BORDO -->
+        android:color="#FF8C00" /> <!-- BORDO -->
 </shape>

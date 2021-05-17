@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CinematesMobile"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Frag.CommentiActivity"></activity>
+
+        <activity android:name=".Frag.CommentiActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".Frag.FilmInComuneActivity" />
         <activity android:name=".Search.VisualizzaAmiciInComuneActivity" />
         <activity

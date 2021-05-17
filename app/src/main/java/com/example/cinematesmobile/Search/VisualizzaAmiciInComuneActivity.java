@@ -48,11 +48,11 @@ public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
                     mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, Username, Proprietario);
                     ListaAmici.setAdapter(mieiAmiciAdapter);
                 }else{
-                    Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelUserAmiciResponce> call,@NonNull Throwable t) {
-                Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         PreviouslyAmici.setOnClickListener(new View.OnClickListener() {

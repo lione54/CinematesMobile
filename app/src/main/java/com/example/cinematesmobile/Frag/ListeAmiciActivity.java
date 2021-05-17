@@ -50,14 +50,14 @@ public class ListeAmiciActivity extends AppCompatActivity {
                         mieiAmiciAdapter = new MieiAmiciAdapter(ListeAmiciActivity.this, UtentiAmici, Username, Proprietario);
                         ListaAmici.setAdapter(mieiAmiciAdapter);
                     }else{
-                        Toast.makeText(ListeAmiciActivity.this, "Non sono presenti amici.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListeAmiciActivity.this, "Non sono presenti amici",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(ListeAmiciActivity.this, "Impossibile caricare lista amici.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListeAmiciActivity.this, "Impossibile caricare lista amici",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelUserAmiciResponce> call,@NonNull Throwable t) {
-                Toast.makeText(ListeAmiciActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListeAmiciActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         PreviouslyAmici.setOnClickListener(new View.OnClickListener() {

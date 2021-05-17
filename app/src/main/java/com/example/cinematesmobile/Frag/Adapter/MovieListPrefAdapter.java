@@ -71,11 +71,11 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                 if(movieDetailResponse != null){
                     prepareMovieDetails(movieDetailResponse, holder);
                 }else{
-                    Toast.makeText(mCtx,"Nessun dettaglio trovato.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mCtx,"Nessun dettaglio trovato",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<MovieDetail> call,@NonNull Throwable t) {
-                Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mCtx,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         String titoloMod = data.getTitolofilm().replaceAll("'", "/");
@@ -95,14 +95,14 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                         }
                         holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
                     }else {
-                        Toast.makeText(mCtx,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mCtx,"Nessuna media voto trovata",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(mCtx,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mCtx,"Impossibile trovare valutazione media",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call,@NonNull Throwable t) {
-                Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mCtx,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         holder.RimuoviDaLista.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                         }
                     }
                     @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                        Toast.makeText(mCtx,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mCtx,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -149,10 +149,10 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                 String gen = geners.replaceAll("\\]","");
                 holder.Generi.setText(gen);
             } else {
-                holder.Generi.setText("Non Disponibile.");
+                holder.Generi.setText("Non Disponibile");
             }
         }else {
-            holder.Generi.setText("Non Disponibile.");
+            holder.Generi.setText("Non Disponibile");
         }
         if(movieDetailResponse.getOverview() != null){
             if(movieDetailResponse.getOverview().length() > 0) {
@@ -161,10 +161,10 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                 stringBuilder.append(Trama).append("...\nContinuare a leggere.");
                 holder.Trama.setText(stringBuilder);
             }else{
-                holder.Trama.setText("Non disponibile.");
+                holder.Trama.setText("Non disponibile");
             }
         }else{
-            holder.Trama.setText("Non disponibile.");
+            holder.Trama.setText("Non disponibile");
         }
         if(movieDetailResponse.getVote_average() > 0){
             String Punteggio = Float.toString(movieDetailResponse.getVote_average());

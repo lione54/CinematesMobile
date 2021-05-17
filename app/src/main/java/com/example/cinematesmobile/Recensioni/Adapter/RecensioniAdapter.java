@@ -162,14 +162,14 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                                 intent2.putExtra("Id_Recensione", String.valueOf(dbModelRecensioni.getId_Recensione()));
                                 activity.startActivity(intent2);
                             }else{
-                                Toast.makeText(activity, "Hai già segnalato questa recensione.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, "Hai già segnalato questa recensione", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(activity, "Impossibile verificare se hai già degnalato questa recensione.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Impossibile verificare se hai già segnalato questa recensione", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                        Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

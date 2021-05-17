@@ -118,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="0"
+                    android:textColor="@color/ColorCineBlack"
                     android:layout_gravity="center"
                     android:textStyle="bold"
                     android:textSize="20sp"/>
@@ -147,6 +148,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_gravity="center"
                     android:text="0"
+                    android:textColor="@color/ColorCineBlack"
                     android:textStyle="bold"
                     android:textSize="20sp"/>
                 </LinearLayout>
@@ -154,18 +156,19 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/commenti"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/ColorCineOrange"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:backgroundTint="@color/ColorCineOrange"
                 android:textColor="@color/ColorCineBlack"
                 android:textStyle="bold"
+                style="?android:attr/borderlessButtonStyle"
                 android:textSize="15sp"
                 android:text="@string/vai_ai_commenti"
                 android:fontFamily="@font/maven_pro"
-                android:drawableEnd="@drawable/ic_comment"
-                android:layout_marginEnd="20dp"/>
+                android:drawableEnd="@drawable/ic_comment" />
 
             </LinearLayout>
+
         </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

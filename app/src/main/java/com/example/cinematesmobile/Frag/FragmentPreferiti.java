@@ -111,11 +111,11 @@ public class FragmentPreferiti extends Fragment {
                         }
                         listePresenti.attachDataSource(listefilmutente);
                     }else{
-                        Toast.makeText(getContext(), "Nessuna Lista Da Mostrare", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Nessuna lista da mostrare", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
-                    Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                 }
             });
         }else{
@@ -130,11 +130,11 @@ public class FragmentPreferiti extends Fragment {
                         }
                         listePresenti.attachDataSource(listefilmutente);
                     }else{
-                        Toast.makeText(getContext(), "Nessuna Lista Da Mostrare.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Nessuna lista da mostrare", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
-                    Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -183,14 +183,14 @@ public class FragmentPreferiti extends Fragment {
                                     recyclerViewPreferiti.setLayoutAnimation(controller);
                                     recyclerViewPreferiti.scheduleLayoutAnimation();
                                 }else{
-                                    Toast.makeText(getContext(), "La sua lista al momento è vuota.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "La sua lista al momento è vuota",Toast.LENGTH_SHORT).show();
                                 }
                             }else{
-                                Toast.makeText(getContext(), "Impossibile Mostrare la Lista.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Impossibile mostrare la lista",Toast.LENGTH_SHORT).show();
                             }
                         }
                         @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
-                            Toast.makeText(getContext(), "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

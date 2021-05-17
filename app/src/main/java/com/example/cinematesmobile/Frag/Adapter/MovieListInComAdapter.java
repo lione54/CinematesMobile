@@ -69,11 +69,11 @@ public class MovieListInComAdapter extends RecyclerView.Adapter<MovieListInComAd
                 if(movieDetailResponse != null){
                     prepareMovieDetails(movieDetailResponse, holder);
                 }else{
-                    Toast.makeText(activity,"Nessun dettaglio trovato.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Nessun dettaglio trovato",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<MovieDetail> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         String titoloMod = data.getTitolofilm().replaceAll("'", "/");
@@ -93,14 +93,14 @@ public class MovieListInComAdapter extends RecyclerView.Adapter<MovieListInComAd
                         }
                         holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
                     }else {
-                        Toast.makeText(activity,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Nessuna media voto trovata",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(activity,"Impossibile trovare valutazione media.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,"Impossibile trovare valutazione media",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelVotiResponse> call,@NonNull Throwable t) {
-                Toast.makeText(activity,"Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +114,7 @@ public class MovieListInComAdapter extends RecyclerView.Adapter<MovieListInComAd
     }
 
     private void prepareMovieDetails(MovieDetail movieDetailResponse, MovieListInComAdapter.DataHolder holder) {
-        String Disponibilita = "Non Disponibile.";
+        String Disponibilita = "Non Disponibile";
         String SV = "SV";
         if(movieDetailResponse.getGenres() != null){
             if (movieDetailResponse.getGenres().size() > 0) {

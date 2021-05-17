@@ -8,8 +8,13 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cinematesmobile.Frag.Adapter.CommentiAdapter;
@@ -135,7 +140,25 @@ public class CommentiActivity extends AppCompatActivity {
                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
                     Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                 }
+            });/*
+            ScriviCommento.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    ScriviCommento.setTranslationY(-900f);
+                    return false;
+                }
             });
+            ScriviCommento.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
+                        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(ScriviCommento.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                    ScriviCommento.setTranslationY(0f);
+                    return false;
+                }
+            });*/
             InviaCommento.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

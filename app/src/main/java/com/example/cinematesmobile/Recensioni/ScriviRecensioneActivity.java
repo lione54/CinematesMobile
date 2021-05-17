@@ -78,18 +78,18 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                         if(dbModelResponseToInsert != null) {
                                             if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo." , Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo" , Toast.LENGTH_SHORT).show();
                                                 MettiZero.dismiss();
                                                 onBackPressed();
                                             }else{
-                                                Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
-                                            Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                        Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -107,17 +107,17 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                 if(dbModelResponseToInsert != null) {
                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                        Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo." , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo" , Toast.LENGTH_SHORT).show();
                                         onBackPressed();
                                     }else{
-                                        Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
                                     }
                                 }else{
-                                    Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recenisone." , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
                                 }
                             }
                             @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

@@ -77,14 +77,14 @@ public class RecensioniActivity extends AppCompatActivity {
                         recensioniAdapter = new RecensioniAdapter(RecensioniActivity.this, recensioniList, Utente);
                         RecensioniScritte.setAdapter(recensioniAdapter);
                     }else{
-                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecensioniActivity.this, "Nessun utente ha recensito questo film",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecensioniActivity.this, "Impossibile caricare le recensioni",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Throwable t) {
-                Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecensioniActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
         Glide.with(RecensioniActivity.this).load(Poster).into(PosterFilmRece);
@@ -111,25 +111,25 @@ public class RecensioniActivity extends AppCompatActivity {
                                                 intent2.putExtra("Foto_Profilo", fotoProfilos.get(0).getFotoProfilo());
                                                 startActivity(intent2);
                                             }else{
-                                                Toast.makeText(RecensioniActivity.this , "Ha già inserito la recensione per questo film.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(RecensioniActivity.this , "Ha già inserito la recensione per questo film", Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
-                                            Toast.makeText(RecensioniActivity.this , "Impossibile verificare presenza recensione.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RecensioniActivity.this , "Impossibile verificare presenza recensione", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                        Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }else{
-                                Toast.makeText(RecensioniActivity.this , "Impossibile caricare foto profilo.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RecensioniActivity.this , "Impossibile caricare foto profilo", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(RecensioniActivity.this , "Impossibile caricare foto profilo.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RecensioniActivity.this , "Impossibile caricare foto profilo", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override public void onFailure(@NonNull Call<DBModelFotoProfiloResponce> call,@NonNull Throwable t) {
-                        Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecensioniActivity.this , "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

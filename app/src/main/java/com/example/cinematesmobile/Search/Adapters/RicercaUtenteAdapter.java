@@ -89,11 +89,11 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                             holder.InviaAmicizia.setText("Richiesta già inviata");
                         }
                     }else{
-                        Toast.makeText(activity, "Impossibile Verificare Stato Richiesta.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Impossibile verificare stato richiesta", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                    Toast.makeText(activity, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -109,15 +109,15 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
                                 holder.InviaAmicizia.setEnabled(false);
                                 holder.InviaAmicizia.setText("Richiesta inviata");
                             }else{
-                                Toast.makeText(activity, "Invio Richiesta Di Amicizia a " + data.getUsername_Cercato() + " Fallito.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, "Invio richiesta di amicizia a " + data.getUsername_Cercato() + " Fallito.", Toast.LENGTH_LONG).show();
                             }
                         }else{
-                            Toast.makeText(activity, "Impossibile Inviare Richiesta", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, "Impossibile inviare richiesta", Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                        Toast.makeText(activity, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
