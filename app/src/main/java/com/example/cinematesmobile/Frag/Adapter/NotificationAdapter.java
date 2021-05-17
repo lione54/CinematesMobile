@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.example.cinematesmobile.Frag.Model.DBNotificheModelRichiesteAmicizia;
-import com.example.cinematesmobile.Frag.Model.DBNotificheModelSegnalazioni;
+import com.example.cinematesmobile.Frag.Model.DBModelNotifiche;
+import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
+import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,31 +32,28 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Activity activity;
-    private List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList;
-    private List<DBNotificheModelSegnalazioni> segnalazioniList;
-    private int size = 0;
-    private int secondposition = 0;
+    private List<DBModelNotifiche> results;
     private String UserProprietario;
-    private boolean firstitemofsecondlist = true;
     private static int SegnalazioneAccettate = 1;
     private static int SegnalazioneDeclinate = 2;
     private static int AmiciziaInviata = 3;
     private static int AmiciziaAccettata = 4;
-    private static final String ACCURL = "http://192.168.178.48/cinematesdb/AccettaAmicizia.php";
-    private static final String AMURL = "http://192.168.178.48/cinematesdb/DiventaAmico.php";
-    private static final String NAMURL = "http://192.168.178.48/cinematesdb/RifiutaAmicizia.php";
-    private static final String RIMURL = "http://192.168.178.48/cinematesdb/SegnaComeLetto.php";
+    private static int EmojLike = 5;
+    private static int EmojDislike = 6;
+    private static int Commento = 7;
+    private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
-    public NotificationAdapter(Activity activity, List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList, List<DBNotificheModelSegnalazioni> segnalazioniList, String UserProprietario) {
+    public NotificationAdapter(Activity activity, List<DBModelNotifiche> results, String userProprietario) {
         this.activity = activity;
-        this.richiesteAmiciziaList = richiesteAmiciziaList;
-        this.segnalazioniList = segnalazioniList;
-        this.UserProprietario = UserProprietario;
-        this.size = richiesteAmiciziaList.size() + segnalazioniList.size();
+        this.results = results;
+        UserProprietario = userProprietario;
     }
 
     @NonNull @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -66,192 +66,339 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }else if(viewType == SegnalazioneAccettate){
             View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_accettata, parent, false);
             return new DataHolderSegnalzioneAccettata(view);
-        }else{
+        }else if(viewType == SegnalazioneDeclinate){
             View view = LayoutInflater.from(activity).inflate(R.layout.notifica_segnalazione_declinata, parent, false);
-            return new DataHolderegnalazioneDeclinata(view);
+            return new DataHolderSegnalazioneDeclinata(view);
+        }else if(viewType == EmojLike){
+            View view = LayoutInflater.from(activity).inflate(R.layout.notifica_emoj_like, parent, false);
+            return new DataHolderEmojLike(view);
+        }else if(viewType == EmojDislike){
+            View view = LayoutInflater.from(activity).inflate(R.layout.notifica_emoj_dislike, parent, false);
+            return new DataHolderEmojDislike(view);
+        }else{
+            View view = LayoutInflater.from(activity).inflate(R.layout.notifica_commento, parent, false);
+            return new DataHolderCommenti(view);
         }
     }
 
     @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        DBModelNotifiche dbModelNotifiche = results.get(position);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if (getItemViewType(position) == SegnalazioneAccettate){
-            ((DataHolderSegnalzioneAccettata) holder).TitoloFilmSegnalato.setText(segnalazioniList.get(secondposition).getTitoloFilmRecensito());
-            ((DataHolderSegnalzioneAccettata) holder).MotivazioneSegnalazione.setText(segnalazioniList.get(secondposition).getMotivazione());
+            ((DataHolderSegnalzioneAccettata) holder).TitoloFilmSegnalato.setText(dbModelNotifiche.getTitolo_Film());
+            ((DataHolderSegnalzioneAccettata) holder).MotivazioneSegnalazione.setText(dbModelNotifiche.getMotivazione());
             ((DataHolderSegnalzioneAccettata) holder).RimuoviSegnAccettata.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    SegnaNotificaLetta(UserProprietario, segnalazioniList.get(secondposition).getIdSegnalazione());
-                    segnalazioniList.remove(secondposition);
-                    notifyItemRemoved(position);
-                    notifyItemRangeRemoved(secondposition, segnalazioniList.size());
-                    size -= 1;
+                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Toast.makeText(activity, "Notifica rimossa.", Toast.LENGTH_SHORT).show();
+                                    results.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeRemoved(position, results.size());
+                                }else{
+                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }else if(getItemViewType(position) == SegnalazioneDeclinate){
-            ((DataHolderegnalazioneDeclinata) holder).TitoloFilmSegnalatoDeclinato.setText(segnalazioniList.get(secondposition).getTitoloFilmRecensito());
-            ((DataHolderegnalazioneDeclinata) holder).MotivazioneSegnalazioneDeclinata.setText(segnalazioniList.get(secondposition).getMotivazione());
-            ((DataHolderegnalazioneDeclinata) holder).RimuoviSegnDeclinata.setOnClickListener(new View.OnClickListener() {
+            ((DataHolderSegnalazioneDeclinata) holder).TitoloFilmSegnalatoDeclinato.setText(dbModelNotifiche.getTitolo_Film());
+            ((DataHolderSegnalazioneDeclinata) holder).MotivazioneSegnalazioneDeclinata.setText(dbModelNotifiche.getMotivazione());
+            ((DataHolderSegnalazioneDeclinata) holder).RimuoviSegnDeclinata.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    SegnaNotificaLetta(UserProprietario, segnalazioniList.get(secondposition).getIdSegnalazione());
-                    segnalazioniList.remove(secondposition);
+                    results.remove(position);
                     notifyItemRemoved(position);
-                    notifyItemRangeRemoved(secondposition, segnalazioniList.size());
-                    size -= 1;
+                    notifyItemRangeRemoved(position, results.size());
                 }
             });
         } else if(getItemViewType(position) == AmiciziaInviata){
-            if(richiesteAmiciziaList.get(position).getFoto().equals("null")){
-                ((DataHolderInvia) holder).ImmagineInvioRichiesta.setImageResource(R.drawable.ic_baseline_person_24);
+            if(results.get(position).getFoto_Profilo() != null){
+                Glide.with(activity).load(dbModelNotifiche.getFoto_Profilo()).into(((DataHolderInvia) holder).ImmagineInvioRichiesta);
             }else{
-                Glide.with(activity).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderInvia) holder).ImmagineInvioRichiesta);
+                ((DataHolderInvia) holder).ImmagineInvioRichiesta.setImageResource(R.drawable.ic_baseline_person_24_orange);
             }
-            ((DataHolderInvia) holder).UserInvioRichiesta.setText(richiesteAmiciziaList.get(position).getAmicoDi());
+            ((DataHolderInvia) holder).UserInvioRichiesta.setText(dbModelNotifiche.getUser_che_fa_azione());
             ((DataHolderInvia) holder).AccettaRichiesta.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    AccettaRichiesta(richiesteAmiciziaList.get(position).getUtente(),richiesteAmiciziaList.get(position).getAmicoDi());
-                    richiesteAmiciziaList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeRemoved(position, richiesteAmiciziaList.size());
-                    size -= 1;
+                    Call<DBModelResponseToInsert> accettaAmicoCall = retrofitServiceDBInterno.AccettaAmicizia(UserProprietario, dbModelNotifiche.getUser_che_fa_azione());
+                    accettaAmicoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                            if(dbModelResponseToInsert != null){
+                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                    Toast.makeText(activity, "Richiesta accettata.", Toast.LENGTH_SHORT).show();
+                                                    results.remove(position);
+                                                    notifyItemRemoved(position);
+                                                    notifyItemRangeRemoved(position, results.size());
+                                                }else{
+                                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }else {
+                                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }else{
+                                    Toast.makeText(activity, "Accettazione richiesta fallito.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile accettare richiesta.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
             ((DataHolderInvia) holder).RifiutaRichiesta.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    RifiutaRichiesta(richiesteAmiciziaList.get(position).getUtente(),richiesteAmiciziaList.get(position).getAmicoDi());
-                    richiesteAmiciziaList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeRemoved(position, richiesteAmiciziaList.size());
-                    size -= 1;
+                    Call<DBModelResponseToInsert> rifiutaAmiciziaCall = retrofitServiceDBInterno.RifiutaAmicizia(UserProprietario, dbModelNotifiche.getUser_che_fa_azione());
+                    rifiutaAmiciziaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                            if(dbModelResponseToInsert != null){
+                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                    Toast.makeText(activity, "Richiesta rifiutata.", Toast.LENGTH_SHORT).show();
+                                                    results.remove(position);
+                                                    notifyItemRemoved(position);
+                                                    notifyItemRangeRemoved(position, results.size());
+                                                }else{
+                                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }else {
+                                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }else{
+                                    Toast.makeText(activity, "Rifiuto richiesta fallito.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile rifiutare richiesta.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }else if (getItemViewType(position) == AmiciziaAccettata){
-            if(richiesteAmiciziaList.get(position).getFoto().equals("null")){
-                ((DataHolderAccettata) holder).ImmagineRichiestaAccettata.setImageResource(R.drawable.ic_baseline_person_24);
+            if(dbModelNotifiche.getFoto_Profilo() != null){
+                Glide.with(activity).load(dbModelNotifiche.getFoto_Profilo()).into(((DataHolderAccettata) holder).ImmagineRichiestaAccettata);
             }else{
-                Glide.with(activity).load(richiesteAmiciziaList.get(position).getFoto()).into(((DataHolderAccettata) holder).ImmagineRichiestaAccettata);
+                ((DataHolderAccettata) holder).ImmagineRichiestaAccettata.setImageResource(R.drawable.ic_baseline_person_24_orange);
             }
-            ((DataHolderAccettata) holder).UserRichiestaAccettata.setText(richiesteAmiciziaList.get(position).getAmicoDi());
+            ((DataHolderAccettata) holder).UserRichiestaAccettata.setText(dbModelNotifiche.getUser_che_fa_azione());
             ((DataHolderAccettata) holder).RimuoviNotifica.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    DiventaAmico(richiesteAmiciziaList.get(position).getUtente(),richiesteAmiciziaList.get(position).getAmicoDi());
-                    richiesteAmiciziaList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeRemoved(position, richiesteAmiciziaList.size());
-                    size -= 1;
+                    Call<DBModelResponseToInsert> diventaAmicoCall = retrofitServiceDBInterno.DiventaAmico(UserProprietario, dbModelNotifiche.getUser_che_fa_azione());
+                    diventaAmicoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Toast.makeText(activity, "Notifica rimossa.", Toast.LENGTH_SHORT).show();
+                                    results.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeRemoved(position, results.size());
+                                }else{
+                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }else if (getItemViewType(position) == EmojLike){
+            if(dbModelNotifiche.getFoto_Profilo() != null){
+                Glide.with(activity).load(dbModelNotifiche.getFoto_Profilo()).into(((DataHolderEmojLike) holder).ImmagineEmojLike);
+            }else{
+                ((DataHolderEmojLike) holder).ImmagineEmojLike.setImageResource(R.drawable.ic_baseline_person_24_orange);
+            }
+            ((DataHolderEmojLike) holder).UserEmojLike.setText(dbModelNotifiche.getUser_che_fa_azione());
+            if(results.get(position).getQuale_post().equals("Lista")) {
+                String riga1 = "ha messo like alla tua lista di nome ";
+                String riga2 = dbModelNotifiche.getArgomento_notifica() + ".";
+                ((DataHolderEmojLike) holder).ACosaHaMessoEmojLike.setText(riga1);
+                ((DataHolderEmojLike) holder).TitoloEmojLike.setText(riga2);
+            }else if(results.get(position).getQuale_post().equals("Recensioni")){
+                String riga1 = "ha messo like alla tua recensione del film ";
+                String riga2 =  dbModelNotifiche.getArgomento_notifica() + ".";
+                ((DataHolderEmojLike) holder).ACosaHaMessoEmojLike.setText(riga1);
+                ((DataHolderEmojLike) holder).TitoloEmojLike.setText(riga2);
+            }
+            ((DataHolderEmojLike) holder).RimuoviNotifica.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Toast.makeText(activity, "Notifica rimossa.", Toast.LENGTH_SHORT).show();
+                                    results.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeRemoved(position, results.size());
+                                }else{
+                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }else if (getItemViewType(position) == EmojDislike){
+            if(dbModelNotifiche.getFoto_Profilo() != null){
+                Glide.with(activity).load(dbModelNotifiche.getFoto_Profilo()).into(((DataHolderEmojDislike) holder).ImmagineEmojDislike);
+            }else{
+                ((DataHolderEmojDislike) holder).ImmagineEmojDislike.setImageResource(R.drawable.ic_baseline_person_24_orange);
+            }
+            ((DataHolderEmojDislike) holder).UserEmojDislike.setText(results.get(position).getUser_che_fa_azione());
+            if(dbModelNotifiche.getQuale_post().equals("Lista")) {
+                String riga1 = "ha messo dislike alla tua lista di nome ";
+                String riga2 = dbModelNotifiche.getArgomento_notifica() + ".";
+                ((DataHolderEmojDislike) holder).ACosaHaMessoEmojDislike.setText(riga1);
+                ((DataHolderEmojDislike) holder).TitoloEmojDislike.setText(riga2);
+            }else if(dbModelNotifiche.getQuale_post().equals("Recensione")){
+                String riga1 = "ha messo dislike alla tua recensione del film ";
+                String riga2 =  results.get(position).getArgomento_notifica() + ".";
+                ((DataHolderEmojDislike) holder).ACosaHaMessoEmojDislike.setText(riga1);
+                ((DataHolderEmojDislike) holder).TitoloEmojDislike.setText(riga2);
+            }
+            ((DataHolderEmojDislike) holder).RimuoviNotifica.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Toast.makeText(activity, "Notifica rimossa.", Toast.LENGTH_SHORT).show();
+                                    results.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeRemoved(position, results.size());
+                                }else{
+                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }else if (getItemViewType(position) == Commento){
+            if(dbModelNotifiche.getFoto_Profilo() != null){
+                Glide.with(activity).load(dbModelNotifiche.getFoto_Profilo()).into(((DataHolderCommenti) holder).ImmagineCommento);
+            }else{
+                ((DataHolderCommenti) holder).ImmagineCommento.setImageResource(R.drawable.ic_baseline_person_24_orange);
+            }
+            ((DataHolderCommenti) holder).UserCommento.setText(results.get(position).getUser_che_fa_azione());
+            if(dbModelNotifiche.getQuale_post().equals("Lista")) {
+                String riga1 = "ha commentato la tua lista di nome";
+                String riga2 = dbModelNotifiche.getArgomento_notifica() + ".";
+                ((DataHolderCommenti) holder).CosaHaCommentato.setText(riga1);
+                ((DataHolderCommenti) holder).TitolocosahaCommentato.setText(riga2);
+            }else if(dbModelNotifiche.getQuale_post().equals("Recensioni")){
+                String riga1 = "ha commentato la tua recensione del film ";
+                String riga2 = dbModelNotifiche.getArgomento_notifica() + ".";
+                ((DataHolderCommenti) holder).CosaHaCommentato.setText(riga1);
+                ((DataHolderCommenti) holder).TitolocosahaCommentato.setText(riga2);
+            }
+            ((DataHolderCommenti) holder).RimuoviNotifica.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Toast.makeText(activity, "Notifica rimossa.", Toast.LENGTH_SHORT).show();
+                                    results.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeRemoved(position, results.size());
+                                }else{
+                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }
     }
 
-    private void SegnaNotificaLetta(String userProprietario, Integer idSegnalazione) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, RIMURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(activity, "Notifica rimossa", Toast.LENGTH_LONG).show();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("UserProprietario", userProprietario);
-                params.put("IdSegnalazione", String.valueOf(idSegnalazione));
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
-    }
-
-    private void DiventaAmico(String utente, String amicoDi) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AMURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(activity, "Notifica rimossa", Toast.LENGTH_LONG).show();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("UserProprietario", utente);
-                params.put("UserAmico", amicoDi);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
-    }
-
-    private void RifiutaRichiesta(String utente, String amicoDi) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, NAMURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(activity, "Richiesta rifiutata", Toast.LENGTH_LONG).show();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("UserProprietario", utente);
-                params.put("UserAmico", amicoDi);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
-    }
-
-    private void AccettaRichiesta(String utente, String amicoDi) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, ACCURL, new com.android.volley.Response.Listener<String>() {
-            @Override public void onResponse(String response){
-                Toast.makeText(activity, "Richiesta accettata", Toast.LENGTH_LONG).show();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity , error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @NotNull @Override protected Map<String, String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("UserProprietario", utente);
-                params.put("UserAmico", amicoDi);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(activity);
-        requestQueue.add(stringRequest);
-    }
-
     @Override public int getItemCount() {
-        return size;
+        return results.size();
     }
 
     @Override public int getItemViewType(int position) {
-        if (position > (richiesteAmiciziaList.size() - 1)) {
-            if (firstitemofsecondlist){
-                firstitemofsecondlist = false;
-                secondposition = 0;
-                secondposition = secondposition + (position - richiesteAmiciziaList.size());
+        if (results.get(position).getTipo_Notifica().equals("Like") || results.get(position).getTipo_Notifica().equals("Dislike")) {
+            if(results.get(position).getTipo_Notifica().equals("Like")){
+                return EmojLike;
             }else{
-                if (position != richiesteAmiciziaList.size()) {
-                    firstitemofsecondlist = true;
-                    secondposition = 0;
-                    secondposition = secondposition + (position - richiesteAmiciziaList.size());
-                }
+                return EmojDislike;
             }
-            if(segnalazioniList.get(secondposition).getStato().equals("Accettata")){
-                return SegnalazioneAccettate;
+        }else if (results.get(position).getTipo_Notifica().equals("Commento")){
+                return Commento;
+        }else if(results.get(position).getTipo_Notifica().equals("Richiesta")){
+            return AmiciziaInviata;
+        }else if(results.get(position).getTipo_Notifica().equals("Accettata")){
+            return AmiciziaAccettata;
+        }else{
+            if(results.get(position).getTipo_Notifica().equals("Segnalazione") && results.get(position).getArgomento_notifica().equals("Accettata")){
+                    return SegnalazioneAccettate;
             }else{
                 return SegnalazioneDeclinate;
-            }
-        }else{
-            if (richiesteAmiciziaList.get(position).getStatoRichiesta().equals("Accettata")){
-                return AmiciziaAccettata;
-            }else{
-                return AmiciziaInviata;
             }
         }
     }
@@ -298,16 +445,64 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public class DataHolderegnalazioneDeclinata extends RecyclerView.ViewHolder{
+    public class DataHolderSegnalazioneDeclinata extends RecyclerView.ViewHolder{
 
         public AppCompatTextView TitoloFilmSegnalatoDeclinato, MotivazioneSegnalazioneDeclinata;
         public AppCompatImageView RimuoviSegnDeclinata;
 
-        public DataHolderegnalazioneDeclinata(@NonNull View itemView) {
+        public DataHolderSegnalazioneDeclinata(@NonNull View itemView) {
             super(itemView);
             TitoloFilmSegnalatoDeclinato = itemView.findViewById(R.id.titolofilm_segnalato_declinato);
             MotivazioneSegnalazioneDeclinata = itemView.findViewById(R.id.motivazione_segnalazione_declinata);
             RimuoviSegnDeclinata = itemView.findViewById(R.id.rimuovi_notifica_segnalazione_declinata);
+        }
+    }
+
+    public class DataHolderEmojLike extends RecyclerView.ViewHolder{
+
+        public CircleImageView ImmagineEmojLike;
+        public AppCompatTextView UserEmojLike, ACosaHaMessoEmojLike, TitoloEmojLike;
+        public AppCompatImageView RimuoviNotifica;
+
+        public DataHolderEmojLike(@NonNull View itemView) {
+            super(itemView);
+            ImmagineEmojLike = itemView.findViewById(R.id.image_user_notifica_emoj_like);
+            UserEmojLike = itemView.findViewById(R.id.username_emoj_like);
+            ACosaHaMessoEmojLike = itemView.findViewById(R.id.a_cosa_ha_messo_like);
+            TitoloEmojLike = itemView.findViewById(R.id.titolo_per_like);
+            RimuoviNotifica = itemView.findViewById(R.id.rimuovi_notifica);
+        }
+    }
+
+    public class DataHolderEmojDislike extends RecyclerView.ViewHolder{
+
+        public CircleImageView ImmagineEmojDislike;
+        public AppCompatTextView UserEmojDislike, ACosaHaMessoEmojDislike, TitoloEmojDislike;
+        public AppCompatImageView RimuoviNotifica;
+
+        public DataHolderEmojDislike(@NonNull View itemView) {
+            super(itemView);
+            ImmagineEmojDislike = itemView.findViewById(R.id.image_user_notifica_emoj_dislike);
+            UserEmojDislike = itemView.findViewById(R.id.username_emoj_dislike);
+            ACosaHaMessoEmojDislike = itemView.findViewById(R.id.a_cosa_ha_messo_dislike);
+            TitoloEmojDislike = itemView.findViewById(R.id.titolo_per_dislike);
+            RimuoviNotifica = itemView.findViewById(R.id.rimuovi_notifica);
+        }
+    }
+
+    public class DataHolderCommenti extends RecyclerView.ViewHolder{
+
+        public CircleImageView ImmagineCommento;
+        public AppCompatTextView UserCommento, CosaHaCommentato, TitolocosahaCommentato;
+        public AppCompatImageView RimuoviNotifica;
+
+        public DataHolderCommenti(@NonNull View itemView) {
+            super(itemView);
+            ImmagineCommento = itemView.findViewById(R.id.image_user_notifica_commento);
+            UserCommento = itemView.findViewById(R.id.username_commento);
+            CosaHaCommentato = itemView.findViewById(R.id.cosa_ha_commentato);
+            TitolocosahaCommentato = itemView.findViewById(R.id.titolo_per_commento);
+            RimuoviNotifica = itemView.findViewById(R.id.rimuovi_notifica);
         }
     }
 }

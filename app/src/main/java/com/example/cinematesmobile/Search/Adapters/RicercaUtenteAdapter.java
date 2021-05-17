@@ -99,15 +99,28 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
         }
         holder.InviaAmicizia.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Call<DBModelResponseToInsert> dbModelResponseToInsertCall = retrofitServiceDBInterno.InviaRichiestaAmicizia(data.getUserCheCerca(), data.getUsername_Cercato());
+                Call<DBModelResponseToInsert> dbModelResponseToInsertCall = retrofitServiceDBInterno.InviaRichiestaAmicizia(dataList.get(position).getUserCheCerca(), dataList.get(position).getUsername_Cercato());
                 dbModelResponseToInsertCall.enqueue(new Callback<DBModelResponseToInsert>() {
                     @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                         if(dbModelResponseToInsert != null){
                             if (dbModelResponseToInsert.getStato().equals("Successfull")){
-                                Toast.makeText(activity, "Rchiesta di amicizia inviata a " + data.getUsername_Cercato(), Toast.LENGTH_LONG).show();
-                                holder.InviaAmicizia.setEnabled(false);
-                                holder.InviaAmicizia.setText("Richiesta inviata");
+                                Call<DBModelResponseToInsert> notificaAmiciziaCall = retrofitServiceDBInterno.NotificaRichiestaAmicizia(dataList.get(position).getUsername_Cercato(), dataList.get(position).getUserCheCerca());
+                                notificaAmiciziaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                    @Override public void onResponse(Call<DBModelResponseToInsert> call, Response<DBModelResponseToInsert> response) {
+                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                        if(dbModelResponseToInsert != null) {
+                                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                Toast.makeText(activity, "Rchiesta di amicizia inviata a " + data.getUsername_Cercato(), Toast.LENGTH_LONG).show();
+                                                holder.InviaAmicizia.setEnabled(false);
+                                                holder.InviaAmicizia.setText("Richiesta inviata");
+                                            }
+                                        }
+                                    }
+                                    @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
+                                        Toast.makeText(activity, "Ops Qualcosa è Andato Storto.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }else{
                                 Toast.makeText(activity, "Invio richiesta di amicizia a " + data.getUsername_Cercato() + " Fallito.", Toast.LENGTH_LONG).show();
                             }

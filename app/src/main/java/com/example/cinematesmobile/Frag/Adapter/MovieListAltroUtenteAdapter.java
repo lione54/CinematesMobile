@@ -57,7 +57,8 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         String lingua = "it-IT";
         Glide.with(activity).load(data.getImage()).into(holder.posterImageView);
-        holder.posterTitle.setText(data.getTitolofilm());
+        String titoloMod = data.getTitolofilm().replaceAll("/", "'");
+        holder.posterTitle.setText(titoloMod);
         int id = data.getId_film();
         Call<MovieDetail> movieDetailCall = retrofitServiceFilm.PredndiDettagliFilmTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         movieDetailCall.enqueue(new Callback<MovieDetail>() {
@@ -74,8 +75,7 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
                 Toast.makeText(activity,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
-        String titoloMod = data.getTitolofilm().replaceAll("'", "/");
-        Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
+        Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(data.getTitolofilm());
         votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
             @Override public void onResponse(@NonNull Call<DBModelVotiResponse> call,@NonNull Response<DBModelVotiResponse> response) {
                 DBModelVotiResponse dbModelVotiResponse = response.body();
@@ -113,16 +113,22 @@ public class MovieListAltroUtenteAdapter extends RecyclerView.Adapter<MovieListA
 
     private void prepareMovieDetails(MovieDetail movieDetailResponse, MovieListAltroUtenteAdapter.DataHolder holder) {
         if(movieDetailResponse.getOverview() != null){
-            if(movieDetailResponse.getOverview().length() > 0) {
+            Integer Maxlen = movieDetailResponse.getOverview().length();
+            if(Maxlen > 70) {
                 String Trama = movieDetailResponse.getOverview().substring(0, 70);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(Trama).append("...\nContinuare a leggere.");
                 holder.Trama.setText(stringBuilder);
+            }else if (Maxlen == 0){
+                holder.Trama.setText("Non disponibile.");
             }else{
-                holder.Trama.setText("Non disponibile");
+                String Trama = movieDetailResponse.getOverview().substring(0, 50);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(Trama).append("...\nContinuare a leggere.");
+                holder.Trama.setText(stringBuilder);
             }
         }else{
-            holder.Trama.setText("Non disponibile");
+                holder.Trama.setText("Non disponibile");
         }
         if(movieDetailResponse.getVote_average() > 0){
             String Punteggio = Float.toString(movieDetailResponse.getVote_average());

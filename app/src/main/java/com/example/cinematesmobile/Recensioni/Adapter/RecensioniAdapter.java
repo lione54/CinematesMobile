@@ -207,7 +207,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                                     holder.NumeroLike.setText(String.valueOf(Nlike));
                                     holder.Dislike.setEnabled(false);
                                     holder.Like.setImageResource(R.drawable.ic_like_active);
-                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),  recensioniList.get(position).getTitolo_Film(), "Like", User_Segnalatore);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni",  recensioniList.get(position).getTitolo_Film(), "Like", User_Segnalatore);
                                     notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -264,7 +264,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                                     holder.NuemroDislike.setText(String.valueOf(Ndislike));
                                     holder.Like.setEnabled(false);
                                     holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(), recensioniList.get(position).getTitolo_Film(), "Dislike", User_Segnalatore);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni", recensioniList.get(position).getTitolo_Film(), "Dislike", User_Segnalatore);
                                     notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                             DBModelResponseToInsert dbModelResponseToInsert = response.body();

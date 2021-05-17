@@ -41,8 +41,8 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
     @Override public void onBindViewHolder(@NonNull DataHolder holder, int position) {
         DBModelRecensioni dbModelRecensioni = recensioniList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(dbModelRecensioni.getFoto().equals("null")){
-            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24);
+        if(dbModelRecensioni.getFoto() == null){
+            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(activity).load(dbModelRecensioni.getFoto()).into(holder.FotoProfilo);
         }

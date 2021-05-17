@@ -214,7 +214,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                     holder.NumeroLike.setText(String.valueOf(Nlike));
                                     holder.Dislike.setEnabled(false);
                                     holder.Like.setImageResource(R.drawable.ic_like_active);
-                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(UsernameAltroUtente, dataListeFilms.get(position).getTitoloLista(), "Like", UsernameProprietario);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(UsernameAltroUtente, "Lista", dataListeFilms.get(position).getTitoloLista(), "Like", UsernameProprietario);
                                     notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -271,7 +271,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                     holder.NuemroDislike.setText(String.valueOf(Ndislike));
                                     holder.Like.setEnabled(false);
                                     holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(UsernameAltroUtente, dataListeFilms.get(position).getTitoloLista(), "Dislike", UsernameProprietario);
+                                    Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(UsernameAltroUtente, "Lista", dataListeFilms.get(position).getTitoloLista(), "Dislike", UsernameProprietario);
                                     notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                             DBModelResponseToInsert dbModelResponseToInsert = response.body();

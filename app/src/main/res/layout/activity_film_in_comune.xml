@@ -56,7 +56,7 @@
                 android:textColor="@color/ColorCineOrange"
                 android:textStyle="bold"
                 android:textSize="28sp"
-                android:text="@string/film_in_comune2"
+                android:text="@string/film_in_comunene"
                 android:fontFamily="@font/maven_pro"/>
 
             <androidx.appcompat.widget.AppCompatImageView

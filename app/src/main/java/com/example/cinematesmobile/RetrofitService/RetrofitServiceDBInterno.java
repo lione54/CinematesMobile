@@ -8,6 +8,7 @@ import com.example.cinematesmobile.ModelDBInterno.DBModelDettagliCinemates;
 import com.example.cinematesmobile.ModelDBInterno.DBModelEmojResponde;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFotoProfiloResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelNotificheResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloAltroUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
@@ -190,7 +191,7 @@ public interface RetrofitServiceDBInterno {
 
     @FormUrlEncoded
     @POST("MandaNotificaEmoj.php")
-    Call<DBModelResponseToInsert> NotificaInserimentoEmoj(@Field("UsernameAltroUtente") String UsernameAltroUtente, @Field("Nome_Lista") String Nome_Lista, @Field("Tipo_Reaction") String Tipo_Reaction, @Field("User_Proprietario") String User_Proprietario);
+    Call<DBModelResponseToInsert> NotificaInserimentoEmoj(@Field("UsernameAltroUtente") String UsernameAltroUtente,@Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista, @Field("Tipo_Reaction") String Tipo_Reaction, @Field("User_Proprietario") String User_Proprietario);
 
     @FormUrlEncoded
     @POST("VerificaSeCiSonoCommenti.php")
@@ -203,4 +204,36 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("AggiungiCommento.php")
     Call<DBModelResponseToInsert> ScriviCommento(@Field("testo_commento") String testo_commento, @Field("Chi_ha_Commentato") String Chi_ha_Commentato, @Field("Dove_ha_Inserito_commento") String Dove_ha_Inserito_commento, @Field("quale_post") String quale_post, @Field("Proprietario_Post") String Proprietario_Post);
+
+    @FormUrlEncoded
+    @POST("MandaNotificaCommento.php")
+    Call<DBModelResponseToInsert> NotificaInserimentoCommento(@Field("UsernameAltroUtente") String UsernameAltroUtente,  @Field("Tipo_Reaction") String Tipo_Reaction, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("MandaNotificaRichiestaAmicizia.php")
+    Call<DBModelResponseToInsert> NotificaRichiestaAmicizia(@Field("UsernameAltroUtente") String UsernameAltroUtente, @Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("VerificaSeCiSonoNotifiche.php")
+    Call<DBModelVerifica> VerificaSeCiSonoNotifiche(@Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("PrendiNotificheDaDB.php")
+    Call<DBModelNotificheResponce> PrendiNotificheDaDB(@Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("AccettaAmicizia.php")
+    Call<DBModelResponseToInsert> AccettaAmicizia(@Field("UserProprietario") String User_Proprietario, @Field("UserAmico") String UserAmico);
+
+    @FormUrlEncoded
+    @POST("RifiutaAmicizia.php")
+    Call<DBModelResponseToInsert> RifiutaAmicizia(@Field("UserProprietario") String User_Proprietario, @Field("UserAmico") String UserAmico);
+
+    @FormUrlEncoded
+    @POST("DiventaAmico.php")
+    Call<DBModelResponseToInsert> DiventaAmico(@Field("UserProprietario") String User_Proprietario, @Field("UserAmico") String UserAmico);
+
+    @FormUrlEncoded
+    @POST("SegnaComeLetto.php")
+    Call<DBModelResponseToInsert> SegnaComeLetto(@Field("UserProprietario") String User_Proprietario, @Field("TipoNotifica") String TipoNotifica, @Field("QualePost") String QualePost, @Field("Argomento") String Argomento);
 }
