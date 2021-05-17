@@ -139,25 +139,7 @@ public class CommentiActivity extends AppCompatActivity {
                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
                     Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                 }
-            });/*
-            ScriviCommento.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    ScriviCommento.setTranslationY(-900f);
-                    return false;
-                }
             });
-            ScriviCommento.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
-                        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        in.hideSoftInputFromWindow(ScriviCommento.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                    ScriviCommento.setTranslationY(0f);
-                    return false;
-                }
-            });*/
             InviaCommento.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     if (ScriviCommento.length() > 0) {

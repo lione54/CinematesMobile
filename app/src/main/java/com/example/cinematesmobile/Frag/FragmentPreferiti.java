@@ -237,7 +237,7 @@ public class FragmentPreferiti extends Fragment {
                         Toast.makeText(getContext(), "La sua lista al momento è vuota.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getContext(), "Impossibile Mostrare la Lista.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Impossibile mostrare la Lista.",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelFilmsResponce> call,@NonNull Throwable t) {
