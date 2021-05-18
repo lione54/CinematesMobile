@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import com.example.cinematesmobile.Frag.Adapter.NotificationAdapter;
 import com.example.cinematesmobile.Frag.Model.DBModelNotifiche;
-import com.example.cinematesmobile.Frag.Model.DBNotificheModelRichiesteAmicizia;
-import com.example.cinematesmobile.Frag.Model.DBNotificheModelSegnalazioni;
 import com.example.cinematesmobile.ModelDBInterno.DBModelNotificheResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
@@ -43,8 +41,6 @@ public class FragmentNotifiche extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String NomeUtente;
-    private List<DBNotificheModelRichiesteAmicizia> richiesteAmiciziaList = new ArrayList<>();
-    private List<DBNotificheModelSegnalazioni> segnalazioniList = new ArrayList<>();
     private NotificationAdapter notificationAdapter;
     private RecyclerView notifiche;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;

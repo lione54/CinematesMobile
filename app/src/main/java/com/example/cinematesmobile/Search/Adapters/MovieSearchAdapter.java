@@ -120,7 +120,7 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(Trama).append("...\nContinuare a leggere.");
                 searchViewHolder.Trama.setText(stringBuilder);
-            }else if (Maxlen == 0){
+            }else if (Maxlen >= 0 && Maxlen <= 49){
                 searchViewHolder.Trama.setText("Non disponibile.");
             }else{
                 String Trama = responseResults.getOverview().substring(0, 50);

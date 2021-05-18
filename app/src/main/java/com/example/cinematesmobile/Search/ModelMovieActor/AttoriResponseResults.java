@@ -73,8 +73,12 @@ public class AttoriResponseResults {
     }
 
     public String getProfile_path() {
-        String UrlBase = "https://image.tmdb.org/t/p/w500";
-        return UrlBase + profile_path;
+        if(profile_path != null) {
+            String UrlBase = "https://image.tmdb.org/t/p/w500";
+            return UrlBase + profile_path;
+        }else{
+            return null;
+        }
     }
 
     public void setProfile_path(String profile_path) {

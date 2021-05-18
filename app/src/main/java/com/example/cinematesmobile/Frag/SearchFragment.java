@@ -125,7 +125,7 @@ public class SearchFragment extends Fragment {
                     String query = queryEditText.getText().toString();
                     String lingua = "it-IT";
                     if (query.equals("") || query.equals(" ")) {
-                        Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Scrivi qualcosa.", Toast.LENGTH_SHORT).show();
                     } else {
                         queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
@@ -142,11 +142,11 @@ public class SearchFragment extends Fragment {
                                     recyclerViewRicerca.setLayoutAnimation(controller);
                                     recyclerViewRicerca.scheduleLayoutAnimation();
                                 } else {
-                                    Toast.makeText(getContext(), "Nessuna voce corrisponde ai criteri di ricerca", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Nessuna voce corrisponde ai criteri di ricerca.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             @Override public void onFailure(@NonNull Call<MovieResponse> call,@NonNull Throwable t) {
-                                Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

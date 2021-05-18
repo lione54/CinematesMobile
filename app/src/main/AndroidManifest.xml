@@ -16,10 +16,18 @@
         android:theme="@style/Theme.CinematesMobile"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".Frag.CommentiActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".Frag.FilmInComuneActivity" />
-        <activity android:name=".Search.VisualizzaAmiciInComuneActivity" />
+        <activity android:name=".Log.LoginActivity"
+                  android:screenOrientation="locked"></activity>
+        <activity
+            android:name=".Frag.CommentiActivity"
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Frag.FilmInComuneActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".Search.VisualizzaAmiciInComuneActivity"
+            android:screenOrientation="locked" />
         <activity
             android:name=".Frag.ListeAmiciActivity"
             android:screenOrientation="locked" />
@@ -69,10 +77,6 @@
             android:screenOrientation="locked" />
         <activity
             android:name=".SignIn.LogOutActivitySuccess"
-            android:screenOrientation="locked" />
-        <activity
-            android:name=".Log.ui.login.LoginActivity"
-            android:label="@string/title_activity_login"
             android:screenOrientation="locked" />
         <activity
             android:name=".Main.WelcomeActivity"

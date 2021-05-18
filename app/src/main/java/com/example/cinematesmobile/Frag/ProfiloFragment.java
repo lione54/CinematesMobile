@@ -261,7 +261,9 @@ public class ProfiloFragment extends Fragment {
                             }else if(ConfermaNuovaPass.length() == 0){
                                 ConfermaPass.setError("Inserisci nuova password");
                             }else if(InserisciNuovaPass.length() != ConfermaNuovaPass.length()){
-                                ConfermaPass.setError("La nuova password non corrisponde");
+                                ConfermaPass.setError("La lunghezza della nuova password non corrisponde");
+                            }else if(!(InserisciNuovaPass.getText().toString().equals(ConfermaNuovaPass.getText().toString()))){
+                                ConfermaPass.setError("Le password non corrispondono");
                             }else {
                                 String Tipo = "Password";
                                 Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, InserisciNuovaPass.getText().toString());

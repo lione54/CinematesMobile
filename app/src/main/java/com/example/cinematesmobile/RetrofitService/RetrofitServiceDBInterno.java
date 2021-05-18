@@ -12,9 +12,11 @@ import com.example.cinematesmobile.ModelDBInterno.DBModelNotificheResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloAltroUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelRecuperaUsername;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.ModelDBInterno.DBModelUserAmiciResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVotiResponse;
 
 import retrofit2.Call;
@@ -236,4 +238,32 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("SegnaComeLetto.php")
     Call<DBModelResponseToInsert> SegnaComeLetto(@Field("UserProprietario") String User_Proprietario, @Field("TipoNotifica") String TipoNotifica, @Field("QualePost") String QualePost, @Field("Argomento") String Argomento);
+
+    @FormUrlEncoded
+    @POST("CodVerifica.php")
+    Call<DBModelResponseToInsert> InsertCodVerifica(@Field("EmailProprietario") String EmailProprietario, @Field("CodVerifica") String CodVerifica);
+
+    @FormUrlEncoded
+    @POST("VerificaEmail.php")
+    Call<DBModelVerifica> VerificaEmailInserita(@Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("VerificaPasswd.php")
+    Call<DBModelVerifica> VerificaPasswdInserita(@Field("User_Proprietario") String User_Proprietario, @Field("Passwd") String Passwd);
+
+    @FormUrlEncoded
+    @POST("RecuperaUsername.php")
+    Call<DBModelRecuperaUsername> RecuperaUsername(@Field("User_Proprietario") String User_Proprietario, @Field("Passwd") String Passwd);
+
+    @FormUrlEncoded
+    @POST("VerificaCodiceVerifica.php")
+    Call<DBModelVerifica> VerificaCodiceVerifica(@Field("User_Proprietario") String User_Proprietario, @Field("Cod_Verifica") String Cod_Verifica);
+
+    @FormUrlEncoded
+    @POST("VerificaUsername.php")
+    Call<DBModelVerifica> VerificaUsername(@Field("User_Proprietario") String User_Proprietario);
+
+    @FormUrlEncoded
+    @POST("InserisciUtente.php")
+    Call<DBModelResponseToInsert> InserisciNuovoUtente(@Field("EmailProprietario") String EmailProprietario, @Field("Cod_Verifica") String Cod_Verifica, @Field("Nome") String Nome, @Field("Cognome") String Cognome, @Field("Passwd") String Passwd, @Field("Data_Nascita") String Data_Nascita, @Field("Sesso") String Sesso, @Field("UserName") String UserName);
 }

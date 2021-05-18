@@ -71,7 +71,11 @@ public class AttoriPopularAdapter extends RecyclerView.Adapter<AttoriPopularAdap
         }
 
         public void setPosterImageView(Context context, String Posterurl) {
-            Picasso.with(context).load(Posterurl).into(posterImageView);
+            if(Posterurl != null) {
+                Picasso.with(context).load(Posterurl).into(posterImageView);
+            }else{
+                posterImageView.setImageResource(R.drawable.ic_baseline_person_24_orange);
+            }
         }
     }
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Popup_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ColorCineBlack">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo_popup"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_cinemates"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/maven_pro"
+            android:gravity="center"
+            android:text="@string/le_stato_inviato_un_codice_di_verifica_alla_email_da_lei_inserita_per_poter_continuare_nella_registrazione"
+            android:textAlignment="center"
+            android:textColor="@color/ColorCineOrange"
+            android:textSize="18sp"
+            android:textStyle="bold">
+
+        </androidx.appcompat.widget.AppCompatTextView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ok_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="10dp"
+            android:text="@string/ok_ho_capito"
+            android:textColor="@color/ColorCineOrange" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</LinearLayout>

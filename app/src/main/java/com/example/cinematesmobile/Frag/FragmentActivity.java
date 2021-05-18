@@ -23,7 +23,6 @@ public class FragmentActivity extends AppCompatActivity {
 
     private Bundle bundle = new Bundle();
     private Fragment fragment;
-    private String EmailProprietario = "mattia.golino@gmail.com";
     private String UsernameProprietario;
 
 
@@ -39,7 +38,6 @@ public class FragmentActivity extends AppCompatActivity {
                     case R.id.Profilo:
                         setTitle("Profilo");
                         fragment = new ProfiloFragment();
-                        bundle.putString("Email", EmailProprietario);
                         bundle.putString("Username", UsernameProprietario);
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
@@ -47,7 +45,6 @@ public class FragmentActivity extends AppCompatActivity {
                     case R.id.home_:
                         setTitle("Home");
                         fragment = new HomeFragment();
-                        bundle.putString("Email", EmailProprietario);
                         bundle.putString("UserProprietario", UsernameProprietario);
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
@@ -55,7 +52,6 @@ public class FragmentActivity extends AppCompatActivity {
                     case R.id.toprated_:
                         setTitle("TopRated");
                         fragment = new FragmentPreferiti();
-                        bundle.putString("Email", EmailProprietario);
                         bundle.putString("Username", UsernameProprietario);
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
@@ -63,7 +59,6 @@ public class FragmentActivity extends AppCompatActivity {
                     case R.id.cerca_:
                         setTitle("Ricerca");
                         fragment = new SearchFragment();
-                        bundle.putString("Email", EmailProprietario);
                         bundle.putString("Username", UsernameProprietario);
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
@@ -71,7 +66,6 @@ public class FragmentActivity extends AppCompatActivity {
                     case R.id.notifiche_:
                         setTitle("Notifiche");
                         fragment = new FragmentNotifiche();
-                        bundle.putString("Email", EmailProprietario);
                         bundle.putString("Username", UsernameProprietario);
                         fragment.setArguments(bundle);
                         loadFragment(fragment);

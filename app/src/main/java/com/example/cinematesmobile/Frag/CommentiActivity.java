@@ -245,6 +245,7 @@ public class CommentiActivity extends AppCompatActivity {
                                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                                 if (dbModelResponseToInsert != null) {
                                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                        ScriviCommento.getText().clear();
                                                         recreate();
                                                     }
                                                 }

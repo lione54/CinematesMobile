@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat 
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +10,6 @@
     android:forceDarkAllowed="false"
     tools:context=".SignIn.RegisterFieldsActivity">
 
-    <!-- INIZIO HEADER -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/Header"
         android:layout_width="match_parent"
@@ -40,8 +39,6 @@
             app:srcCompat="@drawable/ic_poltrona" />
     </androidx.appcompat.widget.LinearLayoutCompat>
     <!-- FINE HEADER -->
-
-    <!-- INIZIO CONTAINER -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/Container"
         android:layout_width="match_parent"
@@ -63,7 +60,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:drawableRight="@drawable/ic_baseline_edit_24"
+                android:drawableEnd="@drawable/ic_baseline_edit_24"
                 android:drawableTint="@color/ColorCineWhite"
                 android:textColor="@color/ColorCineWhite"
                 android:inputType="text"/>
@@ -83,7 +80,7 @@
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:drawableRight="@drawable/ic_baseline_create_24"
+                android:drawableEnd="@drawable/ic_baseline_create_24"
                 android:drawableTint="@color/ColorCineWhite"
                 android:textColor="@color/ColorCineWhite"
                 android:inputType="text"/>
@@ -143,19 +140,18 @@
             app:passwordToggleTint="@color/ColorCineWhite"
             android:theme="@style/EditTextPersonalizzati">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/Bday"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:drawableTint="@color/ColorCineWhite"
-            android:drawableEnd="@drawable/ic_baseline_cake_24"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="none"
-            android:textColor="@color/ColorCineWhite"
-            android:textColorHint="@color/ColorCineWhite"
-            android:textSize="18sp" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/Bday"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/ColorCineWhite"
+                android:drawableEnd="@drawable/ic_baseline_cake_24"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="none"
+                android:textColor="@color/ColorCineWhite"
+                android:textColorHint="@color/ColorCineWhite"
+                android:textSize="18sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -180,18 +176,21 @@
                 tools:layout_editor_absoluteY="453dp" />
 
             <RadioButton
+                android:id="@+id/femmina"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/female"
                 android:textColor="@color/ColorCineWhite" />
 
             <RadioButton
+                android:id="@+id/maschio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/male"
                 android:textColor="@color/ColorCineWhite" />
 
             <RadioButton
+                android:id="@+id/altro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/other"
@@ -239,7 +238,8 @@
             android:layout_height="wrap_content"
             android:indeterminate="false"
             android:progress="66"
-            android:theme="@style/ProgressBarStyle" />
+            android:theme="@style/ProgressBarStyle"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
