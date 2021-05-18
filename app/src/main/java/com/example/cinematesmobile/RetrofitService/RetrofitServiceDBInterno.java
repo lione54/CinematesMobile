@@ -93,7 +93,7 @@ public interface RetrofitServiceDBInterno {
 
     @FormUrlEncoded
     @POST("RimuoviDaListeFilm.php")
-    Call<DBModelResponseToInsert> RimuoviFilm(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("User_Proprietario") String User_Proprietario);
+    Call<DBModelResponseToInsert> RimuoviFilm(@Field("Id_Film_Inserito") String Id_Film_Inserito, @Field("User_Proprietario") String User_Proprietario, @Field("Tipo_Lista") String Tipo_Lista);
 
     @FormUrlEncoded
     @POST("PrendiMediaVoti.php")

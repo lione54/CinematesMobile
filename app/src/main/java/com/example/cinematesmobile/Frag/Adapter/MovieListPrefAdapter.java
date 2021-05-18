@@ -107,7 +107,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
         });
         holder.RimuoviDaLista.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Call<DBModelResponseToInsert> rimuoviCall = retrofitServiceDBInterno.RimuoviFilm(String.valueOf(data.getId_film()), User);
+                Call<DBModelResponseToInsert> rimuoviCall = retrofitServiceDBInterno.RimuoviFilm(String.valueOf(data.getId_film()), User, Tipo_lista);
                 rimuoviCall.enqueue(new Callback<DBModelResponseToInsert>() {
                     @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
