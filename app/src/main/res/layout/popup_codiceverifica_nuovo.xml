@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Popup_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ColorCineBlack">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo_popup"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_cinemates"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/maven_pro"
+            android:gravity="center"
+            android:text="@string/le_stato_inviato_un_codice_alla_nuova_email_che_ci_ha_fornito_per_la_verica_della_stessa"
+            android:textAlignment="center"
+            android:textColor="@color/ColorCineOrange"
+            android:textSize="16sp"
+            android:textStyle="bold">
+
+        </androidx.appcompat.widget.AppCompatTextView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextNumber_layout"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/inserisciPIN"
+            app:passwordToggleTint="@color/ColorCineOrange"
+            android:theme="@style/PasswordIni2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextNumber"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left"
+                android:textColor="@color/ColorCineWhite"
+                android:inputType="numberPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ok_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/conferma"
+            android:textColor="@color/ColorCineOrange" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</LinearLayout>

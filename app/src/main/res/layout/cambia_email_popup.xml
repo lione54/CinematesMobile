@@ -38,7 +38,7 @@
                 android:drawableRight="@drawable/ic_baseline_edit_24"
                 android:drawableTint="@color/ColorCineOrange"
                 android:textColor="@color/ColorCineOrange"
-                android:inputType="text"/>
+                android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

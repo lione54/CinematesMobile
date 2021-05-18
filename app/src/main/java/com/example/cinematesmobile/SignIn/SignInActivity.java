@@ -73,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
                             message.setSubject("Codice Per Verifica Email.");
                             message.setText("Benvenuto nuovo utente,\nutilizza il seguente codice per proseguire nella registrazione in Cinemates.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
                             Transport.send(message);
-                            Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica(Email.getText().toString(), CodVer);
+                            Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica("null" ,Email.getText().toString(), CodVer, "Nuovo");
                             codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                 @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();

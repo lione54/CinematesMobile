@@ -207,6 +207,7 @@
     <string name="scrivi_un_commento">Scrivi un commento...</string>
     <string name="le_stato_inviato_un_codice_di_verifica_alla_email_da_lei_inserita_per_poter_continuare_nella_registrazione">Le è stato inviato un codice di verifica alla email da lei inserita per poter continuare nella registrazione.</string>
     <string name="ok_ho_capito">Ok, ho capito</string>
+    <string name="le_stato_inviato_un_codice_alla_nuova_email_che_ci_ha_fornito_per_la_verica_della_stessa">Le è stato inviato un codice alla nuova email che ci ha fornito per la verica.</string>
 
 
 </resources>

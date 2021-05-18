@@ -116,4 +116,12 @@
         <item name="colorControlActivated">@color/ColorCineWhite</item>
     </style>
 
+    <style name="PasswordIni2" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/ColorCineOrange</item>
+        <item name="passwordToggleEnabled">true</item>
+        <item name="hintTextColor">@color/ColorCineOrange</item>
+        <item name="errorTextColor">@color/ColorCineRed</item>
+        <item name="colorControlNormal">@color/ColorCineOrange</item>
+        <item name="colorControlActivated">@color/ColorCineOrange</item>
+    </style>
 </resources>

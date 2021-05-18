@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -32,14 +33,19 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.Frag.Model.DBModelProfiloUtente;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Search.VisualizzaImmaginiActivity;
+import com.example.cinematesmobile.SignIn.ConfirmCodeActivity;
 import com.example.cinematesmobile.SignIn.LogOutActivitySuccess;
+import com.example.cinematesmobile.SignIn.SignInActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -48,6 +54,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
+import java.util.Random;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -87,8 +103,8 @@ public class ProfiloFragment extends Fragment {
     private DatePickerDialog datePickerDialog;
     private AppCompatButton Conferma,Annulla, Scegli;
     private Bundle bundle = new Bundle();
-    private TextInputLayout VecchiaPass, NuovaPass, ConfermaPass;
-    private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass, NuovoAttributo;
+    private TextInputLayout VecchiaPass, NuovaPass, ConfermaPass, NuovoCodiceVer;
+    private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass, NuovoAttributo, CodiceVer;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroListePersonalizzate, NumeroAmici;
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, PasswordUser, DescrizioneUser, DataNascitaUser, SessoUser;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
@@ -600,6 +616,8 @@ public class ProfiloFragment extends Fragment {
         });
         Cambia_Email.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
                 dialogBilderEmail = new AlertDialog.Builder(getContext());
                 final View PopUpViewEmail = getLayoutInflater().inflate(R.layout.cambia_email_popup, null);
                 Conferma = (AppCompatButton) PopUpViewEmail.findViewById(R.id.conferma_button_email);
@@ -618,12 +636,85 @@ public class ProfiloFragment extends Fragment {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
-                                            Fragment fragment = new ProfiloFragment();
-                                            bundle.putString("Email", EmailProprietario);
-                                            bundle.putString("Username", UsernameProprietario);
-                                            fragment.setArguments(bundle);
-                                            loadFragment(fragment);
+                                            int Cod = generateRandom();
+                                            String CodVer = String.valueOf(Cod);
+                                            Properties properties = new Properties();
+                                            properties.put("mail.smtp.auth","true");
+                                            properties.put("mail.smtp.starttls.enable","true");
+                                            properties.put("mail.smtp.host","smtp.gmail.com");
+                                            properties.put("mail.smtp.port","587");
+                                            Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
+                                                @Override protected PasswordAuthentication getPasswordAuthentication() {
+                                                    return new PasswordAuthentication(BuildConfig.Username, BuildConfig.Password);
+                                                }
+                                            });
+                                            try {
+                                                Message message = new MimeMessage(session);
+                                                message.setFrom(new InternetAddress(BuildConfig.Username));
+                                                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(NuovoAttributo.getText().toString()));
+                                                message.setSubject("Codice Per Verifica Email.");
+                                                message.setText("Salve " + UsernameProprietario + ",\nutilizza il seguente codice per verificare la nuova email.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
+                                                Transport.send(message);
+                                                Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica(UsernameProprietario,NuovoAttributo.getText().toString(), CodVer, "Update");
+                                                codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                        if(dbModelResponseToInsert != null){
+                                                            if(dbModelResponseToInsert.getStato().equals("Successfull")){
+                                                                dialogBilderConfermaEmail = new AlertDialog.Builder(getContext());
+                                                                final View PopUpView = getLayoutInflater().inflate(R.layout.popup_codiceverifica_nuovo, null);
+                                                                Conferma = PopUpView.findViewById(R.id.ok_button);
+                                                                CodiceVer= PopUpView.findViewById(R.id.editTextNumber);
+                                                                NuovoCodiceVer= PopUpView.findViewById(R.id.editTextNumber_layout);
+                                                                dialogBilderConfermaEmail.setView(PopUpView);
+                                                                ConfermaCambiaEmail = dialogBilderConfermaEmail.create();
+                                                                ConfermaCambiaEmail.show();
+                                                                Conferma.setOnClickListener(new View.OnClickListener() {
+                                                                    @Override public void onClick(View v) {
+                                                                        if(CodiceVer.getText().length() > 0) {
+                                                                            Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaCodiceVerifica(NuovoAttributo.getText().toString(), CodiceVer.getText().toString());
+                                                                            verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
+                                                                                    DBModelVerifica dbModelVerifica = response.body();
+                                                                                    if(dbModelVerifica != null) {
+                                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                        if (verificaResults.get(0).getCodVerifica() == 1) {
+                                                                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo", Toast.LENGTH_SHORT).show();
+                                                                                            Fragment fragment = new ProfiloFragment();
+                                                                                            bundle.putString("Username", UsernameProprietario);
+                                                                                            fragment.setArguments(bundle);
+                                                                                            loadFragment(fragment);
+                                                                                            ConfermaCambiaEmail.dismiss();
+                                                                                        }else{
+                                                                                            NuovoCodiceVer.setError("Inserisci il codice corretto");
+                                                                                        }
+                                                                                    }else{
+                                                                                        Toast.makeText(getContext(), "Impossibile verificare codice.", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                }
+                                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
+                                                                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            });
+                                                                        }else{
+                                                                            NuovoCodiceVer.setError("Scrivi qui codice verifica");
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }else {
+                                                                Toast.makeText(getContext(), "Inserimento codice verifica fallito.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }else{
+                                                            Toast.makeText(getContext(), "Impossibile inserire codice verifica.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                        Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }catch (MessagingException e){
+                                                Toast.makeText(getContext(), "Impossibile inviare email.", Toast.LENGTH_SHORT).show();
+                                            }
                                             CambiaEmail.dismiss();
                                         }else{
                                             Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
@@ -826,6 +917,11 @@ public class ProfiloFragment extends Fragment {
         transaction.replace(R.id.my_nav_host_fragment,fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public int generateRandom() {
+        Random r = new Random( System.currentTimeMillis() );
+        return 10000 + r.nextInt(99999);
     }
 
 }
