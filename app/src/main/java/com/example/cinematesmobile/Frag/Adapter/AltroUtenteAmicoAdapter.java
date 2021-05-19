@@ -134,7 +134,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                                 Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
                                                 Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
                                             }else {
-                                                Toast.makeText(activity,"Prelievo delle informazioni sulle emoj fallito.",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(activity,"Prelievo delle informazioni sulle emoji fallito.",Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
                                             Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoj.",Toast.LENGTH_SHORT).show();
