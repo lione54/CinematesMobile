@@ -127,16 +127,33 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
                             if(dbModelResponseToInsert != null){
                                 if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
-                                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                    Call<DBModelResponseToInsert> diventaAmicoCall = retrofitServiceDBInterno.DiventaAmico(UserProprietario, dbModelNotifiche.getUser_che_fa_azione());
+                                    diventaAmicoCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                             if(dbModelResponseToInsert != null){
                                                 if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                    Toast.makeText(activity, "Richiesta accettata.", Toast.LENGTH_SHORT).show();
-                                                    results.remove(position);
-                                                    notifyItemRemoved(position);
-                                                    notifyItemRangeRemoved(position, results.size());
+                                                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                                                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                            if(dbModelResponseToInsert != null){
+                                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                    Toast.makeText(activity, "Richiesta accettata.", Toast.LENGTH_SHORT).show();
+                                                                    results.remove(position);
+                                                                    notifyItemRemoved(position);
+                                                                    notifyItemRangeRemoved(position, results.size());
+                                                                }else{
+                                                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }else {
+                                                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
                                                 }else{
                                                     Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
                                                 }
@@ -212,8 +229,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((DataHolderAccettata) holder).UserRichiestaAccettata.setText(dbModelNotifiche.getUser_che_fa_azione());
             ((DataHolderAccettata) holder).RimuoviNotifica.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    Call<DBModelResponseToInsert> diventaAmicoCall = retrofitServiceDBInterno.DiventaAmico(UserProprietario, dbModelNotifiche.getUser_che_fa_azione());
-                    diventaAmicoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
                             if(dbModelResponseToInsert != null){
@@ -381,9 +398,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }else if (results.get(position).getTipo_Notifica().equals("Commento")){
                 return Commento;
         }else if(results.get(position).getTipo_Notifica().equals("Richiesta")){
-            return AmiciziaInviata;
-        }else if(results.get(position).getTipo_Notifica().equals("Accettata")){
-            return AmiciziaAccettata;
+            if(results.get(position).getArgomento_notifica().equals("Accettata")){
+                return AmiciziaAccettata;
+            }else {
+                return AmiciziaInviata;
+            }
         }else{
             if(results.get(position).getTipo_Notifica().equals("Segnalazione") && results.get(position).getArgomento_notifica().equals("Accettata")){
                     return SegnalazioneAccettate;

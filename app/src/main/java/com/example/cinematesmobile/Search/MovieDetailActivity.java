@@ -61,7 +61,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private AppCompatButton Conferma,Annulla, Ok;
     private TextInputEditText InserisciTitolo, InserisciDescrizione;
     private RadioGroup visibility;
-    private Integer id_film;
+    private String id_film;
     private KenBurnsView MovieDetailsImageView;
     private LinearLayoutCompat filmnomeoriginalelayout,filmdatauscitalayout, filmlinguaoriginalelayout, filmtramalayout, FilmImageLayout, filmDetailStatoLayout, filmDetailGenereLayout, filmDetailProduzioneLayout;
     private AppCompatTextView filmnomeoriginale, filmdatauscita,  filmlinguaoriginale,  filmtrama, titolo, filmDetailStato, filmDetailGenere, filmDetailProduzione;
@@ -133,7 +133,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }
                     }else{
                         Toast.makeText(MovieDetailActivity.this, "Liste non trovate",Toast.LENGTH_SHORT).show();
+                        aggiungiA.attachDataSource(listefilm);
                     }
+                    aggiungiA.attachDataSource(listefilm);
                 }
                 @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
                     Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
@@ -154,7 +156,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }
                     }else{
                         Toast.makeText(MovieDetailActivity.this, "Liste non trovate",Toast.LENGTH_SHORT).show();
+                        aggiungiA.attachDataSource(listefilm);
                     }
+                    aggiungiA.attachDataSource(listefilm);
                 }
                 @Override public void onFailure(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Throwable t) {
                     Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
@@ -218,7 +222,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         MovieDetail movieDetailResponse = response.body();
                         if(movieDetailResponse != null){
                             prepareMovieDetails(movieDetailResponse);
-                            id_film = movieDetailResponse.getId();
+                            id_film = String.valueOf(intent.getExtras().getString("id"));
                             stringPoster.append(movieDetailResponse.getPoster_path());
                             stringTitolo.append(movieDetailResponse.getTitle());
                         }else{
@@ -767,6 +771,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                             Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
+                                                    aggiungiA.setSelectedIndex(0);
                                                     CreaLista.dismiss();
                                                     break;
                                             }
@@ -778,8 +783,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                             });
                             Annulla.setOnClickListener(new View.OnClickListener() {
                                 @Override public void onClick(View v) {
-                                    CreaLista.dismiss();
                                     aggiungiA.setSelectedIndex(0);
+                                    CreaLista.dismiss();
                                 }
                             });
                         }else{

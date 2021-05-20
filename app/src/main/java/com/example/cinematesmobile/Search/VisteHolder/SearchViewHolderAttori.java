@@ -27,7 +27,7 @@ public class SearchViewHolderAttori extends RecyclerView.ViewHolder {
         if(Posterurl != null){
             Picasso.with(context).load(Posterurl).into(posterImageView);
         }else{
-            posterImageView.setImageResource(R.drawable.ic_baseline_person_24_orange);
+            posterImageView.setImageResource(R.drawable.ic_director_chair);
         }
     }
 }
