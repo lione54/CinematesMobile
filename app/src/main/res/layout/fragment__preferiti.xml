@@ -131,6 +131,59 @@
 
             </LinearLayout>
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center_vertical"
+                android:text="@string/DescrizioneLista"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="20sp"
+                android:layout_marginEnd="10dp"
+                android:textStyle="bold"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_edit_24"
+                android:background="@android:color/transparent"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center_vertical"
+                android:textAlignment="center"
+                android:text="@string/Descrizione_testo"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:text="@string/vai_ai_commenti"
+                android:drawableEnd="@drawable/ic_comment"
+                android:drawableTint="@color/ColorCineOrange"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView

@@ -57,8 +57,8 @@ public class WelcomeActivity extends AppCompatActivity {
         logo = findViewById(R.id.logo_cinemates);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         Paper.init(this);
-        User = Paper.book().read("UserProprietario");
-        Pass = Paper.book().read("Passwd");
+        //User = Paper.book().read("UserProprietario");
+        //Pass = Paper.book().read("Passwd");
         logo.startAnimation(loadAnimation(WelcomeActivity.this, R.anim.entry_animation));
         final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {
