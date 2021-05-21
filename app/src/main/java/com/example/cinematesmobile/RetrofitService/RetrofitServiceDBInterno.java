@@ -65,7 +65,7 @@ public interface RetrofitServiceDBInterno {
 
     @FormUrlEncoded
     @POST("PrendiRecensioniDaDB.php")
-    Call<DBModelRecensioniResponce> PrendiRecensioni(@Field("Titolo_Film_Recensito") String Titolo_Film_Recensito);
+    Call<DBModelRecensioniResponce> PrendiRecensioni(@Field("Titolo_Film_Recensito") String Titolo_Film_Recensito, @Field("Tipo") String Tipo, @Field("User_Recensore") String User_Recensore);
 
     @FormUrlEncoded
     @POST("PrendiFotoUser.php")

@@ -66,7 +66,7 @@ public class RecensioniActivity extends AppCompatActivity {
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.HORIZONTAL, false));
         String Titolo_Mod = Titolo_film.replaceAll("'", "/");
-        Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod);
+        Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod, "null", "null");
         recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
             @Override public void onResponse(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Response<DBModelRecensioniResponce> response) {
                 DBModelRecensioniResponce dbModelRecensioniResponce = response.body();
@@ -145,7 +145,7 @@ public class RecensioniActivity extends AppCompatActivity {
         super.onResume();
         recensioniList.clear();
         String Titolo_Mod = Titolo_film.replaceAll("'", "/");
-        Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod);
+        Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(Titolo_Mod, "null", "null");
         recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
             @Override public void onResponse(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Response<DBModelRecensioniResponce> response) {
                 DBModelRecensioniResponce dbModelRecensioniResponce = response.body();

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Recensioni.Adapter.RecensioniAdapter;
+import com.example.cinematesmobile.Recensioni.Adapter.RecensioniAdapterPerCommenti;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
@@ -45,7 +47,8 @@ public class CommentiActivity extends AppCompatActivity {
 
     private String UserProprietario, Titololista, AltroUser, TextDescrizione, TipoCorrente, TitoloFilm;
     private AppCompatImageButton Indietro;
-    private AppCompatTextView NomeLista, Descrizione;
+    private AppCompatTextView NomeLista, Descrizione, ScrittaIni;
+    private LinearLayoutCompat Desc;
     private RecyclerView Film, Commenti;
     private MovieListAltroUtenteAdapter movieListAltroUtenteAdapter;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
@@ -53,7 +56,7 @@ public class CommentiActivity extends AppCompatActivity {
     private AppCompatButton InviaCommento;
     private TextInputEditText ScriviCommento;
     private List<DBModelRecensioni> recensioniList = new ArrayList<>();
-    private RecensioniAdapter recensioniAdapter;
+    private RecensioniAdapterPerCommenti recensioniAdapter;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,15 +77,17 @@ public class CommentiActivity extends AppCompatActivity {
         Film = findViewById(R.id.film_altro_utente);
         InviaCommento = findViewById(R.id.invia_commento);
         ScriviCommento = findViewById(R.id.commenta);
+        ScrittaIni = findViewById(R.id.TipoRelativoCommento);
+        Desc = findViewById(R.id.descrizione_lista_altro_user_layout);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        NomeLista.setText(Titololista);
-        Descrizione.setText(TextDescrizione);
         Indietro.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 onBackPressed();
             }
         });
         if(TipoCorrente.equals("Lista")) {
+            NomeLista.setText(Titololista);
+            Descrizione.setText(TextDescrizione);
             Call<DBModelFilmsResponce> filmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(AltroUser, Titololista);
             filmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
                 @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call, @NonNull retrofit2.Response<DBModelFilmsResponce> response) {
@@ -176,7 +181,10 @@ public class CommentiActivity extends AppCompatActivity {
                 }
             });
         }else{
-            Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(TitoloFilm);
+            ScrittaIni.setText("Nome film:");
+            NomeLista.setText(TitoloFilm);
+            Desc.setVisibility(View.GONE);
+            Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(TitoloFilm, "Commento", AltroUser);
             recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
                 @Override public void onResponse(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Response<DBModelRecensioniResponce> response) {
                     DBModelRecensioniResponce dbModelRecensioniResponce = response.body();
@@ -184,7 +192,7 @@ public class CommentiActivity extends AppCompatActivity {
                         recensioniList = dbModelRecensioniResponce.getResults();
                         if(!(recensioniList.isEmpty())){
                             Film.setLayoutManager(new LinearLayoutManager(CommentiActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recensioniAdapter = new RecensioniAdapter(CommentiActivity.this, recensioniList, UserProprietario);
+                            recensioniAdapter = new RecensioniAdapterPerCommenti(CommentiActivity.this, recensioniList, UserProprietario);
                             Film.setAdapter(recensioniAdapter);
                         }else{
                             Toast.makeText(CommentiActivity.this, "Nessun utente ha recensito questo film",Toast.LENGTH_SHORT).show();

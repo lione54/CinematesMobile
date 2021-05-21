@@ -3,6 +3,7 @@ package com.example.cinematesmobile.Frag;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
@@ -22,8 +23,9 @@ import retrofit2.Response;
 
 public class ProprieRecensioniActivity extends AppCompatActivity {
 
-    private String Username;
+    private String Username, Proprietario;
     private RecyclerView MieRecenisoni;
+    private AppCompatTextView SoggettoRecensioni;
     private AppCompatImageButton PreviouslyRecensioni;
     private List<DBModelRecensioni> recensioniList = new ArrayList<>();
     private MieRecensioniAdapter mieRecensioniAdapter;
@@ -33,8 +35,11 @@ public class ProprieRecensioniActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proprie_recensioni);
         Username = getIntent().getExtras().getString("Nome_Utente");
+        Proprietario = getIntent().getExtras().getString("Nome_Proprietario");
         PreviouslyRecensioni = findViewById(R.id.previously_recensioni);
+        SoggettoRecensioni = findViewById(R.id.SoggettoRecensioni);
         MieRecenisoni = findViewById(R.id.mie_recensioni);
+        SoggettoRecensioni.setText(Username);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         Call<DBModelRecensioniResponce> mieRecensioniCall = retrofitServiceDBInterno.PrendiMieRecensioni(Username);
         mieRecensioniCall.enqueue(new Callback<DBModelRecensioniResponce>() {
@@ -44,7 +49,7 @@ public class ProprieRecensioniActivity extends AppCompatActivity {
                     recensioniList = dbModelRecensioniResponce.getResults();
                     if(!(recensioniList.isEmpty())){
                         MieRecenisoni.setLayoutManager(new LinearLayoutManager(ProprieRecensioniActivity.this, LinearLayoutManager.VERTICAL, false));
-                        mieRecensioniAdapter = new MieRecensioniAdapter(ProprieRecensioniActivity.this, recensioniList);
+                        mieRecensioniAdapter = new MieRecensioniAdapter(ProprieRecensioniActivity.this, recensioniList, Username, Proprietario);
                         MieRecenisoni.setAdapter(mieRecensioniAdapter);
                     }else{
                         Toast.makeText(ProprieRecensioniActivity.this, "Nessuna recensione da mostrare",Toast.LENGTH_SHORT).show();

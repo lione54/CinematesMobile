@@ -156,6 +156,20 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         }else{
             DescrizioneUser.setText("Descrizione non inserita dall'user");
         }
+        ImmagineProfilo.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Profilo());
+                startActivity(visualizzaImmagineintent);
+            }
+        });
+        ImmagineCopertina.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Copertina());
+                startActivity(visualizzaImmagineintent);
+            }
+        });
         Call<DBModelDataListeFilmResponce> filmCall = retrofitServiceDBInterno.PrendiFilmUser(UsernameAltroUtente);
         filmCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
             @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Response<DBModelDataListeFilmResponce> response) {
@@ -240,6 +254,20 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
             SessoUser.setText(altroUtenteList.get(0).getSesso());
             LayoutSessoAltroUtente.setVisibility(View.VISIBLE);
         }
+        ImmagineProfilo.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Profilo());
+                startActivity(visualizzaImmagineintent);
+            }
+        });
+        ImmagineCopertina.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Copertina());
+                startActivity(visualizzaImmagineintent);
+            }
+        });
         Call<DBModelDataListeFilmResponce> filmAmiciCall = retrofitServiceDBInterno.PrendiFilmAmico(UsernameAltroUtente,UsernameProprietario);
         filmAmiciCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
             @Override public void onResponse(@NonNull Call<DBModelDataListeFilmResponce> call,@NonNull Response<DBModelDataListeFilmResponce> response) {
@@ -268,6 +296,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
             @Override public void onClick(View v) {
                 Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, ProprieRecensioniActivity.class);
                 intent2.putExtra("Nome_Utente", UsernameAltroUtente);
+                intent2.putExtra("Nome_Proprietario", UsernameProprietario);
                 startActivity(intent2);
             }
         });

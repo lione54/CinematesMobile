@@ -66,6 +66,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,7 +104,7 @@ public class ProfiloFragment extends Fragment {
     private DatePickerDialog datePickerDialog;
     private AppCompatButton Conferma,Annulla, Scegli;
     private Bundle bundle = new Bundle();
-    private TextInputLayout VecchiaPass, NuovaPass, ConfermaPass, NuovoCodiceVer;
+    private TextInputLayout VecchiaPass, NuovaPass, ConfermaPass, NuovoCodiceVer, NuovoAttributoLayout;
     private TextInputEditText InserisciVecchiaPass, InserisciNuovaPass, ConfermaNuovaPass, NuovoAttributo, CodiceVer;
     public AppCompatTextView UsernameProfilo, NumeroRecensioniScritte, NumeroListePersonalizzate, NumeroAmici;
     public AppCompatTextView NomeUser, CognomeUser, EmailUser, PasswordUser, DescrizioneUser, DataNascitaUser, SessoUser;
@@ -169,6 +170,7 @@ public class ProfiloFragment extends Fragment {
         SessoUser = v.findViewById(R.id.Sesso_user);
         CambiaPass = v.findViewById(R.id.cambia_password);
         Logout = v.findViewById(R.id.LogoutButton);
+        Paper.init(getContext());
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         Call<DBModelProfiloUtenteResponce> userResultsCall = retrofitServiceDBInterno.PrendiInfoUtente(UsernameProprietario);
         userResultsCall.enqueue(new Callback<DBModelProfiloUtenteResponce>() {
@@ -179,10 +181,10 @@ public class ProfiloFragment extends Fragment {
                     if(!(profiloUtenteList.isEmpty())) {
                         PrepareProfiloDetail(profiloUtenteList);
                     }else{
-                        Toast.makeText(getContext() , "Caricamento informazioni fallito", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext() , "Caricamento informazioni fallito.", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getContext() , "Impossibile caricare informazioni", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext() , "Impossibile caricare informazioni.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelProfiloUtenteResponce> call,@NonNull Throwable t) {
@@ -282,28 +284,30 @@ public class ProfiloFragment extends Fragment {
                                 ConfermaPass.setError("Le password non corrispondono");
                             }else {
                                 String Tipo = "Password";
-                                Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, InserisciNuovaPass.getText().toString());
+                                Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, ConfermaNuovaPass.getText().toString());
                                 cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                     @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                         if(dbModelResponseToInsert != null) {
                                             if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                                Paper.book().delete("Passwd");
+                                                Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo." , Toast.LENGTH_SHORT).show();
                                                 Fragment fragment = new ProfiloFragment();
                                                 bundle.putString("Email", EmailProprietario);
                                                 bundle.putString("Username", UsernameProprietario);
                                                 fragment.setArguments(bundle);
                                                 loadFragment(fragment);
+                                                Paper.book().write("Passwd", ConfermaNuovaPass.getText().toString());
                                                 CambiaPassword.dismiss();
                                             }else{
-                                                Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_SHORT).show();
                                             }
                                         }else {
-                                            Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                        Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -313,7 +317,7 @@ public class ProfiloFragment extends Fragment {
                 Annulla.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         CambiaPassword.dismiss();
-                        Toast.makeText(getContext() , "Cambiamento password annullato", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext() , "Cambiamento password annullato.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -429,7 +433,7 @@ public class ProfiloFragment extends Fragment {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            Toast.makeText(getContext(), "Cambiamento foto copertina avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento foto copertina avvenuto con successo." , Toast.LENGTH_SHORT).show();
                                             Fragment fragment = new ProfiloFragment();
                                             bundle.putString("Email", EmailProprietario);
                                             bundle.putString("Username", UsernameProprietario);
@@ -437,14 +441,14 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaFotoCopertina.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento foto copertina fallito" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento foto copertina fallito." , Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(getContext(), "Impossibile cambiare foto di copertina" , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Impossibile cambiare foto di copertina." , Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }catch (Exception e){
@@ -468,6 +472,7 @@ public class ProfiloFragment extends Fragment {
                 Conferma = (AppCompatButton) PopUpViewNome.findViewById(R.id.conferma_button_nome);
                 Annulla = (AppCompatButton) PopUpViewNome.findViewById(R.id.annulla_button_nome);
                 NuovoAttributo =  PopUpViewNome.findViewById(R.id.InsertNuovonome);
+                NuovoAttributoLayout =  PopUpViewNome.findViewById(R.id.InsertNuovoNome_layout);
                 dialogBilderNome.setView(PopUpViewNome);
                 CambiaNome = dialogBilderNome.create();
                 CambiaNome.show();
@@ -481,7 +486,7 @@ public class ProfiloFragment extends Fragment {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo." , Toast.LENGTH_SHORT).show();
                                             Fragment fragment = new ProfiloFragment();
                                             bundle.putString("Email", EmailProprietario);
                                             bundle.putString("Username", UsernameProprietario);
@@ -489,24 +494,24 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaNome.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_LONG).show();
                                         }
                                     }else {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }else{
-                            Toast.makeText(getContext() , "Inserisci nome", Toast.LENGTH_SHORT).show();
+                            NuovoAttributoLayout.setError("Inserisci nome");
                         }
                     }
                 });
                 Annulla.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        Toast.makeText(getContext() , "Cambiamento nome annullato", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext() , "Cambiamento nome annullato.", Toast.LENGTH_SHORT).show();
                         CambiaNome.dismiss();
                     }
                 });
@@ -519,6 +524,7 @@ public class ProfiloFragment extends Fragment {
                 Conferma = (AppCompatButton) PopUpViewCognome.findViewById(R.id.conferma_button_cognome);
                 Annulla = (AppCompatButton) PopUpViewCognome.findViewById(R.id.annulla_button_cognome);
                 NuovoAttributo =  PopUpViewCognome.findViewById(R.id.InsertNuovocognome);
+                NuovoAttributoLayout =  PopUpViewCognome.findViewById(R.id.InsertNuovoCognome_layout);
                 dialogBilderCognome.setView(PopUpViewCognome);
                 CambiaCognome = dialogBilderCognome.create();
                 CambiaCognome.show();
@@ -532,7 +538,7 @@ public class ProfiloFragment extends Fragment {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo." , Toast.LENGTH_SHORT).show();
                                             Fragment fragment = new ProfiloFragment();
                                             bundle.putString("Email", EmailProprietario);
                                             bundle.putString("Username", UsernameProprietario);
@@ -540,18 +546,18 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaCognome.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_LONG).show();
                                         }
                                     }else {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
                                 @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }else{
-                            Toast.makeText(getContext() , "Inserisci cognome", Toast.LENGTH_SHORT).show();
+                            NuovoAttributoLayout.setError("Inserisci cognome");
                         }
                     }
                 });
@@ -570,6 +576,7 @@ public class ProfiloFragment extends Fragment {
                 Conferma = (AppCompatButton) PopUpViewDescrizione.findViewById(R.id.conferma_button_descrizone);
                 Annulla = (AppCompatButton) PopUpViewDescrizione.findViewById(R.id.annulla_button_descrizione);
                 NuovoAttributo =  PopUpViewDescrizione.findViewById(R.id.InsertNuovadescrizione);
+                NuovoAttributoLayout =  PopUpViewDescrizione.findViewById(R.id.InsertNuovadescrizione_layout);
                 dialogBilderDescrizione.setView(PopUpViewDescrizione);
                 CambiaDescrizione = dialogBilderDescrizione.create();
                 CambiaDescrizione.show();
@@ -583,7 +590,7 @@ public class ProfiloFragment extends Fragment {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo." , Toast.LENGTH_SHORT).show();
                                             Fragment fragment = new ProfiloFragment();
                                             bundle.putString("Email", EmailProprietario);
                                             bundle.putString("Username", UsernameProprietario);
@@ -591,18 +598,18 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaDescrizione.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_LONG).show();
                                         }
                                     }else {
                                         Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }else{
-                            Toast.makeText(getContext() , "Inserisci descrizione", Toast.LENGTH_SHORT).show();
+                            NuovoAttributoLayout.setError("Inserisci descrizione");
                         }
                     }
                 });
@@ -623,12 +630,13 @@ public class ProfiloFragment extends Fragment {
                 Conferma = (AppCompatButton) PopUpViewEmail.findViewById(R.id.conferma_button_email);
                 Annulla = (AppCompatButton) PopUpViewEmail.findViewById(R.id.annulla_button_email);
                 NuovoAttributo =  PopUpViewEmail.findViewById(R.id.InsertNuovaemail);
+                NuovoAttributoLayout =  PopUpViewEmail.findViewById(R.id.Insertnuovaemail_layout);
                 dialogBilderEmail.setView(PopUpViewEmail);
                 CambiaEmail = dialogBilderEmail.create();
                 CambiaEmail.show();
                 Conferma.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        if(NuovoAttributo.length() != 0){
+                        if(NuovoAttributo.length() != 0 && NuovoAttributo.getText().toString().matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}")){
                             String Tipo = "Email";
                             Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
                             cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
@@ -724,17 +732,21 @@ public class ProfiloFragment extends Fragment {
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }else{
-                            Toast.makeText(getContext() , "Inserisci descrizione", Toast.LENGTH_SHORT).show();
+                            if(NuovoAttributo.length() == 0) {
+                                NuovoAttributoLayout.setError("Scrivi nuova email.");
+                            }else{
+                                NuovoAttributoLayout.setError("Inserisci email valida.");
+                            }
                         }
                     }
                 });
                 Annulla.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        Toast.makeText(getContext() , "Cambiamento descrizione annullato", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext() , "Cambiamento descrizione annullato.", Toast.LENGTH_SHORT).show();
                         CambiaEmail.dismiss();
                     }
                 });

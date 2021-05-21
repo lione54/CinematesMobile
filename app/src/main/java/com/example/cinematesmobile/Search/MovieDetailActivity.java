@@ -224,7 +224,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             prepareMovieDetails(movieDetailResponse);
                             id_film = String.valueOf(intent.getExtras().getString("id"));
                             stringPoster.append(movieDetailResponse.getPoster_path());
-                            stringTitolo.append(movieDetailResponse.getTitle());
+                            stringTitolo.append(movieDetailResponse.getTitle().replaceAll("'", "/"));
                         }else{
                             Toast.makeText(MovieDetailActivity.this,"Nessun dettaglio trovato",Toast.LENGTH_SHORT).show();
                         }
@@ -529,21 +529,21 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                         Descrizione = "null";
                                                     }
                                                     Visibilità = "Solo amici";
-                                                    Call<DBModelVerifica> verificaResultsCall = retrofitServiceDBInterno.VerificaSePresente(String.valueOf(id_film), UserName, tipoLista);
+                                                    Call<DBModelVerifica> verificaResultsCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
                                                     verificaResultsCall.enqueue(new Callback<DBModelVerifica>() {
                                                         @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                             DBModelVerifica dbModelVerifica = response.body();
                                                             if(dbModelVerifica != null){
                                                                 List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                                                                 if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                    Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(String.valueOf(id_film), UserName, tipoLista);
+                                                                    Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
                                                                     modelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
                                                                         @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                             DBModelVerifica dbModelVerifica = response.body();
                                                                             if(dbModelVerifica != null){
                                                                                 List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                                                                                 if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                                    Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(String.valueOf(id), tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
+                                                                                    Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(id_film, tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
                                                                                     aggiungiCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                                                                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                                                                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -551,7 +551,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                 if(dbModelResponseToInsert.getStato().equals("Successfull")){
                                                                                                     if(tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")){
                                                                                                         if(tipoLista.equals("Preferiti")){
-                                                                                                            Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(String.valueOf(id), UserName);
+                                                                                                            Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(id_film, UserName);
                                                                                                             verificaPrefCall.enqueue(new Callback<DBModelVerifica>() {
                                                                                                                 @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                                                                     DBModelVerifica dbModelVerifica = response.body();
@@ -574,7 +574,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                                 }
                                                                                                             });
                                                                                                         } else{
-                                                                                                            Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(String.valueOf(id), UserName);
+                                                                                                            Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(id_film, UserName);
                                                                                                             verificaDaVedCall.enqueue(new Callback<DBModelVerifica>() {
                                                                                                                 @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                                                                     DBModelVerifica dbModelVerifica = response.body();
@@ -655,21 +655,21 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                         Descrizione = "null";
                                                     }
                                                     Visibilità = "Tutti";
-                                                    Call<DBModelVerifica> verificaResultsCall2 = retrofitServiceDBInterno.VerificaSePresente(String.valueOf(id_film), UserName, tipoLista);
+                                                    Call<DBModelVerifica> verificaResultsCall2 = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
                                                     verificaResultsCall2.enqueue(new Callback<DBModelVerifica>() {
                                                         @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                             DBModelVerifica dbModelVerifica = response.body();
                                                             if(dbModelVerifica != null){
                                                                 List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                                                                 if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                    Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(String.valueOf(id_film), UserName, tipoLista);
+                                                                    Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
                                                                     modelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
                                                                         @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                             DBModelVerifica dbModelVerifica = response.body();
                                                                             if(dbModelVerifica != null){
                                                                                 List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                                                                                 if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                                    Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(String.valueOf(id_film), tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
+                                                                                    Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(id_film, tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
                                                                                     aggiungiCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                                                                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                                                                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -677,7 +677,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                 if(dbModelResponseToInsert.getStato().equals("Successfull")){
                                                                                                     if(tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")){
                                                                                                         if(tipoLista.equals("Preferiti")){
-                                                                                                            Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(String.valueOf(id), UserName);
+                                                                                                            Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(id_film, UserName);
                                                                                                             verificaPrefCall.enqueue(new Callback<DBModelVerifica>() {
                                                                                                                 @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                                                                     DBModelVerifica dbModelVerifica = response.body();
@@ -700,7 +700,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                                                 }
                                                                                                             });
                                                                                                         } else{
-                                                                                                            Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(String.valueOf(id_film), UserName);
+                                                                                                            Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(id_film, UserName);
                                                                                                             verificaDaVedCall.enqueue(new Callback<DBModelVerifica>() {
                                                                                                                 @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                                                                     DBModelVerifica dbModelVerifica = response.body();
@@ -799,14 +799,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                                         if(!(listaResults.isEmpty())){
                                             Descrizione = listaResults.get(0).getDescrizione();
                                             Visibilità = listaResults.get(0).getVisibilita();
-                                            Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(String.valueOf(id_film), UserName, tipoLista);
+                                            Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
                                             modelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
                                                 @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                     DBModelVerifica dbModelVerifica = response.body();
                                                     if (dbModelVerifica != null) {
                                                         List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                                                         if (verificaResults.get(0).getCodVerifica() == 0) {
-                                                            Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(String.valueOf(id_film), tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
+                                                            Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(id_film, tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
                                                             aggiungiCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                                                 @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -814,7 +814,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                         if(dbModelResponseToInsert.getStato().equals("Successfull")){
                                                                             if(tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")){
                                                                                 if(tipoLista.equals("Preferiti")){
-                                                                                    Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(String.valueOf(id_film), UserName);
+                                                                                    Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(id_film, UserName);
                                                                                     verificaPrefCall.enqueue(new Callback<DBModelVerifica>() {
                                                                                         @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                                             DBModelVerifica dbModelVerifica = response.body();
@@ -837,7 +837,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                                                                                         }
                                                                                     });
                                                                                 } else{
-                                                                                    Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(String.valueOf(id), UserName);
+                                                                                    Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(id_film, UserName);
                                                                                     verificaDaVedCall.enqueue(new Callback<DBModelVerifica>() {
                                                                                         @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
                                                                                             DBModelVerifica dbModelVerifica = response.body();
@@ -918,8 +918,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         Spoiler.show();
                         Ok.setOnClickListener(new View.OnClickListener() {
                             @Override public void onClick(View v) {
-                                String Titolo_Mod = stringTitolo.toString().replaceAll("'", "/");
-                                Call<DBModelDettagliCinemates> cinematesCall = retrofitServiceDBInterno.getDettagliCinemates(Titolo_Mod);
+                                Call<DBModelDettagliCinemates> cinematesCall = retrofitServiceDBInterno.getDettagliCinemates(stringTitolo.toString());
                                 cinematesCall.enqueue(new Callback<DBModelDettagliCinemates>() {
                                     @Override public void onResponse(@NonNull Call<DBModelDettagliCinemates> call,@NonNull Response<DBModelDettagliCinemates> response) {
                                         DBModelDettagliCinemates dbModelDettagliCinemates = response.body();

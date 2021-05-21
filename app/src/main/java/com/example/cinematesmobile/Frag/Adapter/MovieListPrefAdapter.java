@@ -62,7 +62,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         String lingua = "it-IT";
         Glide.with(mCtx).load(data.getImage()).into(holder.posterImageView);
-        holder.posterTitle.setText(data.getTitolofilm());
+        holder.posterTitle.setText(data.getTitolofilm().replaceAll("/", "'"));
         int id = data.getId_film();
         Call<MovieDetail> movieDetailCall = retrofitServiceFilm.PredndiDettagliFilmTMDB(id, BuildConfig.THE_MOVIE_DB_APY_KEY, lingua);
         movieDetailCall.enqueue(new Callback<MovieDetail>() {
@@ -78,7 +78,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                 Toast.makeText(mCtx,"Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
             }
         });
-        String titoloMod = data.getTitolofilm().replaceAll("'", "/");
+        String titoloMod = data.getTitolofilm();
         Call<DBModelVotiResponse> votiResponseCall = retrofitServiceDBInterno.PrendiMediaVoti(titoloMod);
         votiResponseCall.enqueue(new Callback<DBModelVotiResponse>() {
             @Override public void onResponse(@NonNull Call<DBModelVotiResponse> call,@NonNull Response<DBModelVotiResponse> response) {

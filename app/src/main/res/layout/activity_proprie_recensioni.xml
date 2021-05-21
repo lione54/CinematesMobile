@@ -59,14 +59,34 @@
                 android:textSize="28sp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/le_mie_recensioni"
+                android:text="@string/le_recensioni_di"
                 android:fontFamily="@font/maven_pro"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/SoggettoRecensioni"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/maven_pro"
+                android:gravity="center"
+                android:textColor="@color/ColorCineOrange"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/ic_feedback"/>
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
