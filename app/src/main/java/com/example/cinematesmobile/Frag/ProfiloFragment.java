@@ -239,6 +239,7 @@ public class ProfiloFragment extends Fragment {
             @Override public void onClick(View v) {
                 Intent intent2 = new Intent(getActivity(), ProprieRecensioniActivity.class);
                 intent2.putExtra("Nome_Utente", UsernameProprietario);
+                intent2.putExtra("Nome_Proprietario", UsernameProprietario);
                 startActivity(intent2);
             }
         });
@@ -370,7 +371,7 @@ public class ProfiloFragment extends Fragment {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            Toast.makeText(getContext(), "Cambiamento foto profilo avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento foto profilo avvenuto con successo." , Toast.LENGTH_SHORT).show();
                                             Fragment fragment = new ProfiloFragment();
                                             bundle.putString("Email", EmailProprietario);
                                             bundle.putString("Username", UsernameProprietario);
@@ -378,14 +379,14 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaFotoProfilo.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento foto profilo fallito" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento foto profilo fallito." , Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(getContext(), "Impossibile cambiare foto profilo" , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Impossibile cambiare foto profilo." , Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto." , Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }catch (Exception e){
@@ -395,7 +396,7 @@ public class ProfiloFragment extends Fragment {
                 });
                 Annulla.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        Toast.makeText(getContext() , "Cambiamento foto profilo annullato", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext() , "Cambiamento foto profilo annullato.", Toast.LENGTH_SHORT).show();
                         CambiaFotoProfilo.dismiss();
                     }
                 });
@@ -458,7 +459,7 @@ public class ProfiloFragment extends Fragment {
                 });
                 Annulla.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
-                        Toast.makeText(getContext() , "Cambiamento foto copertina annullato", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext() , "Cambiamento foto copertina annullato.", Toast.LENGTH_SHORT).show();
                         CambiaFotoCopertina.dismiss();
                     }
                 });
@@ -494,14 +495,14 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaNome.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_SHORT).show();
                                         }
                                     }else {
-                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else{
@@ -546,14 +547,14 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaCognome.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_SHORT).show();
                                         }
                                     }else {
-                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(Call<DBModelResponseToInsert> call, Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else{
@@ -598,14 +599,14 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaDescrizione.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_SHORT).show();
                                         }
                                     }else {
-                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else{
@@ -637,102 +638,119 @@ public class ProfiloFragment extends Fragment {
                 Conferma.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         if(NuovoAttributo.length() != 0 && NuovoAttributo.getText().toString().matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}")){
-                            String Tipo = "Email";
-                            Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
-                            cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                    if(dbModelResponseToInsert != null) {
-                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            int Cod = generateRandom();
-                                            String CodVer = String.valueOf(Cod);
-                                            Properties properties = new Properties();
-                                            properties.put("mail.smtp.auth","true");
-                                            properties.put("mail.smtp.starttls.enable","true");
-                                            properties.put("mail.smtp.host","smtp.gmail.com");
-                                            properties.put("mail.smtp.port","587");
-                                            Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
-                                                @Override protected PasswordAuthentication getPasswordAuthentication() {
-                                                    return new PasswordAuthentication(BuildConfig.Username, BuildConfig.Password);
-                                                }
-                                            });
-                                            try {
-                                                Message message = new MimeMessage(session);
-                                                message.setFrom(new InternetAddress(BuildConfig.Username));
-                                                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(NuovoAttributo.getText().toString()));
-                                                message.setSubject("Codice Per Verifica Email.");
-                                                message.setText("Salve " + UsernameProprietario + ",\nutilizza il seguente codice per verificare la nuova email.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
-                                                Transport.send(message);
-                                                Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica(UsernameProprietario,NuovoAttributo.getText().toString(), CodVer, "Update");
-                                                codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                        if(dbModelResponseToInsert != null){
-                                                            if(dbModelResponseToInsert.getStato().equals("Successfull")){
-                                                                dialogBilderConfermaEmail = new AlertDialog.Builder(getContext());
-                                                                final View PopUpView = getLayoutInflater().inflate(R.layout.popup_codiceverifica_nuovo, null);
-                                                                Conferma = PopUpView.findViewById(R.id.ok_button);
-                                                                CodiceVer= PopUpView.findViewById(R.id.editTextNumber);
-                                                                NuovoCodiceVer= PopUpView.findViewById(R.id.editTextNumber_layout);
-                                                                dialogBilderConfermaEmail.setView(PopUpView);
-                                                                ConfermaCambiaEmail = dialogBilderConfermaEmail.create();
-                                                                ConfermaCambiaEmail.show();
-                                                                Conferma.setOnClickListener(new View.OnClickListener() {
-                                                                    @Override public void onClick(View v) {
-                                                                        if(CodiceVer.getText().length() > 0) {
-                                                                            Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaCodiceVerifica(NuovoAttributo.getText().toString(), CodiceVer.getText().toString());
-                                                                            verificaCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                                    DBModelVerifica dbModelVerifica = response.body();
-                                                                                    if(dbModelVerifica != null) {
-                                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                                        if (verificaResults.get(0).getCodVerifica() == 1) {
-                                                                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo", Toast.LENGTH_SHORT).show();
-                                                                                            Fragment fragment = new ProfiloFragment();
-                                                                                            bundle.putString("Username", UsernameProprietario);
-                                                                                            fragment.setArguments(bundle);
-                                                                                            loadFragment(fragment);
-                                                                                            ConfermaCambiaEmail.dismiss();
+                            Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaEmail(NuovoAttributo.getText().toString());
+                            verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
+                                    DBModelVerifica dbModelVerifica = response.body();
+                                    if(dbModelVerifica != null){
+                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                        if(verificaResults.get(0).getCodVerifica() == 0){
+                                            String Tipo = "Email";
+                                            Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(UsernameProprietario, Tipo, NuovoAttributo.getText().toString());
+                                            cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                    if(dbModelResponseToInsert != null) {
+                                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                            int Cod = generateRandom();
+                                                            String CodVer = String.valueOf(Cod);
+                                                            Properties properties = new Properties();
+                                                            properties.put("mail.smtp.auth","true");
+                                                            properties.put("mail.smtp.starttls.enable","true");
+                                                            properties.put("mail.smtp.host","smtp.gmail.com");
+                                                            properties.put("mail.smtp.port","587");
+                                                            Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
+                                                                @Override protected PasswordAuthentication getPasswordAuthentication() {
+                                                                    return new PasswordAuthentication(BuildConfig.Username, BuildConfig.Password);
+                                                                }
+                                                            });
+                                                            try {
+                                                                Message message = new MimeMessage(session);
+                                                                message.setFrom(new InternetAddress(BuildConfig.Username));
+                                                                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(NuovoAttributo.getText().toString()));
+                                                                message.setSubject("Codice Per Verifica Email.");
+                                                                message.setText("Salve " + UsernameProprietario + ",\nutilizza il seguente codice per verificare la nuova email.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
+                                                                Transport.send(message);
+                                                                Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica(UsernameProprietario,NuovoAttributo.getText().toString(), CodVer, "Update");
+                                                                codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                                        if(dbModelResponseToInsert != null){
+                                                                            if(dbModelResponseToInsert.getStato().equals("Successfull")){
+                                                                                dialogBilderConfermaEmail = new AlertDialog.Builder(getContext());
+                                                                                final View PopUpView = getLayoutInflater().inflate(R.layout.popup_codiceverifica_nuovo, null);
+                                                                                Conferma = PopUpView.findViewById(R.id.ok_button);
+                                                                                CodiceVer= PopUpView.findViewById(R.id.editTextNumber);
+                                                                                NuovoCodiceVer= PopUpView.findViewById(R.id.editTextNumber_layout);
+                                                                                dialogBilderConfermaEmail.setView(PopUpView);
+                                                                                ConfermaCambiaEmail = dialogBilderConfermaEmail.create();
+                                                                                ConfermaCambiaEmail.show();
+                                                                                Conferma.setOnClickListener(new View.OnClickListener() {
+                                                                                    @Override public void onClick(View v) {
+                                                                                        if(CodiceVer.getText().length() > 0) {
+                                                                                            Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaCodiceVerifica(NuovoAttributo.getText().toString(), CodiceVer.getText().toString());
+                                                                                            verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
+                                                                                                    DBModelVerifica dbModelVerifica = response.body();
+                                                                                                    if(dbModelVerifica != null) {
+                                                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                                        if (verificaResults.get(0).getCodVerifica() == 1) {
+                                                                                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo", Toast.LENGTH_SHORT).show();
+                                                                                                            Fragment fragment = new ProfiloFragment();
+                                                                                                            bundle.putString("Username", UsernameProprietario);
+                                                                                                            fragment.setArguments(bundle);
+                                                                                                            loadFragment(fragment);
+                                                                                                            ConfermaCambiaEmail.dismiss();
+                                                                                                        }else{
+                                                                                                            NuovoCodiceVer.setError("Inserisci il codice corretto");
+                                                                                                        }
+                                                                                                    }else{
+                                                                                                        Toast.makeText(getContext(), "Impossibile verificare codice.", Toast.LENGTH_SHORT).show();
+                                                                                                    }
+                                                                                                }
+                                                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
+                                                                                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                                                                }
+                                                                                            });
                                                                                         }else{
-                                                                                            NuovoCodiceVer.setError("Inserisci il codice corretto");
+                                                                                            NuovoCodiceVer.setError("Scrivi qui codice verifica");
                                                                                         }
-                                                                                    }else{
-                                                                                        Toast.makeText(getContext(), "Impossibile verificare codice.", Toast.LENGTH_SHORT).show();
                                                                                     }
-                                                                                }
-                                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                                                                }
-                                                                            });
+                                                                                });
+                                                                            }else {
+                                                                                Toast.makeText(getContext(), "Inserimento codice verifica fallito.", Toast.LENGTH_SHORT).show();
+                                                                            }
                                                                         }else{
-                                                                            NuovoCodiceVer.setError("Scrivi qui codice verifica");
+                                                                            Toast.makeText(getContext(), "Impossibile inserire codice verifica.", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
+                                                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                                        Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                                    }
                                                                 });
-                                                            }else {
-                                                                Toast.makeText(getContext(), "Inserimento codice verifica fallito.", Toast.LENGTH_SHORT).show();
+                                                            }catch (MessagingException e){
+                                                                Toast.makeText(getContext(), "Impossibile inviare email.", Toast.LENGTH_SHORT).show();
                                                             }
+                                                            CambiaEmail.dismiss();
                                                         }else{
-                                                            Toast.makeText(getContext(), "Impossibile inserire codice verifica.", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_SHORT).show();
                                                         }
+                                                    }else {
+                                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_SHORT).show();
                                                     }
-                                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                        Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                            }catch (MessagingException e){
-                                                Toast.makeText(getContext(), "Impossibile inviare email.", Toast.LENGTH_SHORT).show();
-                                            }
-                                            CambiaEmail.dismiss();
+                                                }
+                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                            NuovoAttributoLayout.setError("Inserisci una nuova mail.");
                                         }
-                                    }else {
-                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                    }else{
                                     }
                                 }
-                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_LONG).show();
+                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else{
@@ -787,7 +805,7 @@ public class ProfiloFragment extends Fragment {
                                     DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                     if(dbModelResponseToInsert != null) {
                                         if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " avvenuto con successo." , Toast.LENGTH_SHORT).show();
                                             Fragment fragment = new ProfiloFragment();
                                             bundle.putString("Email", EmailProprietario);
                                             bundle.putString("Username", UsernameProprietario);
@@ -795,14 +813,14 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaDataNascita.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito.", Toast.LENGTH_LONG).show();
                                         }
                                     }else {
-                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else{
@@ -853,14 +871,14 @@ public class ProfiloFragment extends Fragment {
                                             loadFragment(fragment);
                                             CambiaGender.dismiss();
                                         }else{
-                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Cambiamento " + Tipo + " fallito", Toast.LENGTH_SHORT).show();
                                         }
                                     }else {
-                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }else{

@@ -198,6 +198,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
             @Override public void onClick(View v) {
                 Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, ProprieRecensioniActivity.class);
                 intent2.putExtra("Nome_Utente", UsernameAltroUtente);
+                intent2.putExtra("Nome_Proprietario", UsernameProprietario);
                 startActivity(intent2);
             }
         });

@@ -13,12 +13,15 @@ import android.widget.Toast;
 
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
+import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -54,58 +57,74 @@ public class SignInActivity extends AppCompatActivity {
             @Override public void onClick(View v) {
                 if(Email.getText().length() > 0) {
                     if(Email.getText().toString().matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}")){
-                        int Cod = generateRandom();
-                        String CodVer = String.valueOf(Cod);
-                        Properties properties = new Properties();
-                        properties.put("mail.smtp.auth","true");
-                        properties.put("mail.smtp.starttls.enable","true");
-                        properties.put("mail.smtp.host","smtp.gmail.com");
-                        properties.put("mail.smtp.port","587");
-                        Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
-                            @Override protected PasswordAuthentication getPasswordAuthentication() {
-                                return new PasswordAuthentication(BuildConfig.Username, BuildConfig.Password);
-                            }
-                        });
-                        try {
-                            Message message = new MimeMessage(session);
-                            message.setFrom(new InternetAddress(BuildConfig.Username));
-                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Email.getText().toString()));
-                            message.setSubject("Codice Per Verifica Email.");
-                            message.setText("Benvenuto nuovo utente,\nutilizza il seguente codice per proseguire nella registrazione in Cinemates.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
-                            Transport.send(message);
-                            Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica("null" ,Email.getText().toString(), CodVer, "Nuovo");
-                            codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                    if(dbModelResponseToInsert != null){
-                                        if(dbModelResponseToInsert.getStato().equals("Successfull")){
-                                            CodeVerifica = new AlertDialog.Builder(SignInActivity.this);
-                                            final View PopUpView = getLayoutInflater().inflate(R.layout.popup_codiceverifica, null);
-                                            Ok = PopUpView.findViewById(R.id.ok_button);
-                                            CodeVerifica.setView(PopUpView);
-                                            CodiceVerifica = CodeVerifica.create();
-                                            CodiceVerifica.show();
-                                            Ok.setOnClickListener(new View.OnClickListener() {
-                                                @Override public void onClick(View v) {
-                                                    Intent intent = new Intent(SignInActivity.this, ConfirmCodeActivity.class);
-                                                    intent.putExtra("EmailProprietario", Email.getText().toString());
-                                                    startActivity(intent);
+                        Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaEmail(Email.getText().toString());
+                        verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                            @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
+                                DBModelVerifica dbModelVerifica = response.body();
+                                if(dbModelVerifica != null){
+                                    List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                    if(verificaResults.get(0).getCodVerifica() == 0){
+                                        int Cod = generateRandom();
+                                        String CodVer = String.valueOf(Cod);
+                                        Properties properties = new Properties();
+                                        properties.put("mail.smtp.auth","true");
+                                        properties.put("mail.smtp.starttls.enable","true");
+                                        properties.put("mail.smtp.host","smtp.gmail.com");
+                                        properties.put("mail.smtp.port","587");
+                                        Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
+                                            @Override protected PasswordAuthentication getPasswordAuthentication() {
+                                                return new PasswordAuthentication(BuildConfig.Username, BuildConfig.Password);
+                                            }
+                                        });
+                                        try {
+                                            Message message = new MimeMessage(session);
+                                            message.setFrom(new InternetAddress(BuildConfig.Username));
+                                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Email.getText().toString()));
+                                            message.setSubject("Codice Per Verifica Email.");
+                                            message.setText("Benvenuto nuovo utente,\nutilizza il seguente codice per proseguire nella registrazione in Cinemates.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
+                                            Transport.send(message);
+                                            Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica("null" ,Email.getText().toString(), CodVer, "Nuovo");
+                                            codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                    if(dbModelResponseToInsert != null){
+                                                        if(dbModelResponseToInsert.getStato().equals("Successfull")){
+                                                            CodeVerifica = new AlertDialog.Builder(SignInActivity.this);
+                                                            final View PopUpView = getLayoutInflater().inflate(R.layout.popup_codiceverifica, null);
+                                                            Ok = PopUpView.findViewById(R.id.ok_button);
+                                                            CodeVerifica.setView(PopUpView);
+                                                            CodiceVerifica = CodeVerifica.create();
+                                                            CodiceVerifica.show();
+                                                            Ok.setOnClickListener(new View.OnClickListener() {
+                                                                @Override public void onClick(View v) {
+                                                                    Intent intent = new Intent(SignInActivity.this, ConfirmCodeActivity.class);
+                                                                    intent.putExtra("EmailProprietario", Email.getText().toString());
+                                                                    startActivity(intent);
+                                                                }
+                                                            });
+                                                        }else {
+                                                            Toast.makeText(SignInActivity.this, "Inserimento codice verifica fallito.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }else{
+                                                        Toast.makeText(SignInActivity.this, "Impossibile inserire codice verifica.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                    Toast.makeText(SignInActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-                                        }else {
-                                            Toast.makeText(SignInActivity.this, "Inserimento codice verifica fallito.", Toast.LENGTH_SHORT).show();
+                                        }catch (MessagingException e){
+                                            Toast.makeText(SignInActivity.this, "Impossibile inviare email.", Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(SignInActivity.this, "Impossibile inserire codice verifica.", Toast.LENGTH_SHORT).show();
+                                        InsEmail.setError("Email già inserita utilizzare nuova email");
                                     }
                                 }
-                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                    Toast.makeText(SignInActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }catch (MessagingException e){
-                            Toast.makeText(SignInActivity.this, "Impossibile inviare email.", Toast.LENGTH_SHORT).show();
-                        }
+                            }
+                            @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
+                                Toast.makeText(SignInActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }else{
                         InsEmail.setError("Inserisci una email valida");
                     }

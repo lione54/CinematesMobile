@@ -266,4 +266,8 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("InserisciUtente.php")
     Call<DBModelResponseToInsert> InserisciNuovoUtente(@Field("EmailProprietario") String EmailProprietario, @Field("Cod_Verifica") String Cod_Verifica, @Field("Nome") String Nome, @Field("Cognome") String Cognome, @Field("Passwd") String Passwd, @Field("Data_Nascita") String Data_Nascita, @Field("Sesso") String Sesso, @Field("UserName") String UserName);
+
+    @FormUrlEncoded
+    @POST("VerificaEmail.php")
+    Call<DBModelVerifica> VerificaEmail(@Field("User_Proprietario") String EmailProprietario);
 }

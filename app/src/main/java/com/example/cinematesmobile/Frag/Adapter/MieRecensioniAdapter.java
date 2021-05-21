@@ -57,7 +57,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
     @Override public void onBindViewHolder(@NonNull DataHolder holder, int position) {
         DBModelRecensioni dbModelRecensioni = recensioniList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(!(dbModelRecensioni.getUser_Recensore().equals(UserProprietario))){
+        if(User_Segnalatore.equals(UserProprietario)){
             if(dbModelRecensioni.getFoto() == null){
                 holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
             }else{
