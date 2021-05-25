@@ -18,14 +18,13 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_user_amico"
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_marginLeft="10dp"
-            android:layout_height="100dp"/>
+            android:layout_height="70dp"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:gravity="center">
 
@@ -34,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="left">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -51,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="right">
@@ -59,7 +58,7 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/rimuovida_amici"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="25dp"
                     android:textColor="@color/ColorCineBlack"
                     android:text="@string/elimina_da_amici"
                     android:background="@drawable/radius_red"/>

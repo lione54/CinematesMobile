@@ -38,6 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="@string/IndirizzoEmail"
+            app:helperText="Campo obbligatorio*"
+            app:helperTextTextColor="@color/white"
             app:passwordToggleTint="@color/ColorCineWhite"
             android:theme="@style/EditTextPersonalizzati">
 

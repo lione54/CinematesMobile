@@ -20,8 +20,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_user_notifica_commento"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="89dp"/>
@@ -61,7 +61,7 @@
                     android:fontFamily="@font/maven_pro"
                     android:gravity="left"
                     android:textColor="@color/ColorCineOrange"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"  />
 
                 <androidx.appcompat.widget.AppCompatTextView

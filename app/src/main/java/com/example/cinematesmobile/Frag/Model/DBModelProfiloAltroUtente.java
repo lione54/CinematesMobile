@@ -84,7 +84,7 @@ public class DBModelProfiloAltroUtente {
         if(Foto_Profilo == null){
             return null;
         }else {
-            String UrlBase = "http://18.116.88.169/cinematesdb/";
+            String UrlBase = "http://192.168.178.48/cinematesdb/";
             return UrlBase + Foto_Profilo;
         }
     }
@@ -129,7 +129,7 @@ public class DBModelProfiloAltroUtente {
         if(Foto_Copertina == null){
             return null;
         }else {
-            String UrlBase = "http://18.116.88.169/cinematesdb/";
+            String UrlBase = "http://192.168.178.48/cinematesdb/";
             return UrlBase + Foto_Copertina;
         }
     }

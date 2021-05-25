@@ -1,8 +1,10 @@
 package com.example.cinematesmobile.Frag;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
+import com.example.cinematesmobile.Main.WelcomeActivity;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
 import com.example.cinematesmobile.R;
@@ -24,6 +27,8 @@ import com.example.cinematesmobile.Frag.Adapter.MovieListPrefAdapter;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.example.cinematesmobile.SignIn.SignInActivity;
+
 import org.angmarch.views.NiceSpinner;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +62,7 @@ public class FragmentPreferiti extends Fragment {
     private String ListaSelezionata = null;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
     private boolean inizializza = true;
-
+    private AppCompatImageButton vaiacommenti;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -145,6 +150,7 @@ public class FragmentPreferiti extends Fragment {
         DavedereTextLayout = v.findViewById(R.id.davedere_text_layout);
         ListePersonalizzateTextLayout = v.findViewById(R.id.liste_personalizzate_text_layout);
         recyclerViewPreferiti = v.findViewById(R.id.Preferiti_List);
+        vaiacommenti = v.findViewById(R.id.buttoncommenti);
         recyclerViewPreferiti.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         listePresenti.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -198,6 +204,23 @@ public class FragmentPreferiti extends Fragment {
             @Override public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        vaiacommenti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CommentiActivity.class);
+                intent.putExtra("UsernameProprietario", UsernameProprietario);
+                intent.putExtra("TitoloLista", ListaSelezionata);
+                /*
+                if(DescrizioneTEXT.equals("Descrizione non inserita dall' utente")) {
+                    intent.putExtra("Descrizione", DescrizioneTEXT);
+                }else{
+                    intent.putExtra("Descrizione",DescrizioneTEXT);
+                }*/
+                intent.putExtra("TipoCorrente", "Lista");
+                startActivity(intent);
+            }
+        });
         return v;
     }
 
@@ -244,4 +267,5 @@ public class FragmentPreferiti extends Fragment {
             }
         });
     }
+
 }

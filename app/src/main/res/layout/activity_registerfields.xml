@@ -12,7 +12,9 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/Header"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
@@ -20,9 +22,7 @@
             android:id="@+id/createyouraccount"
             android:layout_width="204dp"
             android:layout_height="83dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="52dp"
-            android:layout_marginEnd="12dp"
+            android:layout_gravity="center"
             android:text="@string/creailtuoaccount"
             android:textColor="#FF8C00"
             android:textSize="32sp"
@@ -32,9 +32,6 @@
             android:id="@+id/sofa"
             android:layout_width="87dp"
             android:layout_height="83dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginBottom="20dp"
             android:contentDescription="@string/poltrona"
             app:srcCompat="@drawable/ic_poltrona" />
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -52,6 +49,9 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/nomeutentenuovo"
+            app:helperText="Campo obbligatorio*"
+            app:helperTextTextColor="@color/white"
+            android:layout_marginBottom="5dp"
             app:passwordToggleTint="@color/ColorCineWhite"
             android:theme="@style/EditTextPersonalizzati">
 
@@ -72,7 +72,9 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/cognomeutentenuovo"
-            android:layout_marginTop="-10dp"
+            app:helperText="Campo obbligatorio*"
+            app:helperTextTextColor="@color/white"
+            android:layout_marginBottom="5dp"
             android:theme="@style/EditTextPersonalizzati">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -92,9 +94,11 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/passwordutentenuovo"
+            android:layout_marginBottom="5dp"
             app:counterEnabled="true"
             app:counterMaxLength="20"
-            android:layout_marginTop="-10dp"
+            app:helperText="Campo obbligatorio*"
+            app:helperTextTextColor="@color/white"
             app:counterTextColor="@color/ColorCineWhite"
             app:passwordToggleTint="@color/ColorCineWhite"
             android:theme="@style/PasswordIni">
@@ -113,9 +117,11 @@
             android:id="@+id/RepeatPassword_layout"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:hint="@string/passconfirmutentenuovo"
             app:counterEnabled="true"
-            android:layout_marginTop="-10dp"
+            app:helperText="Campo obbligatorio*"
+            app:helperTextTextColor="@color/white"
             app:counterTextColor="@color/ColorCineWhite"
             app:counterMaxLength="20"
             app:passwordToggleTint="@color/ColorCineWhite"
@@ -136,7 +142,9 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/Birthday"
-            android:layout_marginTop="-10dp"
+            android:layout_marginBottom="5dp"
+            app:helperText="Campo obbligatorio*"
+            app:helperTextTextColor="@color/white"
             app:passwordToggleTint="@color/ColorCineWhite"
             android:theme="@style/EditTextPersonalizzati">
 
@@ -159,9 +167,7 @@
             android:id="@+id/Gender"
             android:layout_width="270dp"
             android:layout_height="26dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="70dp"
-            android:layout_marginEnd="71dp"
+            android:layout_gravity="center"
             android:orientation="horizontal"
             android:theme="@style/RadioButtonStyle">
 
@@ -201,9 +207,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/InsertUsername_layout"
             android:layout_width="300dp"
-            android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
+            app:helperText="Campo obbligatorio*"
+            app:helperTextTextColor="@color/white"
             android:hint="@string/username"
+            android:layout_marginBottom="5dp"
             app:passwordToggleTint="@color/ColorCineWhite"
             android:theme="@style/EditTextPersonalizzati">
 
@@ -234,7 +242,7 @@
             android:id="@+id/progressBarRegister3"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="250dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
             android:indeterminate="false"
             android:progress="66"

@@ -100,7 +100,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                                 like = false;
                                                 dislike = false;
                                             }else {
-                                                Toast.makeText(activity,"Prelievo delle informazioni sulle emoj fallito.",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(activity,"Prelievo delle informazioni sulle emoji fallito.",Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
                                             Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoj.",Toast.LENGTH_SHORT).show();
@@ -137,7 +137,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                                 Toast.makeText(activity,"Prelievo delle informazioni sulle emoji fallito.",Toast.LENGTH_SHORT).show();
                                             }
                                         }else{
-                                            Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoj.",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(activity,"Impossibile prelevare informazioni sulle emoji.",Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override public void onFailure(@NotNull Call<DBModelEmojResponde> call, @NotNull Throwable t) {

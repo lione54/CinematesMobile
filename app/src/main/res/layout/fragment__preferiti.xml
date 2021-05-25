@@ -32,15 +32,15 @@
             android:id="@+id/liste_presenti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/ColorCineBlack"
-            app:textTint="@color/ColorCineOrange"
-            app:arrowTint="@color/ColorCineOrange"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textAlignment="center"
+            android:backgroundTint="@color/ColorCineBlack"
             android:fontFamily="@font/maven_pro"
-            app:backgroundSelector="@color/ColorCineBlack"/>
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:arrowTint="@color/ColorCineOrange"
+            app:backgroundSelector="@color/ColorCineBlack"
+            app:textTint="@color/ColorCineOrange" />
 
         <!-- TODO: Update blank fragment layout -->
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -52,8 +52,8 @@
                 android:id="@+id/preferiti_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -66,13 +66,13 @@
                     android:text="@string/preferiti"
                     android:textColor="@color/ColorCineOrange"
                     android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_likeactive"/>
+                    android:src="@drawable/ic_likeactive" />
 
             </LinearLayout>
 
@@ -80,8 +80,8 @@
                 android:id="@+id/davedere_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -94,13 +94,13 @@
                     android:text="@string/da_vedere"
                     android:textColor="@color/ColorCineOrange"
                     android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic__d_glasses_active"/>
+                    android:src="@drawable/ic__d_glasses_active" />
 
             </LinearLayout>
 
@@ -108,8 +108,8 @@
                 android:id="@+id/liste_personalizzate_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -121,38 +121,38 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/ColorCineOrange"
                     android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_clapperboard"/>
+                    android:src="@drawable/ic_clapperboard" />
 
             </LinearLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center_vertical"
-                android:text="@string/DescrizioneLista"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="20sp"
-                android:layout_marginEnd="10dp"
-                android:textStyle="bold"/>
+                android:layout_gravity="center">
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_edit_24"
-                android:background="@android:color/transparent"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/maven_pro"
+                    android:gravity="center_vertical"
+                    android:text="@string/DescrizioneLista"
+                    android:textColor="@color/ColorCineOrange"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_baseline_edit_24" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -163,26 +163,11 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/maven_pro"
                 android:gravity="center_vertical"
-                android:textAlignment="center"
                 android:text="@string/Descrizione_testo"
+                android:textAlignment="center"
                 android:textColor="@color/ColorCineOrange"
                 android:textSize="16sp"
-                android:textStyle="normal"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:fontFamily="@font/maven_pro"
-                android:gravity="center_vertical"
-                android:background="@android:color/transparent"
-                android:text="@string/vai_ai_commenti"
-                android:drawableEnd="@drawable/ic_comment"
-                android:drawableTint="@color/ColorCineOrange"
-                android:textColor="@color/ColorCineOrange"
-                android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:textStyle="normal" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -191,5 +176,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/buttoncommenti"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-70dp"
+            android:background="@drawable/radius_comment"
+            android:src="@drawable/ic_comment_in_liste"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 </LinearLayout>
