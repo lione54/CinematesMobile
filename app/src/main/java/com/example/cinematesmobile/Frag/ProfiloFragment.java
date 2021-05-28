@@ -46,7 +46,13 @@ import com.example.cinematesmobile.Search.VisualizzaImmaginiActivity;
 import com.example.cinematesmobile.SignIn.ConfirmCodeActivity;
 import com.example.cinematesmobile.SignIn.LogOutActivitySuccess;
 import com.example.cinematesmobile.SignIn.SignInActivity;
+import com.facebook.login.LoginManager;
 import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -192,10 +198,16 @@ public class ProfiloFragment extends Fragment {
             }
         });
         Logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LogOutActivitySuccess.class);
-                startActivity(intent);
+            @Override public void onClick(View v) {
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+                mGoogleSignInClient.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                    @Override public void onComplete(@NonNull Task<Void> task) {
+                        LoginManager.getInstance().logOut();
+                        Intent intent = new Intent(getActivity(), LogOutActivitySuccess.class);
+                        startActivity(intent);
+                    }
+                });
             }
         });
         return v;
@@ -325,16 +337,20 @@ public class ProfiloFragment extends Fragment {
         });
         ImmagineProfilo.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent visualizzaImmagineintent = new Intent(getActivity(), VisualizzaImmaginiActivity.class);
-                visualizzaImmagineintent.putExtra("image_url", profiloUtenteList.get(0).getFoto_Profilo());
-                startActivity(visualizzaImmagineintent);
+                if(profiloUtenteList.get(0).getFoto_Profilo() != null) {
+                    Intent visualizzaImmagineintent = new Intent(getActivity(), VisualizzaImmaginiActivity.class);
+                    visualizzaImmagineintent.putExtra("image_url", profiloUtenteList.get(0).getFoto_Profilo());
+                    startActivity(visualizzaImmagineintent);
+                }
             }
         });
         ImmagineCopertina.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent visualizzaImmagineintent = new Intent(getActivity(), VisualizzaImmaginiActivity.class);
-                visualizzaImmagineintent.putExtra("image_url", profiloUtenteList.get(0).getFoto_Copertina());
-                startActivity(visualizzaImmagineintent);
+                if(profiloUtenteList.get(0).getFoto_Copertina() != null) {
+                    Intent visualizzaImmagineintent = new Intent(getActivity(), VisualizzaImmaginiActivity.class);
+                    visualizzaImmagineintent.putExtra("image_url", profiloUtenteList.get(0).getFoto_Copertina());
+                    startActivity(visualizzaImmagineintent);
+                }
             }
         });
         ImmagineProfilo.setOnLongClickListener(new View.OnLongClickListener() {

@@ -11,6 +11,7 @@ import android.view.View;
 import java.util.Calendar;
 import java.util.List;
 
+import android.view.autofill.AutofillValue;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,14 +25,24 @@ import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterFieldsActivity extends AppCompatActivity {
+public class RegisterFieldsActivity extends AppCompatActivity{
 
     private EditText date;
     private DatePickerDialog datePickerDialog;
@@ -40,7 +51,8 @@ public class RegisterFieldsActivity extends AppCompatActivity {
     private TextInputEditText Nome, Cognome, Passwd, RipetiPasswd, Username;
     private RadioGroup SelezioneSesso;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
-    private String EmailProprietario, CodVerifica;
+    private String EmailProprietario, CodVerifica, Tipo;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,99 +71,275 @@ public class RegisterFieldsActivity extends AppCompatActivity {
         InsBday = findViewById(R.id.InsertBday);
         EmailProprietario = getIntent().getExtras().getString("EmailProprietario");
         CodVerifica = getIntent().getExtras().getString("CodeVerifica");
+        Tipo = getIntent().getExtras().getString("TipoLog");
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         Finito = findViewById(R.id.Confirmation);
-        // initiate the date picker and a button
         date = (EditText) findViewById(R.id.Bday);
-        // perform click event on edit text
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                // calender class's instance and get current date , month and year from calender
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR); // current year
-                int mMonth = c.get(Calendar.MONTH); // current month
-                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                // date picker dialog
-                datePickerDialog = new DatePickerDialog(RegisterFieldsActivity.this, R.style.datepicker,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                // set day of month , month and year value in the edit text
-                                date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-            }
-        });
-        Finito.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                int camposelezionato = SelezioneSesso.getCheckedRadioButtonId();
-                final String[] Nuovosesso = {null};
-                if(Nome.getText().length() > 0 && Cognome.getText().length() > 0 && Passwd.getText().length() > 0 && RipetiPasswd.getText().length() > 0 && Username.getText().length() > 0 && date.getText().length() > 0){
-                    if(Passwd.length() != RipetiPasswd.length()){
-                        InsRipetiPasswd.setError("La lunghezza della nuova password non corrisponde alla precedente");
-                    }else if(!(Passwd.getText().toString().equals(RipetiPasswd.getText().toString()))){
-                        InsRipetiPasswd.setError("Le password non corrispondono");
-                    }else {
-                        if(camposelezionato == -1){
-                            Toast.makeText(RegisterFieldsActivity.this, "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Nuovosesso[0] = CambiaSesso(camposelezionato);
-                            Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaUsername(EmailProprietario);
-                            verificaCall.enqueue(new Callback<DBModelVerifica>() {
-                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                    DBModelVerifica dbModelVerifica = response.body();
-                                    if(dbModelVerifica != null) {
-                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                        if (verificaResults.get(0).getCodVerifica() == 0) {
-                                            Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciNuovoUtente(EmailProprietario, CodVerifica, Nome.getText().toString(), Cognome.getText().toString(), RipetiPasswd.getText().toString(), date.getText().toString(), Nuovosesso[0], Username.getText().toString());
-                                            insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                    if(dbModelResponseToInsert != null) {
-                                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                            Intent intent = new Intent(RegisterFieldsActivity.this, RegisterFieldsActivitySuccess.class);
-                                                            intent.putExtra("UserProprietario", Username.getText().toString());
-                                                            intent.putExtra("Passwd", RipetiPasswd.getText().toString());
-                                                            startActivity(intent);
-                                                        }else {
-                                                            Toast.makeText(RegisterFieldsActivity.this, "Aggiunta nuovo utente fallita.", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }else{
-                                                        Toast.makeText(RegisterFieldsActivity.this, "Impossibile aggiungere nuovo utente.", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                    Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }else{
-                                            InsUsername.setError("Username già in uso");
-                                        }
+        if(Tipo.equals("Google")) {
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(RegisterFieldsActivity.this);
+            if (acct != null) {
+                String [] personName = acct.getDisplayName().split(" ");
+                String User = acct.getGivenName();
+                Nome.setText(personName[0]);
+                Cognome.setText(personName[1]);
+                Username.setText(User);
+                date.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        final Calendar c = Calendar.getInstance();
+                        int mYear = c.get(Calendar.YEAR);
+                        int mMonth = c.get(Calendar.MONTH);
+                        int mDay = c.get(Calendar.DAY_OF_MONTH);
+                        datePickerDialog = new DatePickerDialog(RegisterFieldsActivity.this, R.style.datepicker,
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                        date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                                     }
+                                }, mYear, mMonth, mDay);
+                        datePickerDialog.show();
+                    }
+                });
+                Finito.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        int camposelezionato = SelezioneSesso.getCheckedRadioButtonId();
+                        final String[] Nuovosesso = {null};
+                        if (Nome.getText().length() > 0 && Cognome.getText().length() > 0 && Passwd.getText().length() > 0 && RipetiPasswd.getText().length() > 0 && Username.getText().length() > 0 && date.getText().length() > 0) {
+                            if (Passwd.length() != RipetiPasswd.length()) {
+                                InsRipetiPasswd.setError("La lunghezza della nuova password non corrisponde alla precedente");
+                            } else if (!(Passwd.getText().toString().equals(RipetiPasswd.getText().toString()))) {
+                                InsRipetiPasswd.setError("Le password non corrispondono");
+                            } else {
+                                if (camposelezionato == -1) {
+                                    Toast.makeText(RegisterFieldsActivity.this, "Seleziona sesso.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Nuovosesso[0] = CambiaSesso(camposelezionato);
+                                    Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaUsername(EmailProprietario);
+                                    verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                        @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                            DBModelVerifica dbModelVerifica = response.body();
+                                            if (dbModelVerifica != null) {
+                                                List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                    Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciNuovoUtente(EmailProprietario, CodVerifica, Nome.getText().toString(), Cognome.getText().toString(), RipetiPasswd.getText().toString(), date.getText().toString(), Nuovosesso[0], Username.getText().toString());
+                                                    insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                            if (dbModelResponseToInsert != null) {
+                                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                    Intent intent = new Intent(RegisterFieldsActivity.this, RegisterFieldsActivitySuccess.class);
+                                                                    intent.putExtra("UserProprietario", Username.getText().toString());
+                                                                    intent.putExtra("Passwd", RipetiPasswd.getText().toString());
+                                                                    startActivity(intent);
+                                                                } else {
+                                                                    Toast.makeText(RegisterFieldsActivity.this, "Aggiunta nuovo utente fallita.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            } else {
+                                                                Toast.makeText(RegisterFieldsActivity.this, "Impossibile aggiungere nuovo utente.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                                            Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                } else {
+                                                    InsUsername.setError("Username già in uso");
+                                                }
+                                            }
+                                        }
+                                        @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                            Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
-                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                    Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            }
+                        } else {
+                            if (Nome.getText().length() == 0) {
+                                InsNome.setError("Scrivi qui il tuo nome");
+                            } else if (Cognome.getText().length() == 0) {
+                                InsCognome.setError("Scrivi qui il tuo cognome");
+                            } else if (Passwd.getText().length() == 0) {
+                                InsPasswd.setError("Scrivi qui la tua password");
+                            } else if (RipetiPasswd.getText().length() == 0) {
+                                InsRipetiPasswd.setError("Ripeti qui la tua password");
+                            } else if (Username.getText().length() == 0) {
+                                InsUsername.setError("Scrivi qui il tuo username");
+                            } else if (date.getText().length() == 0) {
+                                InsBday.setError("Scrivi qui la tua data di nascita");
+                            }
                         }
                     }
-                }else{
-                    if(Nome.getText().length() > 0){
-                        InsNome.setError("Scrivi qui il tuo nome");
-                    }else if(Cognome.getText().length() > 0){
-                        InsCognome.setError("Scrivi qui il tuo cognome");
-                    }else if(Passwd.getText().length() > 0){
-                        InsPasswd.setError("Scrivi qui la tua password");
-                    }else if(RipetiPasswd.getText().length() > 0){
-                        InsRipetiPasswd.setError("Ripeti qui la tua password");
-                    }else if(Username.getText().length() > 0){
-                        InsUsername.setError("Scrivi qui il tuo username");
-                    }else if(date.getText().length() > 0){
-                        InsBday.setError("Scrivi qui la tua data di nascita");
+                });
+            }
+        }else if(Tipo.equals("Facebook")){
+            Nome.setText(getIntent().getExtras().getString("Nome"));
+            Cognome.setText(getIntent().getExtras().getString("Cognome"));
+            date.setText(getIntent().getExtras().getString("bday"));
+            String gender = getIntent().getExtras().getString("gender");
+            if(gender.equals("male")){
+                SelezioneSesso.autofill(AutofillValue.forList(R.id.maschio));
+            }else if (gender.equals("female")){
+                SelezioneSesso.autofill(AutofillValue.forList(R.id.femmina));
+            }
+            Finito.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    int camposelezionato = SelezioneSesso.getCheckedRadioButtonId();
+                    final String[] Nuovosesso = {null};
+                    if (Nome.getText().length() > 0 && Cognome.getText().length() > 0 && Passwd.getText().length() > 0 && RipetiPasswd.getText().length() > 0 && Username.getText().length() > 0 && date.getText().length() > 0) {
+                        if (Passwd.length() != RipetiPasswd.length()) {
+                            InsRipetiPasswd.setError("La lunghezza della nuova password non corrisponde alla precedente");
+                        } else if (!(Passwd.getText().toString().equals(RipetiPasswd.getText().toString()))) {
+                            InsRipetiPasswd.setError("Le password non corrispondono");
+                        } else {
+                            if (camposelezionato == -1) {
+                                Toast.makeText(RegisterFieldsActivity.this, "Seleziona sesso.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Nuovosesso[0] = CambiaSesso(camposelezionato);
+                                Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaUsername(EmailProprietario);
+                                verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                        DBModelVerifica dbModelVerifica = response.body();
+                                        if (dbModelVerifica != null) {
+                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                            if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciNuovoUtente(EmailProprietario, CodVerifica, Nome.getText().toString(), Cognome.getText().toString(), RipetiPasswd.getText().toString(), date.getText().toString(), Nuovosesso[0], Username.getText().toString());
+                                                insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                        if (dbModelResponseToInsert != null) {
+                                                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                Intent intent = new Intent(RegisterFieldsActivity.this, RegisterFieldsActivitySuccess.class);
+                                                                intent.putExtra("UserProprietario", Username.getText().toString());
+                                                                intent.putExtra("Passwd", RipetiPasswd.getText().toString());
+                                                                startActivity(intent);
+                                                            } else {
+                                                                Toast.makeText(RegisterFieldsActivity.this, "Aggiunta nuovo utente fallita.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        } else {
+                                                            Toast.makeText(RegisterFieldsActivity.this, "Impossibile aggiungere nuovo utente.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                                        Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else {
+                                                InsUsername.setError("Username già in uso");
+                                            }
+                                        }
+                                    }
+                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                        Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    } else {
+                        if (Nome.getText().length() == 0) {
+                            InsNome.setError("Scrivi qui il tuo nome");
+                        } else if (Cognome.getText().length() == 0) {
+                            InsCognome.setError("Scrivi qui il tuo cognome");
+                        } else if (Passwd.getText().length() == 0) {
+                            InsPasswd.setError("Scrivi qui la tua password");
+                        } else if (RipetiPasswd.getText().length() == 0) {
+                            InsRipetiPasswd.setError("Ripeti qui la tua password");
+                        } else if (Username.getText().length() == 0) {
+                            InsUsername.setError("Scrivi qui il tuo username");
+                        } else if (date.getText().length() == 0) {
+                            InsBday.setError("Scrivi qui la tua data di nascita");
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else{
+            date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // calender class's instance and get current date , month and year from calender
+                    final Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR); // current year
+                    int mMonth = c.get(Calendar.MONTH); // current month
+                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                    // date picker dialog
+                    datePickerDialog = new DatePickerDialog(RegisterFieldsActivity.this, R.style.datepicker,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    // set day of month , month and year value in the edit text
+                                    date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                }
+                            }, mYear, mMonth, mDay);
+                    datePickerDialog.show();
+                }
+            });
+            Finito.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    int camposelezionato = SelezioneSesso.getCheckedRadioButtonId();
+                    final String[] Nuovosesso = {null};
+                    if (Nome.getText().length() > 0 && Cognome.getText().length() > 0 && Passwd.getText().length() > 0 && RipetiPasswd.getText().length() > 0 && Username.getText().length() > 0 && date.getText().length() > 0) {
+                        if (Passwd.length() != RipetiPasswd.length()) {
+                            InsRipetiPasswd.setError("La lunghezza della nuova password non corrisponde alla precedente");
+                        } else if (!(Passwd.getText().toString().equals(RipetiPasswd.getText().toString()))) {
+                            InsRipetiPasswd.setError("Le password non corrispondono");
+                        } else {
+                            if (camposelezionato == -1) {
+                                Toast.makeText(RegisterFieldsActivity.this, "Seleziona sesso.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Nuovosesso[0] = CambiaSesso(camposelezionato);
+                                Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaUsername(EmailProprietario);
+                                verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                        DBModelVerifica dbModelVerifica = response.body();
+                                        if (dbModelVerifica != null) {
+                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                            if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciNuovoUtente(EmailProprietario, CodVerifica, Nome.getText().toString(), Cognome.getText().toString(), RipetiPasswd.getText().toString(), date.getText().toString(), Nuovosesso[0], Username.getText().toString());
+                                                insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                        if (dbModelResponseToInsert != null) {
+                                                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                Intent intent = new Intent(RegisterFieldsActivity.this, RegisterFieldsActivitySuccess.class);
+                                                                intent.putExtra("UserProprietario", Username.getText().toString());
+                                                                intent.putExtra("Passwd", RipetiPasswd.getText().toString());
+                                                                startActivity(intent);
+                                                            } else {
+                                                                Toast.makeText(RegisterFieldsActivity.this, "Aggiunta nuovo utente fallita.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        } else {
+                                                            Toast.makeText(RegisterFieldsActivity.this, "Impossibile aggiungere nuovo utente.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                                        Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else {
+                                                InsUsername.setError("Username già in uso");
+                                            }
+                                        }
+                                    }
+                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                        Toast.makeText(RegisterFieldsActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    } else {
+                        if (Nome.getText().length() == 0) {
+                            InsNome.setError("Scrivi qui il tuo nome");
+                        } else if (Cognome.getText().length() == 0) {
+                            InsCognome.setError("Scrivi qui il tuo cognome");
+                        } else if (Passwd.getText().length() == 0) {
+                            InsPasswd.setError("Scrivi qui la tua password");
+                        } else if (RipetiPasswd.getText().length() == 0) {
+                            InsRipetiPasswd.setError("Ripeti qui la tua password");
+                        } else if (Username.getText().length() == 0) {
+                            InsUsername.setError("Scrivi qui il tuo username");
+                        } else if (date.getText().length() == 0) {
+                            InsBday.setError("Scrivi qui la tua data di nascita");
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private String CambiaSesso(int camposelezionato) {

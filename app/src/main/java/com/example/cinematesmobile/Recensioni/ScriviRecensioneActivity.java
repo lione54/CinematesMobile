@@ -50,8 +50,8 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         Annulla = findViewById(R.id.annu_button);
         Voto = findViewById(R.id.Votofilm);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(UrlImmagine.equals("null")){
-            ImmagineRece.setImageResource(R.drawable.ic_baseline_person_24);
+        if(UrlImmagine == null){
+            ImmagineRece.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(this).load(UrlImmagine).into(ImmagineRece);
         }

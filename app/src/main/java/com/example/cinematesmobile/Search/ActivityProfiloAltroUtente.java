@@ -158,16 +158,20 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         }
         ImmagineProfilo.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
-                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Profilo());
-                startActivity(visualizzaImmagineintent);
+                if(altroUtenteList.get(0).getFoto_Profilo() != null) {
+                    Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                    visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Profilo());
+                    startActivity(visualizzaImmagineintent);
+                }
             }
         });
         ImmagineCopertina.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
-                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Copertina());
-                startActivity(visualizzaImmagineintent);
+                if(altroUtenteList.get(0).getFoto_Copertina() != null) {
+                    Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                    visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Copertina());
+                    startActivity(visualizzaImmagineintent);
+                }
             }
         });
         Call<DBModelDataListeFilmResponce> filmCall = retrofitServiceDBInterno.PrendiFilmUser(UsernameAltroUtente);
@@ -257,16 +261,20 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         }
         ImmagineProfilo.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
-                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Profilo());
-                startActivity(visualizzaImmagineintent);
+                if (altroUtenteList.get(0).getFoto_Profilo() != null) {
+                    Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                    visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Profilo());
+                    startActivity(visualizzaImmagineintent);
+                }
             }
         });
         ImmagineCopertina.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
-                visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Copertina());
-                startActivity(visualizzaImmagineintent);
+                if(altroUtenteList.get(0).getFoto_Copertina() != null) {
+                    Intent visualizzaImmagineintent = new Intent(ActivityProfiloAltroUtente.this, VisualizzaImmaginiActivity.class);
+                    visualizzaImmagineintent.putExtra("image_url", altroUtenteList.get(0).getFoto_Copertina());
+                    startActivity(visualizzaImmagineintent);
+                }
             }
         });
         Call<DBModelDataListeFilmResponce> filmAmiciCall = retrofitServiceDBInterno.PrendiFilmAmico(UsernameAltroUtente,UsernameProprietario);

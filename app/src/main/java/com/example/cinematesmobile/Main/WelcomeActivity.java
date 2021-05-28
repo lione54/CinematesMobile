@@ -57,15 +57,15 @@ public class WelcomeActivity extends AppCompatActivity {
         logo = findViewById(R.id.logo_cinemates);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         Paper.init(this);
-        //User = Paper.book().read("UserProprietario");
-        //Pass = Paper.book().read("Passwd");
+        User = Paper.book().read("UserProprietario");
+        Pass = Paper.book().read("Passwd");
         logo.startAnimation(loadAnimation(WelcomeActivity.this, R.anim.entry_animation));
         final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {
             }
             @Override public void onAnimationEnd(Animation animation) {
                     setContentView(R.layout.activity_welcome_continua);
-                    Accedi = findViewById(R.id.perchè_ti_sovrapponi_all_altro_button);
+                    Accedi = findViewById(R.id.perche_ti_sovrapponi_all_altro_button);
                     Registrati = findViewById(R.id.registrati);
                     SubTitle1 = findViewById(R.id.desc1);
                     SubTitle2 = findViewById(R.id.desc2);

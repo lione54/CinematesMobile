@@ -56,7 +56,7 @@
             android:textSize="26sp"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/perchè_ti_sovrapponi_all_altro_button"
+            android:id="@+id/perche_ti_sovrapponi_all_altro_button"
             android:layout_width="300dp"
             android:layout_height="51dp"
             android:layout_marginBottom="20dp"

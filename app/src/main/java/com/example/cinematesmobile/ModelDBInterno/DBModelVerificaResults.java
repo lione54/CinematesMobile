@@ -5,20 +5,20 @@ import com.google.gson.annotations.SerializedName;
 public class DBModelVerificaResults {
 
     @SerializedName("Verifica")
-    private Integer CodVerifica;
+    private int CodVerifica;
 
     public DBModelVerificaResults() {
     }
 
-    public DBModelVerificaResults(Integer codVerifica) {
+    public DBModelVerificaResults(int codVerifica) {
         CodVerifica = codVerifica;
     }
 
-    public Integer getCodVerifica() {
+    public int getCodVerifica() {
         return CodVerifica;
     }
 
-    public void setCodVerifica(Integer codVerifica) {
+    public void setCodVerifica(int codVerifica) {
         CodVerifica = codVerifica;
     }
 }

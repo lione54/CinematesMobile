@@ -45,7 +45,7 @@ import retrofit2.Response;
 
 public class CommentiActivity extends AppCompatActivity {
 
-    private String UserProprietario, Titololista, AltroUser, TextDescrizione, TipoCorrente, TitoloFilm;
+    private String UserProprietario, Titololista, AltroUser, TextDescrizione, TipoCorrente, TitoloFilm, Dichiè;
     private AppCompatImageButton Indietro;
     private AppCompatTextView NomeLista, Descrizione, ScrittaIni;
     private LinearLayoutCompat Desc;
@@ -67,6 +67,7 @@ public class CommentiActivity extends AppCompatActivity {
         if(TipoCorrente.equals("Lista")) {
             Titololista = getIntent().getExtras().getString("TitoloLista");
             TextDescrizione = getIntent().getExtras().getString("Descrizione");
+            Dichiè = getIntent().getExtras().getString("DiChiè");
         }else{
             TitoloFilm = getIntent().getExtras().getString("TitoloFilm");
         }
@@ -88,6 +89,9 @@ public class CommentiActivity extends AppCompatActivity {
         if(TipoCorrente.equals("Lista")) {
             NomeLista.setText(Titololista);
             Descrizione.setText(TextDescrizione);
+            if(Dichiè.equals("Mia")){
+                AltroUser = UserProprietario;
+            }
             Call<DBModelFilmsResponce> filmsResponceCall = retrofitServiceDBInterno.PrendiFilmDaDB(AltroUser, Titololista);
             filmsResponceCall.enqueue(new Callback<DBModelFilmsResponce>() {
                 @Override public void onResponse(@NonNull Call<DBModelFilmsResponce> call, @NonNull retrofit2.Response<DBModelFilmsResponce> response) {

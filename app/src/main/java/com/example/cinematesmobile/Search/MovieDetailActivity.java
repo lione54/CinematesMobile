@@ -508,7 +508,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             Annulla = (AppCompatButton) PopUpView.findViewById(R.id.annulla_button);
                             InserisciTitolo = PopUpView.findViewById(R.id.inserisci_nome_lista);
                             InserisciDescrizione = PopUpView.findViewById(R.id.descrizione_lista);
-                            visibility = (RadioGroup) PopUpView.findViewById(R.id.visibilità_lista);
+                            visibility = (RadioGroup) PopUpView.findViewById(R.id.visibilita_lista);
                             dialogBilder.setView(PopUpView);
                             CreaLista = dialogBilder.create();
                             CreaLista.show();
@@ -516,264 +516,289 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 @SuppressLint("NonConstantResourceId")
                                 @Override public void onClick(View v) {
                                     if(InserisciTitolo.length() > 0 ){
-                                        int camposelezionato = visibility.getCheckedRadioButtonId();
-                                        if (camposelezionato == -1) {
-                                            Toast.makeText(MovieDetailActivity.this, "Seleziona un campo di visibilità", Toast.LENGTH_SHORT).show();
-                                        }else{
-                                            switch (camposelezionato){
-                                                case R.id.solo_amici:
-                                                    tipoLista = InserisciTitolo.getText().toString();
-                                                    if(InserisciDescrizione.length() > 0) {
-                                                        Descrizione = InserisciDescrizione.getText().toString();
-                                                    }else{
-                                                        Descrizione = "null";
-                                                    }
-                                                    Visibilità = "Solo amici";
-                                                    Call<DBModelVerifica> verificaResultsCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
-                                                    verificaResultsCall.enqueue(new Callback<DBModelVerifica>() {
-                                                        @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                            DBModelVerifica dbModelVerifica = response.body();
-                                                            if(dbModelVerifica != null){
-                                                                List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                    Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
-                                                                    modelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                        @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                            DBModelVerifica dbModelVerifica = response.body();
-                                                                            if(dbModelVerifica != null){
-                                                                                List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                                if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                                    Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(id_film, tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
-                                                                                    aggiungiCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                                                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                                                            if(dbModelResponseToInsert != null){
-                                                                                                if(dbModelResponseToInsert.getStato().equals("Successfull")){
-                                                                                                    if(tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")){
-                                                                                                        if(tipoLista.equals("Preferiti")){
-                                                                                                            Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(id_film, UserName);
-                                                                                                            verificaPrefCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                                                                    DBModelVerifica dbModelVerifica = response.body();
-                                                                                                                    if(dbModelVerifica != null){
-                                                                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                                                                        if (verificaResults.get(0).getCodVerifica() == 0){
-                                                                                                                            CuorePreferiti.setImageResource(R.drawable.ic_like);
-                                                                                                                            stato = false;
-                                                                                                                        }else{
-                                                                                                                            CuorePreferiti.setImageResource(R.drawable.ic_likeactive);
-                                                                                                                            stato = true;
-                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                        if(InserisciTitolo.getText().toString().equals("Da Vedere") || InserisciTitolo.getText().toString().equals("da vedere") || InserisciTitolo.getText().toString().equals("Preferiti") || InserisciTitolo.getText().toString().equals("preferiti")){
+                                            Toast.makeText(MovieDetailActivity.this, "La lista " + InserisciTitolo.getText().toString() + " è già presente di default.", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            int camposelezionato = visibility.getCheckedRadioButtonId();
+                                            if (camposelezionato == -1) {
+                                                Toast.makeText(MovieDetailActivity.this, "Seleziona un campo di visibilità", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                switch (camposelezionato) {
+                                                    case R.id.solo_amici:
+                                                        tipoLista = InserisciTitolo.getText().toString();
+                                                        if (InserisciDescrizione.length() > 0) {
+                                                            Descrizione = InserisciDescrizione.getText().toString();
+                                                        } else {
+                                                            Descrizione = "null";
+                                                        }
+                                                        Visibilità = "Solo amici";
+                                                        Call<DBModelVerifica> verificaResultsCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
+                                                        verificaResultsCall.enqueue(new Callback<DBModelVerifica>() {
+                                                            @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                DBModelVerifica dbModelVerifica = response.body();
+                                                                if (dbModelVerifica != null) {
+                                                                    List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                    if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                        Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
+                                                                        modelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                            @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                                DBModelVerifica dbModelVerifica = response.body();
+                                                                                if (dbModelVerifica != null) {
+                                                                                    List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                    if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                                        Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(id_film, tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
+                                                                                        aggiungiCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                                                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                                                                if (dbModelResponseToInsert != null) {
+                                                                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                                                        if (tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")) {
+                                                                                                            if (tipoLista.equals("Preferiti")) {
+                                                                                                                Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(id_film, UserName);
+                                                                                                                verificaPrefCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                                                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                                                                        DBModelVerifica dbModelVerifica = response.body();
+                                                                                                                        if (dbModelVerifica != null) {
+                                                                                                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                                                            if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                                                                                CuorePreferiti.setImageResource(R.drawable.ic_like);
+                                                                                                                                stato = false;
+                                                                                                                            } else {
+                                                                                                                                CuorePreferiti.setImageResource(R.drawable.ic_likeactive);
+                                                                                                                                stato = true;
+                                                                                                                                Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita", Toast.LENGTH_SHORT).show();
                                                                                                                         }
-                                                                                                                    }else {
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
-                                                                                                                }
-                                                                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                                                                }
-                                                                                                            });
-                                                                                                        } else{
-                                                                                                            Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(id_film, UserName);
-                                                                                                            verificaDaVedCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                                                                    DBModelVerifica dbModelVerifica = response.body();
-                                                                                                                    if(dbModelVerifica != null){
-                                                                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                                                                        if (verificaResults.get(0).getCodVerifica() == 0){
-                                                                                                                            OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses);
-                                                                                                                            stato_V = false;
-                                                                                                                        }else{
-                                                                                                                            OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses_active);
-                                                                                                                            stato_V = true;
-                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                                                                    }
+                                                                                                                });
+                                                                                                            } else {
+                                                                                                                Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(id_film, UserName);
+                                                                                                                verificaDaVedCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                                                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                                                                        DBModelVerifica dbModelVerifica = response.body();
+                                                                                                                        if (dbModelVerifica != null) {
+                                                                                                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                                                            if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                                                                                OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses);
+                                                                                                                                stato_V = false;
+                                                                                                                            } else {
+                                                                                                                                OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses_active);
+                                                                                                                                stato_V = true;
+                                                                                                                                Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita", Toast.LENGTH_SHORT).show();
                                                                                                                         }
-                                                                                                                    }else{
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
-                                                                                                                }
-                                                                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                                                                }
-                                                                                                            });
+                                                                                                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                                                                    }
+                                                                                                                });
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            aggiungiA.setSelectedIndex(0);
+                                                                                                            listefilm.add(tipoLista);
+                                                                                                            aggiungiA.attachDataSource(listefilm);
+                                                                                                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                         }
-                                                                                                    }else {
+                                                                                                    } else {
                                                                                                         aggiungiA.setSelectedIndex(0);
-                                                                                                        listefilm.add(tipoLista);
-                                                                                                        aggiungiA.attachDataSource(listefilm);
-                                                                                                        Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                                        Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita", Toast.LENGTH_SHORT).show();
                                                                                                     }
-                                                                                                }else{
+                                                                                                } else {
                                                                                                     aggiungiA.setSelectedIndex(0);
-                                                                                                    Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita",Toast.LENGTH_SHORT).show();
+                                                                                                    Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film", Toast.LENGTH_SHORT).show();
                                                                                                 }
-                                                                                            }else{
-                                                                                                aggiungiA.setSelectedIndex(0);
-                                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film",Toast.LENGTH_SHORT).show();
                                                                                             }
-                                                                                        }
-                                                                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                                                            aggiungiA.setSelectedIndex(0);
-                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                                        }
-                                                                                    });
-                                                                                }else {
+
+                                                                                            @Override
+                                                                                            public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                                                                                aggiungiA.setSelectedIndex(0);
+                                                                                                Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        });
+                                                                                    } else {
+                                                                                        aggiungiA.setSelectedIndex(0);
+                                                                                        Toast.makeText(MovieDetailActivity.this, "Film presente all'interno della lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                } else {
                                                                                     aggiungiA.setSelectedIndex(0);
-                                                                                    Toast.makeText(MovieDetailActivity.this, "Film presente all'interno della lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                    Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente", Toast.LENGTH_SHORT).show();
                                                                                 }
-                                                                            }else{
-                                                                                aggiungiA.setSelectedIndex(0);
-                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente",Toast.LENGTH_SHORT).show();
                                                                             }
-                                                                        }
-                                                                        @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                            aggiungiA.setSelectedIndex(0);
-                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                                }else {
+
+                                                                            @Override
+                                                                            public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                                aggiungiA.setSelectedIndex(0);
+                                                                                Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        aggiungiA.setSelectedIndex(0);
+                                                                        Toast.makeText(MovieDetailActivity.this, "Lista già creata con il nome di " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                } else {
                                                                     aggiungiA.setSelectedIndex(0);
-                                                                    Toast.makeText(MovieDetailActivity.this, "Lista già creata con il nome di " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente", Toast.LENGTH_SHORT).show();
                                                                 }
-                                                            }else{
-                                                                aggiungiA.setSelectedIndex(0);
-                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente",Toast.LENGTH_SHORT).show();
                                                             }
+
+                                                            @Override
+                                                            public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                aggiungiA.setSelectedIndex(0);
+                                                                Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                        CreaLista.dismiss();
+                                                        break;
+                                                    case R.id.tutti:
+                                                        tipoLista = InserisciTitolo.getText().toString();
+                                                        if (InserisciDescrizione.length() > 0) {
+                                                            Descrizione = InserisciDescrizione.getText().toString();
+                                                        } else {
+                                                            Descrizione = "null";
                                                         }
-                                                        @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                            aggiungiA.setSelectedIndex(0);
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
-                                                    CreaLista.dismiss();
-                                                    break;
-                                                case R.id.tutti:
-                                                    tipoLista = InserisciTitolo.getText().toString();
-                                                    if(InserisciDescrizione.length() > 0) {
-                                                        Descrizione = InserisciDescrizione.getText().toString();
-                                                    }else{
-                                                        Descrizione = "null";
-                                                    }
-                                                    Visibilità = "Tutti";
-                                                    Call<DBModelVerifica> verificaResultsCall2 = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
-                                                    verificaResultsCall2.enqueue(new Callback<DBModelVerifica>() {
-                                                        @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                            DBModelVerifica dbModelVerifica = response.body();
-                                                            if(dbModelVerifica != null){
-                                                                List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                    Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
-                                                                    modelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                        @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                            DBModelVerifica dbModelVerifica = response.body();
-                                                                            if(dbModelVerifica != null){
-                                                                                List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                                if(verificaResults.get(0).getCodVerifica() == 0){
-                                                                                    Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(id_film, tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
-                                                                                    aggiungiCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                                                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                                                            if(dbModelResponseToInsert != null){
-                                                                                                if(dbModelResponseToInsert.getStato().equals("Successfull")){
-                                                                                                    if(tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")){
-                                                                                                        if(tipoLista.equals("Preferiti")){
-                                                                                                            Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(id_film, UserName);
-                                                                                                            verificaPrefCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                                                                    DBModelVerifica dbModelVerifica = response.body();
-                                                                                                                    if(dbModelVerifica != null){
-                                                                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                                                                        if (verificaResults.get(0).getCodVerifica() == 0){
-                                                                                                                            CuorePreferiti.setImageResource(R.drawable.ic_like);
-                                                                                                                            stato = false;
-                                                                                                                        }else{
-                                                                                                                            CuorePreferiti.setImageResource(R.drawable.ic_likeactive);
-                                                                                                                            stato = true;
-                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                        Visibilità = "Tutti";
+                                                        Call<DBModelVerifica> verificaResultsCall2 = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
+                                                        verificaResultsCall2.enqueue(new Callback<DBModelVerifica>() {
+                                                            @Override
+                                                            public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                DBModelVerifica dbModelVerifica = response.body();
+                                                                if (dbModelVerifica != null) {
+                                                                    List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                    if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                        Call<DBModelVerifica> modelVerificaCall = retrofitServiceDBInterno.VerificaSePresente(id_film, UserName, tipoLista);
+                                                                        modelVerificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                            @Override
+                                                                            public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                                DBModelVerifica dbModelVerifica = response.body();
+                                                                                if (dbModelVerifica != null) {
+                                                                                    List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                    if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                                        Call<DBModelResponseToInsert> aggiungiCall = retrofitServiceDBInterno.AggiungiFilmAlDatabase(id_film, tipoLista, UserName, stringTitolo.toString(), stringPoster.toString(), Descrizione, Visibilità);
+                                                                                        aggiungiCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                                                            @Override
+                                                                                            public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                                                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                                                                if (dbModelResponseToInsert != null) {
+                                                                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                                                        if (tipoLista.equals("Preferiti") || tipoLista.equals("Da Vedere")) {
+                                                                                                            if (tipoLista.equals("Preferiti")) {
+                                                                                                                Call<DBModelVerifica> verificaPrefCall = retrofitServiceDBInterno.VerificaSePresenteNeiPreferiti(id_film, UserName);
+                                                                                                                verificaPrefCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                                                                    @Override
+                                                                                                                    public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                                                                        DBModelVerifica dbModelVerifica = response.body();
+                                                                                                                        if (dbModelVerifica != null) {
+                                                                                                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                                                            if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                                                                                CuorePreferiti.setImageResource(R.drawable.ic_like);
+                                                                                                                                stato = false;
+                                                                                                                            } else {
+                                                                                                                                CuorePreferiti.setImageResource(R.drawable.ic_likeactive);
+                                                                                                                                stato = true;
+                                                                                                                                Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita", Toast.LENGTH_SHORT).show();
                                                                                                                         }
-                                                                                                                    }else {
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
-                                                                                                                }
-                                                                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                                                                }
-                                                                                                            });
-                                                                                                        } else{
-                                                                                                            Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(id_film, UserName);
-                                                                                                            verificaDaVedCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                                                                    DBModelVerifica dbModelVerifica = response.body();
-                                                                                                                    if(dbModelVerifica != null){
-                                                                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                                                                        if (verificaResults.get(0).getCodVerifica() == 0){
-                                                                                                                            OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses);
-                                                                                                                            stato_V = false;
-                                                                                                                        }else{
-                                                                                                                            OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses_active);
-                                                                                                                            stato_V = true;
-                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+
+                                                                                                                    @Override
+                                                                                                                    public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                                                                    }
+                                                                                                                });
+                                                                                                            } else {
+                                                                                                                Call<DBModelVerifica> verificaDaVedCall = retrofitServiceDBInterno.VerificaSePresenteNeiDaVedere(id_film, UserName);
+                                                                                                                verificaDaVedCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                                                                    @Override
+                                                                                                                    public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                                                                                                        DBModelVerifica dbModelVerifica = response.body();
+                                                                                                                        if (dbModelVerifica != null) {
+                                                                                                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                                                            if (verificaResults.get(0).getCodVerifica() == 0) {
+                                                                                                                                OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses);
+                                                                                                                                stato_V = false;
+                                                                                                                            } else {
+                                                                                                                                OcchialiDaVedere.setImageResource(R.drawable.ic__d_glasses_active);
+                                                                                                                                stato_V = true;
+                                                                                                                                Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            Toast.makeText(MovieDetailActivity.this, "Verifica fallita", Toast.LENGTH_SHORT).show();
                                                                                                                         }
-                                                                                                                    }else{
-                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Verifica fallita",Toast.LENGTH_SHORT).show();
                                                                                                                     }
-                                                                                                                }
-                                                                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                                                                    Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                                                                }
-                                                                                                            });
+
+                                                                                                                    @Override
+                                                                                                                    public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                                                                        Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                                                                    }
+                                                                                                                });
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            aggiungiA.setSelectedIndex(0);
+                                                                                                            listefilm.add(tipoLista);
+                                                                                                            aggiungiA.attachDataSource(listefilm);
+                                                                                                            Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
                                                                                                         }
-                                                                                                    }else {
+                                                                                                    } else {
                                                                                                         aggiungiA.setSelectedIndex(0);
-                                                                                                        listefilm.add(tipoLista);
-                                                                                                        aggiungiA.attachDataSource(listefilm);
-                                                                                                        Toast.makeText(MovieDetailActivity.this, "Film aggiunto nella lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                                        Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita", Toast.LENGTH_SHORT).show();
                                                                                                     }
-                                                                                                }else{
+                                                                                                } else {
                                                                                                     aggiungiA.setSelectedIndex(0);
-                                                                                                    Toast.makeText(MovieDetailActivity.this, "Aggiunta film fallita",Toast.LENGTH_SHORT).show();
+                                                                                                    Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film", Toast.LENGTH_SHORT).show();
                                                                                                 }
-                                                                                            }else{
-                                                                                                aggiungiA.setSelectedIndex(0);
-                                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile aggiungere il film",Toast.LENGTH_SHORT).show();
                                                                                             }
-                                                                                        }
-                                                                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                                                            aggiungiA.setSelectedIndex(0);
-                                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                                        }
-                                                                                    });
-                                                                                }else {
+
+                                                                                            @Override
+                                                                                            public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                                                                                aggiungiA.setSelectedIndex(0);
+                                                                                                Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        });
+                                                                                    } else {
+                                                                                        aggiungiA.setSelectedIndex(0);
+                                                                                        Toast.makeText(MovieDetailActivity.this, "Film presente all'interno della lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                } else {
                                                                                     aggiungiA.setSelectedIndex(0);
-                                                                                    Toast.makeText(MovieDetailActivity.this, "Film presente all'interno della lista " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                                    Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente", Toast.LENGTH_SHORT).show();
                                                                                 }
-                                                                            }else{
-                                                                                aggiungiA.setSelectedIndex(0);
-                                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se il film è presente",Toast.LENGTH_SHORT).show();
                                                                             }
-                                                                        }
-                                                                        @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                            aggiungiA.setSelectedIndex(0);
-                                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                                }else {
+
+                                                                            @Override
+                                                                            public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                                aggiungiA.setSelectedIndex(0);
+                                                                                Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        aggiungiA.setSelectedIndex(0);
+                                                                        Toast.makeText(MovieDetailActivity.this, "Lista già creata con il nome di " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                } else {
                                                                     aggiungiA.setSelectedIndex(0);
-                                                                    Toast.makeText(MovieDetailActivity.this, "Lista già creata con il nome di " + tipoLista + ".", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente", Toast.LENGTH_SHORT).show();
                                                                 }
-                                                            }else{
-                                                                aggiungiA.setSelectedIndex(0);
-                                                                Toast.makeText(MovieDetailActivity.this, "Impossibile verificare se la lista è presente",Toast.LENGTH_SHORT).show();
                                                             }
-                                                        }
-                                                        @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                            aggiungiA.setSelectedIndex(0);
-                                                            Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto",Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
-                                                    aggiungiA.setSelectedIndex(0);
-                                                    CreaLista.dismiss();
-                                                    break;
+
+                                                            @Override
+                                                            public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                                                aggiungiA.setSelectedIndex(0);
+                                                                Toast.makeText(MovieDetailActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                        aggiungiA.setSelectedIndex(0);
+                                                        CreaLista.dismiss();
+                                                        break;
+                                                }
                                             }
                                         }
                                     }else{

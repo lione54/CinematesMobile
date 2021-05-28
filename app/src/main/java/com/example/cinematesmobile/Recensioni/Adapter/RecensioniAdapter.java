@@ -58,7 +58,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
         DBModelRecensioni dbModelRecensioni = recensioniList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(dbModelRecensioni.getFoto() == null){
-            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24);
+            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(activity).load(dbModelRecensioni.getFoto()).into(holder.FotoProfilo);
         }
@@ -111,15 +111,27 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                                             holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
                                             holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
                                             if(emojList.get(0).getTipo_Emoj().equals("Like")){
-                                                holder.Like.setImageResource(R.drawable.ic_like_active);
-                                                like = true;
-                                                dislike = false;
-                                                holder.Dislike.setEnabled(false);
+                                                if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(User_Segnalatore)) {
+                                                    holder.Like.setImageResource(R.drawable.ic_like_active);
+                                                    like = true;
+                                                    dislike = false;
+                                                    holder.Dislike.setEnabled(false);
+                                                }else{
+                                                    holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                                    like = false;
+                                                    dislike = false;
+                                                }
                                             }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
-                                                holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                                dislike = true;
-                                                like = false;
-                                                holder.Like.setEnabled(false);
+                                                if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(User_Segnalatore)) {
+                                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                                    dislike = true;
+                                                    like = false;
+                                                    holder.Like.setEnabled(false);
+                                                }else{
+                                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                                    dislike = false;
+                                                    like = false;
+                                                }
                                             }
                                             Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
                                             Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());

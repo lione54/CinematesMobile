@@ -49,7 +49,7 @@ public class DBModelDataUserResults {
         if(immagineProfilo == null){
             return null;
         }else{
-            String UrlBase = "http://192.168.178.48/cinematesdb/";
+            String UrlBase = "http://34.246.172.238/cinematesdb/";
             return UrlBase + immagineProfilo;
         }
     }

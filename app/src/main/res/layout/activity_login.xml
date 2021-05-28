@@ -129,7 +129,7 @@
             android:textColorLink="@color/ColorCineBlack"
             android:textSize="18sp"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.gms.common.internal.SignInButtonImpl
             android:id="@+id/logingoogle_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -143,12 +143,12 @@
             android:textColorHighlight="@color/ColorCineBlack"
             android:textColorLink="@color/ColorCineBlack"
             android:textSize="18sp"
-            tools:text="Accedi con Google" />
+            tools:text="@string/AccediGoogle"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/loginfacebook_button"
             android:layout_width="300dp"
-            android:layout_height="51dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="#3b5998"

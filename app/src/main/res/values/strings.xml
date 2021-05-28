@@ -212,8 +212,8 @@
     <string name="le_recensioni_di">Le recensioni di </string>
     <string name="DescrizioneLista">Descrizione</string>
     <string name="Descrizione_testo">Lorem Ipsum dolor sit amet</string>
-
-
+    <string name="title_activity_maps">Map</string>
+    <string name="facebook_app_id">486884969296477</string> <string name="fb_login_protocol_scheme">fb486884969296477</string>
 </resources>
 
 

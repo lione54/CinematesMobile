@@ -120,16 +120,28 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                             if (!(emojList.isEmpty())){
                                                 holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
                                                 holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
-                                                if(emojList.get(0).getTipo_Emoj().equals("Like")){
-                                                    holder.Like.setImageResource(R.drawable.ic_like_active);
-                                                    like = true;
-                                                    dislike = false;
-                                                    holder.Dislike.setEnabled(false);
+                                                if(emojList.get(0).getTipo_Emoj().equals("Like")) {
+                                                    if (emojList.get(0).getUser_che_ha_inserito_emoj().equals(UsernameProprietario)){
+                                                        holder.Like.setImageResource(R.drawable.ic_like_active);
+                                                        like = true;
+                                                        dislike = false;
+                                                        holder.Dislike.setEnabled(false);
+                                                    }else{
+                                                        holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                                        like = false;
+                                                        dislike = false;
+                                                    }
                                                 }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
-                                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                                    dislike = true;
-                                                    like = false;
-                                                    holder.Like.setEnabled(false);
+                                                    if (emojList.get(0).getUser_che_ha_inserito_emoj().equals(UsernameProprietario)) {
+                                                        holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                                        dislike = true;
+                                                        like = false;
+                                                        holder.Like.setEnabled(false);
+                                                    }else{
+                                                        holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                                        dislike = false;
+                                                        like = false;
+                                                    }
                                                 }
                                                 Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
                                                 Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());

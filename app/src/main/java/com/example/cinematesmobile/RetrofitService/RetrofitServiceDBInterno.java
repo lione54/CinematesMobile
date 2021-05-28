@@ -12,6 +12,7 @@ import com.example.cinematesmobile.ModelDBInterno.DBModelNotificheResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloAltroUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelProfiloUtenteResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelRecuperaPasswdResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelRecuperaUsername;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.ModelDBInterno.DBModelUserAmiciResponce;
@@ -270,4 +271,12 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("VerificaEmail.php")
     Call<DBModelVerifica> VerificaEmail(@Field("User_Proprietario") String EmailProprietario);
+
+    @FormUrlEncoded
+    @POST("ModificaDescrizioneLista.php")
+    Call<DBModelResponseToInsert> ModificaDescrizioneLista(@Field("User_Proprietario") String EmailProprietario, @Field("Tipo_Lista") String Tipo_Lista, @Field("Nuova_Descrizione") String Nuova_Descrizione);
+
+    @FormUrlEncoded
+    @POST("RecuperaPasswd.php")
+    Call<DBModelRecuperaPasswdResponce> RecuperaPasswd(@Field("User_Proprietario") String EmailProprietario);
 }

@@ -53,6 +53,7 @@ public class ConfirmCodeActivity extends AppCompatActivity {
                                     Intent intent = new Intent(ConfirmCodeActivity.this, RegisterFieldsActivity.class);
                                     intent.putExtra("EmailProprietario", Email);
                                     intent.putExtra("CodeVerifica", Pin.getText().toString());
+                                    intent.putExtra("TipoLog", "null");
                                     startActivity(intent);
                                 }else{
                                     Pinlayout.setError("Inserisci il codice corretto");
