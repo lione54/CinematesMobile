@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="5dp"
     android:backgroundTint="@color/ColorCineBlack"
     android:orientation="horizontal">
 
@@ -14,22 +14,21 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
         android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_user_notifica_richiesta"
-                android:layout_width="70dp"
-                android:layout_marginLeft="10dp"
-                android:layout_height="70dp"
-                tools:layout_editor_absoluteX="44dp"
-                tools:layout_editor_absoluteY="89dp"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_user_notifica_richiesta"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="89dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -40,10 +39,9 @@
                     android:id="@+id/username_richiesta_ricevuta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="left"
+                    android:paddingLeft="18dp"
                     android:textColor="@color/ColorCineOrange"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -52,13 +50,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="left"
+                    android:paddingLeft="18dp"
+                    android:text="@string/ti_ha_inviato_una_richiesta_di_amicizia"
                     android:textColor="@color/ColorCineOrange"
                     android:textSize="14sp"
-                    android:text="@string/ti_ha_inviato_una_richiesta_di_amicizia"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -66,37 +63,39 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="right">
+                android:layout_gravity="right"
+                android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/accetta_richiesta"
-                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:backgroundTint="@color/ColorCineGreen"
-                    android:text="@string/accetta"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/radius"
                     android:fontFamily="@font/maven_pro"
-                    android:textColor="@color/ColorCineBlack"/>
+                    android:text="@string/accetta"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/rifiuta_richiesta"
-                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:backgroundTint="@color/ColorCineRed"
-                    android:text="@string/rifiuta"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/radius_red"
                     android:fontFamily="@font/maven_pro"
-                    android:textColor="@color/ColorCineBlack"/>
+                    android:text="@string/rifiuta"
+                    android:textColor="@color/ColorCineBlack"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.cardview.widget.CardView>

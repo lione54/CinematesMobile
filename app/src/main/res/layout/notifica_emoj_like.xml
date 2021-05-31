@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="5dp"
     android:backgroundTint="@color/ColorCineBlack"
     android:orientation="horizontal">
 
@@ -14,15 +14,15 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_user_notifica_emoj_like"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="89dp"/>
 
@@ -30,10 +30,11 @@
             android:layout_width="match_parent"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
+            android:layout_marginRight="5dp"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="right"
@@ -56,8 +57,7 @@
                     android:id="@+id/username_emoj_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
+                    android:paddingLeft="18dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="left"
                     android:textColor="@color/ColorCineOrange"
@@ -68,8 +68,7 @@
                     android:id="@+id/a_cosa_ha_messo_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
+                    android:paddingLeft="18dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="left"
                     android:textColor="@color/ColorCineOrange"
@@ -81,8 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
+                    android:paddingLeft="18dp"
                     android:fontFamily="@font/maven_pro"
                     android:gravity="left"
                     android:textColor="@color/ColorCineOrange"

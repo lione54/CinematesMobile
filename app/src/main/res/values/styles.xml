@@ -124,4 +124,8 @@
         <item name="colorControlNormal">@color/ColorCineOrange</item>
         <item name="colorControlActivated">@color/ColorCineOrange</item>
     </style>
+
+    <style name="customfontstyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">Verdana</item>
+    </style>
 </resources>
