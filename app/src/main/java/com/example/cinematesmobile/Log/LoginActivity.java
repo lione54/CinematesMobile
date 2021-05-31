@@ -81,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout InsEmail, InsPasswd, InsertEmailPassDimLayout, NuovoCodiceVer, NuovaPasswdLayout, ConfermaNuovaPassLayout;
     private AppCompatButton Login;
     private LoginButton AccediConFB;
+    private AppCompatButton BottoneFasullo;
     private AppCompatButton Conferma;
     private AppCompatButton Annulla;
     private SignInButtonImpl AccediConGoogle;
@@ -102,9 +103,10 @@ public class LoginActivity extends AppCompatActivity {
         InsEmail = findViewById(R.id.username_or_email_layout);
         InsPasswd = findViewById(R.id.password_insert_login_layout);
         Login = findViewById(R.id.login_seample_button);
-        AccediConFB =(LoginButton) findViewById(R.id.loginfacebook_button);
+        AccediConFB =(LoginButton) findViewById(R.id.facebookButton);
         AccediConGoogle = findViewById(R.id.logingoogle_button);
         PasswdDimenticata = findViewById(R.id.PasswdDimenticata);
+        BottoneFasullo = findViewById(R.id.loginfacebook_button);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         Login.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +195,11 @@ public class LoginActivity extends AppCompatActivity {
                     AccessToken currentAccessToken) {
             }
         };
+        BottoneFasullo.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                    AccediConFB.performClick();
+            }
+        });
         AccediConFB.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override public void onSuccess(LoginResult loginResult) {
                 AccessToken.getCurrentAccessToken().getToken();

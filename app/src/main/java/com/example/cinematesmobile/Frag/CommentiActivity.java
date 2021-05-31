@@ -149,6 +149,44 @@ public class CommentiActivity extends AppCompatActivity {
                     Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                 }
             });
+            ScriviCommento.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (ScriviCommento.length() > 0) {
+                        Call<DBModelResponseToInsert> scriviCommentoCall = retrofitServiceDBInterno.ScriviCommento(ScriviCommento.getText().toString(), UserProprietario, TipoCorrente, Titololista, AltroUser);
+                        scriviCommentoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                if (dbModelResponseToInsert != null) {
+                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                        Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, Titololista, UserProprietario);
+                                        mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                if (dbModelResponseToInsert != null) {
+                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                        ScriviCommento.setText("");
+                                                        recreate();
+                                                    }
+                                                }
+                                            }
+                                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return true;
+                    } else {
+                        Toast.makeText(CommentiActivity.this, "Scrivi qualcosa.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+            });
             InviaCommento.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     if (ScriviCommento.length() > 0) {
@@ -164,6 +202,7 @@ public class CommentiActivity extends AppCompatActivity {
                                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                                 if (dbModelResponseToInsert != null) {
                                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                        ScriviCommento.setText("");
                                                         recreate();
                                                     }
                                                 }
@@ -240,6 +279,44 @@ public class CommentiActivity extends AppCompatActivity {
                 }
                 @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
                     Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            ScriviCommento.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (ScriviCommento.length() > 0) {
+                        Call<DBModelResponseToInsert> scriviCommentoCall = retrofitServiceDBInterno.ScriviCommento(ScriviCommento.getText().toString(), UserProprietario, TipoCorrente, TitoloFilm, AltroUser);
+                        scriviCommentoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call, @NonNull Response<DBModelResponseToInsert> response) {
+                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                if (dbModelResponseToInsert != null) {
+                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                        Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, TitoloFilm, UserProprietario);
+                                        mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                if (dbModelResponseToInsert != null) {
+                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                        ScriviCommento.getText().clear();
+                                                        recreate();
+                                                    }
+                                                }
+                                            }
+                                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call, @NonNull Throwable t) {
+                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return true;
+                    } else {
+                        Toast.makeText(CommentiActivity.this, "Scrivi qualcosa.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
                 }
             });
             InviaCommento.setOnClickListener(new View.OnClickListener() {

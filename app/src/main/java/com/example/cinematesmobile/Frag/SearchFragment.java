@@ -9,12 +9,15 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
@@ -105,6 +108,18 @@ public class SearchFragment extends Fragment {
         recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
+        queryEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                int camposelezionato = CampiRicerca.getCheckedRadioButtonId();
+                if (camposelezionato == -1){
+                    Toast.makeText(getContext(), "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
+                    return false;
+                }else{
+                    Ricerca(camposelezionato);
+                    return true;
+                }
+            }
+        });
         querySearchButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 int camposelezionato = CampiRicerca.getCheckedRadioButtonId();

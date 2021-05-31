@@ -319,6 +319,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                     intent.putExtra("Descrizione", dataListeFilms.get(position).getTitoloLista());
                 }
                 intent.putExtra("TipoCorrente", "Lista");
+                intent.putExtra("DiChiè", "null");
                 activity.startActivity(intent);
             }
         });

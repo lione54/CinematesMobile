@@ -132,7 +132,7 @@
         <com.google.android.gms.common.internal.SignInButtonImpl
             android:id="@+id/logingoogle_button"
             android:layout_width="300dp"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="#DB4437"
             android:clickable="true"
@@ -142,27 +142,46 @@
             android:text="@string/AccediGoogle"
             android:textColor="@color/ColorCineBlack"
             android:drawableTint="@color/ColorCineBlack"
-            android:fontFamily="@font/arialbd"
+            android:fontFamily="@font/maven_pro"
             android:textSize="18sp"
-            android:textAllCaps="false"
-            tools:text="Continue with Google     "/>
+            android:textStyle="bold"
+            android:textAllCaps="false"/>
 
-        <com.facebook.login.widget.LoginButton
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/loginfacebook_button"
-            android:layout_width="300dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="#3b5998"
-            android:drawableStart="@drawable/ic_facebookminimal2"
-            android:text="@string/AccediFacebook"
-            android:textColor="@color/ColorCineBlack"
-            android:textAlignment="center"
-            android:drawableTint="@color/ColorCineBlack"
-            android:textColorHighlight="@color/ColorCineBlack"
-            android:textColorLink="@color/ColorCineBlack"
-            android:textSize="18sp"/>
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loginfacebook_button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="#3b5998"
+                android:drawableStart="@drawable/ic_facebookminimal2"
+                android:text="@string/AccediFacebook"
+                android:textColor="@color/ColorCineBlack"
+                android:textAlignment="center"
+                android:drawableTint="@color/ColorCineBlack"
+                android:textColorHighlight="@color/ColorCineBlack"
+                android:textColorLink="@color/ColorCineBlack"
+                android:textSize="18sp"
+                android:fontFamily="@font/maven_pro"
+                android:textStyle="bold"/>
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebookButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:layout_marginBottom="12dp" />
+
+
+        </LinearLayout>
+
+
+
 
         <!-- END AREA LOGIN GOOGLE & FACEBOOK -->
 

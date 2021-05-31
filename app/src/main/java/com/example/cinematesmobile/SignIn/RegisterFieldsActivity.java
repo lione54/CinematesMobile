@@ -173,12 +173,6 @@ public class RegisterFieldsActivity extends AppCompatActivity{
             Nome.setText(getIntent().getExtras().getString("Nome"));
             Cognome.setText(getIntent().getExtras().getString("Cognome"));
             date.setText(getIntent().getExtras().getString("bday"));
-            String gender = getIntent().getExtras().getString("gender");
-            if(gender.equals("male")){
-                SelezioneSesso.autofill(AutofillValue.forList(R.id.maschio));
-            }else if (gender.equals("female")){
-                SelezioneSesso.autofill(AutofillValue.forList(R.id.femmina));
-            }
             Finito.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     int camposelezionato = SelezioneSesso.getCheckedRadioButtonId();
