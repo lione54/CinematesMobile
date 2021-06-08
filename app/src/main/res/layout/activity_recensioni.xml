@@ -37,10 +37,6 @@
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="35dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.507"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/logo_cinemates" />
 
         </LinearLayout>
@@ -61,10 +57,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -103,7 +100,6 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
                         android:text="@string/numero_recensioni"
                         android:fontFamily="@font/maven_pro"
@@ -131,7 +127,6 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
                         android:text="@string/voto_medio_cinemates"
                         android:fontFamily="@font/maven_pro"
@@ -145,8 +140,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/ColorCineOrange"
                         android:textStyle="bold"
+                        android:gravity="center"
                         android:fontFamily="@font/maven_pro"
-                        android:layout_marginLeft="10dp"
                         android:layout_gravity="center"
                         android:textSize="18sp"/>
 
@@ -170,8 +165,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_gravity="center">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_scrivi_recensione"

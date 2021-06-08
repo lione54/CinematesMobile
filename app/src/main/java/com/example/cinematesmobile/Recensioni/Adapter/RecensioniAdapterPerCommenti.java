@@ -46,7 +46,7 @@ public class RecensioniAdapterPerCommenti extends RecyclerView.Adapter<Recension
     @Override public void onBindViewHolder(@NonNull @NotNull DataHolder holder, int position) {
         DBModelRecensioni dbModelRecensioni = recensioniList.get(position);
         if(dbModelRecensioni.getFoto() == null){
-            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24);
+            holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(activity).load(dbModelRecensioni.getFoto()).into(holder.FotoProfilo);
         }

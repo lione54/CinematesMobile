@@ -148,7 +148,6 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         }
         UsernameProfilo.setText(altroUtenteList.get(0).getUserName());
         NumeroRecensioniScritte.setText(altroUtenteList.get(0).getRecensioni_Scritte());
-        Amici.setText("Amici in comune");
         NumeroAmici.setText(altroUtenteList.get(0).getTotale_Amici());
         FilmInComune.setText(String.valueOf(0));
         if(altroUtenteList.get(0).getDescrizione_Profilo() != null){

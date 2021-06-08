@@ -56,7 +56,7 @@
                 android:textColor="@color/ColorCineOrange"
                 android:textStyle="bold"
                 android:textSize="28sp"
-                android:text="@string/amici_in_comune"
+                android:text="@string/amici"
                 android:fontFamily="@font/maven_pro"/>
 
             <androidx.appcompat.widget.AppCompatImageView

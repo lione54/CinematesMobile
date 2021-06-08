@@ -5,16 +5,14 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginTop="4dp"
     android:backgroundTint="@color/ColorCineBlack"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -53,6 +51,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="-20dp"
+                android:textSize="14sp"
                 android:text="@string/la_segnalazione_della_sua_recensione"
                 android:textColor="@color/ColorCineOrange" />
 
@@ -61,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                android:textSize="14sp"
                 android:textColor="@color/ColorCineOrange" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -71,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textSize="14sp"
                 android:text="@string/per_la_seguente_motivazione"
                 android:textColor="@color/ColorCineOrange" />
 
@@ -79,6 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
+                android:textSize="14sp"
                 android:textColor="@color/ColorCineOrange" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -87,6 +89,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textSize="14sp"
+
                 android:text="@string/stata_declinata"
                 android:textColor="@color/ColorCineOrange" />
 

@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
     private AppCompatButton BottoneFasullo;
     private AppCompatButton Conferma;
     private AppCompatButton Annulla;
-    private SignInButtonImpl AccediConGoogle;
+    private AppCompatButton AccediConGoogle;
     private AppCompatTextView PasswdDimenticata;
     private CallbackManager callbackManager;
     private String Password;

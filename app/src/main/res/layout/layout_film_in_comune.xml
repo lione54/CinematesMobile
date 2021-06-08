@@ -17,8 +17,8 @@
         android:layout_marginBottom="15dp">
 
         <com.github.florent37.diagonallayout.DiagonalLayout
-            android:layout_width="140dp"
-            android:layout_height="match_parent"
+            android:layout_width="120dp"
+            android:layout_height="190dp"
             android:layout_marginLeft="10dp"
             android:background="@color/ColorCineOrange"
             app:diagonal_angle="0"

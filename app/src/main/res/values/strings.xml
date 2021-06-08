@@ -12,7 +12,7 @@
     <string name="invalid_password">La password deve essere maggiore di 5 caratteri</string>
     <string name="login_failed">"Login fallito"</string>
     <string name="AccediFacebook">Accedi con Facebook</string>
-    <string name="AccediGoogle">Accedi con Google</string>
+    <string name="AccediGoogle">ACCEDI CON GOOGLE</string>
     <string name="la_piattaforma_social">La piattaforma social </string>
     <string name="che_fa_discutere_anche_in_sala">che fa discutere anche in sala!</string>
     <string name="title_activity_register">RegisterActivity</string>
