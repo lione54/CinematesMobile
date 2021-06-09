@@ -54,7 +54,7 @@ public interface RetrofitServiceDBInterno {
 
     @FormUrlEncoded
     @POST("ListaAmiciInComune.php")
-    Call<DBModelUserAmiciResponce> getAmiciInComune(@Field("User_Proprietario") String Username);
+    Call<DBModelUserAmiciResponce> getAmiciInComune(@Field("User_Proprietario") String Username, @Field("UserNameCercato") String UserNameCercato);
 
     @FormUrlEncoded
     @POST("RimuoviAmico.php")
@@ -66,7 +66,7 @@ public interface RetrofitServiceDBInterno {
 
     @FormUrlEncoded
     @POST("PrendiRecensioniDaDB.php")
-    Call<DBModelRecensioniResponce> PrendiRecensioni(@Field("Titolo_Film_Recensito") String Titolo_Film_Recensito, @Field("Tipo") String Tipo, @Field("User_Recensore") String User_Recensore);
+    Call<DBModelRecensioniResponce> PrendiRecensioni(@Field("Titolo_Film_Recensito") String Titolo_Film_Recensito, @Field("Tipo") String Tipo, @Field("User_Che_Ha_Scritto_Recensione") String User_Recensore);
 
     @FormUrlEncoded
     @POST("PrendiFotoUser.php")

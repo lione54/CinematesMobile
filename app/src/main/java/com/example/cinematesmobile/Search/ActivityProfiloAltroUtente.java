@@ -66,7 +66,6 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         ImmagineCopertina = findViewById(R.id.foto_copertina);
         Previously = findViewById(R.id.previously);
         FilmInComune = findViewById(R.id.Film_in_comune);
-        Amici = findViewById(R.id.amici_inc);
         NumeroAmici = findViewById(R.id.Numero_amici);
         NomeUser = findViewById(R.id.Nome_user);
         CognomeUser = findViewById(R.id.Cognome_user);

@@ -22,6 +22,8 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.cinematesmobile.AsyncTask.NotificheAsyncTask;
 import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
 import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
@@ -113,6 +115,7 @@ public class FragmentPreferiti extends Fragment {
         UsernameProprietario = this.getArguments().getString("Username");
         View v = inflater.inflate(R.layout.fragment__preferiti, container, false);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
+        //new NotificheAsyncTask(UsernameProprietario, getActivity()).execute();
         listePresenti = v.findViewById(R.id.liste_presenti);
         if(inizializza == true) {
             inizializza = false;

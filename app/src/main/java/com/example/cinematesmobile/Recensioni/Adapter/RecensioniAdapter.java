@@ -15,10 +15,12 @@ import com.bumptech.glide.Glide;
 import com.example.cinematesmobile.Frag.CommentiActivity;
 import com.example.cinematesmobile.Frag.Model.DBModelEmoj;
 import com.example.cinematesmobile.ModelDBInterno.DBModelEmojResponde;
+import com.example.cinematesmobile.ModelDBInterno.DBModelFotoProfiloResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
 import com.example.cinematesmobile.R;
+import com.example.cinematesmobile.Recensioni.Model.DBModelFotoProfilo;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
@@ -167,12 +169,32 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                         if(dbModelVerifica != null) {
                             List<DBModelVerificaResults> modelVerificaResults = dbModelVerifica.getResults();
                             if (modelVerificaResults.get(0).getCodVerifica() == 0) {
-                                Intent intent2 = new Intent(activity, SegnalazioniActivity.class);
-                                intent2.putExtra("Nome_Utente_Segnalatore", User_Segnalatore);
-                                intent2.putExtra("Nome_Utente_Segnalato", dbModelRecensioni.getUser_Recensore());
-                                intent2.putExtra("Foto_Profilo", dbModelRecensioni.getFoto());
-                                intent2.putExtra("Id_Recensione", String.valueOf(dbModelRecensioni.getId_Recensione()));
-                                activity.startActivity(intent2);
+                                Call<DBModelFotoProfiloResponce> fotoProfiloResponceCall = retrofitServiceDBInterno.PrendiFotoProfilo(User_Segnalatore);
+                                fotoProfiloResponceCall.enqueue(new Callback<DBModelFotoProfiloResponce>() {
+                                    @Override public void onResponse(@NonNull Call<DBModelFotoProfiloResponce> call,@NonNull Response<DBModelFotoProfiloResponce> response) {
+                                        DBModelFotoProfiloResponce dbModelFotoProfiloResponce = response.body();
+                                        if(dbModelFotoProfiloResponce != null){
+                                            List<DBModelFotoProfilo> fotoProfilos = dbModelFotoProfiloResponce.getResults();
+                                            if (fotoProfilos.get(0).getFotoProfilo() != null){
+                                                Intent intent2 = new Intent(activity, SegnalazioniActivity.class);
+                                                intent2.putExtra("Nome_Utente_Segnalatore", User_Segnalatore);
+                                                intent2.putExtra("Nome_Utente_Segnalato", dbModelRecensioni.getUser_Recensore());
+                                                intent2.putExtra("Foto_Profilo", fotoProfilos.get(0).getFotoProfilo());
+                                                intent2.putExtra("Id_Recensione", String.valueOf(dbModelRecensioni.getId_Recensione()));
+                                                activity.startActivity(intent2);
+                                            }else{
+                                                Intent intent2 = new Intent(activity, SegnalazioniActivity.class);
+                                                intent2.putExtra("Nome_Utente_Segnalatore", User_Segnalatore);
+                                                intent2.putExtra("Nome_Utente_Segnalato", dbModelRecensioni.getUser_Recensore());
+                                                intent2.putExtra("Id_Recensione", String.valueOf(dbModelRecensioni.getId_Recensione()));
+                                                activity.startActivity(intent2);
+                                            }
+                                        }
+                                    }
+                                    @Override public void onFailure(@NonNull Call<DBModelFotoProfiloResponce> call,@NonNull Throwable t) {
+
+                                    }
+                                });
                             }else{
                                 Toast.makeText(activity, "Hai già segnalato questa recensione", Toast.LENGTH_SHORT).show();
                             }

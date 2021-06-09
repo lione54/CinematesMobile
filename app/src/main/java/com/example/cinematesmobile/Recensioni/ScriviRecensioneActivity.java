@@ -16,6 +16,9 @@ import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +28,8 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
 
     private String NomeUtente, UrlImmagine, TitoloFilm;
     private AppCompatTextView Nome;
-    private AppCompatEditText CorpoRecensione;
+    private TextInputLayout CorpoReceLayout;
+    private TextInputEditText CorpoRecensione;
     private AppCompatButton Invia;
     private AppCompatButton Annulla;
     private RatingBar Voto;
@@ -45,6 +49,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         ImmagineRece = findViewById(R.id.immagineRece);
         Nome = findViewById(R.id.nome_utente);
         CorpoRecensione = findViewById(R.id.corp_rece);
+        CorpoReceLayout = findViewById(R.id.corpo_rece_layout);
         Previously = findViewById(R.id.previously);
         Invia = findViewById(R.id.invia_button);
         Annulla = findViewById(R.id.annu_button);
@@ -58,7 +63,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         Nome.setText(NomeUtente);
         Invia.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                if(CorpoRecensione.length() > 0 && CorpoRecensione.length() < 600){
+                if(CorpoRecensione.length() > 0 && CorpoRecensione.length() <= 600){
                     float Punteggio = Voto.getRating();
                     String Recensione = CorpoRecensione.getText().toString();
                     if(Punteggio == 0){
@@ -123,9 +128,9 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                     }
                 }else{
                     if(CorpoRecensione.length() <= 0){
-                        Toast.makeText(ScriviRecensioneActivity.this, "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
-                    }else if(CorpoRecensione.length() >= 600){
-                        Toast.makeText(ScriviRecensioneActivity.this, "Superato la lunghezza massima della recensione", Toast.LENGTH_SHORT).show();
+                        CorpoReceLayout.setError("Scrivi qualcosa");
+                    }else if(CorpoRecensione.length() > 600){
+                        CorpoReceLayout.setError("Superato la lunghezza massima della recensione");
                     }
                 }
             }

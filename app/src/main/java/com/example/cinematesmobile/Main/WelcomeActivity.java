@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,6 +27,7 @@ import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.SignIn.SignInActivity;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -59,7 +61,6 @@ public class WelcomeActivity extends AppCompatActivity {
         Paper.init(this);
         User = Paper.book().read("UserProprietario");
         Pass = Paper.book().read("Passwd");
-        logo.startAnimation(loadAnimation(WelcomeActivity.this, R.anim.entry_animation));
         final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {
             }
@@ -90,16 +91,43 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 }
             };
-            logo.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    if(User == null && Pass == null) {
-                        v.startAnimation(animationStart(animationListener));
-                    }else{
-                        Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaPasswdInserita(User,Pass);
+        new CountDownTimer(5000, 1000) {
+                @Override public void onTick(long millisUntilFinished) {
+                    logo.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            if (User == null && Pass == null) {
+                                v.startAnimation(animationStart(animationListener));
+                            } else {
+                                Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaPasswdInserita(User, Pass);
+                                verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
+                                        DBModelVerifica dbModelVerifica = response.body();
+                                        if (dbModelVerifica != null) {
+                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                            if (verificaResults.get(0).getCodVerifica() == 1) {
+                                                Intent intent2 = new Intent(WelcomeActivity.this, FragmentActivity.class);
+                                                intent2.putExtra("UserProprietario", User);
+                                                startActivity(intent2);
+                                            }
+                                        }
+                                    }
+                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
+                                        Toast.makeText(WelcomeActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+                @Override public void onFinish() {
+                    if (User == null && Pass == null) {
+                        logo.startAnimation(animationStart(animationListener));
+                    } else {
+                        Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaPasswdInserita(User, Pass);
                         verificaCall.enqueue(new Callback<DBModelVerifica>() {
-                            @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
+                            @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
                                 DBModelVerifica dbModelVerifica = response.body();
-                                if(dbModelVerifica != null) {
+                                if (dbModelVerifica != null) {
                                     List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                                     if (verificaResults.get(0).getCodVerifica() == 1) {
                                         Intent intent2 = new Intent(WelcomeActivity.this, FragmentActivity.class);
@@ -108,12 +136,12 @@ public class WelcomeActivity extends AppCompatActivity {
                                     }
                                 }
                             }
-                            @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
+                            @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
                                 Toast.makeText(WelcomeActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 }
-            });
+        }.start();
     }
 }

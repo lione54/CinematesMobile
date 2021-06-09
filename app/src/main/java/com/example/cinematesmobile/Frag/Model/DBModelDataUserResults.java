@@ -13,14 +13,14 @@ public class DBModelDataUserResults {
     @SerializedName("Amicizia")
     private Integer EsisteAmicizia;
     @SerializedName("Amici_In_Comune")
-    private Integer AmiciInComune;
+    private String AmiciInComune;
     @SerializedName("UserCheCerca")
     private String UserCheCerca;
 
     public DBModelDataUserResults() {
     }
 
-    public DBModelDataUserResults(String userCheCerca, String username_Cercato, String immagineProfilo, Integer Id_Utente, Integer esisteAmicizia, Integer amiciInComune) {
+    public DBModelDataUserResults(String userCheCerca, String username_Cercato, String immagineProfilo, Integer Id_Utente, Integer esisteAmicizia, String amiciInComune) {
         UserCheCerca = userCheCerca;
         Username_Cercato = username_Cercato;
         this.immagineProfilo = immagineProfilo;
@@ -74,11 +74,11 @@ public class DBModelDataUserResults {
         EsisteAmicizia = esisteAmicizia;
     }
 
-    public Integer getAmiciInComune() {
+    public String getAmiciInComune() {
         return AmiciInComune;
     }
 
-    public void setAmiciInComune(Integer amiciInComune) {
+    public void setAmiciInComune(String amiciInComune) {
         AmiciInComune = amiciInComune;
     }
 }

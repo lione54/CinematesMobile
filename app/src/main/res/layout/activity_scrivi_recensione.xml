@@ -72,30 +72,45 @@
                 android:fontFamily="@font/maven_pro"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/corp_rece"
-                android:layout_width="350dp"
-                android:layout_height="127dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_horizontal"
-                android:textStyle="normal"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/ColorCineOrange"
-                android:textColor="@color/ColorCineBlack"
-                android:hint="@string/scrivi_una_recensione_di_massimo_600_caratteri"
-                android:textColorHint="@color/ColorCineBlack"
-                android:textSize="18sp"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/corpo_rece_layout"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:hint="@string/scrivi_una_recensione"
+                app:passwordToggleTint="@color/ColorCineOrange"
+                android:theme="@style/EditTextPersonalizzati1"
+                app:counterEnabled="true"
+                app:counterMaxLength="600"
+                app:counterTextColor="@color/ColorCineOrange">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/corp_rece"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableEnd="@drawable/ic_baseline_edit_24"
+                    android:drawableTint="@color/ColorCineOrange"
+                    android:textColor="@color/ColorCineOrange"
+                    android:inputType="textMultiLine"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal">
 
@@ -155,5 +170,6 @@
 
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </LinearLayout>

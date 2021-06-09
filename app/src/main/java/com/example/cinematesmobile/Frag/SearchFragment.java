@@ -209,6 +209,7 @@ public class SearchFragment extends Fragment {
                         if(queryEditText.getText().toString().equals(UsernameProprietario)){
                             Toast.makeText(getContext(), "Non puoi cercare te stesso", Toast.LENGTH_SHORT).show();
                         }else {
+                            queryEditText.setText("");
                             Call<DBModelDataUser> dbModelDataUserCall = retrofitServiceDBInterno.getUserByQuery(query, UsernameProprietario);
                             dbModelDataUserCall.enqueue(new Callback<DBModelDataUser>() {
                                 @Override public void onResponse(@NonNull Call<DBModelDataUser> call,@NonNull Response<DBModelDataUser> response) {

@@ -22,31 +22,32 @@ import retrofit2.Response;
 
 public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
 
-    private String Username, Proprietario;
+    private String UsernameCercato, Proprietario;
     private RecyclerView ListaAmici;
     private AppCompatImageButton PreviouslyAmici;
-    private List<DBModelUserAmici> UtentiAmici = new ArrayList<>();
     private MieiAmiciAdapter mieiAmiciAdapter;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_amici_in_comune);
-        Username = getIntent().getExtras().getString("Nome_Utente");
+        UsernameCercato = getIntent().getExtras().getString("Nome_Utente_Cercato");
         Proprietario = getIntent().getExtras().getString("Nome_Proprietario");
         PreviouslyAmici = findViewById(R.id.previously_amici);
         ListaAmici = findViewById(R.id.lista_amici_in_comune);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        Call<DBModelUserAmiciResponce> dbModelUserAmiciResponceCall = retrofitServiceDBInterno.getAmiciInComune(Username);
+        Call<DBModelUserAmiciResponce> dbModelUserAmiciResponceCall = retrofitServiceDBInterno.getAmiciInComune(Proprietario, UsernameCercato);
         dbModelUserAmiciResponceCall.enqueue(new Callback<DBModelUserAmiciResponce>() {
             @Override public void onResponse(@NonNull Call<DBModelUserAmiciResponce> call,@NonNull Response<DBModelUserAmiciResponce> response) {
                 DBModelUserAmiciResponce dbModelUserAmiciResponce = response.body();
                 if(dbModelUserAmiciResponce != null){
-                    UtentiAmici = dbModelUserAmiciResponce.getResults();
-                    ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
-                    mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, Username, Proprietario);
-                    ListaAmici.setAdapter(mieiAmiciAdapter);
+                    List<DBModelUserAmici> UtentiAmici = dbModelUserAmiciResponce.getResults();
+                    if(!(UtentiAmici.isEmpty())) {
+                        ListaAmici.setLayoutManager(new LinearLayoutManager(VisualizzaAmiciInComuneActivity.this, LinearLayoutManager.VERTICAL, false));
+                        mieiAmiciAdapter = new MieiAmiciAdapter(VisualizzaAmiciInComuneActivity.this, UtentiAmici, UsernameCercato, Proprietario);
+                        ListaAmici.setAdapter(mieiAmiciAdapter);
+                    }
                 }else{
                     Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici",Toast.LENGTH_SHORT).show();
                 }

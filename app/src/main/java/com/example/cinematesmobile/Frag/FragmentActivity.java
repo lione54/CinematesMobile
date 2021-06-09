@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
@@ -82,5 +83,6 @@ public class FragmentActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
 }

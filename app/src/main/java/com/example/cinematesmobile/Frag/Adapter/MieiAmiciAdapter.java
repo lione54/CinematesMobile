@@ -43,35 +43,34 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
     }
 
     @Override public void onBindViewHolder(@NonNull MieiAmiciAdapter.DataHolder holder, int position) {
-        DBModelUserAmici data = amiciList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(data.getFoto_Profilo() == null){
+        if(amiciList.get(position).getFoto_Profilo() == null){
             holder.ImageUserAmico.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
-            Glide.with(activity).load(data.getFoto_Profilo()).into(holder.ImageUserAmico);
+            Glide.with(activity).load(amiciList.get(position).getFoto_Profilo()).into(holder.ImageUserAmico);
         }
-        holder.UsernameAmico.setText(data.getE_Amico_Di());
+        holder.UsernameAmico.setText(amiciList.get(position).getE_Amico_Di());
         if(!(Username.equals(Proprietario))){
             holder.RimuovidaAmici.setVisibility(View.GONE);
         }else {
             holder.RimuovidaAmici.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Call<DBModelResponseToInsert> rimuoviamiciCall = retrofitServiceDBInterno.RimuoviAmico(Proprietario, data.getE_Amico_Di());
+                    Call<DBModelResponseToInsert> rimuoviamiciCall = retrofitServiceDBInterno.RimuoviAmico(Proprietario, amiciList.get(position).getE_Amico_Di());
                     rimuoviamiciCall.enqueue(new Callback<DBModelResponseToInsert>() {
                         @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                             DBModelResponseToInsert dbModelResponseToInsert = response.body();
                             if (dbModelResponseToInsert != null){
                                 if (dbModelResponseToInsert.getStato().equals("Successfull")){
-                                    Toast.makeText(activity, data.getE_Amico_Di() + " Rimosso dagli amici.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, amiciList.get(position).getE_Amico_Di() + " Rimosso dagli amici.", Toast.LENGTH_SHORT).show();
                                     amiciList.remove(position);
                                     notifyItemRemoved(position);
                                     notifyItemRangeRemoved(position, amiciList.size());
                                 }else{
-                                    Toast.makeText(activity, "Rimozione di " + data.getE_Amico_Di() + " dagli amici fallita.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, "Rimozione di " + amiciList.get(position).getE_Amico_Di() + " dagli amici fallita.", Toast.LENGTH_SHORT).show();
                                 }
                             }else{
-                                Toast.makeText(activity, "Impossibile eliminare " + data.getE_Amico_Di() + " dagli amici.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, "Impossibile eliminare " + amiciList.get(position).getE_Amico_Di() + " dagli amici.", Toast.LENGTH_SHORT).show();
                             }
                         }
                         @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
@@ -84,7 +83,7 @@ public class MieiAmiciAdapter extends RecyclerView.Adapter<MieiAmiciAdapter.Data
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent = new Intent(activity, ActivityProfiloAltroUtente.class);
-                intent.putExtra("UsernameAltroUtente", data.getE_Amico_Di());
+                intent.putExtra("UsernameAltroUtente", amiciList.get(position).getE_Amico_Di());
                 intent.putExtra("UsernameProprietario", Proprietario);
                 activity.startActivity(intent);
             }

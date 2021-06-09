@@ -229,7 +229,7 @@ public class ProfiloFragment extends Fragment {
         NomeUser.setText(profiloUtenteList.get(0).getNome());
         CognomeUser.setText(profiloUtenteList.get(0).getCognome());
         EmailUser.setText(profiloUtenteList.get(0).getEmail());
-        String Pass = profiloUtenteList.get(0).getPasswd().replaceAll("[a-zA-Z0-9]", "\\*");
+        String Pass = profiloUtenteList.get(0).getPasswd().replaceAll("[a-zA-Z0-9[:punct:]]", "\\*");
         PasswordUser.setText(Pass);
         if(profiloUtenteList.get(0).getDescrizione_Profilo() != null){
             DescrizioneUser.setText(profiloUtenteList.get(0).getDescrizione_Profilo());

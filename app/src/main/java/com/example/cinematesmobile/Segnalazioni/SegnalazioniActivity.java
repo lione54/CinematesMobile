@@ -51,8 +51,8 @@ public class SegnalazioniActivity extends AppCompatActivity {
         Altro = findViewById(R.id.altro);
         AltraMotivazione = findViewById(R.id.Altra_motivazione);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(FotoProfilo.equals("null")){
-            Profilo.setImageResource(R.drawable.ic_baseline_person_24);
+        if(FotoProfilo == null){
+            Profilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
             Glide.with(SegnalazioniActivity.this).load(FotoProfilo).into(Profilo);
         }

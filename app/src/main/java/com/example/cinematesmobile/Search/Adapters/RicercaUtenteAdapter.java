@@ -60,17 +60,19 @@ public class RicercaUtenteAdapter extends RecyclerView.Adapter<RicercaUtenteAdap
             holder.InviaAmicizia.setEnabled(false);
             holder.InviaAmicizia.setText("Amici");
         }else{
-            if(data.getAmiciInComune() == 0) {
-                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici in comune").toString());
-            }else if(data.getAmiciInComune() == 1){
-                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amico in comune").toString());
+            if(data.getAmiciInComune() != null){
+                if(data.getAmiciInComune().equals("1")){
+                    holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amico in comune").toString());
+                }else{
+                    holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici in comune").toString());
+                }
             }else{
-                holder.DettagliAmicizia.setText(new StringBuilder().append(data.getAmiciInComune()).append(" Amici in comune").toString());
+                    holder.DettagliAmicizia.setText(new StringBuilder().append(0).append(" Amici in comune").toString());
             }
             holder.DettagliAmicizia.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     Intent intent = new Intent(activity, VisualizzaAmiciInComuneActivity.class);
-                    intent.putExtra("Nome_Utente", data.getUsername_Cercato());
+                    intent.putExtra("Nome_Utente_Cercato", data.getUsername_Cercato());
                     intent.putExtra("Nome_Proprietario", data.getUserCheCerca());
                     activity.startActivity(intent);
                 }

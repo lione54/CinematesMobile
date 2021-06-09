@@ -19,6 +19,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitServiceFilm {
+
     @GET("search/movie")
     Call<MovieResponse> CercaFilmTMDB(@Query("api_key") String api_key, @Query("language") String lingua, @Query("query") String query);
 
@@ -44,7 +45,7 @@ public interface RetrofitServiceFilm {
     Call<MovieDetail> PredndiDettagliFilmTMDB(@Path("movie_id") int person_id, @Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("movie/{movie_id}/images")
-    Call<MovieImage> PrendiImmaginiFilmTMDB(@Path("movie_id") int person_id, @Query("api_key") String api_key);
+    Call<MovieImage> PrendiImmaginiFilmTMDB(@Path("movie_id") int movie_id, @Query("api_key") String api_key);
 
     @GET("person/popular")
     Call<AttoriPopularResponse> PrendiAttoriPopolariTMDB(@Query("api_key") String api_key, @Query("language") String lingua);

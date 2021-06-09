@@ -155,16 +155,22 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
             holder.Generi.setText("Non Disponibile");
         }
         if(movieDetailResponse.getOverview() != null){
-            if(movieDetailResponse.getOverview().length() > 0) {
+            Integer Maxlen = movieDetailResponse.getOverview().length();
+            if(Maxlen > 70) {
                 String Trama = movieDetailResponse.getOverview().substring(0, 70);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(Trama).append("...\nContinuare a leggere.");
                 holder.Trama.setText(stringBuilder);
+            }else if (Maxlen >= 0 && Maxlen <= 49){
+                holder.Trama.setText("Non disponibile.");
             }else{
-                holder.Trama.setText("Non disponibile");
+                String Trama = movieDetailResponse.getOverview().substring(0, 50);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(Trama).append("...\nContinuare a leggere.");
+                holder.Trama.setText(stringBuilder);
             }
         }else{
-            holder.Trama.setText("Non disponibile");
+            holder.Trama.setText("Non disponibile.");
         }
         if(movieDetailResponse.getVote_average() > 0){
             String Punteggio = Float.toString(movieDetailResponse.getVote_average());
