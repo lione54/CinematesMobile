@@ -1,18 +1,17 @@
 package com.example.cinematesmobile.AsyncTask;
 
 import android.app.Activity;
-import android.app.Notification;
+
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.core.app.NotificationManagerCompat;
 
-import com.example.cinematesmobile.Frag.Adapter.NotificationAdapter;
 import com.example.cinematesmobile.Frag.Model.DBModelNotifiche;
 import com.example.cinematesmobile.ModelDBInterno.DBModelNotificheResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerificaResults;
+import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 
@@ -52,7 +51,47 @@ public class NotificheAsyncTask extends AsyncTask<Void, Void, Void> {
                                     List<DBModelNotifiche> notificheList = dbModelNotificheResponce.getResults();
                                     if(!(notificheList.isEmpty())){
                                         for (int i = 0; i < notificheList.size(); i++) {
-                                            NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, notificheList.get(i).getTipo_Notifica());
+                                            NotificationCompat.Builder builder = new NotificationCompat.Builder(activity,"Notifiche");
+                                            builder.setContentTitle(notificheList.get(i).getTipo_Notifica());
+                                            if (notificheList.get(i).getTipo_Notifica().equals("Like")) {
+                                                if(notificheList.get(i).getQuale_post().equals("Recensioni")) {
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha messo like alla tua recensione di " + notificheList.get(i).getArgomento_notifica());
+                                                }else if(notificheList.get(i).getQuale_post().equals("Commento")){
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha messo like al tuo commento di " + notificheList.get(i).getArgomento_notifica());
+                                                }else if(notificheList.get(i).getQuale_post().equals("Lista")){
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha messo like alla tua lista " + notificheList.get(i).getArgomento_notifica());
+                                                }
+                                            } else if (notificheList.get(i).getTipo_Notifica().equals("Dislike")) {
+                                                if (notificheList.get(i).getQuale_post().equals("Recensioni")) {
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha messo dislike alla tua recensione di " + notificheList.get(i).getArgomento_notifica());
+                                                } else if (notificheList.get(i).getQuale_post().equals("Commento")) {
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha messo dislike al tuo commento di " + notificheList.get(i).getArgomento_notifica());
+                                                }else if(notificheList.get(i).getQuale_post().equals("Lista")){
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha messo dislike alla tua lista " + notificheList.get(i).getArgomento_notifica());
+                                                }
+                                            }else if (notificheList.get(i).getTipo_Notifica().equals("Commento")){
+                                                if (notificheList.get(i).getQuale_post().equals("Recensioni")) {
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha commentato la tua recensione di " + notificheList.get(i).getArgomento_notifica());
+                                                }else if(notificheList.get(i).getQuale_post().equals("Lista")){
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha commentato la tua lista " + notificheList.get(i).getArgomento_notifica());
+                                                }
+                                            }else if (notificheList.get(i).getTipo_Notifica().equals("Richiesta")){
+                                                if (notificheList.get(i).getArgomento_notifica().equals("Inviata")) {
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ti ha inviato una richiesta di amicizia");
+                                                }else if(notificheList.get(i).getArgomento_notifica().equals("Accettata")){
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha accettato la tua richiesta di amicizia ");
+                                                }
+                                            }else if (notificheList.get(i).getTipo_Notifica().equals("Segnalazione")){
+                                                if (notificheList.get(i).getArgomento_notifica().equals("Declinata")) {
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha declinato la segnalazione della recensione di " + notificheList.get(i).getArgomento_notifica());
+                                                }else if(notificheList.get(i).getArgomento_notifica().equals("Accettata")){
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha accettato la segnalazione della recensione di " + notificheList.get(i).getArgomento_notifica());
+                                                }
+                                            }
+                                            builder.setSmallIcon(R.drawable.ic_oscar);
+                                            builder.setAutoCancel(true);
+                                            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(activity);
+                                            managerCompat.notify(1, builder.build());
                                         }
                                     }
                                 }

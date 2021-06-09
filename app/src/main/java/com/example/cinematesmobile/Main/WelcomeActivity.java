@@ -6,7 +6,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -61,6 +64,11 @@ public class WelcomeActivity extends AppCompatActivity {
         Paper.init(this);
         User = Paper.book().read("UserProprietario");
         Pass = Paper.book().read("Passwd");
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("Notifiche", "Notifiche", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
         final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {
             }

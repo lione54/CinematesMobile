@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
 
+import com.example.cinematesmobile.AsyncTask.NotificheAsyncTask;
 import com.example.cinematesmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,6 +41,7 @@ public class FragmentActivity extends AppCompatActivity {
                         setTitle("Profilo");
                         fragment = new ProfiloFragment();
                         bundle.putString("Username", UsernameProprietario);
+                        new NotificheAsyncTask(UsernameProprietario, FragmentActivity.this).execute();
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
                         break;
@@ -47,6 +49,7 @@ public class FragmentActivity extends AppCompatActivity {
                         setTitle("Home");
                         fragment = new HomeFragment();
                         bundle.putString("UserProprietario", UsernameProprietario);
+                        new NotificheAsyncTask(UsernameProprietario, FragmentActivity.this).execute();
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
                         break;
@@ -54,6 +57,7 @@ public class FragmentActivity extends AppCompatActivity {
                         setTitle("TopRated");
                         fragment = new FragmentPreferiti();
                         bundle.putString("Username", UsernameProprietario);
+                        new NotificheAsyncTask(UsernameProprietario, FragmentActivity.this).execute();
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
                         break;
@@ -61,6 +65,7 @@ public class FragmentActivity extends AppCompatActivity {
                         setTitle("Ricerca");
                         fragment = new SearchFragment();
                         bundle.putString("Username", UsernameProprietario);
+                        new NotificheAsyncTask(UsernameProprietario, FragmentActivity.this).execute();
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
                         break;
@@ -68,6 +73,7 @@ public class FragmentActivity extends AppCompatActivity {
                         setTitle("Notifiche");
                         fragment = new FragmentNotifiche();
                         bundle.putString("Username", UsernameProprietario);
+                        new NotificheAsyncTask(UsernameProprietario, FragmentActivity.this).execute();
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
                         break;
