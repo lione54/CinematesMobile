@@ -26,6 +26,8 @@ import com.example.cinematesmobile.Search.ModelMovieActor.MovieDetail;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
+
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import retrofit2.Call;
@@ -93,7 +95,9 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
                                 Valutazione_Media = votiList.get(i).getValutazione_Media();
                             }
                         }
-                        holder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
+                        DecimalFormat df = new DecimalFormat();
+                        df.setMaximumFractionDigits(1);
+                        holder.VotoCinemates.setText(String.valueOf(df.format(Valutazione_Media)));
                     }else {
                         Toast.makeText(mCtx,"Nessuna media voto trovata",Toast.LENGTH_SHORT).show();
                     }

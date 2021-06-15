@@ -37,7 +37,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
     private Activity activity;
     private List<DBModelRecensioni> recensioniList;
     private RetrofitServiceDBInterno retrofitServiceDBInterno;
-    private String User_Segnalatore;
+    private String AltroUser;
     private String UserProprietario;
     private boolean dislike, like;
     private int Nlike, Ndislike;
@@ -45,7 +45,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
     public MieRecensioniAdapter(Activity activity, List<DBModelRecensioni> recensioniList, String user_Segnalatore, String userProprietario) {
         this.activity = activity;
         this.recensioniList = recensioniList;
-        User_Segnalatore = user_Segnalatore;
+        AltroUser = user_Segnalatore;
         UserProprietario = userProprietario;
     }
 
@@ -57,7 +57,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
     @Override public void onBindViewHolder(@NonNull DataHolder holder, int position) {
         DBModelRecensioni dbModelRecensioni = recensioniList.get(position);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        if(User_Segnalatore.equals(UserProprietario)){
+        if(AltroUser.equals(UserProprietario)){
             if(dbModelRecensioni.getFoto() == null){
                 holder.FotoProfilo.setImageResource(R.drawable.ic_baseline_person_24_orange);
             }else{
@@ -100,7 +100,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                         List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                         if(!(verificaResults.isEmpty())){
                             if(verificaResults.get(0).getCodVerifica() == 0){
-                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Segnalatore);
+                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), AltroUser);
                                 EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
                                     @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
                                         DBModelEmojResponde dbModelEmojResponde = response.body();
@@ -127,7 +127,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                                     }
                                 });
                             }else{
-                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Segnalatore);
+                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), AltroUser);
                                 EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
                                     @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
                                         DBModelEmojResponde dbModelEmojResponde = response.body();
@@ -175,7 +175,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
             holder.Like.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     if(like){
-                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore);
+                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser);
                         deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -194,7 +194,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                             }
                         });
                     }else{
-                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore, "Like");
+                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser, "Like");
                         insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -205,7 +205,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                                         holder.NumeroLike.setText(String.valueOf(Nlike));
                                         holder.Dislike.setEnabled(false);
                                         holder.Like.setImageResource(R.drawable.ic_like_active);
-                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni",  recensioniList.get(position).getTitolo_Film(), "Like", User_Segnalatore);
+                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni",  recensioniList.get(position).getTitolo_Film(), "Like", AltroUser);
                                         notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -232,7 +232,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
             holder.Dislike.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     if(dislike){
-                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore);
+                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser);
                         deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -251,7 +251,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                             }
                         });
                     }else{
-                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore, "Dislike");
+                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser, "Dislike");
                         insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -262,7 +262,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                                         holder.NuemroDislike.setText(String.valueOf(Ndislike));
                                         holder.Like.setEnabled(false);
                                         holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni", recensioniList.get(position).getTitolo_Film(), "Dislike", User_Segnalatore);
+                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni", recensioniList.get(position).getTitolo_Film(), "Dislike", AltroUser);
                                         notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -289,7 +289,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
             holder.Commenta.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     Intent intent = new Intent(activity, CommentiActivity.class);
-                    intent.putExtra("UsernameProprietario", User_Segnalatore);
+                    intent.putExtra("UsernameProprietario", AltroUser);
                     intent.putExtra("UsernameAltroUtente", dbModelRecensioni.getUser_Recensore());
                     intent.putExtra("TitoloFilm", recensioniList.get(position).getTitolo_Film());
                     intent.putExtra("TipoCorrente", "Recensioni");
@@ -315,7 +315,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                         List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                         if(!(verificaResults.isEmpty())){
                             if(verificaResults.get(0).getCodVerifica() == 0){
-                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Segnalatore);
+                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), AltroUser);
                                 EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
                                     @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
                                         DBModelEmojResponde dbModelEmojResponde = response.body();
@@ -342,7 +342,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                                     }
                                 });
                             }else{
-                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Segnalatore);
+                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), AltroUser);
                                 EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
                                     @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
                                         DBModelEmojResponde dbModelEmojResponde = response.body();
@@ -390,7 +390,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
             holder.Like.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     if(like){
-                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore);
+                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser);
                         deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -409,7 +409,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                             }
                         });
                     }else{
-                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore, "Like");
+                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser, "Like");
                         insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -420,7 +420,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                                         holder.NumeroLike.setText(String.valueOf(Nlike));
                                         holder.Dislike.setEnabled(false);
                                         holder.Like.setImageResource(R.drawable.ic_like_active);
-                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni",  recensioniList.get(position).getTitolo_Film(), "Like", User_Segnalatore);
+                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni",  recensioniList.get(position).getTitolo_Film(), "Like", AltroUser);
                                         notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -447,7 +447,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
             holder.Dislike.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     if(dislike){
-                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore);
+                        Call<DBModelResponseToInsert> deleteCall = retrofitServiceDBInterno.EliminaEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser);
                         deleteCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -466,7 +466,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                             }
                         });
                     }else{
-                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), User_Segnalatore, "Dislike");
+                        Call<DBModelResponseToInsert> insertCall = retrofitServiceDBInterno.InserisciEmoj(dbModelRecensioni.getUser_Recensore(), "Recensioni", recensioniList.get(position).getTitolo_Film(), AltroUser, "Dislike");
                         insertCall.enqueue(new Callback<DBModelResponseToInsert>() {
                             @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call, @NotNull Response<DBModelResponseToInsert> response) {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -477,7 +477,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
                                         holder.NuemroDislike.setText(String.valueOf(Ndislike));
                                         holder.Like.setEnabled(false);
                                         holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni", recensioniList.get(position).getTitolo_Film(), "Dislike", User_Segnalatore);
+                                        Call<DBModelResponseToInsert> notificaCall = retrofitServiceDBInterno.NotificaInserimentoEmoj(dbModelRecensioni.getUser_Recensore(),"Recensioni", recensioniList.get(position).getTitolo_Film(), "Dislike", AltroUser);
                                         notificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                             @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
@@ -504,7 +504,7 @@ public class MieRecensioniAdapter extends RecyclerView.Adapter<MieRecensioniAdap
             holder.Commenta.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     Intent intent = new Intent(activity, CommentiActivity.class);
-                    intent.putExtra("UsernameProprietario", User_Segnalatore);
+                    intent.putExtra("UsernameProprietario", UserProprietario);
                     intent.putExtra("UsernameAltroUtente", dbModelRecensioni.getUser_Recensore());
                     intent.putExtra("TitoloFilm", recensioniList.get(position).getTitolo_Film());
                     intent.putExtra("TipoCorrente", "Recensioni");

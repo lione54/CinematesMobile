@@ -23,6 +23,8 @@ import com.example.cinematesmobile.Recensioni.Model.DBModelFotoProfilo;
 import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -62,7 +64,9 @@ public class RecensioniActivity extends AppCompatActivity {
         PosterFilmRece = findViewById(R.id.Poster_Film_Rece);
         TitoloFilmPerRecensioni.setText(Titolo_film);
         Numero_Recensioni.setText(String.valueOf(N_Rece));
-        Voto_Medio.setText(String.valueOf(Val));
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(1);
+        Voto_Medio.setText(String.valueOf(df.format(Val)));
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         RecensioniScritte.setLayoutManager(new LinearLayoutManager(RecensioniActivity.this, LinearLayoutManager.HORIZONTAL, false));
         String Titolo_Mod = Titolo_film.replaceAll("'", "/");

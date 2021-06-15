@@ -21,6 +21,8 @@ import com.example.cinematesmobile.Search.ModelMovieActor.GeneriResponseResult;
 import com.example.cinematesmobile.Search.ModelMovieActor.MovieResponseResults;
 import com.example.cinematesmobile.Search.MovieDetailActivity;
 import com.example.cinematesmobile.Search.VisteHolder.SearchViewHolder;
+
+import java.text.DecimalFormat;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +73,9 @@ public class MovieSearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
                                 Valutazione_Media = votiList.get(i).getValutazione_Media();
                             }
                         }
-                        searchViewHolder.VotoCinemates.setText(String.valueOf(Valutazione_Media));
+                        DecimalFormat df = new DecimalFormat();
+                        df.setMaximumFractionDigits(1);
+                        searchViewHolder.VotoCinemates.setText(String.valueOf(df.format(Valutazione_Media)));
                     }else {
                         Toast.makeText(activity,"Nessuna media voto trovata.",Toast.LENGTH_SHORT).show();
                     }
