@@ -76,7 +76,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                     List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                     if(!(verificaResults.isEmpty())){
                         if(verificaResults.get(0).getCodVerifica() == 0){
-                            Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Proprietario);
+                            Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiNumeroDiEmojDaDB(dbModelRecensioni.getUser_Recensore(), "Recensioni", dbModelRecensioni.getTitolo_Film(), User_Proprietario);
                             EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
                                 @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
                                     DBModelEmojResponde dbModelEmojResponde = response.body();
@@ -112,31 +112,42 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Da
                                         if (!(emojList.isEmpty())){
                                             holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
                                             holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
-                                            if(emojList.get(0).getTipo_Emoj().equals("Like")){
-                                                if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(User_Proprietario)) {
-                                                    holder.Like.setImageResource(R.drawable.ic_like_active);
-                                                    like = true;
-                                                    dislike = false;
-                                                    holder.Dislike.setEnabled(false);
-                                                }else{
-                                                    holder.Like.setImageResource(R.drawable.ic_like_disable);
-                                                    like = false;
-                                                    dislike = false;
+                                            if(emojList.get(0).getTipo_Emoj() != null && emojList.get(0).getUser_che_ha_inserito_emoj() != null){
+                                                if(emojList.get(0).getTipo_Emoj().equals("Like") ){
+                                                    if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(User_Proprietario)) {
+                                                        holder.Like.setImageResource(R.drawable.ic_like_active);
+                                                        like = true;
+                                                        dislike = false;
+                                                        holder.Dislike.setEnabled(false);
+                                                    }else{
+                                                        holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                                        like = false;
+                                                        dislike = false;
+                                                    }
+                                                }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
+                                                    if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(User_Proprietario)) {
+                                                        holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                                        dislike = true;
+                                                        like = false;
+                                                        holder.Like.setEnabled(false);
+                                                    }else{
+                                                        holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                                        dislike = false;
+                                                        like = false;
+                                                    }
                                                 }
-                                            }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
-                                                if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(User_Proprietario)) {
-                                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                                    dislike = true;
-                                                    like = false;
-                                                    holder.Like.setEnabled(false);
-                                                }else{
-                                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
-                                                    dislike = false;
-                                                    like = false;
-                                                }
+                                                Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                                Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                            }else{
+                                                holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
+                                                holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
+                                                holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                                holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                                Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                                Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                                like = false;
+                                                dislike = false;
                                             }
-                                            Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
-                                            Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
                                         }else {
                                             Toast.makeText(activity,"Prelievo delle informazioni sulle emoj fallito.",Toast.LENGTH_SHORT).show();
                                         }

@@ -28,6 +28,7 @@ android {
         it.buildConfigField("String","THE_MOVIE_DB_APY_KEY",TheMovieDBApiKey)
         it.buildConfigField("String", "Username", Username)
         it.buildConfigField("String", "Password", Password)
+        it.buildConfigField("String", "IP_AWS", IP_AWS)
     }
 
     compileOptions {
@@ -71,7 +72,7 @@ dependencies {
     implementation 'com.sun.mail:android-activation:1.6.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'com.facebook.android:facebook-login:[8,9)'
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
 
 android{

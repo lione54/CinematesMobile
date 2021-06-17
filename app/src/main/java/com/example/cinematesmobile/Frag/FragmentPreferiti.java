@@ -115,7 +115,7 @@ public class FragmentPreferiti extends Fragment {
         UsernameProprietario = this.getArguments().getString("Username");
         View v = inflater.inflate(R.layout.fragment__preferiti, container, false);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        //new NotificheAsyncTask(UsernameProprietario, getActivity()).execute();
+        new NotificheAsyncTask(UsernameProprietario, getActivity()).execute();
         listePresenti = v.findViewById(R.id.liste_presenti);
         if(inizializza == true) {
             inizializza = false;

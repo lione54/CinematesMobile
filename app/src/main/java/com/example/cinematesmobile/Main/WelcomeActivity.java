@@ -99,31 +99,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 }
             };
-        new CountDownTimer(5000, 1000) {
+        new CountDownTimer(3500, 1000) {
                 @Override public void onTick(long millisUntilFinished) {
                     logo.setOnClickListener(new View.OnClickListener() {
                         @Override public void onClick(View v) {
-                            if (User == null && Pass == null) {
-                                v.startAnimation(animationStart(animationListener));
-                            } else {
-                                Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaPasswdInserita(User, Pass);
-                                verificaCall.enqueue(new Callback<DBModelVerifica>() {
-                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call, @NonNull Response<DBModelVerifica> response) {
-                                        DBModelVerifica dbModelVerifica = response.body();
-                                        if (dbModelVerifica != null) {
-                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                            if (verificaResults.get(0).getCodVerifica() == 1) {
-                                                Intent intent2 = new Intent(WelcomeActivity.this, FragmentActivity.class);
-                                                intent2.putExtra("UserProprietario", User);
-                                                startActivity(intent2);
-                                            }
-                                        }
-                                    }
-                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call, @NonNull Throwable t) {
-                                        Toast.makeText(WelcomeActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
+                            cancel();
+                            onFinish();
                         }
                     });
                 }

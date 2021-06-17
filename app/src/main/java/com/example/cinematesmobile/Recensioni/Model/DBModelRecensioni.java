@@ -1,5 +1,6 @@
 package com.example.cinematesmobile.Recensioni.Model;
 
+import com.example.cinematesmobile.BuildConfig;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -86,7 +87,7 @@ public class DBModelRecensioni {
         if(Foto == null){
             return null;
         }else {
-            String UrlBase = "http://34.246.172.238/cinematesdb/";
+            String UrlBase = "http://" + BuildConfig.IP_AWS + "/cinematesdb/";
             return UrlBase + Foto;
         }
     }

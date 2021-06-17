@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
+
+import com.example.cinematesmobile.AsyncTask.NotificheAsyncTask;
 import com.example.cinematesmobile.BuildConfig;
 import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.Frag.Adapter.AttoriPopularAdapter;
@@ -94,6 +96,7 @@ public class HomeFragment extends Fragment {
         recyclerTopRated = v.findViewById(R.id.recyclerView2);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpcoming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        new NotificheAsyncTask(User_Proprietario, getActivity()).execute();
         retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
         Call<UpcomingResponse> upcomingResponseCall = retrofitServiceFilm.PrendiProssimeUsciteTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY,lingua);
         upcomingResponseCall.enqueue(new Callback<UpcomingResponse>() {

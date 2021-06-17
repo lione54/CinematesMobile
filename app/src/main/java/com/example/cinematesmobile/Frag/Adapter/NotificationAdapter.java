@@ -107,9 +107,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((DataHolderSegnalazioneDeclinata) holder).MotivazioneSegnalazioneDeclinata.setText(dbModelNotifiche.getMotivazione());
             ((DataHolderSegnalazioneDeclinata) holder).RimuoviSegnDeclinata.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    results.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeRemoved(position, results.size());
+                    Call<DBModelResponseToInsert> rimuovinotificaCall = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, dbModelNotifiche.getTipo_Notifica(), dbModelNotifiche.getQuale_post(), dbModelNotifiche.getArgomento_notifica());
+                    rimuovinotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                    Toast.makeText(activity, "Notifica rimossa.", Toast.LENGTH_SHORT).show();
+                                    results.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeRemoved(position, results.size());
+                                }else{
+                                    Toast.makeText(activity, "Rimozione notifica fallita.", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(activity, "Impossibile rimuovere notifica.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                            Toast.makeText(activity, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         } else if(getItemViewType(position) == AmiciziaInviata){

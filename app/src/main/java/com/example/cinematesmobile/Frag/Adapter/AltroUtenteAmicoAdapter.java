@@ -69,13 +69,11 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
             holder.DescrizioneListaAltroUserLayout.setVisibility(View.GONE);
             holder.Emoj.setVisibility(View.GONE);
         }else {
-            if (dbModelDataListeFilm.getDescrizioneLista() != null) {
                 if (dbModelDataListeFilm.getDescrizioneLista() != null) {
                     holder.Descrizione.setText(dbModelDataListeFilm.getDescrizioneLista());
                 } else {
                     holder.Descrizione.setText("Descrizione non inserita dall'utente");
                 }
-            }
             Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaInserimentoEmoj(UsernameProprietario, "Lista", dbModelDataListeFilm.getTitoloLista());
             verificaCall.enqueue(new Callback<DBModelVerifica>() {
                 @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
@@ -84,7 +82,7 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                         List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
                         if(!(verificaResults.isEmpty())){
                             if(verificaResults.get(0).getCodVerifica() == 0){
-                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiEmojDaDB(UsernameAltroUtente, "Lista", dbModelDataListeFilm.getTitoloLista(), UsernameProprietario);
+                                Call<DBModelEmojResponde> EmojCall = retrofitServiceDBInterno.PrendiNumeroDiEmojDaDB(UsernameAltroUtente, "Lista", dbModelDataListeFilm.getTitoloLista(), UsernameProprietario);
                                 EmojCall.enqueue(new Callback<DBModelEmojResponde>() {
                                     @Override public void onResponse(@NotNull Call<DBModelEmojResponde> call, @NotNull Response<DBModelEmojResponde> response) {
                                         DBModelEmojResponde dbModelEmojResponde = response.body();
@@ -120,28 +118,41 @@ public class AltroUtenteAmicoAdapter extends RecyclerView.Adapter<AltroUtenteAmi
                                             if (!(emojList.isEmpty())){
                                                 holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
                                                 holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
-                                                if(emojList.get(0).getTipo_Emoj().equals("Like")) {
-                                                    if (emojList.get(0).getUser_che_ha_inserito_emoj().equals(UsernameProprietario)){
-                                                        holder.Like.setImageResource(R.drawable.ic_like_active);
-                                                        like = true;
-                                                        dislike = false;
-                                                        holder.Dislike.setEnabled(false);
-                                                    }else{
-                                                        holder.Like.setImageResource(R.drawable.ic_like_disable);
-                                                        like = false;
-                                                        dislike = false;
+                                                if(emojList.get(0).getTipo_Emoj() != null && emojList.get(0).getUser_che_ha_inserito_emoj() != null){
+                                                    if(emojList.get(0).getTipo_Emoj().equals("Like") ){
+                                                        if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(UsernameProprietario)) {
+                                                            holder.Like.setImageResource(R.drawable.ic_like_active);
+                                                            like = true;
+                                                            dislike = false;
+                                                            holder.Dislike.setEnabled(false);
+                                                        }else{
+                                                            holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                                            like = false;
+                                                            dislike = false;
+                                                        }
+                                                    }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
+                                                        if(emojList.get(0).getUser_che_ha_inserito_emoj().equals(UsernameProprietario)) {
+                                                            holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
+                                                            dislike = true;
+                                                            like = false;
+                                                            holder.Like.setEnabled(false);
+                                                        }else{
+                                                            holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                                            dislike = false;
+                                                            like = false;
+                                                        }
                                                     }
-                                                }else if(emojList.get(0).getTipo_Emoj().equals("Dislike")){
-                                                    if (emojList.get(0).getUser_che_ha_inserito_emoj().equals(UsernameProprietario)) {
-                                                        holder.Dislike.setImageResource(R.drawable.ic_dislike_active);
-                                                        dislike = true;
-                                                        like = false;
-                                                        holder.Like.setEnabled(false);
-                                                    }else{
-                                                        holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
-                                                        dislike = false;
-                                                        like = false;
-                                                    }
+                                                    Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                                    Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                                }else{
+                                                    holder.NumeroLike.setText(emojList.get(0).getNumeroLike());
+                                                    holder.NuemroDislike.setText(emojList.get(0).getNumeroDislike());
+                                                    holder.Like.setImageResource(R.drawable.ic_like_disable);
+                                                    holder.Dislike.setImageResource(R.drawable.ic_dislike_diable);
+                                                    Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
+                                                    Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());
+                                                    like = false;
+                                                    dislike = false;
                                                 }
                                                 Nlike = Integer.parseInt(emojList.get(0).getNumeroLike());
                                                 Ndislike = Integer.parseInt(emojList.get(0).getNumeroDislike());

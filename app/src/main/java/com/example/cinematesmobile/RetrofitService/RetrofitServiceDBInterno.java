@@ -137,6 +137,10 @@ public interface RetrofitServiceDBInterno {
     Call<DBModelDataListeFilmResponce> PrendiFilmUser(@Field("AltroUser") String AltroUser);
 
     @FormUrlEncoded
+    @POST("PrendiListe.php")
+    Call<DBModelDataListeFilmResponce> PrendiProprieListe(@Field("AltroUser") String AltroUser);
+
+    @FormUrlEncoded
     @POST("TrovaListe.php")
     Call<DBModelDataListeFilmResponce> TrovaListe(@Field("User_Proprietario") String User_Proprietario);
 
@@ -179,6 +183,11 @@ public interface RetrofitServiceDBInterno {
     @FormUrlEncoded
     @POST("VerificaSeHaInseritoEmoj.php")
     Call<DBModelVerifica> VerificaInserimentoEmoj(@Field("User_Proprietario") String User_Proprietario, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista);
+
+    @FormUrlEncoded
+    @POST("PrendiNumeroDiEmojDaDB.php")
+    Call<DBModelEmojResponde> PrendiNumeroDiEmojDaDB(@Field("UsernameAltroUtente") String UsernameAltroUtente, @Field("Tipo_Corrente") String Tipo_Corrente, @Field("Nome_Lista") String Nome_Lista, @Field("User_Proprietario") String User_Proprietario);
+
 
     @FormUrlEncoded
     @POST("PrendiEmojDaDB.php")

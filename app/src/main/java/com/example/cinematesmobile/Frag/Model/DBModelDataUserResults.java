@@ -1,5 +1,6 @@
 package com.example.cinematesmobile.Frag.Model;
 
+import com.example.cinematesmobile.BuildConfig;
 import com.google.gson.annotations.SerializedName;
 
 public class DBModelDataUserResults {
@@ -49,7 +50,7 @@ public class DBModelDataUserResults {
         if(immagineProfilo == null){
             return null;
         }else{
-            String UrlBase = "http://34.246.172.238/cinematesdb/";
+            String UrlBase = "http://"+ BuildConfig.IP_AWS + "/cinematesdb/";
             return UrlBase + immagineProfilo;
         }
     }

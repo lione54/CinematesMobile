@@ -22,8 +22,11 @@ import com.example.cinematesmobile.Frag.Adapter.CommentiAdapter;
 import com.example.cinematesmobile.Frag.Adapter.MovieListAltroUtenteAdapter;
 import com.example.cinematesmobile.Frag.Model.DBModelCommenti;
 import com.example.cinematesmobile.Frag.Model.DBModelDataFilms;
+import com.example.cinematesmobile.Frag.Model.DBModelDataListeFilm;
 import com.example.cinematesmobile.ModelDBInterno.DBModelCommentiResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelDataListeFilmResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelFilmsResponce;
+import com.example.cinematesmobile.ModelDBInterno.DBModelListeFilmResponse;
 import com.example.cinematesmobile.ModelDBInterno.DBModelRecensioniResponce;
 import com.example.cinematesmobile.ModelDBInterno.DBModelResponseToInsert;
 import com.example.cinematesmobile.ModelDBInterno.DBModelVerifica;
@@ -35,6 +38,8 @@ import com.example.cinematesmobile.Recensioni.Model.DBModelRecensioni;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +66,52 @@ public class CommentiActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commenti);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         UserProprietario = getIntent().getExtras().getString("UsernameProprietario");
         AltroUser = getIntent().getExtras().getString("UsernameAltroUtente");
         TipoCorrente = getIntent().getExtras().getString("TipoCorrente");
         if(TipoCorrente.equals("Lista")) {
             Titololista = getIntent().getExtras().getString("TitoloLista");
-            TextDescrizione = getIntent().getExtras().getString("Descrizione");
+            if(getIntent().getExtras().getString("Descrizione") != null) {
+                TextDescrizione = getIntent().getExtras().getString("Descrizione");
+            }else {
+                if(getIntent().getExtras().getString("ClickNotifica") != null){
+                    if(getIntent().getExtras().getString("ClickNotifica").equals("Yes")){
+                        Call<DBModelDataListeFilmResponce> listeFilmResponseCall = retrofitServiceDBInterno.PrendiProprieListe(UserProprietario);
+                        listeFilmResponseCall.enqueue(new Callback<DBModelDataListeFilmResponce>() {
+                            @Override public void onResponse(@NotNull Call<DBModelDataListeFilmResponce> call, @NotNull Response<DBModelDataListeFilmResponce> response) {
+                                DBModelDataListeFilmResponce dbModelDataListeFilmResponce = response.body();
+                                if(dbModelDataListeFilmResponce != null){
+                                    List<DBModelDataListeFilm> listeFilms = dbModelDataListeFilmResponce.getListeFilms();
+                                    if(!(listeFilms.isEmpty())){
+                                        for(int o = 0; o < listeFilms.size(); o++){
+                                            if(listeFilms.get(o).getTitoloLista().equals(Titololista)){
+                                                TextDescrizione = listeFilms.get(o).getDescrizioneLista();
+                                            }
+                                        }
+                                        Call<DBModelResponseToInsert> rimuoviNotifiche = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, "Commento", "Lista", Titololista);
+                                        rimuoviNotifiche.enqueue(new Callback<DBModelResponseToInsert>() {
+                                            @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call,@NotNull Response<DBModelResponseToInsert> response) {
+                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                if(dbModelResponseToInsert != null){
+                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")){
+
+                                                    }
+                                                }
+                                            }
+                                            @Override public void onFailure(@NotNull Call<DBModelResponseToInsert> call,@NotNull Throwable t) {
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            @Override public void onFailure(@NotNull Call<DBModelDataListeFilmResponce> call,@NotNull Throwable t) {
+                            }
+                        });
+                    }
+                }
+            }
             Dichiè = getIntent().getExtras().getString("DiChiè");
         }else{
             TitoloFilm = getIntent().getExtras().getString("TitoloFilm");
@@ -80,7 +125,6 @@ public class CommentiActivity extends AppCompatActivity {
         ScriviCommento = findViewById(R.id.commenta);
         ScrittaIni = findViewById(R.id.TipoRelativoCommento);
         Desc = findViewById(R.id.descrizione_lista_altro_user_layout);
-        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         Indietro.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 onBackPressed();
@@ -158,21 +202,23 @@ public class CommentiActivity extends AppCompatActivity {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                 if (dbModelResponseToInsert != null) {
                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                        Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, Titololista, UserProprietario);
-                                        mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                if (dbModelResponseToInsert != null) {
-                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                        ScriviCommento.setText("");
-                                                        recreate();
+                                        if(!(UserProprietario.equals(AltroUser))){
+                                            Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, Titololista, UserProprietario);
+                                            mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                    if (dbModelResponseToInsert != null) {
+                                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                            ScriviCommento.setText("");
+                                                            recreate();
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -196,21 +242,23 @@ public class CommentiActivity extends AppCompatActivity {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                 if (dbModelResponseToInsert != null) {
                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                        Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, Titololista, UserProprietario);
-                                        mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                if (dbModelResponseToInsert != null) {
-                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                        ScriviCommento.setText("");
-                                                        recreate();
+                                        if(!(UserProprietario.equals(AltroUser))){
+                                            Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, Titololista, UserProprietario);
+                                            mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                    if (dbModelResponseToInsert != null) {
+                                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                            ScriviCommento.setText("");
+                                                            recreate();
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -227,6 +275,24 @@ public class CommentiActivity extends AppCompatActivity {
             ScrittaIni.setText("Nome film:");
             NomeLista.setText(TitoloFilm);
             Desc.setVisibility(View.GONE);
+            if(getIntent().getExtras().getString("ClickNotifica") != null) {
+                if (getIntent().getExtras().getString("ClickNotifica").equals("Yes")) {
+                    Call<DBModelResponseToInsert> rimuoviNotifiche = retrofitServiceDBInterno.SegnaComeLetto(UserProprietario, "Commento", "Recensioni", TitoloFilm);
+                    rimuoviNotifiche.enqueue(new Callback<DBModelResponseToInsert>() {
+                        @Override public void onResponse(@NotNull Call<DBModelResponseToInsert> call,@NotNull Response<DBModelResponseToInsert> response) {
+                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                            if(dbModelResponseToInsert != null){
+                                if (dbModelResponseToInsert.getStato().equals("Successfull")){
+
+                                }
+                            }
+                        }
+                        @Override public void onFailure(@NotNull Call<DBModelResponseToInsert> call,@NotNull Throwable t) {
+
+                        }
+                    });
+                }
+            }
             Call<DBModelRecensioniResponce> recensioniResponceCall = retrofitServiceDBInterno.PrendiRecensioni(TitoloFilm, "Commento", AltroUser);
             recensioniResponceCall.enqueue(new Callback<DBModelRecensioniResponce>() {
                 @Override public void onResponse(@NonNull Call<DBModelRecensioniResponce> call,@NonNull Response<DBModelRecensioniResponce> response) {
@@ -290,21 +356,23 @@ public class CommentiActivity extends AppCompatActivity {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                 if (dbModelResponseToInsert != null) {
                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                        Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, TitoloFilm, UserProprietario);
-                                        mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                if (dbModelResponseToInsert != null) {
-                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                        ScriviCommento.getText().clear();
-                                                        recreate();
+                                        if(!(UserProprietario.equals(AltroUser))){
+                                            Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, TitoloFilm, UserProprietario);
+                                            mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                    if (dbModelResponseToInsert != null) {
+                                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                            ScriviCommento.getText().clear();
+                                                            recreate();
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -328,21 +396,24 @@ public class CommentiActivity extends AppCompatActivity {
                                 DBModelResponseToInsert dbModelResponseToInsert = response.body();
                                 if (dbModelResponseToInsert != null) {
                                     if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                        Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, TitoloFilm, UserProprietario);
-                                        mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                if (dbModelResponseToInsert != null) {
-                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                        ScriviCommento.getText().clear();
-                                                        recreate();
+                                        if(!(UserProprietario.equals(AltroUser))){
+                                            Call<DBModelResponseToInsert> mandanotificaCall = retrofitServiceDBInterno.NotificaInserimentoCommento(AltroUser,  "Commento", TipoCorrente, TitoloFilm, UserProprietario);
+                                            mandanotificaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                    if (dbModelResponseToInsert != null) {
+                                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                            ScriviCommento.getText().clear();
+                                                            recreate();
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                    Toast.makeText(CommentiActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+
                                     }
                                 }
                             }

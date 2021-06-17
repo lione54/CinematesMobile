@@ -33,6 +33,15 @@ public class FragmentActivity extends AppCompatActivity {
         UsernameProprietario = getIntent().getExtras().getString("UserProprietario");
         bundle.putString("UserProprietario", UsernameProprietario);
         setContentView(R.layout.activity_fragment);
+        if(getIntent().getExtras().getString("ClickNotifica") != null) {
+            if (getIntent().getExtras().getString("ClickNotifica").equals("Yes")){
+                setTitle("Notifiche");
+                fragment = new FragmentNotifiche();
+                bundle.putString("Username", UsernameProprietario);
+                fragment.setArguments(bundle);
+                loadFragment(fragment);
+            }
+        }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuitem) {
@@ -49,7 +58,6 @@ public class FragmentActivity extends AppCompatActivity {
                         setTitle("Home");
                         fragment = new HomeFragment();
                         bundle.putString("UserProprietario", UsernameProprietario);
-                        new NotificheAsyncTask(UsernameProprietario, FragmentActivity.this).execute();
                         fragment.setArguments(bundle);
                         loadFragment(fragment);
                         break;

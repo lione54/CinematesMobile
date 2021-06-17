@@ -344,7 +344,7 @@ public class LoginActivity extends AppCompatActivity {
                                 message.setSubject("Codice Per Verifica Identità.");
                                 message.setText("Salve " + InsertEmailPassDim.getText().toString() + ",\nutilizza il seguente codice per verificare la tua identità e cambiare password.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
                                 Transport.send(message);
-                                Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica("null",InsertEmailPassDim.getText().toString(), CodVer, "Nuovo");
+                                Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica("null",InsertEmailPassDim.getText().toString(), CodVer, "PassDim");
                                 codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
                                     @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
                                         DBModelResponseToInsert dbModelResponseToInsert = response.body();
