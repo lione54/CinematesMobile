@@ -49,7 +49,7 @@ public class VisualizzaAmiciInComuneActivity extends AppCompatActivity {
                         ListaAmici.setAdapter(mieiAmiciAdapter);
                     }
                 }else{
-                    Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VisualizzaAmiciInComuneActivity.this, "Non sono presenti amici in comune",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override public void onFailure(@NonNull Call<DBModelUserAmiciResponce> call,@NonNull Throwable t) {

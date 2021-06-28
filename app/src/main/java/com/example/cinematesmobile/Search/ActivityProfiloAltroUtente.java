@@ -207,7 +207,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         VediAmici.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent2 = new Intent(ActivityProfiloAltroUtente.this, VisualizzaAmiciInComuneActivity.class);
-                intent2.putExtra("Nome_Utente", UsernameAltroUtente);
+                intent2.putExtra("Nome_Utente_Cercato", UsernameAltroUtente);
                 intent2.putExtra("Nome_Proprietario", UsernameProprietario);
                 startActivity(intent2);
             }
