@@ -155,7 +155,7 @@ public class NotificheAsyncTask extends AsyncTask<Void, Void, Void> {
                                                 }
                                             }else if (notificheList.get(i).getTipo_Notifica().equals("Segnalazione")){
                                                 if (notificheList.get(i).getArgomento_notifica().equals("Declinata")) {
-                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha declinato la segnalazione della recensione di " + notificheList.get(i).getArgomento_notifica());
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha " + notificheList.get(i).getArgomento_notifica() + " la segnalazione della recensione." );
                                                     Intent toFragment = new Intent(activity, FragmentActivity.class);
                                                     toFragment.putExtra("UserProprietario", NomeUtente);
                                                     toFragment.putExtra("ClickNotifica","Yes");
@@ -163,7 +163,7 @@ public class NotificheAsyncTask extends AsyncTask<Void, Void, Void> {
                                                     builder.setContentIntent(pendingIntent);
                                                     builder.setFullScreenIntent(pendingIntent, true);
                                                 }else if(notificheList.get(i).getArgomento_notifica().equals("Accettata")){
-                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha accettato la segnalazione della recensione di " + notificheList.get(i).getArgomento_notifica());
+                                                    builder.setContentText(notificheList.get(i).getUser_che_fa_azione() + " ha " + notificheList.get(i).getArgomento_notifica() + " la segnalazione della recensione." );
                                                     Intent toFragment = new Intent(activity, FragmentActivity.class);
                                                     toFragment.putExtra("UserProprietario", NomeUtente);
                                                     toFragment.putExtra("ClickNotifica","Yes");
