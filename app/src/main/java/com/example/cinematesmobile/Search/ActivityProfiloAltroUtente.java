@@ -65,6 +65,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         VaiFilmInComune = findViewById(R.id.Vai_film_in_comune);
         ImmagineCopertina = findViewById(R.id.foto_copertina);
         Previously = findViewById(R.id.previously);
+        Amici = findViewById(R.id.amici_inc);
         FilmInComune = findViewById(R.id.Film_in_comune);
         NumeroAmici = findViewById(R.id.Numero_amici);
         NomeUser = findViewById(R.id.Nome_user);
@@ -149,6 +150,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         NumeroRecensioniScritte.setText(altroUtenteList.get(0).getRecensioni_Scritte());
         NumeroAmici.setText(altroUtenteList.get(0).getTotale_Amici());
         FilmInComune.setText(String.valueOf(0));
+        Amici.setText("Amici in comune");
         if(altroUtenteList.get(0).getDescrizione_Profilo() != null){
             DescrizioneUser.setText(altroUtenteList.get(0).getDescrizione_Profilo());
         }else{
@@ -186,7 +188,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
                         ListeVisibili.setAdapter(altroUtenteAmicoAdapter);
                         altroUtenteAmicoAdapter.notifyDataSetChanged();
                     }else{
-                        Toast.makeText(ActivityProfiloAltroUtente.this, "Nessuna lista da mostrare agli estranei.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityProfiloAltroUtente.this, "Nessuna lista da mostrare agli sconosciuti.",Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     Toast.makeText(ActivityProfiloAltroUtente.this, "Impossibile prendere liste film.",Toast.LENGTH_SHORT).show();
@@ -232,6 +234,7 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
         NumeroRecensioniScritte.setText(altroUtenteList.get(0).getRecensioni_Scritte());
         NumeroAmici.setText(altroUtenteList.get(0).getTotale_Amici());
         FilmInComune.setText(altroUtenteList.get(0).getFilm_In_Comune());
+        Amici.setText("Amici");
         if(altroUtenteList.get(0).getNome() != null) {
             NomeUser.setText(altroUtenteList.get(0).getNome());
             LayoutNomeAltroUtente.setVisibility(View.VISIBLE);
