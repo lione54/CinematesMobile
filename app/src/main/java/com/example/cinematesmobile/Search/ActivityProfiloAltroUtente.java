@@ -48,38 +48,9 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profilo_altro_utente);
         UsernameAltroUtente = getIntent().getExtras().getString("UsernameAltroUtente");
         UsernameProprietario = getIntent().getExtras().getString("UsernameProprietario");
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
-        ImmagineProfilo = findViewById(R.id.immagine_profilo);
-        UsernameProfilo = findViewById(R.id.Username_Profilo);
-        LayoutNomeAltroUtente = findViewById(R.id.layout_nome_altro_utente);
-        LayoutCognomeAltroUtente = findViewById(R.id.layout_cognome_altro_utente);
-        LayoutEmailAltroUtente = findViewById(R.id.layout_email_altro_utente);
-        LayoutNascitaAltroUtente = findViewById(R.id.layout_nascita_altro_utente);
-        LayoutSessoAltroUtente = findViewById(R.id.layout_sesso_altro_utente);
-        NumeroRecensioniScritte = findViewById(R.id.Numero_recensioni_scritte);
-        VaiRecensioniAltroUtente = findViewById(R.id.vai_recensioni_altro_utente);
-        VediAmici = findViewById(R.id.VediAmici);
-        VaiFilmInComune = findViewById(R.id.Vai_film_in_comune);
-        ImmagineCopertina = findViewById(R.id.foto_copertina);
-        Previously = findViewById(R.id.previously);
-        Amici = findViewById(R.id.amici_inc);
-        FilmInComune = findViewById(R.id.Film_in_comune);
-        NumeroAmici = findViewById(R.id.Numero_amici);
-        NomeUser = findViewById(R.id.Nome_user);
-        CognomeUser = findViewById(R.id.Cognome_user);
-        EmailUser = findViewById(R.id.Email_User);
-        DescrizioneUser = findViewById(R.id.Descrizione_User);
-        DataNascitaUser = findViewById(R.id.Data_nascita_user);
-        SessoUser = findViewById(R.id.Sesso_user);
-        ListeVisibili = findViewById(R.id.liste_visibili);
-        Previously.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         Call<DBModelVerifica> VerificaAmiciziaCall = retrofitServiceDBInterno.VerificaSeAmico(UsernameProprietario,UsernameAltroUtente);
         VerificaAmiciziaCall.enqueue(new Callback<DBModelVerifica>() {
             @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
@@ -138,6 +109,35 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
     }
 
     private void DettagliUser(List<DBModelProfiloAltroUtente> altroUtenteList) {
+        setContentView(R.layout.activity_profilo_altro_utente_amici_in_comune);
+        ImmagineProfilo = findViewById(R.id.immagine_profilo);
+        UsernameProfilo = findViewById(R.id.Username_Profilo);
+        LayoutNomeAltroUtente = findViewById(R.id.layout_nome_altro_utente);
+        LayoutCognomeAltroUtente = findViewById(R.id.layout_cognome_altro_utente);
+        LayoutEmailAltroUtente = findViewById(R.id.layout_email_altro_utente);
+        LayoutNascitaAltroUtente = findViewById(R.id.layout_nascita_altro_utente);
+        LayoutSessoAltroUtente = findViewById(R.id.layout_sesso_altro_utente);
+        NumeroRecensioniScritte = findViewById(R.id.Numero_recensioni_scritte);
+        VaiRecensioniAltroUtente = findViewById(R.id.vai_recensioni_altro_utente);
+        VediAmici = findViewById(R.id.VediAmici);
+        VaiFilmInComune = findViewById(R.id.Vai_film_in_comune);
+        ImmagineCopertina = findViewById(R.id.foto_copertina);
+        Previously = findViewById(R.id.previously);
+        Amici = findViewById(R.id.amici_inc);
+        FilmInComune = findViewById(R.id.Film_in_comune);
+        NumeroAmici = findViewById(R.id.Numero_amici);
+        NomeUser = findViewById(R.id.Nome_user);
+        CognomeUser = findViewById(R.id.Cognome_user);
+        EmailUser = findViewById(R.id.Email_User);
+        DescrizioneUser = findViewById(R.id.Descrizione_User);
+        DataNascitaUser = findViewById(R.id.Data_nascita_user);
+        SessoUser = findViewById(R.id.Sesso_user);
+        ListeVisibili = findViewById(R.id.liste_visibili);
+        Previously.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         if(altroUtenteList.get(0).getFoto_Profilo() != null){
             Glide.with(ActivityProfiloAltroUtente.this).load(altroUtenteList.get(0).getFoto_Profilo()).into(ImmagineProfilo);
         }else{
@@ -222,6 +222,35 @@ public class ActivityProfiloAltroUtente extends AppCompatActivity {
     }
 
     private void DettagliAmico(List<DBModelProfiloAltroUtente> altroUtenteList) {
+        setContentView(R.layout.activity_profilo_altro_utente);
+        ImmagineProfilo = findViewById(R.id.immagine_profilo);
+        UsernameProfilo = findViewById(R.id.Username_Profilo);
+        LayoutNomeAltroUtente = findViewById(R.id.layout_nome_altro_utente);
+        LayoutCognomeAltroUtente = findViewById(R.id.layout_cognome_altro_utente);
+        LayoutEmailAltroUtente = findViewById(R.id.layout_email_altro_utente);
+        LayoutNascitaAltroUtente = findViewById(R.id.layout_nascita_altro_utente);
+        LayoutSessoAltroUtente = findViewById(R.id.layout_sesso_altro_utente);
+        NumeroRecensioniScritte = findViewById(R.id.Numero_recensioni_scritte);
+        VaiRecensioniAltroUtente = findViewById(R.id.vai_recensioni_altro_utente);
+        VediAmici = findViewById(R.id.VediAmici);
+        VaiFilmInComune = findViewById(R.id.Vai_film_in_comune);
+        ImmagineCopertina = findViewById(R.id.foto_copertina);
+        Previously = findViewById(R.id.previously);
+        Amici = findViewById(R.id.amici_inc);
+        FilmInComune = findViewById(R.id.Film_in_comune);
+        NumeroAmici = findViewById(R.id.Numero_amici);
+        NomeUser = findViewById(R.id.Nome_user);
+        CognomeUser = findViewById(R.id.Cognome_user);
+        EmailUser = findViewById(R.id.Email_User);
+        DescrizioneUser = findViewById(R.id.Descrizione_User);
+        DataNascitaUser = findViewById(R.id.Data_nascita_user);
+        SessoUser = findViewById(R.id.Sesso_user);
+        ListeVisibili = findViewById(R.id.liste_visibili);
+        Previously.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         if(altroUtenteList.get(0).getFoto_Profilo() != null){
             Glide.with(ActivityProfiloAltroUtente.this).load(altroUtenteList.get(0).getFoto_Profilo()).into(ImmagineProfilo);
         }else{
