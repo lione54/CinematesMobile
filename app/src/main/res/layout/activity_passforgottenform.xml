@@ -14,22 +14,20 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
         android:gravity="center"
         android:orientation="vertical"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/logo"
-            android:layout_width="341dp"
-            android:layout_height="142dp"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
             android:contentDescription="@string/todo1"
             app:srcCompat="@drawable/logo_cinemates" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:text="@string/creapassword"
             android:fontFamily="@font/maven_pro"
             android:textAlignment="center"
@@ -92,10 +90,11 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:background="@color/ColorCineOrange"
             android:text="@string/confermanuovapassword"
             android:textColor="#000000"
+            android:layout_marginBottom="30dp"
             android:textColorHighlight="#000000"
             android:textColorLink="#000000"
             android:textSize="18sp"/>

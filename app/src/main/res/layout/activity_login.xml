@@ -123,6 +123,8 @@
             android:drawableEnd="@drawable/ic_right_arrow"
             android:drawableTint="@color/ColorCineBlack"
             android:text="@string/Accedi"
+            android:fontFamily="@font/maven_pro"
+            android:textStyle="bold"
             android:textColor="@color/ColorCineBlack"
             android:textColorHighlight="@color/ColorCineBlack"
             android:textColorLink="@color/ColorCineBlack"

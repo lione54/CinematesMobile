@@ -59,7 +59,7 @@
                     android:layout_gravity="center"
                     android:drawableRight="@drawable/ic_baseline_edit_24"
                     android:drawableTint="@color/ColorCineWhite"
-                    android:textColor="@color/ColorCineOrange"
+                    android:textColor="@color/ColorCineWhite"
                     android:inputType="textEmailAddress"/>
 
             </com.google.android.material.textfield.TextInputLayout>
