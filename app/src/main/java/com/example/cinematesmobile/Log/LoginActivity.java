@@ -325,121 +325,143 @@ public class LoginActivity extends AppCompatActivity {
                 Conferma.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         if(InsertEmailPassDim.length() != 0 && InsertEmailPassDim.getText().toString().matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}")){
-                            int Cod = generateRandom();
-                            String CodVer = String.valueOf(Cod);
-                            Properties properties = new Properties();
-                            properties.put("mail.smtp.auth","true");
-                            properties.put("mail.smtp.starttls.enable","true");
-                            properties.put("mail.smtp.host","smtp.gmail.com");
-                            properties.put("mail.smtp.port","587");
-                            Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
-                                @Override protected PasswordAuthentication getPasswordAuthentication() {
-                                    return new PasswordAuthentication(BuildConfig.Username, BuildConfig.Password);
-                                }
-                            });
-                            try {
-                                Message message = new MimeMessage(session);
-                                message.setFrom(new InternetAddress(BuildConfig.Username));
-                                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(InsertEmailPassDim.getText().toString()));
-                                message.setSubject("Codice Per Verifica Identità.");
-                                message.setText("Salve " + InsertEmailPassDim.getText().toString() + ",\nutilizza il seguente codice per verificare la tua identità e cambiare password.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
-                                Transport.send(message);
-                                Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica("null",InsertEmailPassDim.getText().toString(), CodVer, "PassDim");
-                                codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                        if(dbModelResponseToInsert != null) {
-                                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                EmailVerify.dismiss();
-                                                InsCodVer = new AlertDialog.Builder(LoginActivity.this);
-                                                final View PopUpView = getLayoutInflater().inflate(R.layout.popup_codiceverifica_passwddim, null);
-                                                Conferma = PopUpView.findViewById(R.id.ok_button);
-                                                CodiceVer = PopUpView.findViewById(R.id.editTextNumberpasswddim);
-                                                NuovoCodiceVer = PopUpView.findViewById(R.id.editTextNumberpasswddim_layout);
-                                                InsCodVer.setView(PopUpView);
-                                                CodVerify = InsCodVer.create();
-                                                CodVerify.show();
-                                                Conferma.setOnClickListener(new View.OnClickListener() {
-                                                    @Override public void onClick(View v) {
-                                                        if(CodiceVer.getText().length() > 0){
-                                                            Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaCodiceVerifica(InsertEmailPassDim.getText().toString(), CodiceVer.getText().toString());
-                                                            verificaCall.enqueue(new Callback<DBModelVerifica>() {
-                                                                @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
-                                                                    DBModelVerifica dbModelVerifica = response.body();
-                                                                    if(dbModelVerifica != null) {
-                                                                        List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
-                                                                        if (verificaResults.get(0).getCodVerifica() == 1) {
-                                                                            CodVerify.dismiss();
-                                                                            dialogBilderPass = new AlertDialog.Builder(LoginActivity.this);
-                                                                            final View PopUpView = getLayoutInflater().inflate(R.layout.activity_passforgottenform, null);
-                                                                            Conferma = PopUpView.findViewById(R.id.confermanuovapassdim);
-                                                                            NuovaPasswd = PopUpView.findViewById(R.id.confermapasswordNuova);
-                                                                            NuovaPasswdLayout = PopUpView.findViewById(R.id.confermapasswordNuova_layout);
-                                                                            ConfermaNuovaPass = PopUpView.findViewById(R.id.riconfermanuovapassword);
-                                                                            ConfermaNuovaPassLayout= PopUpView.findViewById(R.id.riconfermanuovapassword_layout);
-                                                                            dialogBilderPass.setView(PopUpView);
-                                                                            CambiaPassword = dialogBilderPass.create();
-                                                                            CambiaPassword.show();
-                                                                            Conferma.setOnClickListener(new View.OnClickListener() {
-                                                                                @Override public void onClick(View v) {
-                                                                                    if(NuovaPasswd.length() == 0){
-                                                                                        NuovaPasswdLayout.setError("Inserisci nuova password");
-                                                                                    }else if(ConfermaNuovaPass.length() == 0){
-                                                                                        ConfermaNuovaPassLayout.setError("Inserisci nuova password");
-                                                                                    }else if(NuovaPasswd.length() != ConfermaNuovaPass.length()){
-                                                                                        ConfermaNuovaPassLayout.setError("La lunghezza della nuova password non corrisponde");
-                                                                                    }else if(!(NuovaPasswd.getText().toString().equals(ConfermaNuovaPass.getText().toString()))){
-                                                                                        ConfermaNuovaPassLayout.setError("Le password non corrispondono");
-                                                                                    }else {
-                                                                                        String Tipo = "Password";
-                                                                                        Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(InsertEmailPassDim.getText().toString(), Tipo, ConfermaNuovaPass.getText().toString());
-                                                                                        cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                                                                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                                                                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                                                                                if(dbModelResponseToInsert != null) {
-                                                                                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                                                                        Toast.makeText(LoginActivity.this, "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
-                                                                                                        CambiaPassword.dismiss();
-                                                                                                    }else{
-                                                                                                        Toast.makeText(LoginActivity.this, "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
-                                                                                                    }
-                                                                                                }else {
-                                                                                                    Toast.makeText(LoginActivity.this, "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
-                                                                                                }
-                                                                                            }
-                                                                                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                                                                                Toast.makeText(LoginActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
-                                                                                            }
-                                                                                        });
-                                                                                    }
-                                                                                }
-                                                                            });
-                                                                        }else{
-                                                                            NuovoCodiceVer.setError("Inserisci il codice corretto");
-                                                                        }
-                                                                    }else{
-                                                                        Toast.makeText(LoginActivity.this, "Impossibile verificare codice.", Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                }
-                                                                @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
-                                                                    Toast.makeText(LoginActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                        }else{
-                                                            NuovoCodiceVer.setError("Inserisci codice verifica");
-                                                        }
+                            Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaEmail(InsertEmailPassDim.getText().toString());
+                            verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                @Override public void onResponse(@NotNull Call<DBModelVerifica> call,@NotNull Response<DBModelVerifica> response) {
+                                    DBModelVerifica dbModelVerifica = response.body();
+                                    if(dbModelVerifica != null){
+                                        List<DBModelVerificaResults> dbModelVerificaResults = dbModelVerifica.getResults();
+                                        if(!(dbModelVerificaResults.isEmpty())){
+                                            if(dbModelVerificaResults.get(0).getCodVerifica() == 1){
+                                                int Cod = generateRandom();
+                                                String CodVer = String.valueOf(Cod);
+                                                Properties properties = new Properties();
+                                                properties.put("mail.smtp.auth","true");
+                                                properties.put("mail.smtp.starttls.enable","true");
+                                                properties.put("mail.smtp.host","smtp.gmail.com");
+                                                properties.put("mail.smtp.port","587");
+                                                Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
+                                                    @Override protected PasswordAuthentication getPasswordAuthentication() {
+                                                        return new PasswordAuthentication(BuildConfig.Username, BuildConfig.Password);
                                                     }
                                                 });
+                                                try {
+                                                    Message message = new MimeMessage(session);
+                                                    message.setFrom(new InternetAddress(BuildConfig.Username));
+                                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(InsertEmailPassDim.getText().toString()));
+                                                    message.setSubject("Codice Per Verifica Identità.");
+                                                    message.setText("Salve " + InsertEmailPassDim.getText().toString() + ",\nutilizza il seguente codice per verificare la tua identità e cambiare password.\nCodice:" + CodVer + ".\nCordiali Saluti,\nIl Team di Cinemates.");
+                                                    Transport.send(message);
+                                                    Call<DBModelResponseToInsert> codverifcaCall = retrofitServiceDBInterno.InsertCodVerifica("null",InsertEmailPassDim.getText().toString(), CodVer, "PassDim");
+                                                    codverifcaCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                        @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                            DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                            if(dbModelResponseToInsert != null) {
+                                                                if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                    EmailVerify.dismiss();
+                                                                    InsCodVer = new AlertDialog.Builder(LoginActivity.this);
+                                                                    final View PopUpView = getLayoutInflater().inflate(R.layout.popup_codiceverifica_passwddim, null);
+                                                                    Conferma = PopUpView.findViewById(R.id.ok_button);
+                                                                    CodiceVer = PopUpView.findViewById(R.id.editTextNumberpasswddim);
+                                                                    NuovoCodiceVer = PopUpView.findViewById(R.id.editTextNumberpasswddim_layout);
+                                                                    InsCodVer.setView(PopUpView);
+                                                                    CodVerify = InsCodVer.create();
+                                                                    CodVerify.show();
+                                                                    Conferma.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override public void onClick(View v) {
+                                                                            if(CodiceVer.getText().length() > 0){
+                                                                                Call<DBModelVerifica> verificaCall = retrofitServiceDBInterno.VerificaCodiceVerifica(InsertEmailPassDim.getText().toString(), CodiceVer.getText().toString());
+                                                                                verificaCall.enqueue(new Callback<DBModelVerifica>() {
+                                                                                    @Override public void onResponse(@NonNull Call<DBModelVerifica> call,@NonNull Response<DBModelVerifica> response) {
+                                                                                        DBModelVerifica dbModelVerifica = response.body();
+                                                                                        if(dbModelVerifica != null) {
+                                                                                            List<DBModelVerificaResults> verificaResults = dbModelVerifica.getResults();
+                                                                                            if (verificaResults.get(0).getCodVerifica() == 1) {
+                                                                                                CodVerify.dismiss();
+                                                                                                dialogBilderPass = new AlertDialog.Builder(LoginActivity.this);
+                                                                                                final View PopUpView = getLayoutInflater().inflate(R.layout.activity_passforgottenform, null);
+                                                                                                Conferma = PopUpView.findViewById(R.id.confermanuovapassdim);
+                                                                                                NuovaPasswd = PopUpView.findViewById(R.id.confermapasswordNuova);
+                                                                                                NuovaPasswdLayout = PopUpView.findViewById(R.id.confermapasswordNuova_layout);
+                                                                                                ConfermaNuovaPass = PopUpView.findViewById(R.id.riconfermanuovapassword);
+                                                                                                ConfermaNuovaPassLayout= PopUpView.findViewById(R.id.riconfermanuovapassword_layout);
+                                                                                                dialogBilderPass.setView(PopUpView);
+                                                                                                CambiaPassword = dialogBilderPass.create();
+                                                                                                CambiaPassword.show();
+                                                                                                Conferma.setOnClickListener(new View.OnClickListener() {
+                                                                                                    @Override public void onClick(View v) {
+                                                                                                        if(NuovaPasswd.length() == 0){
+                                                                                                            NuovaPasswdLayout.setError("Inserisci nuova password");
+                                                                                                        }else if(ConfermaNuovaPass.length() == 0){
+                                                                                                            ConfermaNuovaPassLayout.setError("Inserisci nuova password");
+                                                                                                        }else if(NuovaPasswd.length() != ConfermaNuovaPass.length()){
+                                                                                                            ConfermaNuovaPassLayout.setError("La lunghezza della nuova password non corrisponde");
+                                                                                                        }else if(!(NuovaPasswd.getText().toString().equals(ConfermaNuovaPass.getText().toString()))){
+                                                                                                            ConfermaNuovaPassLayout.setError("Le password non corrispondono");
+                                                                                                        }else {
+                                                                                                            String Tipo = "Password";
+                                                                                                            Call<DBModelResponseToInsert> cabiaAttributoCall = retrofitServiceDBInterno.CambiaInformazioni(InsertEmailPassDim.getText().toString(), Tipo, ConfermaNuovaPass.getText().toString());
+                                                                                                            cabiaAttributoCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                                                                                                                @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                                                                                                    DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                                                                                                    if(dbModelResponseToInsert != null) {
+                                                                                                                        if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                                                                                                            Toast.makeText(LoginActivity.this, "Cambiamento " + Tipo + " avvenuto con successo" , Toast.LENGTH_SHORT).show();
+                                                                                                                            CambiaPassword.dismiss();
+                                                                                                                        }else{
+                                                                                                                            Toast.makeText(LoginActivity.this, "Cambiamento " + Tipo + " fallito", Toast.LENGTH_LONG).show();
+                                                                                                                        }
+                                                                                                                    }else {
+                                                                                                                        Toast.makeText(LoginActivity.this, "Impissibile cambiare " + Tipo + ".", Toast.LENGTH_LONG).show();
+                                                                                                                    }
+                                                                                                                }
+                                                                                                                @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                                                                                    Toast.makeText(LoginActivity.this, "Ops qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                                                                                                                }
+                                                                                                            });
+                                                                                                        }
+                                                                                                    }
+                                                                                                });
+                                                                                            }else{
+                                                                                                NuovoCodiceVer.setError("Inserisci il codice corretto");
+                                                                                            }
+                                                                                        }else{
+                                                                                            Toast.makeText(LoginActivity.this, "Impossibile verificare codice.", Toast.LENGTH_SHORT).show();
+                                                                                        }
+                                                                                    }
+                                                                                    @Override public void onFailure(@NonNull Call<DBModelVerifica> call,@NonNull Throwable t) {
+                                                                                        Toast.makeText(LoginActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                });
+                                                                            }else{
+                                                                                NuovoCodiceVer.setError("Inserisci codice verifica");
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        }
+                                                        @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                                            Toast.makeText(LoginActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                }catch (MessagingException e){
+                                                    Toast.makeText(LoginActivity.this, "Impossibile inviare email.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }else{
+                                                InsertEmailPassDimLayout.setError("Utente non presente");
                                             }
+                                        }else{
+
                                         }
+                                    }else{
+
                                     }
-                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                        Toast.makeText(LoginActivity.this, "Ops qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }catch (MessagingException e){
-                                Toast.makeText(LoginActivity.this, "Impossibile inviare email.", Toast.LENGTH_SHORT).show();
-                            }
+                                }
+                                @Override public void onFailure(@NotNull Call<DBModelVerifica> call,@NotNull Throwable t) {
+
+                                }
+                            });
                         }else{
                             if(InsertEmailPassDim.length() == 0){
                                 InsertEmailPassDimLayout.setError("Inserisci email");

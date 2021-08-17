@@ -323,8 +323,12 @@ public class RegisterFieldsActivity extends AppCompatActivity{
                             InsCognome.setError("Scrivi qui il tuo cognome");
                         } else if (Passwd.getText().length() == 0) {
                             InsPasswd.setError("Scrivi qui la tua password");
+                        }else if (Passwd.getText().length() > InsPasswd.getCounterMaxLength()) {
+                            InsPasswd.setError("La password supera il massimo numero di caratteri");
                         } else if (RipetiPasswd.getText().length() == 0) {
                             InsRipetiPasswd.setError("Ripeti qui la tua password");
+                        }else if (RipetiPasswd.getText().length() > InsRipetiPasswd.getCounterMaxLength()) {
+                            InsRipetiPasswd.setError("La password supera il massimo numero di caratteri");
                         } else if (Username.getText().length() == 0) {
                             InsUsername.setError("Scrivi qui il tuo username");
                         } else if (date.getText().length() == 0) {

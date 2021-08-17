@@ -43,9 +43,7 @@ import com.example.cinematesmobile.R;
 import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.Search.VisualizzaImmaginiActivity;
-import com.example.cinematesmobile.SignIn.ConfirmCodeActivity;
 import com.example.cinematesmobile.SignIn.LogOutActivitySuccess;
-import com.example.cinematesmobile.SignIn.SignInActivity;
 import com.facebook.login.LoginManager;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -104,7 +102,7 @@ public class ProfiloFragment extends Fragment {
     private KenBurnsView ImmagineCopertina;
     public CircleImageView ImmagineProfilo, NuovaFoto;
     private AlertDialog.Builder dialogBilderPass, dialogBilderFotoProfilo, dialogBilderFotoCopertina, dialogBilderNome, dialogBilderCognome, dialogBilderEmail, dialogBilderConfermaEmail, dialogBilderDescrizione, dialogBilderDataNascita, dialogBilderGender;
-    private AlertDialog CambiaPassword, CambiaFotoProfilo, CambiaFotoCopertina, CambiaNome, CambiaCognome, CambiaEmail, ConfermaCambiaEmail, CambiaDescrizione, CambiaDataNascita, CambiaGender;
+    private AlertDialog CambiaPassword, CambiaFotoProfilo, CambiaFotoCopertina, CambiaNome, CambiaCognome, CambiaEmail, CodiceConfermaCambiaEmail, CambiaDescrizione, CambiaDataNascita, CambiaGender;
     private Bitmap bitmap;
     private AppCompatImageButton Logout;
     private DatePickerDialog datePickerDialog;
@@ -699,8 +697,8 @@ public class ProfiloFragment extends Fragment {
                                                                                 CodiceVer= PopUpView.findViewById(R.id.editTextNumber);
                                                                                 NuovoCodiceVer= PopUpView.findViewById(R.id.editTextNumber_layout);
                                                                                 dialogBilderConfermaEmail.setView(PopUpView);
-                                                                                ConfermaCambiaEmail = dialogBilderConfermaEmail.create();
-                                                                                ConfermaCambiaEmail.show();
+                                                                                CodiceConfermaCambiaEmail = dialogBilderConfermaEmail.create();
+                                                                                CodiceConfermaCambiaEmail.show();
                                                                                 Conferma.setOnClickListener(new View.OnClickListener() {
                                                                                     @Override public void onClick(View v) {
                                                                                         if(CodiceVer.getText().length() > 0) {
@@ -716,7 +714,7 @@ public class ProfiloFragment extends Fragment {
                                                                                                             bundle.putString("Username", UsernameProprietario);
                                                                                                             fragment.setArguments(bundle);
                                                                                                             loadFragment(fragment);
-                                                                                                            ConfermaCambiaEmail.dismiss();
+                                                                                                            CodiceConfermaCambiaEmail.dismiss();
                                                                                                         }else{
                                                                                                             NuovoCodiceVer.setError("Inserisci il codice corretto");
                                                                                                         }

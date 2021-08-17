@@ -178,8 +178,7 @@ public class SearchFragment extends Fragment {
                         String finalQuery = query.replaceAll(" ", "+");
                         Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.CercaAttoreTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
                         attoriResponseCall.enqueue(new Callback<AttoriResponse>() {
-                            @Override
-                            public void onResponse(@NonNull Call<AttoriResponse> call, @NonNull Response<AttoriResponse> response) {
+                            @Override public void onResponse(@NonNull Call<AttoriResponse> call, @NonNull Response<AttoriResponse> response) {
                                 AttoriResponse attoriResponse = response.body();
                                 if (attoriResponse != null) {
                                     List<AttoriResponseResults> attoriResponseResults = attoriResponse.getResults();

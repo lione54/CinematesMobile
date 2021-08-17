@@ -1,5 +1,6 @@
 package com.example.cinematesmobile.Frag.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -58,7 +59,7 @@ public class MovieListPrefAdapter extends RecyclerView.Adapter<MovieListPrefAdap
         return new DataViewHolder(view);
     }
 
-    @Override public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
+    @Override public void onBindViewHolder(@NonNull DataViewHolder holder,  int position) {
         DBModelDataFilms data = dataList.get(position);
         retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
         retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);

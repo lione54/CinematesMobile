@@ -42,7 +42,7 @@ public interface RetrofitServiceFilm {
     Call<AttoriImage> PrendiImmaginiAttoriTMDB(@Path("person_id") int person_id, @Query("api_key") String api_key);
 
     @GET("movie/{movie_id}")
-    Call<MovieDetail> PredndiDettagliFilmTMDB(@Path("movie_id") int person_id, @Query("api_key") String api_key, @Query("language") String lingua);
+    Call<MovieDetail> PredndiDettagliFilmTMDB(@Path("movie_id") int movie_id, @Query("api_key") String api_key, @Query("language") String lingua);
 
     @GET("movie/{movie_id}/images")
     Call<MovieImage> PrendiImmaginiFilmTMDB(@Path("movie_id") int movie_id, @Query("api_key") String api_key);
