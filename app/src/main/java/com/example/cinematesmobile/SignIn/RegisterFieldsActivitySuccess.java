@@ -1,19 +1,14 @@
 package com.example.cinematesmobile.SignIn;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cinematesmobile.Frag.FragmentActivity;
 import com.example.cinematesmobile.R;
-
-import java.util.Calendar;
 
 import io.paperdb.Paper;
 
@@ -33,9 +28,9 @@ public class RegisterFieldsActivitySuccess extends AppCompatActivity {
             @Override public void onClick(View v) {
                 Paper.book().write("UserProprietario", UsernameProprietario);
                 Paper.book().write("Passwd", Passwd);
-                Intent intent = new Intent(RegisterFieldsActivitySuccess.this, FragmentActivity.class);
-                intent.putExtra("UserProprietario", UsernameProprietario);
-                startActivity(intent);
+                Intent home = new Intent(RegisterFieldsActivitySuccess.this, FragmentActivity.class);
+                home.putExtra("UserProprietario", UsernameProprietario);
+                startActivity(home);
             }
         });
         }

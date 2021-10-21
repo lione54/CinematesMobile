@@ -3,7 +3,6 @@ package com.example.cinematesmobile.Main;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import android.app.NotificationChannel;
@@ -15,9 +14,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -30,10 +27,7 @@ import com.example.cinematesmobile.RetrofitClient.RetrofitClientDBInterno;
 import com.example.cinematesmobile.RetrofitService.RetrofitServiceDBInterno;
 import com.example.cinematesmobile.SignIn.SignInActivity;
 
-import java.sql.Time;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import io.paperdb.Paper;
 import retrofit2.Call;
@@ -84,8 +78,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     Registrati.startAnimation(loadAnimation(WelcomeActivity.this, R.anim.entry_animation));
                     Accedi.setOnClickListener(new View.OnClickListener() {
                         @Override public void onClick(View v) {
-                            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                            Intent accesso = new Intent(WelcomeActivity.this, LoginActivity.class);
+                            startActivity(accesso);
                         }
                     });
                     Registrati.setOnClickListener(new View.OnClickListener() {
