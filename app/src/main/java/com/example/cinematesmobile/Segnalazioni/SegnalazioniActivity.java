@@ -92,7 +92,7 @@ public class SegnalazioniActivity extends AppCompatActivity {
                                 stringBuilder.append("-").append(AltraMotivazione.getText().toString());
                             }
                         }else {
-                            Toast.makeText(SegnalazioniActivity.this, "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SegnalazioniActivity.this, "Inserisci motivazione.", Toast.LENGTH_SHORT).show();
                         }
                     }
                     Call<DBModelResponseToInsert> inviaSegnalazioneCall = retrofitServiceDBInterno.InviaSegnalazione(NomeUtenteSegnalatore, NomeUtenteSegnalato, String.valueOf(IdRecensione), stringBuilder.toString());

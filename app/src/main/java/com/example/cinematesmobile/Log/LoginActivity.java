@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         startActivity(intent);
                                                     }
                                                 } else {
-                                                    InsPasswd.setError("Inserisci password valida");
+                                                    InsPasswd.setError("Inserisci password corretta");
                                                 }
                                             }else{
                                                 Toast.makeText(LoginActivity.this, "Impossibile verificare passwd.", Toast.LENGTH_SHORT).show();
@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     });
                                 }else{
-                                    InsEmail.setError("Inserisci una email/username valida");
+                                    InsEmail.setError("Inserisci una email/username corretto");
                                 }
                             }else{
                                 Toast.makeText(LoginActivity.this, "Impossibile verificare email.", Toast.LENGTH_SHORT).show();
@@ -233,6 +233,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                         Intent intent = new Intent(LoginActivity.this, FragmentActivity.class);
                                                                         intent.putExtra("UserProprietario", dbModelRecuperaUsername.getUsername());
                                                                         startActivity(intent);
+
                                                                     } else {
                                                                         Toast.makeText(LoginActivity.this, "Errore nel recupero username.", Toast.LENGTH_SHORT).show();
                                                                     }
@@ -297,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Procedura di accesso con facebook annullata.", Toast.LENGTH_SHORT).show();
             }
             @Override public void onError(FacebookException error) {
-                Toast.makeText(LoginActivity.this, "C'è stato un problema, perfavre ritenta.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "C'è stato un problema, perfavore ritenta.", Toast.LENGTH_SHORT).show();
             }
         });
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();

@@ -130,7 +130,7 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                     if(CorpoRecensione.length() <= 0){
                         CorpoReceLayout.setError("Scrivi qualcosa");
                     }else if(CorpoRecensione.length() > 600){
-                        CorpoReceLayout.setError("Superato la lunghezza massima della recensione");
+                        CorpoReceLayout.setError("Superata la lunghezza massima della recensione");
                     }
                 }
             }

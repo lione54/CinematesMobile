@@ -206,6 +206,7 @@ public class ProfiloFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
+
             }
         });
         return v;
