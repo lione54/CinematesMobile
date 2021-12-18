@@ -106,16 +106,15 @@ public class SearchFragment extends Fragment {
         recyclerViewRicerca = v.findViewById(R.id.results_recycle_view);
         CampiRicerca = v.findViewById(R.id.gruppo_ricerca);
         recyclerViewRicerca.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
-        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         queryEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 int camposelezionato = CampiRicerca.getCheckedRadioButtonId();
+                String query = queryEditText.getText().toString();
                 if (camposelezionato == -1){
                     Toast.makeText(getContext(), "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
                     return false;
                 }else{
-                    Ricerca(camposelezionato);
+                    Ricerca(camposelezionato, query);
                     return true;
                 }
             }
@@ -123,28 +122,26 @@ public class SearchFragment extends Fragment {
         querySearchButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 int camposelezionato = CampiRicerca.getCheckedRadioButtonId();
-                if (camposelezionato == -1){
-                    Toast.makeText(getContext(), "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
-                }else{
-                    Ricerca(camposelezionato);
-                }
+                String query = queryEditText.getText().toString();
+                Ricerca(camposelezionato, query);
             }
         });
         return v;
     }
     @SuppressLint("NonConstantResourceId")
-    private void Ricerca(int camposelezionato){
+    public void Ricerca(int camposelezionato, String query){
+        retrofitServiceFilm = RetrofitClientFilm.getClient().create(RetrofitServiceFilm.class);
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
+        if (camposelezionato == -1){
+            Toast.makeText(getContext(), "Seleziona un campo di ricerca", Toast.LENGTH_SHORT).show();
+        }else{
         switch (camposelezionato){
             case R.id.radio_ricerca_film:
-                if (queryEditText.getText() != null) {
-                    String query = queryEditText.getText().toString();
-                    String lingua = "it-IT";
-                    if (query.equals("") || query.equals(" ")) {
+                    if (query.length() <= 0) {
                         Toast.makeText(getContext(), "Scrivi qualcosa.", Toast.LENGTH_SHORT).show();
                     } else {
-                        queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
-                        Call<MovieResponse> movieResponseCall = retrofitServiceFilm.CercaFilmTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
+                        Call<MovieResponse> movieResponseCall = retrofitServiceFilm.CercaFilmTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, "it-IT", finalQuery);
                         movieResponseCall.enqueue(new Callback<MovieResponse>() {
                             @Override public void onResponse(@NonNull Call<MovieResponse> call,@NonNull Response<MovieResponse> response) {
                                 MovieResponse movieResponse = response.body();
@@ -165,18 +162,13 @@ public class SearchFragment extends Fragment {
                             }
                         });
                     }
-                }
                 break;
             case R.id.radio_ricerca_attori:
-                if (queryEditText.getText() != null) {
-                    String query = queryEditText.getText().toString();
-                    String lingua = "it-IT";
-                    if (query.equals("") || query.equals(" ")) {
+                    if (query.length() <= 0) {
                         Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
-                        queryEditText.setText("");
                         String finalQuery = query.replaceAll(" ", "+");
-                        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.CercaAttoreTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, lingua, finalQuery);
+                        Call<AttoriResponse> attoriResponseCall = retrofitServiceFilm.CercaAttoreTMDB(BuildConfig.THE_MOVIE_DB_APY_KEY, "it-IT", finalQuery);
                         attoriResponseCall.enqueue(new Callback<AttoriResponse>() {
                             @Override public void onResponse(@NonNull Call<AttoriResponse> call, @NonNull Response<AttoriResponse> response) {
                                 AttoriResponse attoriResponse = response.body();
@@ -197,18 +189,14 @@ public class SearchFragment extends Fragment {
                             }
                         });
                     }
-                }
                 break;
             case R.id.radio_ricerca_amici:
-                if (queryEditText.getText() != null) {
-                    String query = queryEditText.getText().toString();
-                    if (query.equals("") || query.equals(" ")) {
+                    if (query.length() <= 0) {
                         Toast.makeText(getContext(), "Scrivi qualcosa", Toast.LENGTH_SHORT).show();
                     } else {
                         if(queryEditText.getText().toString().equals(UsernameProprietario)){
                             Toast.makeText(getContext(), "Non puoi cercare te stesso", Toast.LENGTH_SHORT).show();
                         }else {
-                            queryEditText.setText("");
                             Call<DBModelDataUser> dbModelDataUserCall = retrofitServiceDBInterno.getUserByQuery(query, UsernameProprietario);
                             dbModelDataUserCall.enqueue(new Callback<DBModelDataUser>() {
                                 @Override public void onResponse(@NonNull Call<DBModelDataUser> call,@NonNull Response<DBModelDataUser> response) {
@@ -231,8 +219,8 @@ public class SearchFragment extends Fragment {
                             });
                         }
                     }
-                }
                 break;
+            }
         }
     }
 }

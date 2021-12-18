@@ -54,7 +54,6 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         Invia = findViewById(R.id.invia_button);
         Annulla = findViewById(R.id.annu_button);
         Voto = findViewById(R.id.Votofilm);
-        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
         if(UrlImmagine == null){
             ImmagineRece.setImageResource(R.drawable.ic_baseline_person_24_orange);
         }else{
@@ -63,76 +62,10 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
         Nome.setText(NomeUtente);
         Invia.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                if(CorpoRecensione.length() > 0 && CorpoRecensione.length() <= 600){
-                    float Punteggio = Voto.getRating();
-                    String Recensione = CorpoRecensione.getText().toString();
-                    if(Punteggio == 0){
-                        dialogBilder = new AlertDialog.Builder(ScriviRecensioneActivity.this);
-                        final View PopUpView = getLayoutInflater().inflate(R.layout.disclaimerzero, null);
-                        Si = (AppCompatButton) PopUpView.findViewById(R.id.conf_button);
-                        No = (AppCompatButton) PopUpView.findViewById(R.id.anal_button);
-                        dialogBilder.setView(PopUpView);
-                        MettiZero = dialogBilder.create();
-                        MettiZero.show();
-                        Si.setOnClickListener(new View.OnClickListener() {
-                            @Override public void onClick(View v) {
-                                String titoloMod = TitoloFilm.replaceAll("'", "/");
-                                Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(Recensione, String.valueOf(Punteggio), titoloMod, NomeUtente);
-                                scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                        if(dbModelResponseToInsert != null) {
-                                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                                Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo" , Toast.LENGTH_SHORT).show();
-                                                MettiZero.dismiss();
-                                                onBackPressed();
-                                            }else{
-                                                Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
-                                            }
-                                        }else{
-                                            Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                        Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        });
-                        No.setOnClickListener(new View.OnClickListener() {
-                            @Override public void onClick(View v) {
-                                MettiZero.dismiss();
-                            }
-                        });
-                    }else{
-                        String titoloMod = TitoloFilm.replaceAll("'", "/");
-                        Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(Recensione, String.valueOf(Punteggio), titoloMod, NomeUtente);
-                        scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
-                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
-                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
-                                if(dbModelResponseToInsert != null) {
-                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
-                                        Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo" , Toast.LENGTH_SHORT).show();
-                                        onBackPressed();
-                                    }else{
-                                        Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
-                                    }
-                                }else{
-                                    Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
-                                Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }else{
-                    if(CorpoRecensione.length() <= 0){
-                        CorpoReceLayout.setError("Scrivi qualcosa");
-                    }else if(CorpoRecensione.length() > 600){
-                        CorpoReceLayout.setError("Superata la lunghezza massima della recensione");
-                    }
-                }
+                float Punteggio = Voto.getRating();
+                String Recensione = CorpoRecensione.getText().toString();
+                String titoloMod = TitoloFilm.replaceAll("'", "/");
+                SalvaRecensioneScritta(Recensione, Punteggio, titoloMod, NomeUtente);
             }
         });
         Annulla.setOnClickListener(new View.OnClickListener() {
@@ -147,5 +80,77 @@ public class ScriviRecensioneActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public void SalvaRecensioneScritta(String recensione, float punteggio, String titoloMod, String nomeUtente) {
+        retrofitServiceDBInterno = RetrofitClientDBInterno.getClient().create(RetrofitServiceDBInterno.class);
+        if(recensione.length() > 0 && recensione.length() <= 600){
+            if(punteggio == 0){
+                dialogBilder = new AlertDialog.Builder(ScriviRecensioneActivity.this);
+                final View PopUpView = getLayoutInflater().inflate(R.layout.disclaimerzero, null);
+                Si = (AppCompatButton) PopUpView.findViewById(R.id.conf_button);
+                No = (AppCompatButton) PopUpView.findViewById(R.id.anal_button);
+                dialogBilder.setView(PopUpView);
+                MettiZero = dialogBilder.create();
+                MettiZero.show();
+                Si.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(recensione, String.valueOf(punteggio), titoloMod, nomeUtente);
+                        scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                            @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                                DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                                if(dbModelResponseToInsert != null) {
+                                    if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo" , Toast.LENGTH_SHORT).show();
+                                        MettiZero.dismiss();
+                                        onBackPressed();
+                                    }else{
+                                        Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
+                                    }
+                                }else{
+                                    Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                                Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                No.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        MettiZero.dismiss();
+                    }
+                });
+            }else if(punteggio > 5){
+                Toast.makeText(ScriviRecensioneActivity.this , "Impossibile utilizzare questa valutazione." , Toast.LENGTH_SHORT).show();
+            }else{
+                Call<DBModelResponseToInsert> scrivirecensioneCall = retrofitServiceDBInterno.ScriviRecenisone(recensione, String.valueOf(punteggio), titoloMod, nomeUtente);
+                scrivirecensioneCall.enqueue(new Callback<DBModelResponseToInsert>() {
+                    @Override public void onResponse(@NonNull Call<DBModelResponseToInsert> call,@NonNull Response<DBModelResponseToInsert> response) {
+                        DBModelResponseToInsert dbModelResponseToInsert = response.body();
+                        if(dbModelResponseToInsert != null) {
+                            if (dbModelResponseToInsert.getStato().equals("Successfull")) {
+                                Toast.makeText(ScriviRecensioneActivity.this , "Recensione aggiunta con successo" , Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            }else{
+                                Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(ScriviRecensioneActivity.this , "Impossibile aggiungere recensione" , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override public void onFailure(@NonNull Call<DBModelResponseToInsert> call,@NonNull Throwable t) {
+                        Toast.makeText(ScriviRecensioneActivity.this , "Ops qualcosa è andato storto" , Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }else{
+            if(recensione.length() <= 0){
+                CorpoReceLayout.setError("Scrivi qualcosa");
+            }else {
+                CorpoReceLayout.setError("Superata la lunghezza massima della recensione");
+            }
+        }
     }
 }

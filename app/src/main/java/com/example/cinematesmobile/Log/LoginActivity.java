@@ -451,11 +451,7 @@ public class LoginActivity extends AppCompatActivity {
                                             }else{
                                                 InsertEmailPassDimLayout.setError("Utente non presente");
                                             }
-                                        }else{
-
                                         }
-                                    }else{
-
                                     }
                                 }
                                 @Override public void onFailure(@NotNull Call<DBModelVerifica> call,@NotNull Throwable t) {
